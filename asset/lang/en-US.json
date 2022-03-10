@@ -1,0 +1,16 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin."
+      },
+      "loggingout": {
+        "buttontext": "Sign With Google"
+    },
+    "homepage": {
+      "circulartext": "Let's find some friends",
+      "populartext":"Popular in Timeline"
+  }
+
+
+
+}
