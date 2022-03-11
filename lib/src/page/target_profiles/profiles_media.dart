@@ -12,10 +12,10 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
 class TargetProfileMediaPage extends StatefulWidget {
-  const TargetProfileMediaPage({Key? key, required this.userDisplay})
+  const TargetProfileMediaPage({Key? key, required this.userUid})
       : super(key: key);
+  final String userUid;
 
-  final UserDisplay userDisplay;
   @override
   _TargetProfileMediaPageState createState() => _TargetProfileMediaPageState();
 }
@@ -49,7 +49,7 @@ class _TargetProfileMediaPageState extends State<TargetProfileMediaPage> {
         enum2: RefEnum.Searchfeedsget,
         targetUid: "",
         crypto: '',
-        userUid: widget.userDisplay.userUid);
+        userUid: widget.userUid);
   }
 
   @override
@@ -67,7 +67,7 @@ class _TargetProfileMediaPageState extends State<TargetProfileMediaPage> {
             child: ProfileBasicGridWidget(
               key: widget.key,
               refProfileMedia: _refProfileMedia,
-              userDisplay: widget.userDisplay,
+             userUid: widget.userUid,
             ),
           )),
     );
@@ -76,10 +76,10 @@ class _TargetProfileMediaPageState extends State<TargetProfileMediaPage> {
 
 class ProfileBasicGridWidget extends StatelessWidget {
   ProfileBasicGridWidget(
-      {Key? key, required this.refProfileMedia, required this.userDisplay})
+      {Key? key, required this.refProfileMedia, required this.userUid})
       : super(key: key);
   final DatabaseReference refProfileMedia;
-  final UserDisplay userDisplay;
+  final String userUid;
 
   static const tiles = [
     ProfileGridTile(2, 1),
@@ -124,7 +124,7 @@ class ProfileBasicGridWidget extends StatelessWidget {
               var imageFeed = FeedMeta.fromJson(value);
 
               if (imageFeed.feedIsImage == true &&
-                  imageFeed.userUid == userDisplay.userUid) {
+                  imageFeed.userUid == userUid) {
                 searchDatas.add(imageFeed);
                 gridTileWithPostValue();
               }

@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, prefer_typing_uninitialized_variables, unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
@@ -1057,12 +1059,34 @@ Future<GroupPreviewData> getAllDataForChatPage(String uid) async {
       chaos3GroupNo,
       chaos4GroupNo,
       chaos5GroupNo);
-  var userAll = UserAll(userDisplay, userMeta, _searchStatus);
+
+  var isolaUserDisplay = IsolaUserDisplay(
+      userDisplay.userName,
+      userDisplay.userBiography,
+      userDisplay.avatarUrl,
+      userDisplay.userSex,
+      userDisplay.userIsOnline,
+      userDisplay.userInterest,
+      userDisplay.userIsNonBinary,
+      GeoPoint(userMeta.userLocLatitude, userMeta.userLocLongitude),
+      userDisplay.userUniversity,
+      userDisplay.userActivities,
+      ["null"]);
+
+  var isolaUserMeta = IsolaUserMeta(
+      userMeta.userEmail,
+      userMeta.userToken,
+      userGroupJoinedList,
+      userDisplay.userUid,
+      userDisplay.userIsValid,
+      userDisplay.userFriends,
+      userDisplay.userBlocked,
+      ["null"],
+      false);
+  var userAll = IsolaUserAll(isolaUserDisplay, isolaUserMeta);
   print("14");
   var groupPreview = GroupPreviewData(userAll, groupAlives);
-  print(groupPreview.groupAlives.group1Alive);
-  print(groupPreview.groupAlives.group2Alive);
-  print(groupPreview.groupAlives.group3Alive);
+
   print("15");
   return groupPreview;
 }
@@ -1165,7 +1189,7 @@ Future<UserDisplay> getUserDisplay(String uid) async {
 }
 
 Future<List<dynamic>> getTimelineDatas(
-    UserDisplay userDisplay, int amountData) async {
+    IsolaUserAll userAll, int amountData) async {
   var timelineDatas = <TimelineItem>[];
   var sponsoredRoad;
   var refTimeline = refGetter(
@@ -1177,15 +1201,15 @@ Future<List<dynamic>> getTimelineDatas(
       enum2: RefEnum.Sponsoredroad,
       targetUid: "",
       userUid: "",
-      crypto: userDisplay.userUniversity);
+      crypto: userAll.isolaUserDisplay.userUniversity);
 
-  Query sponsorQuery = sponsoredRef;
+  var sponsorQuery = sponsoredRef;
   DataSnapshot snap = await sponsorQuery.get();
 
   print(sponsoredRoad);
   var userFriendList = <dynamic>[];
-  userFriendList.addAll(userDisplay.userFriends);
-  userFriendList.add(userDisplay.userUid as dynamic);
+  userFriendList.addAll(userAll.isolaUserMeta.userFriends);
+  userFriendList.add(userAll.isolaUserMeta.userUid as dynamic);
   if (snap.exists) {
     print("EXİST EXİST EXİST EXİST");
     if (sponsoredRoad != "empty") {
@@ -1211,8 +1235,7 @@ Future<List<dynamic>> getTimelineDatas(
           //  print(comingItem.feedText);
           var timeItem = TimelineItem(
               feedMeta: comingItem,
-              userUid: userDisplay.userUid,
-              userDisplay: userDisplay,
+              userUid: userAll.isolaUserMeta.userUid,
               isTimeline: true);
 
           timelineDatas.add(timeItem);
@@ -1233,10 +1256,53 @@ Future<bool> groupChaosSearchingInfoGetter(String groupNo) async {
   var refGroupChaos = refGetter(
       enum2: RefEnum.Groupschaos, targetUid: "", userUid: "", crypto: groupNo);
 
-  Query groupSearchingQuery = refGroupChaos.child("chaos_is_searching");
+  var groupSearchingQuery = refGroupChaos.child("chaos_is_searching");
 
   print("coin var aga");
   DataSnapshot snapMember1 = await groupSearchingQuery.get();
   print(snapMember1.value as bool);
   return snapMember1.value as bool;
+}
+
+Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
+  var userDisplay;
+  var userMeta;
+  //we search user
+  if (userUid != null) {
+    DocumentReference users_display =
+        FirebaseFirestore.instance.collection('users_display').doc(userUid);
+
+    DocumentReference users_meta =
+        FirebaseFirestore.instance.collection('users_meta').doc(userUid);
+
+    await users_display.get().then((docValue) => userDisplay = IsolaUserDisplay(
+        docValue['user_name'],
+        docValue['user_biography'],
+        docValue['user_avatar_url'],
+        docValue['user_sex'],
+        docValue['user_is_online'],
+        docValue['user_interest'],
+        docValue['user_is_non_binary'],
+        docValue['user_location'],
+        docValue['user_university'],
+        docValue['user_activities'],
+        docValue['user_like_history']));
+
+    await users_meta.get().then((docValue) => userMeta = IsolaUserMeta(
+        docValue['user_email'],
+        docValue['user_token'],
+        docValue['joined_group_list'],
+        docValue['user_uid'],
+        docValue['user_is_valid'],
+        docValue['user_friends'],
+        docValue['user_blocked'],
+        docValue['user_activity_clubs'],
+        docValue['user_is_searching']));
+  } else {
+    //Hata göster belki restart atar
+
+  }
+
+  var userAll = IsolaUserAll(userDisplay, userMeta);
+  return userAll;
 }

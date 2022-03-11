@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -13,12 +14,12 @@ import 'package:sizer/sizer.dart';
 class ProfileTimelinePage extends StatefulWidget {
   // const ProfileTimelinePage({Key? key}) : super(key: key);
   final User user;
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   const ProfileTimelinePage({
     Key? key,
     required this.user,
-    required this.userDisplay,
+    required this.userAll
   }) : super(key: key);
 
   @override
@@ -88,7 +89,7 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
                 var bioTimeItem = TimelineItem(
                   feedMeta: comingItem,
                   userUid: widget.user.uid,
-                  userDisplay: widget.userDisplay,
+   
                   isTimeline: false,
                 );
                 bioTimeLineItem.add(bioTimeItem);

@@ -3,19 +3,20 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:uuid/uuid.dart';
 
 Future<void> addSearchPageFeed(
-    UserDisplay userDisplay, String imageFeedUrl, String feedNo) async {
+    IsolaUserAll userAll, String imageFeedUrl, String feedNo) async {
   var feedLikes = <dynamic>[];
 
   feedLikes.add("start");
 
   var refAddFeedMeta = refGetter(
       enum2: RefEnum.Searchfeeds,
-      userUid: userDisplay.userUid,
-      targetUid: userDisplay.userUid,
+      userUid: userAll.isolaUserMeta.userUid,
+      targetUid: userAll.isolaUserMeta.userUid,
       crypto: feedNo);
   var feedMeta = HashMap<String, dynamic>();
 
@@ -25,21 +26,21 @@ Future<void> addSearchPageFeed(
   feedMeta["feed_image_url"] = imageFeedUrl;
   feedMeta["feed_text"] = "";
   feedMeta["feed_is_image"] = true;
-  feedMeta["user_activities"] = userDisplay.userActivities;
-  feedMeta["user_interest"] = userDisplay.userInterest;
+  feedMeta["user_activities"] = userAll.isolaUserDisplay.userActivities;
+  feedMeta["user_interest"] = userAll.isolaUserDisplay.userInterest;
   feedMeta["like_list"] = feedLikes;
   feedMeta["like_value"] = 0;
-  feedMeta["user_friends"] = userDisplay.userFriends;
-  feedMeta["user_blocked"] = userDisplay.userBlocked;
-  feedMeta["user_uid"] = userDisplay.userUid;
-  feedMeta["user_name"] = userDisplay.userName;
-  feedMeta["user_biography"] = userDisplay.userBiography;
-  feedMeta["user_avatar_url"] = userDisplay.avatarUrl;
-  feedMeta["user_university"] = userDisplay.userUniversity;
-  feedMeta["user_sex"] = userDisplay.userSex;
-  feedMeta["user_is_online"] = userDisplay.userIsOnline;
-  feedMeta["user_is_valid"] = userDisplay.userIsValid;
-  feedMeta["user_is_non_binary"] = userDisplay.userIsNonBinary;
+  feedMeta["user_friends"] = userAll.isolaUserMeta.userFriends;
+  feedMeta["user_blocked"] = userAll.isolaUserMeta.userBlocked;
+  feedMeta["user_uid"] = userAll.isolaUserMeta.userUid;
+  feedMeta["user_name"] = userAll.isolaUserDisplay.userName;
+  feedMeta["user_biography"] = userAll.isolaUserDisplay.userBiography;
+  feedMeta["user_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
+  feedMeta["user_university"] = userAll.isolaUserDisplay.userUniversity;
+  feedMeta["user_sex"] = userAll.isolaUserDisplay.userSex;
+  feedMeta["user_is_online"] = userAll.isolaUserDisplay.userIsOnline;
+  feedMeta["user_is_valid"] = userAll.isolaUserMeta.userIsValid;
+  feedMeta["user_is_non_binary"] = userAll.isolaUserDisplay.userIsNonBinary;
 
   refAddFeedMeta.set(feedMeta);
 }

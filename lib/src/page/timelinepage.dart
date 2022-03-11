@@ -8,6 +8,7 @@ import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/feed_timestamp.dart';
@@ -21,10 +22,10 @@ class TimelinePage extends StatefulWidget {
   const TimelinePage({
     Key? key,
     required this.user,
-    required this.userDisplay,
+    required this.userAll,
   }) : super(key: key);
   final User? user;
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   @override
   _TimelinePageState createState() => _TimelinePageState();
@@ -53,7 +54,7 @@ class _TimelinePageState extends State<TimelinePage> {
     var timeItem = TimelineItem(
       feedMeta: feedMeta,
       userUid: widget.user!.uid,
-      userDisplay: widget.userDisplay,
+
       isTimeline: true,
     );
 
@@ -228,7 +229,7 @@ class _TimelinePageState extends State<TimelinePage> {
                     }),
               )
             : FutureBuilder(
-                future: getTimelineDatas(widget.userDisplay, 10),
+                future: getTimelineDatas(widget.userAll, 10),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -371,7 +372,7 @@ class _TimelinePageState extends State<TimelinePage> {
       context: context,
       builder: (BuildContext context) => Center(
         child: AddPostContainer(
-          userDisplay: widget.userDisplay,
+          userAll: widget.userAll,
         ),
       ),
     );
@@ -379,9 +380,9 @@ class _TimelinePageState extends State<TimelinePage> {
 }
 
 class AddPostContainer extends StatefulWidget {
-  const AddPostContainer({Key? key, required this.userDisplay})
+  const AddPostContainer({Key? key, required this.userAll})
       : super(key: key);
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   @override
   State<AddPostContainer> createState() => _AddPostContainerState();
@@ -391,11 +392,13 @@ class _AddPostContainerState extends State<AddPostContainer> {
   var t1 = TextEditingController();
   @override
   Widget build(BuildContext context) {
+     print(100.h);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+       
         Container(
-          height: 30.h,
+          height: 100.h<=700?35.h:30.h,
           width: 95.w,
           decoration: BoxDecoration(
               gradient: ColorConstant.isolaMainGradient,
@@ -423,7 +426,7 @@ class _AddPostContainerState extends State<AddPostContainer> {
                             child: CircleAvatar(
                               radius: 20.sp,
                               child: Image.network(
-                                widget.userDisplay.avatarUrl,
+                                widget.userAll.isolaUserDisplay.avatarUrl,
                                 width: 40.sp,
                                 height: 40.sp,
                                 fit: BoxFit.cover,
@@ -440,14 +443,14 @@ class _AddPostContainerState extends State<AddPostContainer> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(3.w, 1.9.h, 0.0, 0.0),
                           child: Text(
-                            widget.userDisplay.userName,
+                            widget.userAll.isolaUserDisplay.userName,
                             style: StyleConstants.softDarkTextStyle,
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(3.w, 0.7.h, 0.0, 0.0),
                           child: SizedBox(
-                            height: 12.h,
+                            height:100.h<=700?15.h : 12.h,
                             width: 65.w,
                             child: CupertinoTextField(
                               controller: t1,
@@ -476,7 +479,7 @@ class _AddPostContainerState extends State<AddPostContainer> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(50.w, 1.5.h, 1.0, 8.0),
                           child: Container(
-                            height: 3.5.h,
+                            height: 100.h<=700?5.h:3.5.h,
                             width: 24.w,
                             decoration: BoxDecoration(
                                 gradient: ColorConstant.isolaMainGradient,
@@ -489,8 +492,8 @@ class _AddPostContainerState extends State<AddPostContainer> {
                               child: CupertinoButton(
                                 padding: const EdgeInsets.all(0.2),
                                 onPressed: () {
-                                  addFeed(widget.userDisplay.userUid,
-                                      widget.userDisplay, t1.text);
+                                  addFeed(widget.userAll.isolaUserMeta.userUid,
+                                      widget.userAll, t1.text);
 
                                   t1.clear();
                                   Navigator.pop(context);

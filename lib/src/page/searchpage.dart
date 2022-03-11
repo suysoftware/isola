@@ -12,6 +12,7 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
@@ -27,10 +28,10 @@ void amountUpdater(int updateValue) async {
 }
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, required this.user, required this.userDisplay})
+  const SearchPage({Key? key, required this.user, required this.userAll})
       : super(key: key);
   final User user;
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -164,7 +165,7 @@ class _SearchPageState extends State<SearchPage> {
       context: context,
       builder: (BuildContext context) => Center(
         child: AddSearchItemContainer(
-          userDisplay: widget.userDisplay,
+          userAll: widget.userAll,
         ),
       ),
     );
@@ -375,9 +376,9 @@ class GridTile {
 }
 
 class AddSearchItemContainer extends StatefulWidget {
-  const AddSearchItemContainer({Key? key, required this.userDisplay})
+  const AddSearchItemContainer({Key? key, required this.userAll})
       : super(key: key);
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   @override
   State<AddSearchItemContainer> createState() => _AddSearchItemContainerState();
@@ -493,10 +494,10 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                       onPressed: () async{
                               String fileID = const Uuid().v4();
                               uploadImage(
-                                      widget.userDisplay.userUid, file!, fileID)
+                                      widget.userAll.isolaUserMeta.userUid, file!, fileID)
                                   .then((value) {
                                 addSearchPageFeed(
-                                    widget.userDisplay, value, fileID);
+                                    widget.userAll, value, fileID);
                               }).whenComplete(() {
 
                                   Navigator.pop(context);

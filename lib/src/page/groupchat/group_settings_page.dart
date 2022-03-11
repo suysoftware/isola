@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
-import 'package:isola_app/src/blocs/user_display_cubit.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/add_friend.dart';
@@ -32,13 +33,13 @@ TextStyle groupSettingsNameStyle = 100.h >= 1100
 class _GroupSettingsPageState extends State<GroupSettingsPage> {
   late GroupSettingModel groupSettingModel;
   late List<dynamic> joinedList;
-  late UserDisplay userDisplay;
+  late IsolaUserAll userAll;
   late var refChatInterior;
   @override
   void initState() {
     super.initState();
 
-    userDisplay = context.read<UserDisplayCubit>().state;
+    userAll = context.read<UserAllCubit>().state;
 
     groupSettingModel = context.read<GroupSettingCubit>().state;
     joinedList = context.read<JoinedListCubit>().state;
@@ -190,7 +191,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 1.w),
-                            child: userDisplay.userFriends
+                            child: userAll.isolaUserMeta.userFriends
                                     .contains(groupSettingModel.groupMemberUid2)
                                 ? CupertinoButton(
                                     child: 100.h >= 1100
@@ -213,17 +214,17 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     onPressed: () {
                                       addFriend(
                                               groupSettingModel.groupMemberUid2,
-                                              userDisplay)
+                                              userAll)
                                           .whenComplete(() {
                                         var friendUpdate = <dynamic>[];
 
                                         friendUpdate
-                                            .addAll(userDisplay.userFriends);
+                                            .addAll(userAll.isolaUserMeta.userFriends);
 
                                         friendUpdate.add(
                                             groupSettingModel.groupMemberUid2);
 
-                                        userDisplay.userFriends = friendUpdate;
+                                        userAll.isolaUserMeta.userFriends = friendUpdate;
 
                                         setState(() {});
                                       });
@@ -262,7 +263,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 1.w),
-                            child: userDisplay.userFriends
+                            child: userAll.isolaUserMeta.userFriends
                                     .contains(groupSettingModel.groupMemberUid3)
                                 ? CupertinoButton(
                                     child: 100.h >= 1100
@@ -285,18 +286,18 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     onPressed: () {
                                       addFriend(
                                               groupSettingModel.groupMemberUid3,
-                                              userDisplay)
+                                              userAll)
                                           .whenComplete(() {
                                         ///burada sorun veriyor çünkü userfriend listesini ilk biryere aktarıp sonradan ona eklicez;
                                         var friendUpdate = <dynamic>[];
 
                                         friendUpdate
-                                            .addAll(userDisplay.userFriends);
+                                            .addAll(userAll.isolaUserMeta.userFriends);
 
                                         friendUpdate.add(
                                             groupSettingModel.groupMemberUid3);
 
-                                        userDisplay.userFriends = friendUpdate;
+                                        userAll.isolaUserMeta.userFriends = friendUpdate;
 
                                         setState(() {});
                                       });

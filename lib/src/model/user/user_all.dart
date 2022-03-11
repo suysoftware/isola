@@ -14,3 +14,17 @@ class UserAll {
       this.searchStatus,
 );
 }
+
+class IsolaUserAll {
+  late IsolaUserDisplay isolaUserDisplay;
+  late IsolaUserMeta isolaUserMeta;
+  
+
+
+
+  IsolaUserAll(
+      this.isolaUserDisplay,
+      this.isolaUserMeta,
+      
+);
+}

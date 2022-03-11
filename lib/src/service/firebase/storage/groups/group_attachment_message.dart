@@ -4,11 +4,12 @@ import 'dart:collection';
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 
 
 Future<void> uploadAttachment(
-  UserDisplay userDisplay,
+  IsolaUserAll userAll,
   //bu değişebilir
 
   String _filePath,
@@ -22,7 +23,7 @@ Future<void> uploadAttachment(
   var refStorage = FirebaseStorage.instance
       .ref()
       .child("attachment_items")
-      .child(userDisplay.userUid)
+      .child(userAll.isolaUserMeta.userUid)
       .child(DateTime.now().millisecondsSinceEpoch.toString());
 
   try {
@@ -33,23 +34,23 @@ Future<void> uploadAttachment(
     print("agaa $e");
   } finally {
     if (urlVoice != "") {
-      await attachmentMessageAdd(userDisplay, urlVoice, chatMessageRef,isImage,isVideo,isDoc,targetUid1,targetUid2);
+      await attachmentMessageAdd(userAll, urlVoice, chatMessageRef,isImage,isVideo,isDoc,targetUid1,targetUid2);
     }
   }
 
   //return urlImage;
 }
 
-attachmentMessageAdd(UserDisplay userDisplay, String attachmentUrl,
+attachmentMessageAdd(IsolaUserAll userAll, String attachmentUrl,
     DatabaseReference ref,  bool isImage, bool isVideo,bool isDoc,String targetUid1,String targetUid2) {
   var refChatInterior = ref;
 
   var firstMessage = HashMap<String, dynamic>();
-  firstMessage["member_avatar_url"] = userDisplay.avatarUrl;
+  firstMessage["member_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
   firstMessage["member_message"] = "";
   firstMessage["member_message_time"] = ServerValue.timestamp;
-  firstMessage["member_name"] = userDisplay.userName;
-  firstMessage["member_uid"] = userDisplay.userUid;
+  firstMessage["member_name"] = userAll.isolaUserDisplay.userName;
+  firstMessage["member_uid"] = userAll.isolaUserMeta.userUid;
   firstMessage["member_message_isvoice"] = false;
   firstMessage["member_message_voice_url"] = "";
   firstMessage["member_message_isattachment"] = true;

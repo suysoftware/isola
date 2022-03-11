@@ -1,7 +1,7 @@
 // ignore_for_file: implementation_imports
 
 import 'package:flutter/cupertino.dart';
-import 'package:isola_app/src/blocs/user_display_cubit.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
@@ -49,8 +49,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
   void initState() {
     super.initState();
 
-    if (context.read<UserDisplayCubit>().state.userIsNonBinary != true) {
-      if (context.read<UserDisplayCubit>().state.userSex == true) {
+    if (context.read<UserAllCubit>().state.isolaUserDisplay.userIsNonBinary != true) {
+      if (context.read<UserAllCubit>().state.isolaUserDisplay.userSex == true) {
         isOther = false;
         isMale = true;
         isFemale = false;
@@ -62,8 +62,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
       }
     }
 
-    userName = context.read<UserDisplayCubit>().state.userName;
-    userUniversity = context.read<UserDisplayCubit>().state.userUniversity;
+    userName = context.read<UserAllCubit>().state.isolaUserDisplay.userName;
+    userUniversity = context.read<UserAllCubit>().state.isolaUserDisplay.userUniversity;
     
 
     t1.text = userName.split(" ").first;

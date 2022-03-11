@@ -1,6 +1,6 @@
 import 'package:isola_app/src/model/user/user_display.dart';
 
-class FeedMeta extends UserDisplay {
+class FeedMeta {
   late int feedTime;
   late String feedDate;
   late String feedNo;
@@ -9,6 +9,19 @@ class FeedMeta extends UserDisplay {
   late bool feedIsImage;
   late List<dynamic> likeList;
   late int likeValue;
+  late String userUid;
+  late String userName;
+  late String userBiography;
+  late String avatarUrl;
+  late String userUniversity;
+  late bool userSex;
+  late bool userIsOnline;
+  late bool userIsValid;
+  late List<dynamic> userActivities;
+  late List<dynamic> userInterest;
+  late List<dynamic> userFriends;
+  late List<dynamic> userBlocked;
+  late bool userIsNonBinary;
 
   FeedMeta(
       this.feedTime,
@@ -19,32 +32,21 @@ class FeedMeta extends UserDisplay {
       this.feedIsImage,
       this.likeList,
       this.likeValue,
-      String userUid,
-      String userName,
-      String userBiography,
-      String avatarUrl,
-      String userUniversity,
-      bool userSex,
-      bool userIsOnline,
-      bool userIsValid,
-      List<dynamic> userActivities,
-      List<dynamic> userInterest,
-      List<dynamic> userFriends,
-      List<dynamic> userBlocked,bool userIsNonBinary)
-      : super(
-            userUid,
-            userName,
-            userBiography,
-            avatarUrl,
-            userUniversity,
-            userSex,
-            userIsOnline,
-            userIsValid,
-            userActivities,
-            userInterest,
-            userFriends,
-            userBlocked,userIsNonBinary);
-
+      this.userUid,
+      this.userName,
+      this.userBiography,
+      this.avatarUrl,
+      this.userUniversity,
+      this.userSex,
+      this.userIsOnline,
+      this.userIsValid,
+      this.userActivities,
+      this.userInterest,
+      this.userFriends,
+      this.userBlocked,
+      this.userIsNonBinary
+);
+      
   factory FeedMeta.fromJson(Map<dynamic, dynamic> json) {
     return FeedMeta(
       json["feed_time"] as int,

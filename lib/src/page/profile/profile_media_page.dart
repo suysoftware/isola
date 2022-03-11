@@ -8,16 +8,17 @@ import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:collection/collection.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileMediaPage extends StatefulWidget {
   const ProfileMediaPage(
-      {Key? key, required this.user, required this.userDisplay})
+      {Key? key, required this.user, required this.userAll})
       : super(key: key);
   final User user;
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
   @override
   _ProfileMediaPageState createState() => _ProfileMediaPageState();
 }
@@ -69,7 +70,7 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
             child: ProfileBasicGridWidget(
               key: widget.key,
               refProfileMedia: _refProfileMedia,
-              userDisplay: widget.userDisplay,
+              userAll: widget.userAll,
             ),
           )),
     );
@@ -78,10 +79,10 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
 
 class ProfileBasicGridWidget extends StatelessWidget {
   ProfileBasicGridWidget(
-      {Key? key, required this.refProfileMedia, required this.userDisplay})
+      {Key? key, required this.refProfileMedia, required this.userAll})
       : super(key: key);
   final DatabaseReference refProfileMedia;
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   static const tiles = [
     ProfileGridTile(2, 1),
@@ -137,7 +138,7 @@ class ProfileBasicGridWidget extends StatelessWidget {
               var imageFeed = FeedMeta.fromJson(value);
 
               if (imageFeed.feedIsImage == true &&
-                  imageFeed.userUid == userDisplay.userUid) {
+                  imageFeed.userUid == userAll.isolaUserMeta.userUid) {
                 searchDatas.add(imageFeed);
                 gridTileWithPostValue();
               }

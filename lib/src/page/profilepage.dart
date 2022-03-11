@@ -5,10 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:isola_app/src/blocs/user_display_cubit.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/profile/profile_biography.dart';
 import 'package:isola_app/src/page/profile/profile_media_page.dart';
@@ -24,10 +25,10 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({
     Key? key,
     required this.user,
-    required this.userDisplay,
+    required this.userAll,
   }) : super(key: key);
   final User user;
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -75,24 +76,24 @@ class _ProfilePageState extends State<ProfilePage> {
       case 0:
         return ProfileTimelinePage(
           user: widget.user,
-          userDisplay: widget.userDisplay,
+         userAll: widget.userAll,
         );
 
       case 1:
         return ProfileMediaPage(
-          userDisplay: widget.userDisplay,
-          user: widget.user,
+        
+          user: widget.user, userAll:widget.userAll,
         );
 
       case 2:
         return ProfileBiographPage(
           user: widget.user,
-          userDisplay: widget.userDisplay,
+          userAll: widget.userAll,
         );
       default:
         return ProfileTimelinePage(
           user: widget.user,
-          userDisplay: widget.userDisplay,
+          userAll: widget.userAll,
         );
     }
   }
@@ -156,19 +157,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: 100.h >= 700
                                           ? (100.h <= 1100
                                               ? Image.network(
-                                                  widget.userDisplay.avatarUrl,
+                                                  widget.userAll.isolaUserDisplay.avatarUrl,
                                                   width: 110.sp,
                                                   height: 110.sp,
                                                   fit: BoxFit.cover,
                                                 )
                                               : Image.network(
-                                                  widget.userDisplay.avatarUrl,
+                                                   widget.userAll.isolaUserDisplay.avatarUrl,
                                                   width: 80.sp,
                                                   height: 80.sp,
                                                   fit: BoxFit.cover,
                                                 ))
                                           : Image.network(
-                                              widget.userDisplay.avatarUrl,
+                                              widget.userAll.isolaUserDisplay.avatarUrl,
                                               width: 75.sp,
                                               height: 75.sp,
                                               fit: BoxFit.cover,
@@ -200,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             barrierDismissible: true,
                             builder: (BuildContext context) => Center(
                                   child: AddProfilePhotoContainer(
-                                      userDisplay: widget.userDisplay),
+                                      userAll: widget.userAll),
                                 ));
                       },
                       child: SizedBox(
@@ -228,12 +229,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.all(8.0),
                     ),
                     Text(
-                      widget.userDisplay.userName,
+                      widget.userAll.isolaUserDisplay.userName,
                       style: 100.h >= 1100
                           ? StyleConstants.profileNameTabletTextStyle
                           : StyleConstants.profileNameTextStyle,
                     ),
-                    context.read<UserDisplayCubit>().state.userIsOnline == true
+                    context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline == true
                         ? Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Image.asset("asset/img/profile_online.png"),
@@ -246,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Text(
-                widget.userDisplay.userUniversity,
+                widget.userAll.isolaUserDisplay.userUniversity,
                 style: 100.h >= 1100
                     ? StyleConstants.profileUniversityTabletTextStyle
                     : StyleConstants.profileUniversityTextStyle,
@@ -281,9 +282,9 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class AddProfilePhotoContainer extends StatefulWidget {
-  const AddProfilePhotoContainer({Key? key, required this.userDisplay})
+  const AddProfilePhotoContainer({Key? key, required this.userAll})
       : super(key: key);
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   @override
   State<AddProfilePhotoContainer> createState() =>
@@ -454,17 +455,17 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
         await ImageSaver.save('extended_image_cropped_image.jpg', fileData);
 
     file2 = File(fileFath!);
-    await uploadImage(widget.userDisplay.userUid, file2!, "profilePhoto")
+    await uploadImage(widget.userAll.isolaUserMeta.userUid, file2!, "profilePhoto")
         // widget.userDisplay,gestureKey"profilePhoto")
         .then((value) {
       var refAvatarUrl = refGetter(
           enum2: RefEnum.Useravatar,
-          targetUid: widget.userDisplay.userUid,
-          userUid: widget.userDisplay.userUid,
+          targetUid: widget.userAll.isolaUserMeta.userUid,
+          userUid: widget.userAll.isolaUserMeta.userUid,
           crypto: "");
       refAvatarUrl.set(value);
 
-      widget.userDisplay.avatarUrl = value;
+      widget.userAll.isolaUserDisplay.avatarUrl = value;
     });
     _cropping = false;
   }

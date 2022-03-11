@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -11,9 +12,9 @@ import 'package:sizer/sizer.dart';
 int hobbyPiece = 0;
 
 class ProfileInterestEditPage extends StatefulWidget {
-  const ProfileInterestEditPage({Key? key, required this.userDisplay})
+  const ProfileInterestEditPage({Key? key, required this.userAll})
       : super(key: key);
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
   @override
   _InterestAddPageState createState() => _InterestAddPageState();
 }
@@ -29,19 +30,19 @@ class _InterestAddPageState extends State<ProfileInterestEditPage> {
     context.read<HobbyEditStatusCubit>().hobbyStatusReset();
     context
         .read<HobbyEditStatusCubit>()
-        .hobbyStatusActive(widget.userDisplay.userInterest[0]);
+        .hobbyStatusActive(widget.userAll.isolaUserDisplay.userInterest[0]);
     context
         .read<HobbyEditStatusCubit>()
-        .hobbyStatusActive(widget.userDisplay.userInterest[1]);
+        .hobbyStatusActive(widget.userAll.isolaUserDisplay.userInterest[1]);
     context
         .read<HobbyEditStatusCubit>()
-        .hobbyStatusActive(widget.userDisplay.userInterest[2]);
+        .hobbyStatusActive(widget.userAll.isolaUserDisplay.userInterest[2]);
     context
         .read<HobbyEditStatusCubit>()
-        .hobbyStatusActive(widget.userDisplay.userInterest[3]);
+        .hobbyStatusActive(widget.userAll.isolaUserDisplay.userInterest[3]);
     context
         .read<HobbyEditStatusCubit>()
-        .hobbyStatusActive(widget.userDisplay.userInterest[4]);
+        .hobbyStatusActive(widget.userAll.isolaUserDisplay.userInterest[4]);
     for (var item in iconNameList) {
       var hobbyItem = HobbyIconButton(
         iconName: item,
@@ -66,8 +67,8 @@ class _InterestAddPageState extends State<ProfileInterestEditPage> {
                   onPressed: () {
                     var refUpdateInterest = refGetter(
                         enum2: RefEnum.Userdisplay,
-                        userUid: widget.userDisplay.userUid,
-                        targetUid: widget.userDisplay.userUid,
+                        userUid: widget.userAll.isolaUserMeta.userUid,
+                        targetUid: widget.userAll.isolaUserMeta.userUid,
                         crypto: "");
 
                     refUpdateInterest

@@ -4,11 +4,12 @@ import 'dart:collection';
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 
 
 Future<void> uploadVoice(
-  UserDisplay userDisplay,
+  IsolaUserAll userAll,
   //bu değişebilir
 
   String _filePath,
@@ -21,7 +22,7 @@ Future<void> uploadVoice(
   var refStorage = FirebaseStorage.instance
       .ref()
       .child("voice_items")
-      .child(userDisplay.userUid)
+      .child(userAll.isolaUserMeta.userUid)
       .child(DateTime.now().millisecondsSinceEpoch.toString());
 
   try {
@@ -32,7 +33,7 @@ Future<void> uploadVoice(
     print("agaa $e");
   } finally {
     if (urlVoice != "") {
-      await voiceMessageAdd(userDisplay, urlVoice, chatMessageRef,targetUid1,targetUid2);
+      await voiceMessageAdd(userAll, urlVoice, chatMessageRef,targetUid1,targetUid2);
     }
   }
 
@@ -40,15 +41,15 @@ Future<void> uploadVoice(
 }
 
 voiceMessageAdd(
-    UserDisplay userDisplay, String voiceUrl, DatabaseReference ref,String targetUid1,String targetUid2) {
+    IsolaUserAll userAll, String voiceUrl, DatabaseReference ref,String targetUid1,String targetUid2) {
   var refChatInterior = ref;
 
   var firstMessage = HashMap<String, dynamic>();
-  firstMessage["member_avatar_url"] = userDisplay.avatarUrl;
+  firstMessage["member_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
   firstMessage["member_message"] = "";
   firstMessage["member_message_time"] = ServerValue.timestamp;
-  firstMessage["member_name"] = userDisplay.userName;
-  firstMessage["member_uid"] = userDisplay.userUid;
+  firstMessage["member_name"] = userAll.isolaUserDisplay..userName;
+  firstMessage["member_uid"] = userAll.isolaUserMeta.userUid;
   firstMessage["member_message_isvoice"] = true;
   firstMessage["member_message_voice_url"] = voiceUrl;
    firstMessage["member_message_isimage"] = false;

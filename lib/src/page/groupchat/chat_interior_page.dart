@@ -16,13 +16,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
 import 'package:isola_app/src/blocs/group_setting_cubit.dart';
-import 'package:isola_app/src/blocs/user_display_cubit.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_chaos.dart';
 import 'package:isola_app/src/model/group/group_chat_message.dart';
 import 'package:isola_app/src/model/group/group_preview_data.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_baloon_right.dart';
@@ -84,7 +85,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   late var refChatInterior;
   late var refUserMeta;
   late var refGroupChaos;
-  late UserDisplay userDisplay;
+  late IsolaUserAll userAll;
 
 //chaos button
   late AnimationController _animationControllerChaos;
@@ -118,11 +119,11 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
   userMessageAdd(String gelenMesaj, bool isVoice, String voiceUrl) {
     var firstMessage = HashMap<String, dynamic>();
-    firstMessage["member_avatar_url"] = userDisplay.avatarUrl;
+    firstMessage["member_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
     firstMessage["member_message"] = t1.text;
     firstMessage["member_message_time"] = ServerValue.timestamp;
-    firstMessage["member_name"] = userDisplay.userName;
-    firstMessage["member_uid"] = userDisplay.userUid;
+    firstMessage["member_name"] = userAll.isolaUserDisplay.userName;
+    firstMessage["member_uid"] = userAll.isolaUserMeta.userUid;
     firstMessage["member_message_isvoice"] = false;
     firstMessage["member_message_voice_url"] = voiceUrl;
     firstMessage["member_message_isattachment"] = false;
@@ -243,7 +244,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     showCupertinoDialog(
         context: context,
         builder: (BuildContext context) => ChatImagePicker(
-              userDisplay: userDisplay,
+              userAll: userAll,
               targetUid1: target1,
               targetUid2: target2,
               file: file,
@@ -260,7 +261,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         String fileName = result2.files.first.name;
         print(fileName);
         print(result2.paths);
-        await uploadAttachment(userDisplay, result2.paths.first.toString(),
+        await uploadAttachment(userAll, result2.paths.first.toString(),
             refChatInterior, false, false, true, target1, target2);
 
         // Upload file
@@ -275,10 +276,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         print(result.paths);
 
         if (fileType == FileType.video) {
-          await uploadAttachment(userDisplay, result.paths.first.toString(),
+          await uploadAttachment(userAll, result.paths.first.toString(),
               refChatInterior, false, true, false, target1, target2);
         } else {
-          await uploadAttachment(userDisplay, result.paths.first.toString(),
+          await uploadAttachment(userAll, result.paths.first.toString(),
               refChatInterior, true, false, false, target1, target2);
         }
 
@@ -506,7 +507,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                 CupertinoIcons.mic_circle_fill) {
                               await _audioRecorder.stop();
 
-                              uploadVoice(userDisplay, _filePath,
+                              uploadVoice(userAll, _filePath,
                                   refChatInterior, target1, target2);
                               //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
                               print(
@@ -602,14 +603,14 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     isChaosSearching = false;
     user = auth.currentUser!;
     chaosGroupCancel = false;
-    userDisplay = context.read<UserDisplayCubit>().state;
+    userAll = context.read<UserAllCubit>().state;
 
     refChatInterior = context.read<ChatReferenceCubit>().state;
 
     refUserMeta = refGetter(
         enum2: RefEnum.Usermeta,
         targetUid: "",
-        userUid: userDisplay.userUid,
+        userUid: userAll.isolaUserMeta.userUid,
         crypto: "");
 
     groupSettingModelForTrawling = context.read<GroupSettingCubit>().state;
@@ -1066,7 +1067,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                 .child("chaos_is_searching")
                                                 .set(true);*/
                                             late bool myChaosSexOption;
-                                            if (userDisplay.userSex == true) {
+                                            if (userAll.isolaUserDisplay.userSex == true) {
                                               myChaosSexOption = false;
                                             } else {
                                               myChaosSexOption = true;
@@ -1080,8 +1081,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                 true,
                                                 true,
                                                 myChaosSexOption,
-                                                userDisplay.userIsNonBinary,
-                                                userDisplay.userIsValid,
+                                                userAll.isolaUserDisplay.userIsNonBinary,
+                                                userAll.isolaUserMeta.userIsValid,
                                                 false,
                                                 true);
 

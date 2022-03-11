@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -47,6 +49,17 @@ class _InterestAddPageState extends State<InterestAddPage> {
                     color: CupertinoColors.systemGreen,
                   ),
                   onPressed: () {
+                    FirebaseAuth _auth = FirebaseAuth.instance;
+
+                    CollectionReference users_display =
+                        FirebaseFirestore.instance.collection('users_display');
+
+                    users_display.doc(_auth.currentUser!.uid).update({
+                      'user_interest':
+                          context.read<HobbyStatusCubit>().state.addingHobby,
+                    });
+
+                    ///eskisi
                     var refUpdateInterest = refGetter(
                         enum2: RefEnum.Userdisplay,
                         userUid: widget.userUid,
@@ -86,8 +99,8 @@ class _InterestAddPageState extends State<InterestAddPage> {
           }),
         ),
         child: GridView.builder(
-            gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4),
             itemCount: 35,
             itemBuilder: (context, index) {
               return iconButtonList[index];

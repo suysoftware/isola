@@ -106,9 +106,10 @@ Future<void> addUser(String uid, String userName, String userMail) async {
   refAddUserExplore.set(userExploreData);
   refAddUserLikeHistory.set(userLikeHistory);
 
+/*
   var isolaUserDisplay = IsolaUserDisplay(
-      userName, "My Biography", "", false, false, interest, true, "-");
-  await addUserCloudFirestore(uid, isolaUserDisplay);
+      userName, "My Biography", "", false, false, interest, true,);
+  await addUserCloudFirestore(uid, isolaUserDisplay);*/
   //////firestore database operation
 
   // refAddUserTimelineFeed.set(feedMeta);
@@ -131,7 +132,6 @@ Future<void> addUserCloudFirestore(
         'user_is_online': isolaUserDisplay.userIsOnline,
         'user_name': isolaUserDisplay.userName,
         'user_sex': isolaUserDisplay.userSex,
-        'user_university': isolaUserDisplay.userUniversity
       })
       .then((value) => print("User Added"))
       .catchError((error) => print("Failed to add user: $error"));

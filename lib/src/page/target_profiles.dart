@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
+import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/target_profiles/profiles_biography.dart';
 import 'package:isola_app/src/page/target_profiles/profiles_media.dart';
@@ -11,10 +12,11 @@ import 'package:sizer/sizer.dart';
 class TargetProfilePage extends StatefulWidget {
   const TargetProfilePage({
     Key? key,
-    required this.userDisplay,
+    required this.feedMeta
   }) : super(key: key);
 
-  final UserDisplay userDisplay;
+  final FeedMeta feedMeta;
+
 
   @override
   _TargetProfilePageState createState() => _TargetProfilePageState();
@@ -64,21 +66,22 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
     switch (_profileSegmentedValue) {
       case 0:
         return TargetProfileTimelinePage(
-          userDisplay: widget.userDisplay,
+          feedMeta: widget.feedMeta,
         );
 
       case 1:
         return TargetProfileMediaPage(
-          userDisplay: widget.userDisplay,
+          userUid:widget.feedMeta.userUid
         );
 
       case 2:
         return TargetProfileBiographPage(
-          userDisplay: widget.userDisplay,
+          feedMeta: widget.feedMeta,
+        
         );
       default:
         return TargetProfileTimelinePage(
-          userDisplay: widget.userDisplay,
+    feedMeta:widget.feedMeta
         );
     }
   }
@@ -107,7 +110,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
         ),
       ),
       child: FutureBuilder(
-        future: getUserDisplay(widget.userDisplay.userUid),
+        future: getUserDisplay(widget.feedMeta.userUid),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -153,22 +156,19 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                               child: 100.h >= 700
                                                   ? (100.h <= 1100
                                                       ? Image.network(
-                                                          widget.userDisplay
-                                                              .avatarUrl,
+                                                          widget.feedMeta.avatarUrl,
                                                           width: 120.sp,
                                                           height: 120.sp,
                                                           fit: BoxFit.cover,
                                                         )
                                                       : Image.network(
-                                                          widget.userDisplay
-                                                              .avatarUrl,
+                                                            widget.feedMeta.avatarUrl,
                                                           width: 80.sp,
                                                           height: 80.sp,
                                                           fit: BoxFit.cover,
                                                         ))
                                                   : Image.network(
-                                                      widget.userDisplay
-                                                          .avatarUrl,
+                                                         widget.feedMeta.avatarUrl,
                                                       width: 65.sp,
                                                       height: 65.sp,
                                                       fit: BoxFit.cover,
@@ -190,12 +190,12 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                               padding: EdgeInsets.all(8.0),
                             ),
                             Text(
-                              widget.userDisplay.userName,
+                                widget.feedMeta.userName,
                               style: 100.h >= 1100
                                   ? StyleConstants.profileNameTabletTextStyle
                                   : StyleConstants.profileNameTextStyle,
                             ),
-                            widget.userDisplay.userIsOnline
+                            widget.feedMeta.userIsOnline
                                 ? Padding(
                                     padding: const EdgeInsets.all(6.0),
                                     child: Image.asset(
@@ -210,7 +210,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                         ),
                       ),
                       Text(
-                        widget.userDisplay.userUniversity,
+                        widget.feedMeta.userUniversity,
                         style: 100.h >= 1100
                             ? StyleConstants.profileUniversityTabletTextStyle
                             : StyleConstants.profileUniversityTextStyle,

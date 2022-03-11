@@ -41,10 +41,10 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    widget.groupPreviewData.userAll.userMeta.joinedGroupList[0] == "nothing"
+    widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[0] == "nothing"
         ? chatContValue = 0
         : chatContValue =
-            widget.groupPreviewData.userAll.userMeta.joinedGroupList.length;
+            widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList.length;
 
     initTraw.add("asset/img/settings_button.png");
   }
@@ -68,29 +68,28 @@ class _ChatPageState extends State<ChatPage> {
                   if (isGrandL2 == true) {
                     isGrand = true;
                   }
-                  if (widget.groupPreviewData.userAll.userDisplay
-                              .userBiography ==
+                  if (widget.groupPreviewData.userAll.isolaUserDisplay.userBiography ==
                           GambitConstant.gambitProfile.userBiography &&
-                      widget.groupPreviewData.userAll.userDisplay.userName ==
+                      widget.groupPreviewData.userAll.isolaUserDisplay.userName ==
                           GambitConstant.gambitProfile.userName &&
-                      widget.groupPreviewData.userAll.userDisplay
+                      widget.groupPreviewData.userAll.isolaUserDisplay
                               .userInterest[0] ==
                           GambitConstant.gambitProfile.userInterest[0] &&
-                      widget.groupPreviewData.userAll.userDisplay
+                      widget.groupPreviewData.userAll.isolaUserDisplay
                               .userInterest[1] ==
                           GambitConstant.gambitProfile.userInterest[1] &&
-                      widget.groupPreviewData.userAll.userDisplay
+                      widget.groupPreviewData.userAll.isolaUserDisplay
                               .userInterest[2] ==
                           GambitConstant.gambitProfile.userInterest[2] &&
-                      widget.groupPreviewData.userAll.userDisplay
+                      widget.groupPreviewData.userAll.isolaUserDisplay
                               .userInterest[3] ==
                           GambitConstant.gambitProfile.userInterest[3] &&
-                      widget.groupPreviewData.userAll.userDisplay
+                      widget.groupPreviewData.userAll.isolaUserDisplay
                               .userUniversity ==
                           GambitConstant.gambitProfile.userUniversity &&
-                      widget.groupPreviewData.userAll.userDisplay.userSex ==
+                      widget.groupPreviewData.userAll.isolaUserDisplay.userSex ==
                           GambitConstant.gambitProfile.userSex &&
-                      widget.groupPreviewData.userAll.userDisplay
+                      widget.groupPreviewData.userAll.isolaUserDisplay
                               .userIsNonBinary ==
                           GambitConstant.gambitProfile.userIsNonBinary) {
                     isInfoEqual = true;
@@ -285,7 +284,7 @@ class _ChatPageState extends State<ChatPage> {
                     ? (widget.groupPreviewData.groupAlives.is1ChaosAlive == true
                         ? ChaosGroupCont(
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
                             notiValue: 2,
                             ref:
                                 refGetter(
@@ -304,12 +303,11 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.userMeta
+                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
                                     .joinedGroupList[0]),
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll
-                                .userMeta.joinedGroupList[0],
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
+                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[0],
                             userAll: widget.groupPreviewData.userAll,
                           ))
                     : const ChatGroupContWaiting();
@@ -319,7 +317,7 @@ class _ChatPageState extends State<ChatPage> {
                     ? (widget.groupPreviewData.groupAlives.is2ChaosAlive == true
                         ? ChaosGroupCont(
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
                             notiValue: 2,
                             ref: refGetter(
                                 enum2: RefEnum.Chaosgroupchatlist,
@@ -336,12 +334,11 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.userMeta
+                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
                                     .joinedGroupList[1]),
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll
-                                .userMeta.joinedGroupList[1],
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
+                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[1],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
                 var item3 = widget.groupPreviewData.groupAlives.group3Searching != true &&
@@ -349,7 +346,7 @@ class _ChatPageState extends State<ChatPage> {
                     ? (widget.groupPreviewData.groupAlives.is3ChaosAlive == true
                         ? ChaosGroupCont(
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
                             notiValue: 2,
                             ref: refGetter(
                                 enum2: RefEnum.Chaosgroupchatlist,
@@ -366,12 +363,11 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.userMeta
+                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
                                     .joinedGroupList[2]),
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll
-                                .userMeta.joinedGroupList[2],
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
+                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[2],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
                 var item4 = widget.groupPreviewData.groupAlives.group4Searching != true &&
@@ -379,7 +375,7 @@ class _ChatPageState extends State<ChatPage> {
                     ? (widget.groupPreviewData.groupAlives.is4ChaosAlive == true
                         ? ChaosGroupCont(
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
                             notiValue: 2,
                             ref: refGetter(
                                 enum2: RefEnum.Chaosgroupchatlist,
@@ -396,12 +392,12 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.userMeta
+                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
                                     .joinedGroupList[3]),
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll
-                                .userMeta.joinedGroupList[3],
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
+                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta
+                                .joinedGroupList[3],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
 
@@ -410,7 +406,7 @@ class _ChatPageState extends State<ChatPage> {
                     ? (widget.groupPreviewData.groupAlives.is5ChaosAlive == true
                         ? ChaosGroupCont(
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
                             notiValue: 2,
                             ref: refGetter(
                                 enum2: RefEnum.Chaosgroupchatlist,
@@ -427,12 +423,12 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.userMeta
+                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
                                     .joinedGroupList[4]),
                             myUid: widget
-                                .groupPreviewData.userAll.userDisplay.userUid,
+                                .groupPreviewData.userAll.isolaUserMeta.userUid,
                             chatGroupNo: widget.groupPreviewData.userAll
-                                .userMeta.joinedGroupList[4],
+                                .isolaUserMeta.joinedGroupList[4],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
 

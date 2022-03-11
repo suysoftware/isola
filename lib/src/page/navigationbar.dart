@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/search_status_cubit.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
-import 'package:isola_app/src/blocs/user_display_cubit.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_preview_data.dart';
@@ -33,7 +33,7 @@ class _NavigationBarState extends State<NavigationBar>
   late var _refUserDisplay;
 
 // late UserDisplay userDisplay;
-  late UserAll userAll;
+  late IsolaUserAll userAll;
   late var userLikeHistory;
   @override
   void initState() {
@@ -47,16 +47,18 @@ class _NavigationBarState extends State<NavigationBar>
         targetUid: user.uid,
         userUid: user.uid,
         crypto: "");
-      context.read<UserDisplayCubit>().state.userIsOnline = true;
+    context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
 
     _refUserDisplay.child("user_is_online").set(true);
     //  getDisplayData(user.uid).then((value) => userDisplay = value);
-    getDisplayData(user.uid).then((value) => userAll = value).whenComplete(() {
+    getUserAllFromDataBase(user.uid)
+        .then((value) => userAll = value)
+        .whenComplete(() {
       context
           .read<JoinedListCubit>()
-          .joinedListAllAdd(userAll.userMeta.joinedGroupList);
+          .joinedListAllAdd(userAll.isolaUserMeta.joinedGroupList);
 
-      if (userAll.searchStatus == true) {
+      if (userAll.isolaUserMeta.userIsSearching == true) {
         context.read<SearchStatusCubit>().searching();
         print("searhingbastınavigation");
       } else {
@@ -65,9 +67,10 @@ class _NavigationBarState extends State<NavigationBar>
       }
     });
   }
+
   @override
   void dispose() {
-     WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -81,22 +84,20 @@ class _NavigationBarState extends State<NavigationBar>
     if (state == AppLifecycleState.paused) {
       print(" altta atıldı");
       await _refUserDisplay.child("user_is_online").set(false);
-      context.read<UserDisplayCubit>().state.userIsOnline = false;
+      context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
 
     if (state == AppLifecycleState.resumed) {
       print("alta atıp geri gelince");
       await _refUserDisplay.child("user_is_online").set(true);
-            context.read<UserDisplayCubit>().state.userIsOnline = true;
-
+      context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
     }
 
     if (state == AppLifecycleState.detached) {
       print("detached");
 
       _refUserDisplay.child("user_is_online").set(false);
-            context.read<UserDisplayCubit>().state.userIsOnline = false;
-
+      context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
     super.didChangeAppLifecycleState(state);
   }
@@ -136,7 +137,8 @@ class _NavigationBarState extends State<NavigationBar>
           case 0:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                future: getDisplayData(user.uid),
+                //    future: getDisplayData(user.uid),
+                future: getUserAllFromDataBase(user.uid),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -146,7 +148,6 @@ class _NavigationBarState extends State<NavigationBar>
                       if (snapshot.hasError) {
                         return const Text("Error");
                       } else {
-                       
                         /*
                         var userDisplaySnap = snapshot.data as UserDisplay;
                         return TimelinePage(
@@ -154,13 +155,12 @@ class _NavigationBarState extends State<NavigationBar>
                           userDisplay: userDisplay,
                         );
                         */
-                        var userAllSnap = snapshot.data as UserAll;
+                        var userAllSnap = snapshot.data as IsolaUserAll;
 
                         context
-                            .read<UserDisplayCubit>()
-                            .userDisplayChanger(userAllSnap.userDisplay);
-                        return TimelinePage(
-                            user: user, userDisplay: userAllSnap.userDisplay);
+                            .read<UserAllCubit>()
+                            .userAllChanger(userAllSnap);
+                        return TimelinePage(user: user, userAll: userAllSnap);
                       }
                   }
                 },
@@ -170,7 +170,8 @@ class _NavigationBarState extends State<NavigationBar>
           case 1:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                future: getDisplayData(user.uid),
+                //  future: getDisplayData(user.uid),
+                future: getUserAllFromDataBase(user.uid),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -188,11 +189,8 @@ class _NavigationBarState extends State<NavigationBar>
                         );
                         */
                         var userAllSnap = snapshot.data as UserAll;
-                        context
-                            .read<UserDisplayCubit>()
-                            .userDisplayChanger(userAll.userDisplay);
-                        return SearchPage(
-                            user: user, userDisplay: userAll.userDisplay);
+                        context.read<UserAllCubit>().userAllChanger(userAll);
+                        return SearchPage(user: user, userAll: userAll);
                       }
                   }
                 },
@@ -201,7 +199,8 @@ class _NavigationBarState extends State<NavigationBar>
           case 2:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                future: getDisplayData(user.uid),
+                // future: getDisplayData(user.uid),
+                future: getUserAllFromDataBase(user.uid),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -212,18 +211,17 @@ class _NavigationBarState extends State<NavigationBar>
                         return const Text("Error");
                       } else {
                         // var userDisplaySnap = snapshot.data as UserDisplay;
-                        var userAllInfo = snapshot.data as UserAll;
+                        var userAllInfo = snapshot.data as IsolaUserAll;
 
                         //    return HomePage(
                         //    userDisplay: userDisplaySnap,
                         //);
                         context
-                            .read<UserDisplayCubit>()
-                            .userDisplayChanger(userAllInfo.userDisplay);
+                            .read<UserAllCubit>()
+                            .userAllChanger(userAllInfo);
 
                         return HomePage(
-                          userDisplay: userAllInfo.userDisplay,
-                          userMeta: userAllInfo.userMeta,
+                          userAll: userAllInfo,
                         );
                         //   searchStatus: userAll.searchStatus);
                       }
@@ -234,7 +232,8 @@ class _NavigationBarState extends State<NavigationBar>
           case 3:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                  future: getAllDataForChatPage(user.uid),
+                  //   future: getAllDataForChatPage(user.uid),
+                  future: getUserAllFromDataBase(user.uid),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
@@ -271,7 +270,8 @@ class _NavigationBarState extends State<NavigationBar>
           case 4:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                future: getDisplayData(user.uid),
+                //future: getDisplayData(user.uid),
+                future: getUserAllFromDataBase(user.uid),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -288,13 +288,12 @@ class _NavigationBarState extends State<NavigationBar>
                           userDisplay: userDisplay,
                         );
                         */
-                        var userAllSnap = snapshot.data as UserAll;
+                        var userAllSnap = snapshot.data as IsolaUserAll;
 
                         context
-                            .read<UserDisplayCubit>()
-                            .userDisplayChanger(userAll.userDisplay);
-                        return ProfilePage(
-                            user: user, userDisplay: userAllSnap.userDisplay);
+                            .read<UserAllCubit>()
+                            .userAllChanger(userAllSnap);
+                        return ProfilePage(user: user, userAll: userAllSnap);
                       }
                   }
                 },
@@ -304,7 +303,8 @@ class _NavigationBarState extends State<NavigationBar>
 
         return CupertinoTabView(builder: (BuildContext context) {
           return FutureBuilder(
-            future: getDisplayData(user.uid),
+            //  future: getDisplayData(user.uid),
+            future: getUserAllFromDataBase(user.uid),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
@@ -315,20 +315,15 @@ class _NavigationBarState extends State<NavigationBar>
                     return const Text("Error");
                   } else {
                     //  var userDisplaySnap = snapshot.data as UserDisplay;
-                    var userAll = snapshot.data as UserAll;
+                    var userAll = snapshot.data as IsolaUserAll;
                     //  return HomePage(
                     //  userDisplay: userDisplaySnap,
                     //);
-                    context
-                        .read<UserDisplayCubit>()
-                        .userDisplayChanger(userAll.userDisplay);
+                    context.read<UserAllCubit>().userAllChanger(userAll);
 
                     return HomePage(
-                      userDisplay: userAll.userDisplay,
-                      userMeta: userAll.userMeta,
+                      userAll: userAll,
                     );
-                    //    searchStatus: userAll.searchStatus,
-                    // );
                   }
               }
             },

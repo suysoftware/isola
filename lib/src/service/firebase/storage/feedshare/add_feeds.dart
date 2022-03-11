@@ -4,12 +4,13 @@ import 'dart:collection';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 import 'package:uuid/uuid.dart';
 
 Future<void> addFeed(
-    String uid, UserDisplay userDisplay, String feedText) async {
+    String uid, IsolaUserAll userAll, String feedText) async {
   var feedLikes = <dynamic>[];
   //feed no yazabilirsin buralara
 
@@ -27,21 +28,21 @@ Future<void> addFeed(
   feedMeta["feed_image_url"] = "";
   feedMeta["feed_text"] = feedText;
   feedMeta["feed_is_image"] = false;
-  feedMeta["user_activities"] = userDisplay.userActivities;
-  feedMeta["user_interest"] = userDisplay.userInterest;
+  feedMeta["user_activities"] = userAll.isolaUserDisplay.userActivities;
+  feedMeta["user_interest"] = userAll.isolaUserDisplay.userInterest;
   feedMeta["like_list"] = feedLikes;
   feedMeta["like_value"] = 0;
-  feedMeta["user_friends"] = userDisplay.userFriends;
-  feedMeta["user_blocked"] = userDisplay.userBlocked;
+  feedMeta["user_friends"] = userAll.isolaUserMeta.userFriends;
+  feedMeta["user_blocked"] = userAll.isolaUserMeta.userBlocked;
   feedMeta["user_uid"] = uid;
-  feedMeta["user_name"] = userDisplay.userName;
-  feedMeta["user_biography"] = userDisplay.userBiography;
-  feedMeta["user_avatar_url"] = userDisplay.avatarUrl;
-  feedMeta["user_university"] = userDisplay.userUniversity;
-  feedMeta["user_sex"] = userDisplay.userSex;
-  feedMeta["user_is_online"] = userDisplay.userIsOnline;
-  feedMeta["user_is_valid"] = userDisplay.userIsValid;
-  feedMeta["user_is_non_binary"] = userDisplay.userIsNonBinary;
+  feedMeta["user_name"] = userAll.isolaUserDisplay.userName;
+  feedMeta["user_biography"] = userAll.isolaUserDisplay.userBiography;
+  feedMeta["user_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
+  feedMeta["user_university"] = userAll.isolaUserDisplay.userUniversity;
+  feedMeta["user_sex"] = userAll.isolaUserDisplay.userSex;
+  feedMeta["user_is_online"] = userAll.isolaUserDisplay.userIsOnline;
+  feedMeta["user_is_valid"] = userAll.isolaUserMeta.userIsValid;
+  feedMeta["user_is_non_binary"] = userAll.isolaUserDisplay.userIsNonBinary;
 
 /*
   for (var a in userFriendsUid) {

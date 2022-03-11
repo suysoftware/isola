@@ -13,6 +13,7 @@ import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/searching_status.dart';
@@ -23,13 +24,11 @@ import 'package:sizer/sizer.dart';
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
-    required this.userDisplay,
-    required this.userMeta,
+    required this.userAll,
   })
   // required this.searchStatus})
   : super(key: key);
-  final UserDisplay userDisplay;
-  final UserMeta userMeta;
+  final IsolaUserAll userAll;
   // final bool searchStatus;
 
   @override
@@ -180,14 +179,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         }
       } else {
         print("burada**");
-    
+
         context.read<SearchStatusCubit>().pauseSearching();
         context
             .read<MatchButtonCubit>()
             .imageButtonSearcingCancel(isTablet: isTablet);
         if (mounted) {
           setState(() {
-                animationController4.stop();
+            animationController4.stop();
           });
         }
 
@@ -254,7 +253,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        '${widget.userMeta.userToken}',
+                        '${widget.userAll.isolaUserMeta.userToken}',
                         style: StyleConstants.isolaTokenTextStyle,
                       ),
                     ),
@@ -320,11 +319,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     right: 5.w,
                     child: GestureDetector(
                       onTap: () {
+                        joinToMatchingPool(
+                            widget.userAll.isolaUserMeta.userUid,
+                            widget.userAll.isolaUserDisplay.userSex,
+                            widget.userAll.isolaUserDisplay.userIsNonBinary,
+                            widget.userAll.isolaUserMeta.userIsValid);
+
+                        /*
                         //buraya grup tamamlanma şartı koy bastınv eo grup tamamlanana kadar kapatma yok iptal etme koyulabilir ve iptal ile o grup silinir
                         if (context.read<SearchStatusCubit>().state != true) {
                           if (context.read<JoinedListCubit>().state.length <
                               3) {
-                            findGroup(widget.userDisplay, widget.userMeta)
+                            findGroup(widget.userAll)
                                 .then((value) => context
                                     .read<JoinedListCubit>()
                                     // ignore: invalid_use_of_visible_for_testing_member
@@ -358,7 +364,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   period: const Duration(milliseconds: 1800));
                             });
                           } else {
-                            if (widget.userMeta.userToken > 0) {
+                            if (widget.userAll.isolaUserMeta.userToken > 0) {
                               // YOU HAVE TOKEN AND YOU CAN USE
                               showCupertinoDialog(
                                   context: context,
@@ -410,7 +416,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       ));
                             }
                           }
-                        }
+                        }*/
                       },
                       child: CircleAvatar(
                         radius: 100.h >= 1100
@@ -453,7 +459,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ? StyleConstants.softDarkTextStyle
                           : StyleConstants.softDarkTabletTextStyle,
                     )),
-                    heightSize: 100.h<820?3:(100.h <= 1100 ? 4 : 6),
+                    heightSize: 100.h < 820 ? 3 : (100.h <= 1100 ? 4 : 6),
                     widthSize: 45),
               ),
             ),

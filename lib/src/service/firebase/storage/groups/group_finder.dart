@@ -1,15 +1,18 @@
 // ignore_for_file: avoid_print
 
 import 'dart:collection';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_display.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:uuid/uuid.dart';
 
-Future<List<dynamic>> findGroup(
-    UserDisplay userDisplay, UserMeta userMeta) async {
+Future<List<dynamic>> findGroup(IsolaUserAll userAll) async {
   var userNewGroupListReturn = <dynamic>[];
 
   var groupNeedListNothing = <dynamic>[];
@@ -26,7 +29,9 @@ Future<List<dynamic>> findGroup(
       var comingGroup = GroupDisplay.fromJson(value);
       if (comingGroup.group_need_member == true &&
           comingGroup.group_member_value < 3 &&
-          userMeta.joinedGroupList.contains(comingGroup.group_no) == false) {
+          userAll.isolaUserMeta.joinedGroupList
+                  .contains(comingGroup.group_no) ==
+              false) {
         //bu if üstüne cinsiyet seçeneğini alıp sorgulanacak
         //group validliği sorgulanacak
 
@@ -52,8 +57,8 @@ Future<List<dynamic>> findGroup(
           crypto: fileID);
       var refUserMetaJoined = refGetter(
           enum2: RefEnum.Usermetagrouplist,
-          targetUid: userDisplay.userUid,
-          userUid: userDisplay.userUid,
+          targetUid: userAll.isolaUserMeta.userUid,
+          userUid: userAll.isolaUserMeta.userUid,
           crypto: "");
 
       print("grup kurmak gerek");
@@ -69,8 +74,10 @@ Future<List<dynamic>> findGroup(
       addGroupDisplay["group_member_value"] = 1;
       addGroupDisplay["group_need_member"] = true;
       addGroupDisplay["group_no"] = fileID;
-      addGroupDisplay["group_sex_type"] = userDisplay.userSex.toString();
-      addGroupDisplay["group_target_isvalid"] = userDisplay.userIsValid;
+      addGroupDisplay["group_sex_type"] =
+          userAll.isolaUserDisplay.userSex.toString();
+      addGroupDisplay["group_target_isvalid"] =
+          userAll.isolaUserMeta.userIsValid;
       addGroupDisplay["group_need_list"] = groupNeedList;
 
       //var addGroupMeta = HashMap<String, dynamic>();
@@ -80,18 +87,18 @@ Future<List<dynamic>> findGroup(
         refGroupMeta
             .child(fileID)
             .child("group_member_1_uid")
-            .set(userDisplay.userUid);
+            .set(userAll.isolaUserMeta.userUid);
         refGroupMeta.child(fileID).child("group_token").set(0);
         refGroupChatMembers
             .child("group_member_1_uid")
-            .set(userDisplay.userUid);
+            .set(userAll.isolaUserMeta.userUid);
         //   var userNewGroupList = <dynamic>[];
-        if (userMeta.joinedGroupList.length == 1 &&
-            userMeta.joinedGroupList[0] == "nothing") {
+        if (userAll.isolaUserMeta.joinedGroupList.length == 1 &&
+            userAll.isolaUserMeta.joinedGroupList[0] == "nothing") {
           userNewGroupListReturn.add(fileID);
           refUserMetaJoined.set(userNewGroupListReturn);
         } else {
-          userNewGroupListReturn.addAll(userMeta.joinedGroupList);
+          userNewGroupListReturn.addAll(userAll.isolaUserMeta.joinedGroupList);
           userNewGroupListReturn.add(fileID);
           refUserMetaJoined.set(userNewGroupListReturn);
         }
@@ -101,11 +108,11 @@ Future<List<dynamic>> findGroup(
             userUid: "",
             crypto: fileID);
         var firstMessage = HashMap<String, dynamic>();
-        firstMessage["member_avatar_url"] = userDisplay.avatarUrl;
+        firstMessage["member_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
         firstMessage["member_message"] = "Hello Everyone";
         firstMessage["member_message_time"] = ServerValue.timestamp;
-        firstMessage["member_name"] = userDisplay.userName;
-        firstMessage["member_uid"] = userDisplay.userUid;
+        firstMessage["member_name"] = userAll.isolaUserDisplay.userName;
+        firstMessage["member_uid"] = userAll.isolaUserMeta.userUid;
         firstMessage["member_message_isvoice"] = false;
         firstMessage["member_message_voice_url"] = "nothing";
         firstMessage["member_message_isattachment"] = false;
@@ -132,9 +139,10 @@ Future<List<dynamic>> findGroup(
         addGroupChaos["member_1_apply"] = false;
         addGroupChaos["member_2_apply"] = false;
         addGroupChaos["member_3_apply"] = false;
-        addGroupChaos["chaos_sex_option"] = userDisplay.userIsValid;
-        addGroupChaos["chaos_is_non_binary"] = userDisplay.userIsNonBinary;
-        addGroupChaos["chaos_is_valid"] = userDisplay.userIsValid;
+        addGroupChaos["chaos_sex_option"] = userAll.isolaUserMeta.userIsValid;
+        addGroupChaos["chaos_is_non_binary"] =
+            userAll.isolaUserDisplay.userIsNonBinary;
+        addGroupChaos["chaos_is_valid"] = userAll.isolaUserMeta.userIsValid;
         addGroupChaos["chaos_is_canceled"] = false;
         addGroupChaos["chaos_is_searching"] = false;
 
@@ -152,8 +160,8 @@ Future<List<dynamic>> findGroup(
           crypto: targetGroup.group_no);
       var refUserMetaJoined = refGetter(
           enum2: RefEnum.Usermetagrouplist,
-          targetUid: userDisplay.userUid,
-          userUid: userDisplay.userUid,
+          targetUid: userAll.isolaUserMeta.userUid,
+          userUid: userAll.isolaUserMeta.userUid,
           crypto: "");
 
       Future.delayed(const Duration(seconds: 6), () {
@@ -199,20 +207,20 @@ Future<List<dynamic>> findGroup(
             .child(targetGroup.group_no)
             .child(
                 "${targetGroup.group_need_list.first}") //burada hangisi onu bul
-            .set(userDisplay.userUid);
+            .set(userAll.isolaUserMeta.userUid);
 
 //bundada sıraya göre ekleme yap
         refGroupChatMembers
             .child("${targetGroup.group_need_list.first}")
-            .set(userDisplay.userUid);
+            .set(userAll.isolaUserMeta.userUid);
 
         //  var userNewGroupList = <dynamic>[];
-        if (userMeta.joinedGroupList.length == 1 &&
-            userMeta.joinedGroupList[0] == "nothing") {
+        if (userAll.isolaUserMeta.joinedGroupList.length == 1 &&
+            userAll.isolaUserMeta.joinedGroupList[0] == "nothing") {
           userNewGroupListReturn.add(targetGroup.group_no);
           refUserMetaJoined.set(userNewGroupListReturn);
         } else {
-          userNewGroupListReturn.addAll(userMeta.joinedGroupList);
+          userNewGroupListReturn.addAll(userAll.isolaUserMeta.joinedGroupList);
           userNewGroupListReturn.add(targetGroup.group_no);
           refUserMetaJoined.set(userNewGroupListReturn);
         }
@@ -223,11 +231,11 @@ Future<List<dynamic>> findGroup(
             userUid: "",
             crypto: targetGroup.group_no);
         var firstMessage = HashMap<String, dynamic>();
-        firstMessage["member_avatar_url"] = userDisplay.avatarUrl;
+        firstMessage["member_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
         firstMessage["member_message"] = "Hello Everyone";
         firstMessage["member_message_time"] = ServerValue.timestamp;
-        firstMessage["member_name"] = userDisplay.userName;
-        firstMessage["member_uid"] = userDisplay.userUid;
+        firstMessage["member_name"] = userAll.isolaUserDisplay.userName;
+        firstMessage["member_uid"] = userAll.isolaUserMeta.userUid;
         firstMessage["member_message_isvoice"] = false;
         firstMessage["member_message_voice_url"] = "nothing";
         firstMessage["member_message_isattachment"] = false;
@@ -250,4 +258,23 @@ Future<List<dynamic>> findGroup(
   });
   print(userNewGroupListReturn);
   return userNewGroupListReturn;
+}
+
+Future<void> joinToMatchingPool(
+    String userUid, bool userSexType, bool userIsNonBinary, bool userIsValid) {
+  CollectionReference matchingPool =
+      FirebaseFirestore.instance.collection('matching_pool');
+  print(DateTime.now().toUtc().millisecondsSinceEpoch);
+  // Call the user's CollectionReference to add a new user
+  return matchingPool.doc(userUid).set({
+    'user_uid': userUid,
+    'user_sex_type': userSexType,
+    'user_is_non_binary': userIsNonBinary,
+    'user_is_valid': userIsValid,
+    'register_time': Timestamp.fromMillisecondsSinceEpoch(
+        DateTime.now().toUtc().millisecondsSinceEpoch)
+
+    /*Timestamp.fromDate(DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch,
+                                    isUtc: false)),*/
+  });
 }

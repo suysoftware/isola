@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/profile/profile_interest_edit.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
@@ -15,10 +16,10 @@ import 'package:sizer/sizer.dart';
 
 class ProfileBiographPage extends StatefulWidget {
   const ProfileBiographPage(
-      {Key? key, required this.user, required this.userDisplay})
+      {Key? key, required this.user, required this.userAll})
       : super(key: key);
   final User? user;
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
 
   @override
   _ProfileBiographPageState createState() => _ProfileBiographPageState();
@@ -41,16 +42,16 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
 
   late User user;
   late var _refBio;
-  late UserDisplay userDisplay;
+  late IsolaUserAll userAll;
   bool editingHobby = false;
   String editingChooseText = " ";
   void _onRefresh() async {
     // monitor network fetch
     /// await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
-    await getDisplayData(widget.userDisplay.userUid).then((value) {
+    await getUserAllFromDataBase(widget.userAll.isolaUserMeta.userUid).then((value) {
       setState(() {
-        widget.userDisplay.userInterest = value.userDisplay.userInterest;
+        widget.userAll.isolaUserDisplay.userInterest = value.isolaUserDisplay.userInterest;
       });
     });
 
@@ -81,7 +82,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
       targetUid: user.uid,
       crypto: '',
     );
-    userDisplay = widget.userDisplay;
+    userAll = widget.userAll;
   }
 
   @override
@@ -127,7 +128,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                   barrierDismissible: true,
                   context: context,
                   builder: (BuildContext context) => Center(
-                    child: BioEditContainer(userDisplay: widget.userDisplay),
+                    child: BioEditContainer(userAll: widget.userAll),
                   ),
                 ),
                 child: SizedBox(
@@ -140,7 +141,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       initialData: const CupertinoActivityIndicator(),
                       builder: (context, snapshot) {
                         return bioTextWidgetGetter(context,
-                            targetMessage: userDisplay.userBiography,
+                            targetMessage: userAll.isolaUserDisplay.userBiography,
                             targetName: "",
                             rowLetterValue: 70,
                             letterTextStyle: biographyStyle);
@@ -190,7 +191,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                                         CupertinoPageRoute(
                                             builder: (BuildContext context) =>
                                                 ProfileInterestEditPage(
-                                                    userDisplay: userDisplay)),
+                                                    userAll: userAll)),
                                         ModalRoute.withName('/'))
                                     .whenComplete(() => editingHobby = false);
                               })),
@@ -215,8 +216,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                               width: hobbiesIconSize,
                               child: Image.asset(
                                 editingHobby == false
-                                    ? "asset/img/hobbies_icons/active_${userDisplay.userInterest[0]}.png"
-                                    : "asset/img/hobbies_icons_grey/${userDisplay.userInterest[0]}_grey_icon.png",
+                                    ? "asset/img/hobbies_icons/active_${userAll.isolaUserDisplay.userInterest[0]}.png"
+                                    : "asset/img/hobbies_icons_grey/${userAll.isolaUserDisplay.userInterest[0]}_grey_icon.png",
                                 fit: editingHobby == false
                                     ? BoxFit.cover
                                     : BoxFit.contain,
@@ -224,7 +225,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                             ),
                             editingHobby == false
                                 ? Text(
-                                    "${userDisplay.userInterest[0]}",
+                                    "${userAll.isolaUserDisplay.userInterest[0]}",
                                     style: hobbiesStyle,
                                   )
                                 : const SizedBox(),
@@ -246,8 +247,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                             width: hobbiesIconSize,
                             child: Image.asset(
                               editingHobby == false
-                                  ? "asset/img/hobbies_icons/active_${userDisplay.userInterest[1]}.png"
-                                  : "asset/img/hobbies_icons_grey/${userDisplay.userInterest[1]}_grey_icon.png",
+                                  ? "asset/img/hobbies_icons/active_${userAll.isolaUserDisplay.userInterest[1]}.png"
+                                  : "asset/img/hobbies_icons_grey/${userAll.isolaUserDisplay.userInterest[1]}_grey_icon.png",
                               fit: editingHobby == false
                                   ? BoxFit.cover
                                   : BoxFit.contain,
@@ -255,7 +256,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userDisplay.userInterest[1]}",
+                                  "${userAll.isolaUserDisplay.userInterest[1]}",
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),
@@ -279,8 +280,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                             width: hobbiesIconSize,
                             child: Image.asset(
                               editingHobby == false
-                                  ? "asset/img/hobbies_icons/active_${userDisplay.userInterest[2]}.png"
-                                  : "asset/img/hobbies_icons_grey/${userDisplay.userInterest[2]}_grey_icon.png",
+                                  ? "asset/img/hobbies_icons/active_${userAll.isolaUserDisplay.userInterest[2]}.png"
+                                  : "asset/img/hobbies_icons_grey/${userAll.isolaUserDisplay.userInterest[2]}_grey_icon.png",
                               fit: editingHobby == false
                                   ? BoxFit.cover
                                   : BoxFit.contain,
@@ -288,7 +289,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userDisplay.userInterest[2]}",
+                                  "${userAll.isolaUserDisplay.userInterest[2]}",
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),
@@ -312,8 +313,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                             width: hobbiesIconSize,
                             child: Image.asset(
                               editingHobby == false
-                                  ? "asset/img/hobbies_icons/active_${userDisplay.userInterest[3]}.png"
-                                  : "asset/img/hobbies_icons_grey/${userDisplay.userInterest[3]}_grey_icon.png",
+                                  ? "asset/img/hobbies_icons/active_${userAll.isolaUserDisplay.userInterest[3]}.png"
+                                  : "asset/img/hobbies_icons_grey/${userAll.isolaUserDisplay.userInterest[3]}_grey_icon.png",
                               fit: editingHobby == false
                                   ? BoxFit.cover
                                   : BoxFit.contain,
@@ -321,7 +322,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userDisplay.userInterest[3]}",
+                                  "${userAll.isolaUserDisplay.userInterest[3]}",
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),
@@ -345,8 +346,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                             width: hobbiesIconSize,
                             child: Image.asset(
                               editingHobby == false
-                                  ? "asset/img/hobbies_icons/active_${userDisplay.userInterest[4]}.png"
-                                  : "asset/img/hobbies_icons_grey/${userDisplay.userInterest[4]}_grey_icon.png",
+                                  ? "asset/img/hobbies_icons/active_${userAll.isolaUserDisplay.userInterest[4]}.png"
+                                  : "asset/img/hobbies_icons_grey/${userAll.isolaUserDisplay.userInterest[4]}_grey_icon.png",
                               fit: editingHobby == false
                                   ? BoxFit.cover
                                   : BoxFit.contain,
@@ -354,7 +355,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userDisplay.userInterest[4]}",
+                                  "${userAll.isolaUserDisplay.userInterest[4]}",
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),
@@ -454,8 +455,8 @@ class BiographPageContainer extends StatelessWidget {
 }
 
 class BioEditContainer extends StatefulWidget {
-  const BioEditContainer({Key? key, required this.userDisplay}) : super(key: key);
-  final UserDisplay userDisplay;
+  const BioEditContainer({Key? key, required this.userAll}) : super(key: key);
+  final IsolaUserAll userAll;
 
   @override
   State<BioEditContainer> createState() => _BioEditContainerState();
@@ -470,7 +471,7 @@ class _BioEditContainerState extends State<BioEditContainer> {
     // TODO: implement initState
     super.initState();
 
-    t1.text = widget.userDisplay.userBiography;
+    t1.text = widget.userAll.isolaUserDisplay.userBiography;
   }
 
   @override
@@ -538,8 +539,8 @@ class _BioEditContainerState extends State<BioEditContainer> {
                       onTap: () {
                         var refUserBio = refGetter(
                             enum2: RefEnum.Userdisplay,
-                            userUid: widget.userDisplay.userUid,
-                            targetUid: widget.userDisplay.userUid,
+                            userUid: widget.userAll.isolaUserMeta.userUid,
+                            targetUid: widget.userAll.isolaUserMeta.userUid,
                             crypto: "");
 
                         refUserBio.child("user_biography").set(t1.text);

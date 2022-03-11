@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserDisplay {
   late String userUid;
   late String userName;
@@ -55,7 +57,10 @@ class IsolaUserDisplay {
   late bool userIsOnline;
   late List<dynamic> userInterest;
   late bool userIsNonBinary;
+  late GeoPoint userLocation;
   late String userUniversity;
+  late List<dynamic> userActivities;
+  late List<dynamic> userLikeHistory;
 
   IsolaUserDisplay(
       this.userName,
@@ -65,18 +70,23 @@ class IsolaUserDisplay {
       this.userIsOnline,
       this.userInterest,
       this.userIsNonBinary,
-      this.userUniversity);
+      this.userLocation,
+      this.userUniversity,
+      this.userActivities,
+      this.userLikeHistory);
 
   factory IsolaUserDisplay.fromJson(Map<dynamic, dynamic> json) {
     return IsolaUserDisplay(
-      json["user_name"] as String,
-      json["user_biography"] as String,
-      json["user_avatar_url"] as String,
-      json["user_sex"] as bool,
-      json["user_is_online"] as bool,
-      json["user_interest"] as List<dynamic>,
-      json["user_is_non_binary"] as bool,
-      json["user_university"] as String,
-    );
+        json["user_name"] as String,
+        json["user_biography"] as String,
+        json["user_avatar_url"] as String,
+        json["user_sex"] as bool,
+        json["user_is_online"] as bool,
+        json["user_interest"] as List<dynamic>,
+        json["user_is_non_binary"] as bool,
+        json["user_location"] as GeoPoint,
+        json["user_university"] as String,
+        json["user_activities"] as List<dynamic>,
+        json["user_like_history"] as List<dynamic>);
   }
 }

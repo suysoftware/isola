@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 import 'dart:collection';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/target_profiles.dart';
 import 'package:isola_app/src/service/firebase/storage/hive_operations.dart';
@@ -24,13 +24,12 @@ import 'package:uuid/uuid.dart';
 class TimelineItem extends StatefulWidget {
   FeedMeta feedMeta;
   String userUid;
-  UserDisplay userDisplay;
+
   bool isTimeline;
   TimelineItem(
       {Key? key,
       required this.feedMeta,
       required this.userUid,
-      required this.userDisplay,
       required this.isTimeline})
       : super(key: key);
 
@@ -71,7 +70,7 @@ class _TimelineItemState extends State<TimelineItem>
     return BlocBuilder<UserHiveCubit, UserHive>(builder: (context, userHive) {
       return GestureDetector(
           onTap: () async {
-            if (widget.feedMeta.userUid != widget.userDisplay.userUid) {
+            if (widget.feedMeta.userUid != widget.userUid) {
 /*
   var userDisplay = UserDisplay(
       comingValue["user_uid"],
@@ -106,7 +105,8 @@ class _TimelineItemState extends State<TimelineItem>
                   context,
                   CupertinoPageRoute(
                       builder: (context) => TargetProfilePage(
-                          userDisplay: targetProfileDisplay)));
+                            feedMeta: widget.feedMeta,
+                          )));
 
               /*
               refTargetProfile.get().then((value) {
@@ -283,20 +283,18 @@ class _TimelineItemState extends State<TimelineItem>
                                                                       .imageLikeOn();
 
                                                                   likeFeed(
-                                                                          feedMeta: widget
-                                                                              .feedMeta,
-                                                                          targetUid: widget
-                                                                              .feedMeta
-                                                                              .userUid,
-                                                                          userUid: widget
-                                                                              .userUid,
-                                                                          feedNo: widget
-                                                                              .feedMeta
-                                                                              .feedNo,
-                                                                          userDisplay: widget
-                                                                              .userDisplay)
-                                                                      .whenComplete(
-                                                                          () {
+                                                                    feedMeta: widget
+                                                                        .feedMeta,
+                                                                    targetUid: widget
+                                                                        .feedMeta
+                                                                        .userUid,
+                                                                    userUid: widget
+                                                                        .userUid,
+                                                                    feedNo: widget
+                                                                        .feedMeta
+                                                                        .feedNo,
+                                                                  ).whenComplete(
+                                                                      () {
                                                                     timelineUpOrDown
                                                                         .likeUp();
                                                                     context.read<TimelineItemListCubit>().timelineItemLike(
@@ -305,7 +303,6 @@ class _TimelineItemState extends State<TimelineItem>
                                                                             .feedNo,
                                                                         true,
                                                                         widget
-                                                                            .userDisplay
                                                                             .userUid);
                                                                   });
                                                                 } catch (e) {
@@ -317,20 +314,18 @@ class _TimelineItemState extends State<TimelineItem>
                                                                       .imageLikeOff();
 
                                                                   unLikeFeed(
-                                                                          targetUid: widget
-                                                                              .feedMeta
-                                                                              .userUid,
-                                                                          userUid: widget
-                                                                              .userUid,
-                                                                          feedNo: widget
-                                                                              .feedMeta
-                                                                              .feedNo,
-                                                                          feedMeta: widget
-                                                                              .feedMeta,
-                                                                          userDisplay: widget
-                                                                              .userDisplay)
-                                                                      .whenComplete(
-                                                                          () {
+                                                                    targetUid: widget
+                                                                        .feedMeta
+                                                                        .userUid,
+                                                                    userUid: widget
+                                                                        .userUid,
+                                                                    feedNo: widget
+                                                                        .feedMeta
+                                                                        .feedNo,
+                                                                    feedMeta: widget
+                                                                        .feedMeta,
+                                                                  ).whenComplete(
+                                                                      () {
                                                                     timelineUpOrDown
                                                                         .likeDown();
                                                                     context.read<TimelineItemListCubit>().timelineItemLike(
@@ -339,7 +334,6 @@ class _TimelineItemState extends State<TimelineItem>
                                                                             .feedNo,
                                                                         false,
                                                                         widget
-                                                                            .userDisplay
                                                                             .userUid);
                                                                   });
                                                                 } catch (e) {
@@ -348,7 +342,6 @@ class _TimelineItemState extends State<TimelineItem>
                                                               }
                                                               print("exist");
                                                             } else {
-                                                           
                                                               showCupertinoDialog(
                                                                   context:
                                                                       context,
@@ -456,9 +449,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                                     Center(
                                                                         child:
                                                                             AddPostReportContainer(
-                                                                      userDisplay:
-                                                                          widget
-                                                                              .userDisplay,
+                                                                  userUid: widget.userUid,
                                                                       feedMeta:
                                                                           widget
                                                                               .feedMeta,
@@ -582,11 +573,11 @@ class TimelineLikeModel extends Cubit<int> {
 }
 
 class AddPostReportContainer extends StatefulWidget {
-  const AddPostReportContainer(
-      {Key? key, required this.userDisplay, required this.feedMeta})
+  const AddPostReportContainer({Key? key, required this.feedMeta,required this.userUid})
       : super(key: key);
-  final UserDisplay userDisplay;
+
   final FeedMeta feedMeta;
+  final String userUid;
 
   @override
   State<AddPostReportContainer> createState() => _AddPostReportContainerState();
@@ -684,8 +675,7 @@ class _AddPostReportContainerState extends State<AddPostReportContainer> {
 
                         var feedReport = HashMap<String, dynamic>();
 
-                        feedReport["reporter_user"] =
-                            widget.userDisplay.userUid;
+                        feedReport["reporter_user"] = widget.userUid;
                         feedReport["report_time"] = ServerValue.timestamp;
                         feedReport["report_date"] = DateTime.now().toString();
                         feedReport["report_title"] = t1.text;
@@ -694,7 +684,7 @@ class _AddPostReportContainerState extends State<AddPostReportContainer> {
                         refReport
                             .child(widget.feedMeta.userUid)
                             .child(widget.feedMeta.feedNo)
-                            .child(widget.userDisplay.userUid)
+                            .child(widget.userUid)
                             .set(feedReport);
                         t1.clear();
                         Navigator.pop(context);

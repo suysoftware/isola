@@ -11,6 +11,7 @@ import 'package:isola_app/src/service/firebase/authentication.dart';
 import 'package:isola_app/src/service/firebase/storage/add_user.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
+import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
 
@@ -123,10 +124,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(CupertinoIcons.info_circle,
                     color: ColorConstant.softBlack),
                 Text("About", style: settingTextStyle), () {
+              getUserAllFromDataBase(user!.uid).then((value) {
+                print(value.isolaUserDisplay.userName);
+              });
+
+              /*
               addUserCloudFirestore(
                   "ornekuid123",
                   IsolaUserDisplay("testname", "testbio", "testavatar", true,
-                      true, ["d", "sda"], false,"Tilburg University"));
+                      true, ["d", "sda"], false));*/
             }),
             SizedBox(
               height: 1.h,

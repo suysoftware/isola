@@ -1,16 +1,17 @@
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 
-Future<void> addFriend(String targetUid, UserDisplay userDisplay) async {
+Future<void> addFriend(String targetUid, IsolaUserAll userAll) async {
   var myFriends = <dynamic>[];
-  myFriends.addAll(userDisplay.userFriends);
+  myFriends.addAll(userAll.isolaUserMeta.userFriends);
 
   if (myFriends.contains(targetUid) == false) {
     myFriends.add(targetUid);
 
     var refAddFriend = refGetter(
         enum2: RefEnum.Userdisplay,
-        targetUid: userDisplay.userUid,
+        targetUid: userAll.isolaUserMeta.userUid,
         userUid: "",
         crypto: "");
 

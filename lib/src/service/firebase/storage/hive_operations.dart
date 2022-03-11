@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/hive/hive_likes.dart';
 
@@ -15,7 +16,7 @@ Future<void> likeFeed(
     required String targetUid,
     required String userUid,
     required String feedNo,
-    required UserDisplay userDisplay}) async {
+    }) async {
   var box = await Hive.openBox('userHive');
   if (box.isNotEmpty) {
     UserHive userHive = box.get('datetoday');
@@ -74,7 +75,7 @@ Future<void> unLikeFeed(
     required String userUid,
     required String feedNo,
     required FeedMeta feedMeta,
-    required UserDisplay userDisplay}) async {
+    }) async {
   var box = await Hive.openBox('userHive');
 
   UserHive userHive = box.get('datetoday');

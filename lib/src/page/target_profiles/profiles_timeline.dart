@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -10,11 +11,11 @@ import 'package:sizer/sizer.dart';
 
 class TargetProfileTimelinePage extends StatefulWidget {
   // const ProfileTimelinePage({Key? key}) : super(key: key);
-  final UserDisplay userDisplay;
+  final FeedMeta feedMeta;
 
   const TargetProfileTimelinePage({
     Key? key,
-    required this.userDisplay,
+    required this.feedMeta,
   }) : super(key: key);
 
   @override
@@ -60,7 +61,7 @@ class _TargetProfileTimelinePageState extends State<TargetProfileTimelinePage> {
     amountData = 10;
     _profileRef = refGetter(
         enum2: RefEnum.Basetargetreadfeeds,
-        targetUid: widget.userDisplay.userUid,
+        targetUid: widget.feedMeta.userUid,
         userUid: "",
         crypto: "");
   }
@@ -84,8 +85,8 @@ class _TargetProfileTimelinePageState extends State<TargetProfileTimelinePage> {
 
                     var bioTimeItem = TimelineItem(
                       feedMeta: comingItem,
-                      userUid: widget.userDisplay.userUid,
-                      userDisplay: widget.userDisplay,
+                      userUid: widget.feedMeta.userUid,
+                     
                       isTimeline: false,
                     );
                     bioTimeLineItem.add(bioTimeItem);

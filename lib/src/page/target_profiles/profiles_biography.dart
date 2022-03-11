@@ -6,16 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
 class TargetProfileBiographPage extends StatefulWidget {
-  const TargetProfileBiographPage({Key? key, required this.userDisplay})
+  const TargetProfileBiographPage({Key? key, required this.feedMeta})
       : super(key: key);
 
-  final UserDisplay userDisplay;
+  final FeedMeta feedMeta;
 
   @override
   _TargetProfileBiographPageState createState() =>
@@ -40,7 +41,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
   late User user;
   // ignore: prefer_typing_uninitialized_variables
   late var _refBio;
-  late UserDisplay userDisplay;
+
 
   void _onRefresh() async {}
 
@@ -56,7 +57,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
       targetUid: user.uid,
       crypto: '',
     );
-    userDisplay = widget.userDisplay;
+ 
   }
 
   @override
@@ -94,7 +95,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                   initialData: const CupertinoActivityIndicator(),
                   builder: (context, snapshot) {
                     return bioTextWidgetGetter(context,
-                        targetMessage: userDisplay.userBiography,
+                        targetMessage: widget.feedMeta.userBiography,
                         targetName: "",
                         rowLetterValue: 70,
                         letterTextStyle: biographyStyle);
@@ -135,12 +136,12 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                                   height: hobbiesIconSize,
                         width: hobbiesIconSize,
                               child: Image.asset(
-                                "asset/img/hobbies_icons/active_${userDisplay.userInterest[0]}.png",
+                                "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[0]}.png",
                                fit: BoxFit.cover,
                               ),
                             ),
                             Text(
-                              "${userDisplay.userInterest[0]}",
+                              "${widget.feedMeta.userInterest[0]}",
                               style: hobbiesStyle,
                             ),
                           ],
@@ -154,13 +155,13 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                                   height: hobbiesIconSize,
                         width: hobbiesIconSize,
                               child: Image.asset(
-             "asset/img/hobbies_icons/active_${userDisplay.userInterest[1]}.png",
+             "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[1]}.png",
                                 fit:BoxFit.cover
 
                               ),
                             ),
                             Text(
-                              "${userDisplay.userInterest[1]}",
+                              "${widget.feedMeta.userInterest[1]}",
                               style: hobbiesStyle,
                             ),
                           ],
@@ -174,12 +175,12 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                                   height: hobbiesIconSize,
                         width: hobbiesIconSize,
                               child: Image.asset(
-                   "asset/img/hobbies_icons/active_${userDisplay.userInterest[2]}.png",
+                   "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[2]}.png",
                            fit: BoxFit.cover,
                               ),
                             ),
                             Text(
-                              "${userDisplay.userInterest[2]}",
+                              "${widget.feedMeta.userInterest[2]}",
                               style: hobbiesStyle,
                             ),
                           ],
@@ -193,12 +194,12 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                                   height: hobbiesIconSize,
                         width: hobbiesIconSize,
                               child: Image.asset(
-              "asset/img/hobbies_icons/active_${userDisplay.userInterest[3]}.png",
+              "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[3]}.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
                             Text(
-                              "${userDisplay.userInterest[3]}",
+                              "${widget.feedMeta.userInterest[3]}",
                               style:hobbiesStyle
                             ),
                           ],
@@ -212,12 +213,12 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                                   height: hobbiesIconSize,
                         width: hobbiesIconSize,
                               child: Image.asset(
-                           "asset/img/hobbies_icons/active_${userDisplay.userInterest[4]}.png",
+                           "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[4]}.png",
                                 fit: BoxFit.cover,
                               ),
                             ),
                             Text(
-                              "${userDisplay.userInterest[4]}",
+                              "${widget.feedMeta.userInterest[4]}",
                               style:hobbiesStyle
                             ),
                           ],

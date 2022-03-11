@@ -30,7 +30,7 @@ class ChatGroupCont extends StatelessWidget {
   final int notiValue;
   final DatabaseReference ref;
   final String chatGroupNo;
-  final UserAll userAll;
+  final IsolaUserAll userAll;
 
   @override
   Widget build(BuildContext context) {
@@ -149,18 +149,18 @@ class ChatGroupCont extends StatelessWidget {
                 a.member_message_time.compareTo(b.member_message_time));
 
             var groupSetting = GroupSettingModel(
-                groupMemberAvatarUrl1: userAll.userDisplay.avatarUrl,
+                groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
                 groupMemberAvatarUrl2:
                     groupDatasFriend1.first.member_avatar_url,
                 groupMemberAvatarUrl3:
                     groupDatasFriend2.first.member_avatar_url,
-                groupMemberName1: userAll.userDisplay.userName,
+                groupMemberName1: userAll.isolaUserDisplay.userName,
                 groupMemberName2: groupDatasFriend1.first.member_name,
                 groupMemberName3: groupDatasFriend2.first.member_name,
                 groupMemberUid2: groupDatasFriend1.first.member_uid,
                 groupMemberUid3: groupDatasFriend2.first.member_uid,
                 groupNo: chatGroupNo,
-                userUid: userAll.userDisplay.userUid);
+                userUid: userAll.isolaUserMeta.userUid);
 
             context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
             chatFriendName1 = groupDatasFriend1.first.member_name;

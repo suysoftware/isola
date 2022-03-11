@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_attachment_message.dart';
 import 'package:isola_app/src/utils/image_cropper.dart';
@@ -18,12 +19,12 @@ import 'package:sizer/sizer.dart';
 class ChatImagePicker extends StatefulWidget {
   ChatImagePicker(
       {Key? key,
-      required this.userDisplay,
+      required this.userAll,
       required this.targetUid1,
       required this.targetUid2,
       required this.file})
       : super(key: key);
-  final UserDisplay userDisplay;
+  final IsolaUserAll userAll;
   final String targetUid1;
   final String targetUid2;
   final File file;
@@ -150,7 +151,7 @@ class _ChatImagePickerState extends State<ChatImagePicker>
     final String? fileFath = await ImageSaver.save(
         'isola_chat_image-${DateTime.now().toUtc().toString()}.jpg', fileData);
 
-    await uploadAttachment(widget.userDisplay, fileFath!, refChatInterior, true,
+    await uploadAttachment(widget.userAll, fileFath!, refChatInterior, true,
         false, false, widget.targetUid1, widget.targetUid2);
 
     _cropping = false;

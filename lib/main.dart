@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,13 +17,15 @@ import 'package:isola_app/src/blocs/search_cubit.dart';
 import 'package:isola_app/src/blocs/search_status_cubit.dart';
 import 'package:isola_app/src/blocs/sign_up_cubit.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
-import 'package:isola_app/src/blocs/user_display_cubit.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/blocs/user_hive_cubit.dart';
 import 'package:isola_app/src/constants/language_constants.dart';
 import 'package:isola_app/src/model/group/group_chat_voice.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
+import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/page/interest_add_page.dart';
 import 'package:isola_app/src/page/profile/profile_interest_edit.dart';
 import 'package:isola_app/src/page/splash_page.dart';
@@ -62,8 +65,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var userDisplay = UserDisplay("d", "d", "d", "d", "d", true, true, true,
-        ["das", "da"], ["das", "d"], ["das", "d"], ["das", "d"], false);
+    var userDisplay = IsolaUserDisplay(
+        "null",
+        "null",
+        "null",
+        true,
+        true,
+        ["interest1", "interest2"],
+        true,
+        GeoPoint(2.2, 3.3),
+        "null",
+        ["null1", "null2"],
+        ["null1", "null2"]);
+    var userMeta = IsolaUserMeta("null", 0, ["null", "null"], "null", true,
+        ["null", "null"], ["null", "null"], ["null", "null"], false);
+
+    var userAll = IsolaUserAll(userDisplay, userMeta);
 
     var groupSetting = GroupSettingModel(
         groupMemberAvatarUrl2: '',
@@ -133,7 +150,7 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) {
-              return UserDisplayCubit(userDisplay);
+              return UserAllCubit(userAll);
             },
           ),
           BlocProvider(

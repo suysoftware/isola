@@ -1,6 +1,8 @@
 // ignore_for_file: implementation_imports, avoid_print, must_be_immutable, avoid_init_to_null
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/sign_up_cubit.dart';
@@ -60,6 +62,9 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
       ..addListener(() {
         setState(() {});
       });
+
+    ///burası değiştirilecek otomati kolarak okulunun ism iyazılacak
+    t3.text = "Tilburg University";
   }
 
   @override
@@ -125,8 +130,6 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                     "asset/img/search_page_cam_icon.png",
                                   ),
                                   onPressed: () async {
-
-
                                     if (t1.text.length < 2 ||
                                         t2.text.length < 2 ||
                                         t3.text.isEmpty) {
@@ -287,6 +290,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                 width: 70.w,
                 height: 4.h,
                 child: CupertinoTextField(
+                  readOnly: true,
                   onChanged: (w) {
                     if (t3.text.length < 2) {
                       universityFilled = false;
@@ -561,6 +565,28 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                       "profilePhoto")
                                   // widget.userDisplay,gestureKey"profilePhoto")
                                   .then((value) {
+                                FirebaseAuth _auth = FirebaseAuth.instance;
+
+                                CollectionReference users_display =
+                                    FirebaseFirestore.instance
+                                        .collection('users_display');
+
+                                users_display
+                                    .doc(_auth.currentUser!.uid)
+                                    .update({
+                                  'user_avatar_url': value,
+                                  'user_name': "${t1.text} ${t2.text}",
+                                  'user_sex': (isMale == true
+                                      ? true
+                                      : isFemale == true
+                                          ? false
+                                          : true),
+                                  'user_is_non_binary': isOther
+                                });
+
+//widget.userDisplay.avatarUrl = value;
+
+                                ///// eskiler
                                 var refAvatarUrl = refGetter(
                                     enum2: RefEnum.Useravatar,
                                     targetUid: widget.userDisplay.userUid,
@@ -602,12 +628,13 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 print("kakakakkakakakka");
                                 FocusScope.of(context)
                                     .requestFocus(FocusNode());
-                            Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) => InterestAddPage(
-                                            userUid: widget.userDisplay.userUid,
-                                          )));
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => InterestAddPage(
+                                              userUid:
+                                                  widget.userDisplay.userUid,
+                                            )));
                               });
                             } else {
                               var refUserDisplay = refGetter(
@@ -648,8 +675,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 barrierDismissible: true,
                                 context: context,
                                 builder: (context) => CupertinoAlertDialog(
-                                      content:
-                                          const Text("You have to agree our terms"),
+                                      content: const Text(
+                                          "You have to agree our terms"),
                                       actions: [
                                         CupertinoButton(
                                             child: const Text("Okey"),
@@ -664,7 +691,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               barrierDismissible: true,
                               context: context,
                               builder: (context) => CupertinoAlertDialog(
-                                    content: const Text("You have to fill all bar"),
+                                    content:
+                                        const Text("You have to fill all bar"),
                                     actions: [
                                       CupertinoButton(
                                           child: const Text("Okey"),
