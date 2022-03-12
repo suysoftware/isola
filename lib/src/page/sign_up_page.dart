@@ -10,6 +10,7 @@ import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/user/sign_up.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/interest_add_page.dart';
 import 'package:isola_app/src/page/terms_privacy/agree_terms.dart';
@@ -18,8 +19,8 @@ import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key, required this.userDisplay}) : super(key: key);
-  final UserDisplay userDisplay;
+  const SignUpPage({Key? key, required this.userAll}) : super(key: key);
+  final IsolaUserAll userAll;
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -561,7 +562,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
 
                               //resim var
                               File file = File(picPath);
-                              uploadImage(widget.userDisplay.userUid, file,
+                              uploadImage(widget.userAll.isolaUserMeta.userUid, file,
                                       "profilePhoto")
                                   // widget.userDisplay,gestureKey"profilePhoto")
                                   .then((value) {
@@ -574,14 +575,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 users_display
                                     .doc(_auth.currentUser!.uid)
                                     .update({
-                                  'user_avatar_url': value,
-                                  'user_name': "${t1.text} ${t2.text}",
-                                  'user_sex': (isMale == true
+                                  'uPic': value,
+                                  'uName': "${t1.text} ${t2.text}",
+                                  'uSex': (isMale == true
                                       ? true
                                       : isFemale == true
                                           ? false
                                           : true),
-                                  'user_is_non_binary': isOther
+                                  'uNonBinary': isOther
                                 });
 
 //widget.userDisplay.avatarUrl = value;
@@ -589,13 +590,13 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 ///// eskiler
                                 var refAvatarUrl = refGetter(
                                     enum2: RefEnum.Useravatar,
-                                    targetUid: widget.userDisplay.userUid,
-                                    userUid: widget.userDisplay.userUid,
+                                    targetUid: widget.userAll.isolaUserMeta.userUid,
+                                    userUid: widget.userAll.isolaUserMeta.userUid,
                                     crypto: "");
                                 var refUserDisplay = refGetter(
                                     enum2: RefEnum.Userdisplay,
-                                    targetUid: widget.userDisplay.userUid,
-                                    userUid: widget.userDisplay.userUid,
+                                    targetUid:widget.userAll.isolaUserMeta.userUid,
+                                    userUid: widget.userAll.isolaUserMeta.userUid,
                                     crypto: "");
 
                                 refAvatarUrl.set(value);
@@ -619,7 +620,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                     .child("user_is_non_binary")
                                     .set(isOther);
 
-                                widget.userDisplay.avatarUrl = value;
+                                widget.userAll.isolaUserDisplay.avatarUrl = value;
                                 print("kakakakkakakakka");
                                 print("kakakakkakakakka");
                                 print("kakakakkakakakka");
@@ -633,14 +634,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                     CupertinoPageRoute(
                                         builder: (context) => InterestAddPage(
                                               userUid:
-                                                  widget.userDisplay.userUid,
+                                                  widget.userAll.isolaUserMeta.userUid,
                                             )));
                               });
                             } else {
                               var refUserDisplay = refGetter(
                                   enum2: RefEnum.Userdisplay,
-                                  targetUid: widget.userDisplay.userUid,
-                                  userUid: widget.userDisplay.userUid,
+                                  targetUid: widget.userAll.isolaUserMeta.userUid,
+                                  userUid: widget.userAll.isolaUserMeta.userUid,
                                   crypto: "");
 
                               refUserDisplay
@@ -667,7 +668,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) => InterestAddPage(
-                                            userUid: widget.userDisplay.userUid,
+                                            userUid: widget.userAll.isolaUserMeta.userUid
                                           )));
                             }
                           } else {

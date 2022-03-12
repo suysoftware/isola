@@ -267,10 +267,10 @@ Future<void> joinToMatchingPool(
   print(DateTime.now().toUtc().millisecondsSinceEpoch);
   // Call the user's CollectionReference to add a new user
   return matchingPool.doc(userUid).set({
-    'user_uid': userUid,
-    'user_sex_type': userSexType,
-    'user_is_non_binary': userIsNonBinary,
-    'user_is_valid': userIsValid,
+    'uUid': userUid,
+    'uSex': userSexType,
+    'uNonBinary': userIsNonBinary,
+    'uValid': userIsValid,
     'register_time': Timestamp.fromMillisecondsSinceEpoch(
         DateTime.now().toUtc().millisecondsSinceEpoch)
 

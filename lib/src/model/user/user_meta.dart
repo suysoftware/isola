@@ -42,14 +42,14 @@ class IsolaUserMeta {
 
   factory IsolaUserMeta.fromJson(Map<dynamic, dynamic> json) {
     return IsolaUserMeta(
-        json["user_email"] as String,
-        json["user_token"] as int,
-        json["joined_group_list"] as List<dynamic>,
-        json["user_uid"] as String,
-        json["user_is_valid"] as bool,
-        json["user_friends"] as List<dynamic>,
-        json["user_blocked"] as List<dynamic>,
-        json["user_activity_clubs"] as List<dynamic>,
-        json["user_is_searching"] as bool);
+        json["uEmail"] as String,
+        json["uToken"] as int,
+        json["uGroupList"] as List<dynamic>,
+        json["uUid"] as String,
+        json["uValid"] as bool,
+        json["uFriends"] as List<dynamic>,
+        json["uBlocked"] as List<dynamic>,
+        json["uClubs"] as List<dynamic>,
+        json["uSearching"] as bool);
   }
 }

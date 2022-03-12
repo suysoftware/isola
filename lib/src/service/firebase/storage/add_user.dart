@@ -125,13 +125,13 @@ Future<void> addUserCloudFirestore(
   return users
       .doc(userUid)
       .set({
-        'user_avatar_url': isolaUserDisplay.avatarUrl,
-        'user_biography': isolaUserDisplay.userBiography,
-        'user_interest': isolaUserDisplay.userInterest,
-        'user_is_non_binary': isolaUserDisplay.userIsNonBinary,
-        'user_is_online': isolaUserDisplay.userIsOnline,
-        'user_name': isolaUserDisplay.userName,
-        'user_sex': isolaUserDisplay.userSex,
+        'uPic': isolaUserDisplay.avatarUrl,
+        'uBio': isolaUserDisplay.userBiography,
+        'uInterest': isolaUserDisplay.userInterest,
+        'uNonBinary': isolaUserDisplay.userIsNonBinary,
+        'uOnline': isolaUserDisplay.userIsOnline,
+        'uName': isolaUserDisplay.userName,
+        'uSex': isolaUserDisplay.userSex,
       })
       .then((value) => print("User Added"))
       .catchError((error) => print("Failed to add user: $error"));

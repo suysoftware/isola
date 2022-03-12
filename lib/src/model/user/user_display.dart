@@ -57,7 +57,6 @@ class IsolaUserDisplay {
   late bool userIsOnline;
   late List<dynamic> userInterest;
   late bool userIsNonBinary;
-  late GeoPoint userLocation;
   late String userUniversity;
   late List<dynamic> userActivities;
   late List<dynamic> userLikeHistory;
@@ -70,23 +69,21 @@ class IsolaUserDisplay {
       this.userIsOnline,
       this.userInterest,
       this.userIsNonBinary,
-      this.userLocation,
       this.userUniversity,
       this.userActivities,
       this.userLikeHistory);
 
   factory IsolaUserDisplay.fromJson(Map<dynamic, dynamic> json) {
     return IsolaUserDisplay(
-        json["user_name"] as String,
-        json["user_biography"] as String,
-        json["user_avatar_url"] as String,
-        json["user_sex"] as bool,
-        json["user_is_online"] as bool,
-        json["user_interest"] as List<dynamic>,
-        json["user_is_non_binary"] as bool,
-        json["user_location"] as GeoPoint,
-        json["user_university"] as String,
-        json["user_activities"] as List<dynamic>,
-        json["user_like_history"] as List<dynamic>);
+        json["uName"] as String,
+        json["uBio"] as String,
+        json["uPic"] as String,
+        json["uSex"] as bool,
+        json["uOnline"] as bool,
+        json["uInterest"] as List<dynamic>,
+        json["uNonBinary"] as bool,
+        json["uUniversity"] as String,
+        json["uAct"] as List<dynamic>,
+        json["uLike"] as List<dynamic>);
   }
 }

@@ -73,7 +73,6 @@ class MyApp extends StatelessWidget {
         true,
         ["interest1", "interest2"],
         true,
-        GeoPoint(2.2, 3.3),
         "null",
         ["null1", "null2"],
         ["null1", "null2"]);

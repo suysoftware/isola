@@ -19,13 +19,13 @@ class _SplashPageState extends State<SplashPage> {
     User? user = FirebaseAuth.instance.currentUser;
     print("sf");
     if (user != null) {
-      getDisplayData(user.uid).then((value) {
-        if (value.userDisplay.userInterest.first == "interest1") {
+      getUserAllFromDataBase(user.uid).then((value) {
+        if (value.isolaUserDisplay.userInterest.first == "interest1") {
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) =>
-                      SignUpPage(userDisplay: value.userDisplay)));
+                      SignUpPage(userAll: value)));
         } else {
           Navigator.pushReplacementNamed(context, navigationBar);
         }

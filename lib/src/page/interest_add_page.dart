@@ -55,7 +55,7 @@ class _InterestAddPageState extends State<InterestAddPage> {
                         FirebaseFirestore.instance.collection('users_display');
 
                     users_display.doc(_auth.currentUser!.uid).update({
-                      'user_interest':
+                      'uInterest':
                           context.read<HobbyStatusCubit>().state.addingHobby,
                     });
 

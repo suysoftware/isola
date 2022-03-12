@@ -14,58 +14,14 @@ Future<void> getLocation({required String uid}) async {
   double enlem = konum.latitude;
   double boylam = konum.longitude;
 
-  var refUserMeta = refGetter(
-      enum2: RefEnum.Usermeta, targetUid: uid, userUid: uid, crypto: "");
-
-  await refUserMeta.child("user_loc_latitude").set(enlem);
-  await refUserMeta.child("user_loc_longitude").set(boylam);
-
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   CollectionReference users_display =
-      FirebaseFirestore.instance.collection('users_display');
+      FirebaseFirestore.instance.collection('users_location');
 
-  users_display.doc(_auth.currentUser!.uid).update({
-    'user_loc_latitude': enlem,
-    'user_loc_longitude': boylam,
+  await users_display.doc(_auth.currentUser!.uid).set({
+    'uLoc': GeoPoint(konum.latitude, konum.longitude),
   });
 
-  //var userModal = UserModel(boylam, enlem, name, "d", uid);
-  //return userModal;
+
 }
-//
-//
-///
-
-///CHECK LOCATION DISTANCE
-//
-//
-
-/*
-bool checkLocationDis(double startLat, double startLong, double endLat,
-    double endLong, String title, ServerSettings serverSettings) {
-  if (title == "Admin") {
-    return true;
-  } else {
-    double distanceInMeters =
-        Geolocator.distanceBetween(startLat, startLong, endLat, endLong);
-
-    if (title == "Master") {
-      if (distanceInMeters <= serverSettings.masterDistance) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (distanceInMeters <= serverSettings.juniorDistance) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-}
-*/
-//
-//
-///

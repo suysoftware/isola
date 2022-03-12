@@ -20,13 +20,13 @@ class GroupsModel {
 
   factory GroupsModel.fromJson(Map<dynamic, dynamic> json) {
     return GroupsModel(
-        json["group_is_active"] as bool,
-        json["group_member_value"] as int,
-        json["group_need_member"] as bool,
-        json["group_sex_type"] as bool,
-        json["group_is_non_binary"] as bool,
-        json["group_target_is_valid"] as bool,
-        json["group_token"] as int,
-        json["group_member_list"] as List<dynamic>);
+        json["gActive"] as bool,
+        json["gValue"] as int,
+        json["gNeed"] as bool,
+        json["gSex"] as bool,
+        json["gNonBinary"] as bool,
+        json["gValid"] as bool,
+        json["gToken"] as int,
+        json["gList"] as List<dynamic>);
   }
 }

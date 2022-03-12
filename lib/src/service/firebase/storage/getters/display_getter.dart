@@ -1068,7 +1068,6 @@ Future<GroupPreviewData> getAllDataForChatPage(String uid) async {
       userDisplay.userIsOnline,
       userDisplay.userInterest,
       userDisplay.userIsNonBinary,
-      GeoPoint(userMeta.userLocLatitude, userMeta.userLocLongitude),
       userDisplay.userUniversity,
       userDisplay.userActivities,
       ["null"]);
@@ -1276,28 +1275,27 @@ Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
         FirebaseFirestore.instance.collection('users_meta').doc(userUid);
 
     await users_display.get().then((docValue) => userDisplay = IsolaUserDisplay(
-        docValue['user_name'],
-        docValue['user_biography'],
-        docValue['user_avatar_url'],
-        docValue['user_sex'],
-        docValue['user_is_online'],
-        docValue['user_interest'],
-        docValue['user_is_non_binary'],
-        docValue['user_location'],
-        docValue['user_university'],
-        docValue['user_activities'],
-        docValue['user_like_history']));
+        docValue['uName'],
+        docValue['uBio'],
+        docValue['uPic'],
+        docValue['uSex'],
+        docValue['uOnline'],
+        docValue['uInterest'],
+        docValue['uNonBinary'],
+        docValue['uUniversity'],
+        docValue['uAct'],
+        docValue['uLike']));
 
     await users_meta.get().then((docValue) => userMeta = IsolaUserMeta(
-        docValue['user_email'],
-        docValue['user_token'],
-        docValue['joined_group_list'],
-        docValue['user_uid'],
-        docValue['user_is_valid'],
-        docValue['user_friends'],
-        docValue['user_blocked'],
-        docValue['user_activity_clubs'],
-        docValue['user_is_searching']));
+        docValue['uEmail'],
+        docValue['uToken'],
+        docValue['uGroupList'],
+        docValue['uUid'],
+        docValue['uValid'],
+        docValue['uFriends'],
+        docValue['uBlocked'],
+        docValue['uClubs'],
+        docValue['uSearching']));
   } else {
     //Hata göster belki restart atar
 

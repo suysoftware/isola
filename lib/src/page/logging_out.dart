@@ -29,22 +29,21 @@ class _LoggingOutState extends State<LoggingOut> {
 
     if (user != null) {
       print("girdi");
-
-      await addUser(
-              user.uid, user.displayName.toString(), user.email.toString())
-          .whenComplete(() {
-        getDisplayData(user.uid).then((value) {
-          if (value.userDisplay.userInterest.first == "interest1") {
-            Navigator.push(
+      try {
+        await getUserAllFromDataBase(user.uid).then((value) {
+          if (value.isolaUserDisplay.userInterest.first == "interest1") {
+            Navigator.pushReplacement(
                 context,
                 CupertinoPageRoute(
-                    builder: (context) =>
-                        SignUpPage(userDisplay: value.userDisplay)));
+                    builder: (context) => SignUpPage(userAll: value)));
           } else {
             Navigator.pushNamed(context, navigationBar);
           }
         });
-      });
+      } catch (e) {
+        print(e);
+        Navigator.pushReplacementNamed(context, loggingOutRoute);
+      }
     } else {
       print("nulmuş");
     }
@@ -53,29 +52,25 @@ class _LoggingOutState extends State<LoggingOut> {
   @override
   Widget build(BuildContext context) {
     print("H: ${100.h}");
-  print("W: ${100.w}");
+    print("W: ${100.w}");
     return CupertinoPageScaffold(
         child: Stack(
       children: [
         100.h >= 750
-            ? Image.asset(
-                "asset/img/logging_out.png",
-                width: 100.w,
-                fit: BoxFit.fitHeight
-              )
+            ? Image.asset("asset/img/logging_out.png",
+                width: 100.w, fit: BoxFit.fitHeight)
             : Image.asset(
                 "asset/img/logging_out_backscreen_for_low_height.png",
-               fit: BoxFit.fitWidth,
-               width: 100.w,
-               
-                  
+                fit: BoxFit.fitWidth,
+                width: 100.w,
               ),
-            Align(alignment: Alignment.center,child: Image.asset(
-                  "asset/img/isola_white_logo.png",
-                
-                 height: 20.h,
-                    
-                ),),
+        Align(
+          alignment: Alignment.center,
+          child: Image.asset(
+            "asset/img/isola_white_logo.png",
+            height: 20.h,
+          ),
+        ),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 1.w, 2.h),
           child: Align(
