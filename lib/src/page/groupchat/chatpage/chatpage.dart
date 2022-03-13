@@ -1,5 +1,6 @@
 // ignore_for_file: implementation_imports, avoid_print, prefer_typing_uninitialized_variables, unused_local_variable, duplicate_ignore, must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_preview_data.dart';
+import 'package:isola_app/src/model/group/groups_model.dart';
 import 'package:isola_app/src/page/groupchat/chatpage/chat_chaos/chat_chaos_widgets.dart';
 import 'package:isola_app/src/page/groupchat/chatpage/chat_normal/chat_normal_widgets.dart';
 import 'package:isola_app/src/page/groupchat/chatpage/chat_waiting/chat_waiting_widgets.dart';
@@ -14,10 +16,11 @@ import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key, required this.user, required this.groupPreviewData})
+  const ChatPage(
+      {Key? key, required this.user, required this.groupMergeDataComing})
       : super(key: key);
   final User? user;
-  final GroupPreviewData groupPreviewData;
+  final GroupMergeData groupMergeDataComing;
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -25,28 +28,46 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   late int chatContValue;
-
-  var initTraw = <String>[];
-
-  bool isInfoEqual = false;
-  bool isGrand = false;
-  bool isGrandL1 = false;
-  bool isGrandL2 = false;
-  bool isGrandL3 = false;
-  bool isGrandL4 = false;
-  bool isGrandL5 = false;
-  int isGrandSa = 0;
-  int isGrandDa = 0;
+  late bool needSearchingContainer;
+  late var groupMergeData;
 
   @override
   void initState() {
     super.initState();
-    widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[0] == "nothing"
-        ? chatContValue = 0
-        : chatContValue =
-            widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList.length;
 
-    initTraw.add("asset/img/settings_button.png");
+    groupMergeData = widget.groupMergeDataComing.groupsModel;
+
+    if (widget.groupMergeDataComing.userAll.isolaUserMeta.joinedGroupList[0] ==
+        "nothing") {
+      if (widget.groupMergeDataComing.userAll.isolaUserMeta.userIsSearching) {
+        needSearchingContainer = true;
+        chatContValue = 1;
+      } else {
+        needSearchingContainer = false;
+        chatContValue = 0;
+      }
+    } else {
+      if (widget.groupMergeDataComing.userAll.isolaUserMeta.userIsSearching) {
+        needSearchingContainer = true;
+        chatContValue = widget.groupMergeDataComing.userAll.isolaUserMeta
+                .joinedGroupList.length +
+            1;
+      } else {
+        needSearchingContainer = false;
+        chatContValue = widget
+            .groupMergeDataComing.userAll.isolaUserMeta.joinedGroupList.length;
+      }
+    }
+
+    /*
+
+    widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[0] ==
+            "nothing"
+        ? chatContValue = 0
+        : (chatContValue = widget
+            .groupPreviewData.userAll.isolaUserMeta.joinedGroupList.length);
+
+    initTraw.add("asset/img/settings_button.png");*/
   }
 
   @override
@@ -58,224 +79,63 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     print("H: ${100.h}");
     print("W: ${100.w}");
+
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-            backgroundColor: ColorConstant.milkColor,
-            automaticallyImplyLeading: false,
-            leading: GestureDetector(
-              onDoubleTap: () {
-                if (isGrandL3 != true) {
-                  if (isGrandL2 == true) {
-                    isGrand = true;
-                  }
-                  if (widget.groupPreviewData.userAll.isolaUserDisplay.userBiography ==
-                          GambitConstant.gambitProfile.userBiography &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay.userName ==
-                          GambitConstant.gambitProfile.userName &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay
-                              .userInterest[0] ==
-                          GambitConstant.gambitProfile.userInterest[0] &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay
-                              .userInterest[1] ==
-                          GambitConstant.gambitProfile.userInterest[1] &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay
-                              .userInterest[2] ==
-                          GambitConstant.gambitProfile.userInterest[2] &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay
-                              .userInterest[3] ==
-                          GambitConstant.gambitProfile.userInterest[3] &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay
-                              .userUniversity ==
-                          GambitConstant.gambitProfile.userUniversity &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay.userSex ==
-                          GambitConstant.gambitProfile.userSex &&
-                      widget.groupPreviewData.userAll.isolaUserDisplay
-                              .userIsNonBinary ==
-                          GambitConstant.gambitProfile.userIsNonBinary) {
-                    isInfoEqual = true;
-                    isGrandDa = 0;
-                    isGrandSa = 0;
-                    isGrandL1 = false;
-                    isGrandL2 = false;
-                    isGrandL3 = false;
-                    isGrandL4 = false;
-                    isGrandL5 = false;
-                    print("infoequaltrue oldu");
-                  } else {
-                    isInfoEqual = false;
-                    isGrandL1 = false;
-                    isGrandL2 = false;
-                    isGrandL3 = false;
-                    isGrandL4 = false;
-                    isGrandL5 = false;
-                  }
-                }
-              },
-              onTap: () {
-                if (isGrandL3 != true) {
-                  print("onTap");
-                  print(isInfoEqual);
-                  if (isInfoEqual == true) {
-                    if (isGrandL1 != true) {
-                      print(DateTime.now().hour);
-                      isGrandSa = isGrandSa + 1;
-                      print(isGrandSa);
-                    } else {
-                      isGrandDa = isGrandDa + 1;
-                      print(isGrandDa);
-                    }
-                  }
-                }
-              },
-              onLongPress: () {
-                if (isGrandL3 != true) {
-                  if (isInfoEqual == true) {
-                    if (isGrandL1 != true) {
-                      print("ff");
-                      if (DateTime.now().hour == isGrandSa) {
-                        print("level1 open");
-
-                        isGrandL1 = true;
-                      } else {
-                        isGrandSa = 0;
-                        isGrandL1 = false;
-                        isGrandL2 = false;
-                        isGrandL3 = false;
-                        isGrandL4 = false;
-                        isGrandL5 = false;
-                      }
-                    } else {
-                      if (DateTime.now().minute == isGrandDa) {
-                        print("level2 open");
-                        setState(() {
-                          isGrandL1 = true;
-                          isGrandL2 = true;
-                          isGrand = true;
-                          isGrandSa = 0;
-                          isGrandDa = 0;
-                        });
-                      } else {
-                        isGrandDa = 0;
-                        isGrandL1 = false;
-                        isGrandL2 = false;
-                        isGrandL3 = false;
-                        isGrandL4 = false;
-                        isGrandL5 = false;
-                      }
-                    }
-                  }
-                }
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text("Chat"),
-              ),
-            ),
-            trailing: Visibility(
-              visible: isGrand,
-              child: Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: GestureDetector(
-                  onDoubleTap: () {
-                    if (isGrandL1 == true &&
-                        isGrandL2 == true &&
-                        isGrandL3 == true &&
-                        isGrandL4 == true) {
-                      setState(() {
-                        initTraw.shuffle();
-                        isGrand = true;
-                        isGrandL1 == true;
-                        isGrandL2 == true;
-                        isGrandL3 == true;
-                        isGrandL4 == true;
-                      });
-                    }
-                  },
-                  onTap: () {
-                    if (isGrandL4 != true) {
-                      //  print(isGrandL3);
-                      if (isGrandL3 != true) {
-                        //      print(DateTime.now().hour);
-                        isGrandDa = isGrandDa + 1;
-                        print(isGrandDa);
-                      } else {
-                        isGrandSa = isGrandSa + 1;
-                      }
-                      print("iç");
-                    }
-                  },
-                  onLongPress: () {
-                    if (isGrandL1 == true &&
-                        isGrandL2 == true &&
-                        isGrandL3 == true &&
-                        isGrandL4 == true) {
-                      if (initTraw[0] ==
-                          "asset/img/boring_files/white_lotus_tile.png") {
-                        showCupertinoDialog(
-                            context: context,
-                            builder: (context) => const CupertinoAlertDialog(
-                                content: Text("girdin")));
-                      }
-                    }
-
-                    if (isGrandL3 != true) {
-                      if (DateTime.now().minute == isGrandDa) {
-                        print("level3 oppen");
-
-                        isGrandL3 = true;
-                      } else {
-                        setState(() {
-                          isGrandDa = 0;
-                          isGrandL1 = false;
-                          isGrandL2 = false;
-                          isGrandL3 = false;
-                          isGrandL4 = false;
-                          isGrandL5 = false;
-                        });
-                      }
-                    } else {
-                      if (DateTime.now().hour == isGrandSa) {
-                        print("level4 open");
-                        setState(() {
-                          isGrandL1 = true;
-                          isGrandL2 = true;
-                          isGrandL3 = true;
-                          isGrandL4 = true;
-                          isGrand = true;
-                          initTraw.clear();
-                          initTraw.add(
-                              "asset/img/boring_files/chrysanthemum_tile.png");
-                          initTraw
-                              .add("asset/img/boring_files/fire_lily_tile.png");
-                          initTraw.add("asset/img/boring_files/wheel_tile.png");
-                          initTraw.add(
-                              "asset/img/boring_files/white_lotus_tile.png");
-                          initTraw.shuffle();
-                        });
-                      } else {
-                        setState(() {
-                          isGrandSa = 0;
-                          isGrandL1 = false;
-                          isGrandL2 = false;
-                          isGrandL3 = false;
-                          isGrandL4 = false;
-                          isGrandL5 = false;
-                        });
-                      }
-                    }
-                  },
-                  child: Image.asset(initTraw[0]),
-                ),
-              ),
-            )),
+        navigationBar: const CupertinoNavigationBar(
+          backgroundColor: ColorConstant.milkColor,
+          automaticallyImplyLeading: false,
+        ),
         child: Container(
           color: ColorConstant.themeGrey,
           child: ListView.builder(
               itemCount: chatContValue,
               itemBuilder: (context, indeks) {
                 var groupsItem = <Widget>[];
+
+                var itemWaiting = const ChatGroupContWaiting();
                 // ignore: unused_local_variable
 
+                for (var groupData in groupMergeData as List<GroupsModel>){
+                  if (groupData.groupChaosIsActive) {
+                    print("1 kere döndü");
+
+                      final Stream<QuerySnapshot> _chaosStream = FirebaseFirestore.instance
+                        .collection('chaos_groups_chat')
+                        .doc(groupData.groupChaosNo)
+                        .collection('chat_data').snapshots();
+
+                  /*  CollectionReference chaosRef = FirebaseFirestore.instance
+                        .collection('chaos_groups_chat')
+                        .doc(groupData.groupChaosNo)
+                        .collection('chat_data');*/
+                    var chaosCont = ChaosGroupCont(
+                        myUid: widget
+                            .groupMergeDataComing.userAll.isolaUserMeta.userUid,
+                        notiValue: 2,
+                        ref: _chaosStream,
+                        chatGroupNo: groupData.groupChaosNo,
+                        userAll: widget.groupMergeDataComing.userAll);
+
+                    groupsItem.add(chaosCont);
+                  } else {
+   
+                   /* CollectionReference chatRef = FirebaseFirestore.instance
+                        .collection('groups_chat')
+                        .doc(groupData.groupNo)
+                        .collection('chat_data');*/
+                    var groupCont = ChatGroupCont(
+                        myUid: widget
+                            .groupMergeDataComing.userAll.isolaUserMeta.userUid,
+                        notiValue: 2,
+                     
+                        chatGroupNo: groupData.groupNo,
+                        userAll: widget.groupMergeDataComing.userAll);
+
+                    groupsItem.add(groupCont);
+                  }
+                }
+
+/*
                 widget.groupPreviewData.groupAlives.group1Alive == true;
                 var item1 = widget
                                 .groupPreviewData.groupAlives.group1Searching !=
@@ -303,11 +163,12 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
-                                    .joinedGroupList[0]),
+                                crypto: widget.groupPreviewData.userAll
+                                    .isolaUserMeta.joinedGroupList[0]),
                             myUid: widget
                                 .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[0],
+                            chatGroupNo: widget.groupPreviewData.userAll
+                                .isolaUserMeta.joinedGroupList[0],
                             userAll: widget.groupPreviewData.userAll,
                           ))
                     : const ChatGroupContWaiting();
@@ -334,11 +195,12 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
-                                    .joinedGroupList[1]),
+                                crypto: widget.groupPreviewData.userAll
+                                    .isolaUserMeta.joinedGroupList[1]),
                             myUid: widget
                                 .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[1],
+                            chatGroupNo:
+                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[1],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
                 var item3 = widget.groupPreviewData.groupAlives.group3Searching != true &&
@@ -363,11 +225,12 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
-                                    .joinedGroupList[2]),
+                                crypto: widget.groupPreviewData.userAll
+                                    .isolaUserMeta.joinedGroupList[2]),
                             myUid: widget
                                 .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[2],
+                            chatGroupNo:
+                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[2],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
                 var item4 = widget.groupPreviewData.groupAlives.group4Searching != true &&
@@ -392,12 +255,12 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
-                                    .joinedGroupList[3]),
+                                crypto: widget.groupPreviewData.userAll
+                                    .isolaUserMeta.joinedGroupList[3]),
                             myUid: widget
                                 .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll.isolaUserMeta
-                                .joinedGroupList[3],
+                            chatGroupNo:
+                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[3],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
 
@@ -423,12 +286,12 @@ class _ChatPageState extends State<ChatPage> {
                                 enum2: RefEnum.Groupchatlist,
                                 targetUid: "",
                                 userUid: "",
-                                crypto: widget.groupPreviewData.userAll.isolaUserMeta
-                                    .joinedGroupList[4]),
+                                crypto: widget.groupPreviewData.userAll
+                                    .isolaUserMeta.joinedGroupList[4]),
                             myUid: widget
                                 .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll
-                                .isolaUserMeta.joinedGroupList[4],
+                            chatGroupNo:
+                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[4],
                             userAll: widget.groupPreviewData.userAll))
                     : const ChatGroupContWaiting();
 
@@ -447,7 +310,11 @@ class _ChatPageState extends State<ChatPage> {
                 if (widget.groupPreviewData.groupAlives.group5Alive == true) {
                   groupsItem.add(item5);
                 }
-
+*/
+                if (needSearchingContainer == true) {
+                  groupsItem.add(itemWaiting);
+                }
+                print("fashjjhbfsa");
                 return Padding(
                   padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 1.h),
                   child: Column(
@@ -489,7 +356,7 @@ class ImageChatClip extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(35.sp))),
         child: CircleAvatar(
           radius: 15.sp,
-             backgroundColor:ColorConstant.milkColor,
+          backgroundColor: ColorConstant.milkColor,
           child: ClipRRect(
               borderRadius: BorderRadius.circular(35.sp), child: imageItem),
         ),

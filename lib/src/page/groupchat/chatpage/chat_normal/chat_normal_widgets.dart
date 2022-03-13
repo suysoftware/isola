@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, unused_local_variable, implementation_imports
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,27 +21,121 @@ import 'package:sizer/sizer.dart';
 
 class ChatGroupCont extends StatelessWidget {
   const ChatGroupCont(
-      {Key? key, required this.myUid,
+      {Key? key,
+      required this.myUid,
       required this.notiValue,
-      required this.ref,
+      // required this.ref,
       required this.chatGroupNo,
-      required this.userAll}) : super(key: key);
+      required this.userAll})
+      : super(key: key);
 
   final String myUid;
   final int notiValue;
-  final DatabaseReference ref;
+  //final Stream<QuerySnapshot> ref;
   final String chatGroupNo;
   final IsolaUserAll userAll;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<dynamic>(
-        stream: ref.onValue,
-        builder: (context, event) {
-          if (event.hasData) {
-            var groupDatasAll = <GroupChatMessage>[];
-            var groupDatasFriend1 = <GroupChatMessage>[];
-            var groupDatasFriend2 = <GroupChatMessage>[];
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('groups_chat')
+            .doc(chatGroupNo)
+            .collection('chat_data')
+            .orderBy('member_message_time')
+
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshots) {
+          if (snapshots.hasData) {
+            //   var groupDatasAll = <GroupChatMessage>[];
+            // var groupDatasFriend1 = <GroupChatMessage>[];
+            //var groupDatasFriend2 = <GroupChatMessage>[];
+
+            var chatFriendName1 = "name123121";
+            var chatFriendName2 = "namesadasd2";
+
+            var chatFriendAvatarUrl1 =
+                "https://firebasestorage.googleapis.com/v0/b/isoladeneme.appspot.com/o/constant_files%2Fgroup_leave_icon.png?alt=media&token=ecb802a0-8972-465c-8777-c0a9576397d6";
+            var chatFriendAvatarUrl2 =
+                "https://firebasestorage.googleapis.com/v0/b/isoladeneme.appspot.com/o/constant_files%2Fgroup_leave_icon.png?alt=media&token=ecb802a0-8972-465c-8777-c0a9576397d6";
+            var chatFriendUid1 = "dsfafsffsa";
+            var chatFriendUid2 = "safassffsf";
+            DocumentSnapshot ds = snapshots.data!.docs[0];
+            var chatLastMessage = ds["member_message"];
+
+            var isImage = false;
+            var isVideo = false;
+            var isDoc = false;
+
+            return Container(
+              decoration: BoxDecoration(
+                  gradient: ColorConstant.isolaMainGradient,
+                  border: Border.all(color: ColorConstant.transparentColor),
+                  borderRadius: const BorderRadius.all(Radius.circular(15.0))),
+              child: Padding(
+                padding: const EdgeInsets.all(0.5),
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  decoration: BoxDecoration(
+                      color: ColorConstant.milkColor,
+                      border: Border.all(color: ColorConstant.transparentColor),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(15.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
+                    child: ChatGroupCard(
+                      chatPicFirst: Image.network(
+                        chatFriendAvatarUrl1,
+                        fit: BoxFit.cover,
+                      ),
+                      chatPicSecond: Image.network(
+                        chatFriendAvatarUrl2,
+                        fit: BoxFit.cover,
+                      ),
+                      chatBoxText: chatLastMessage,
+                      notiValue: notiValue,
+                      chatBoxName:
+                          "${chatFriendName1.toString().substring(0, 6)} & ${chatFriendName2.toString().substring(0, 6)}",
+                      isLocked: false,
+                      chatGroupNo: chatGroupNo,
+                      isImage: isImage,
+                      isVideo: isVideo,
+                      isDoc: isDoc,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Center(
+              child: CupertinoActivityIndicator(animating: true, radius: 12.sp),
+            );
+          }
+/*
+            var comingMessage = GroupChatMessage(
+              items2['member_avatar_url'],
+              items2["member_message"],
+              items2["member_message_time"],
+              items2["member_name"],
+              items2["member_uid"],
+              items2["member_message_isvoice"],
+              items2["member_message_voice_url"],
+              items2["member_message_isattachment"],
+              items2["member_message_attachment_url"],
+              items2["member_message_isimage"],
+              items2["member_message_isvideo"],
+              items2["member_message_isdocument"],
+              items2["member_message_target_1_uid"],
+              items2["member_message_target_2_uid"],
+            );
+            groupDatasAll.add(comingInfo);
+
+
+    
+
+            
+        
             var chatFriendName1;
             var chatFriendName2;
             var chatFriendAvatarUrl1;
@@ -171,7 +266,6 @@ class ChatGroupCont extends StatelessWidget {
             isImage = groupDatasAll.first.member_message_isImage;
             isVideo = groupDatasAll.first.member_message_isVideo;
             isDoc = groupDatasAll.first.member_message_isDocument;
-
             return Container(
               decoration: BoxDecoration(
                   gradient: ColorConstant.isolaMainGradient,
@@ -218,19 +312,22 @@ class ChatGroupCont extends StatelessWidget {
                 ),
               ),
             );
+
+
           } else {
             return Center(
               child: CupertinoActivityIndicator(animating: true, radius: 12.sp),
             );
           }
+          */
         });
   }
 }
 
-
 class ChatGroupCard extends StatelessWidget {
-   const ChatGroupCard(
-      {Key? key, required this.chatPicFirst,
+  const ChatGroupCard(
+      {Key? key,
+      required this.chatPicFirst,
       required this.chatPicSecond,
       required this.chatBoxText,
       required this.chatBoxName,
@@ -239,7 +336,8 @@ class ChatGroupCard extends StatelessWidget {
       required this.chatGroupNo,
       required this.isImage,
       required this.isVideo,
-      required this.isDoc}) : super(key: key);
+      required this.isDoc})
+      : super(key: key);
 
   final Widget chatPicFirst;
   final Widget chatPicSecond;
@@ -290,16 +388,12 @@ class ChatGroupCard extends StatelessWidget {
         }
       },
       child: Card(
-    
         elevation: 0.0,
         color: ColorConstant.transparentColor,
         child: Row(
-          
           children: [
             Stack(
-          
               children: [
-                
                 ImageChatClip(
                   imageItem: chatPicFirst,
                   leftPadding: 2,
@@ -317,79 +411,79 @@ class ChatGroupCard extends StatelessWidget {
                   child: ChatTextsLeft(
                       targetName: chatBoxName,
                       context: context,
-                      targetText: chatBoxText.contains("Leave From Chat")!=true ?(chatBoxText== ""
-                          ? (isImage == true
-                              ? "Image Mesage"
-                              : isVideo == true
-                                  ? "Video Message"
-                                  : isDoc == true
-                                      ? "Document Message"
-                                      : chatBoxText)
-                          : chatBoxText):"",
+                      targetText:
+                          chatBoxText.contains("Leave From Chat") != true
+                              ? (chatBoxText == ""
+                                  ? (isImage == true
+                                      ? "Image Mesage"
+                                      : isVideo == true
+                                          ? "Video Message"
+                                          : isDoc == true
+                                              ? "Document Message"
+                                              : chatBoxText)
+                                  : chatBoxText)
+                              : "",
                       rowLetterValue: 40,
                       letterTextStyle: 100.h >= 1100
                           ? StyleConstants.groupTabletCardTextStyle
                           : StyleConstants.groupCardTextStyle,
                       heightValue: 100.h <= 1100 ? 1.0 : 1.0),
                 ),
-                
-                SizedBox(width: 23.w,),
-             Align(
-                        alignment: Alignment.bottomCenter,
-                        child: 100.h >= 700
-                            ? (100.h >= 1100
-                                ? const Text(
-                                    "_________________________________________________________________________________________________________________",
-                                    style: TextStyle(
-                                        color: ColorConstant.transparentColor),
-                                  )
-                                : const Text(
-                                    "_________________________________________",
-                                    style: TextStyle(
-                                        color: ColorConstant.transparentColor),
-                                  ))
-                            : const Text(
-                                    "________________________________________",
+                SizedBox(
+                  width: 23.w,
+                ),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: 100.h >= 700
+                        ? (100.h >= 1100
+                            ? const Text(
+                                "_________________________________________________________________________________________________________________",
                                 style: TextStyle(
                                     color: ColorConstant.transparentColor),
-                              )),
-            Positioned(
-          top:-12.0,
-          right: -16.0,
-              child: CupertinoButton(
-                  child: SizedBox(
-                      height: 1.h,
-                      width: 5.w,
-                      child: Image.asset(
-                        "asset/img/chat_page_three_dot.png",
-                        fit: BoxFit.contain,
-                      )),
-                  onPressed: () => showCupertinoDialog(
-                      barrierDismissible: true,
-                      context: context,
-                      builder: (context) => CupertinoAlertDialog(
-                            content: const Text("dasdadsadsa"),
-                            actions: [
-                              CupertinoButton(
-                                  child: const Text(
-                                    "Report Group",
-                                    style: TextStyle(
-                                        color: CupertinoColors.systemRed),
-                                  ),
-                                  onPressed: () {
-
-                                            
-                                    
-                                  }),
-                              CupertinoButton(
-                                  child: const Text("Back"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  })
-                            ],
-                          ))),
-            ),
-                        /*
+                              )
+                            : const Text(
+                                "_________________________________________",
+                                style: TextStyle(
+                                    color: ColorConstant.transparentColor),
+                              ))
+                        : const Text(
+                            "________________________________________",
+                            style: TextStyle(
+                                color: ColorConstant.transparentColor),
+                          )),
+                Positioned(
+                  top: -12.0,
+                  right: -16.0,
+                  child: CupertinoButton(
+                      child: SizedBox(
+                          height: 1.h,
+                          width: 5.w,
+                          child: Image.asset(
+                            "asset/img/chat_page_three_dot.png",
+                            fit: BoxFit.contain,
+                          )),
+                      onPressed: () => showCupertinoDialog(
+                          barrierDismissible: true,
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                                content: const Text("dasdadsadsa"),
+                                actions: [
+                                  CupertinoButton(
+                                      child: const Text(
+                                        "Report Group",
+                                        style: TextStyle(
+                                            color: CupertinoColors.systemRed),
+                                      ),
+                                      onPressed: () {}),
+                                  CupertinoButton(
+                                      child: const Text("Back"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      })
+                                ],
+                              ))),
+                ),
+                /*
                 Positioned(
                   top: -7.0,
                   right: 2.0,

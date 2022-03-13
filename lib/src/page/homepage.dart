@@ -1,6 +1,6 @@
 // ignore_for_file: implementation_imports, prefer_typing_uninitialized_variables, avoid_print, invalid_use_of_protected_member, must_be_immutable, unused_field, duplicate_ignore
-
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +14,8 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
-import 'package:isola_app/src/model/user/user_meta.dart';
-import 'package:isola_app/src/service/firebase/storage/getters/searching_status.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_finder.dart';
+import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
 
@@ -66,6 +64,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+    print(widget.userAll.isolaUserMeta.userIsSearching);
+
+    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
+    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
+
+    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
+    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
+    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
 
     isTablet = 100.h >= 1100 ? true : false;
 
@@ -116,7 +130,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     rotateAnimationValue2 = Tween(begin: 0.0, end: pi * 24).animate(
         CurvedAnimation(parent: animationController3, curve: Curves.easeInOut))
       ..addListener(() {
-        setState(() {});
+        setState(() {
+          widget.userAll.isolaUserMeta.userIsSearching = true;
+        });
       });
     rotateAnimationValue3 = Tween(begin: 0.0, end: pi * 2).animate(
         CurvedAnimation(parent: animationController4, curve: Curves.easeInOut))
@@ -124,6 +140,48 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         setState(() {});
       });
 
+    if (widget.userAll.isolaUserMeta.userIsSearching != false) {
+      context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
+      print("burada***");
+      // widget.userAll.isolaUserMeta.userIsSearching = true;
+      animationController4.repeat(period: const Duration(milliseconds: 1800));
+      context.read<SearchStatusCubit>().searching();
+    } else {
+      context.read<SearchStatusCubit>().pauseSearching();
+      switch (widget.userAll.isolaUserMeta.joinedGroupList.length) {
+        case 1:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonSearcingCancel(isTablet: isTablet);
+
+          break;
+        case 2:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonSearcingCancel(isTablet: isTablet);
+
+          break;
+        case 3:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonUseToken(isTablet: isTablet);
+
+          break;
+        case 4:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonUseToken(isTablet: isTablet);
+
+          break;
+
+        case 5:
+          context.read<MatchButtonCubit>().imageButtonFull(isTablet: isTablet);
+
+          break;
+      }
+    }
+
+/*
     if (context.read<SearchStatusCubit>().state == true) {
 //burası çalışınca 10 saniyedebir kontrolüde çalıştırabiliriz.
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
@@ -205,6 +263,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         }
       }
     });
+    */
   }
 
   @override
@@ -220,9 +279,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (context.read<SearchStatusCubit>().state == true) {
+    if (widget.userAll.isolaUserMeta.userIsSearching) {
+      
+      animationController4.repeat(period: const Duration(milliseconds: 1800));
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
     }
+
     //  print(100.h);
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
@@ -319,11 +381,140 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     right: 5.w,
                     child: GestureDetector(
                       onTap: () {
-                        joinToMatchingPool(
+                        /*    joinToMatchingPool(
                             widget.userAll.isolaUserMeta.userUid,
                             widget.userAll.isolaUserDisplay.userSex,
                             widget.userAll.isolaUserDisplay.userIsNonBinary,
-                            widget.userAll.isolaUserMeta.userIsValid);
+                            widget.userAll.isolaUserMeta.userIsValid);*/
+
+                        if (widget.userAll.isolaUserMeta.userIsSearching) {
+                          print("zaten searching şuan");
+                        } else {
+                          if (widget.userAll.isolaUserMeta.joinedGroupList
+                                  .length <
+                              3) {
+                            animationController.forward();
+                            animationController2.forward().whenComplete(() {
+                              animationController3.forward().whenComplete(() {
+                                joinToMatchingPool(
+                                        widget.userAll.isolaUserMeta.userUid,
+                                        widget.userAll.isolaUserDisplay.userSex,
+                                        widget.userAll.isolaUserDisplay
+                                            .userIsNonBinary,
+                                        widget
+                                            .userAll.isolaUserMeta.userIsValid)
+                                    .whenComplete(() {
+                                  context
+                                      .read<MatchButtonCubit>()
+                                      .imageButtonSearching(isTablet: isTablet);
+                                  context.read<SearchStatusCubit>().searching();
+                                  animationController.reset();
+                                });
+                              });
+                            });
+                          } else if (widget.userAll.isolaUserMeta
+                                  .joinedGroupList.length <
+                              5) {
+                            if (widget.userAll.isolaUserMeta.userToken > 0) {
+                              // YOU HAVE TOKEN AND YOU CAN USE
+                                  animationController.forward();
+                                                animationController2
+                                                    .forward()
+                                                    .whenComplete(() {
+                                                  animationController3
+                                                      .forward()
+                                                      .whenComplete(() {
+                                                    joinToMatchingPool(
+                                                            widget
+                                                                .userAll
+                                                                .isolaUserMeta
+                                                                .userUid,
+                                                            widget
+                                                                .userAll
+                                                                .isolaUserDisplay
+                                                                .userSex,
+                                                            widget
+                                                                .userAll
+                                                                .isolaUserDisplay
+                                                                .userIsNonBinary,
+                                                            widget
+                                                                .userAll
+                                                                .isolaUserMeta
+                                                                .userIsValid)
+                                                        .whenComplete(() {
+                                                      context
+                                                          .read<
+                                                              MatchButtonCubit>()
+                                                          .imageButtonSearching(
+                                                              isTablet:
+                                                                  isTablet);
+                                                      context
+                                                          .read<
+                                                              SearchStatusCubit>()
+                                                          .searching();
+                                                      animationController
+                                                          .reset();
+
+                                                      Navigator
+                                                          .pushReplacementNamed(
+                                                              context,
+                                                              navigationBar);
+                                                    });
+                                                  });
+                                                });
+                            } else {
+                              // YOU HAVENT TOKEN , YOU HAVE TO BUY
+                              showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) => CupertinoAlertDialog(
+                                        content: const Text(
+                                            "You need token"),
+                                        title: const Text("Token Alert"),
+                                        actions: [
+                                          CupertinoButton(
+                                              child: Text("Earn token",
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp)),
+                                              onPressed: () {
+                                                //watch ads
+                                              }),
+                                          CupertinoButton(
+                                              child: Text(
+                                                "No Doesnt Yet",
+                                                style:
+                                                    TextStyle(fontSize: 11.sp),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              })
+                                        ],
+                                      ));
+                            }
+
+                            //
+
+                            //
+                          } else if (widget.userAll.isolaUserMeta
+                                  .joinedGroupList.length ==
+                              5) {
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
+                                      content: const Text(
+                                          "No more match :("),
+                                      title: const Text("Full"),
+                                      actions: [
+                                        CupertinoButton(
+                                            child: Text("Okey",
+                                                style:
+                                                    TextStyle(fontSize: 11.sp)),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            }),
+                                      ],
+                                    ));
+                          }
+                        }
 
                         /*
                         //buraya grup tamamlanma şartı koy bastınv eo grup tamamlanana kadar kapatma yok iptal etme koyulabilir ve iptal ile o grup silinir

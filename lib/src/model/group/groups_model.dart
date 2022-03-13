@@ -7,6 +7,9 @@ class GroupsModel {
   late bool groupTargetIsValid;
   late int groupToken;
   late List<dynamic> groupMemberList;
+  late String groupNo;
+  late bool groupChaosIsActive;
+  late String groupChaosNo;
 
   GroupsModel(
       this.groupIsActive,
@@ -16,7 +19,9 @@ class GroupsModel {
       this.groupIsNonBinary,
       this.groupTargetIsValid,
       this.groupToken,
-      this.groupMemberList);
+      this.groupMemberList,
+      this.groupNo,
+      this.groupChaosIsActive,this.groupChaosNo);
 
   factory GroupsModel.fromJson(Map<dynamic, dynamic> json) {
     return GroupsModel(
@@ -27,6 +32,9 @@ class GroupsModel {
         json["gNonBinary"] as bool,
         json["gValid"] as bool,
         json["gToken"] as int,
-        json["gList"] as List<dynamic>);
+        json["gList"] as List<dynamic>,
+        json["gNo"] as String,
+        json["gChaos"] as bool,
+        json["gChaosNo"] as String);
   }
 }

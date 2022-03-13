@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_types_as_parameter_names, non_constant_identifier_names, prefer_typing_uninitialized_variables, avoid_print, unused_local_variable, unnecessary_null_comparison, must_be_immutable
-
+/*
 import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
@@ -137,12 +137,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     refChatInterior.push().set(firstMessage);
 
     t1.clear();
-
-    // setState(() {
-    //    AllMessageBalloon mesajNesnesi = AllMessageBalloon(isMe: true,theMessage: gelenMesaj);
-    //    userMesajListesi.insert(0, mesajNesnesi);
-    //   t1.clear();
-    // });
   }
 
   void listenToChaosAlive() async {
@@ -190,13 +184,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         if (event.snapshot.value == true) {
           // _animationControllerChaosSearching.stop();
 
-          refGroupChaos
-              .child("chaos_is_searching")
-              .set(false)
-              .whenComplete(() {
-                      refGroupChaos.child("chaos_is_alive").set(true);
-              });
-    
+          refGroupChaos.child("chaos_is_searching").set(false).whenComplete(() {
+            refGroupChaos.child("chaos_is_alive").set(true);
+          });
         }
       });
     }
@@ -507,8 +497,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                 CupertinoIcons.mic_circle_fill) {
                               await _audioRecorder.stop();
 
-                              uploadVoice(userAll, _filePath,
-                                  refChatInterior, target1, target2);
+                              uploadVoice(userAll, _filePath, refChatInterior,
+                                  target1, target2);
                               //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
                               print(
                                   "kayıt veritabanına yükleniyor ve gönderiliyor");
@@ -628,8 +618,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         userUid: "",
         crypto: context.read<GroupSettingCubit>().state.groupNo);
 
-   
-
     groupChaosSearchingInfoGetter(
             context.read<GroupSettingCubit>().state.groupNo)
         .then((value) => isChaosSearching = value)
@@ -637,10 +625,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
       if (isChaosSearching == true &&
           _animationControllerChaosSearching.isAnimating == false) {
         _animationControllerChaosSearching.repeat();
-         listenToChaosAlive();
-    listenToChaosActive();
-
-
+        listenToChaosAlive();
+        listenToChaosActive();
       }
     });
 
@@ -1067,7 +1053,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                 .child("chaos_is_searching")
                                                 .set(true);*/
                                             late bool myChaosSexOption;
-                                            if (userAll.isolaUserDisplay.userSex == true) {
+                                            if (userAll
+                                                    .isolaUserDisplay.userSex ==
+                                                true) {
                                               myChaosSexOption = false;
                                             } else {
                                               myChaosSexOption = true;
@@ -1081,8 +1069,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                 true,
                                                 true,
                                                 myChaosSexOption,
-                                                userAll.isolaUserDisplay.userIsNonBinary,
-                                                userAll.isolaUserMeta.userIsValid,
+                                                userAll.isolaUserDisplay
+                                                    .userIsNonBinary,
+                                                userAll
+                                                    .isolaUserMeta.userIsValid,
                                                 false,
                                                 true);
 
@@ -2310,3 +2300,4 @@ class SayacModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+*/

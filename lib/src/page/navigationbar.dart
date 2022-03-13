@@ -233,7 +233,7 @@ class _NavigationBarState extends State<NavigationBar>
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
                   //   future: getAllDataForChatPage(user.uid),
-                  future: getUserAllFromDataBase(user.uid),
+                  future: mergeForChatPage(user.uid),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
@@ -257,10 +257,10 @@ class _NavigationBarState extends State<NavigationBar>
                           );
                         } else {
                           var refChatPageItems =
-                              snapshot.data as GroupPreviewData;
+                              snapshot.data as GroupMergeData;
                           return ChatPage(
                             user: user,
-                            groupPreviewData: refChatPageItems,
+                            groupMergeDataComing: refChatPageItems,
                           );
                         }
                     }

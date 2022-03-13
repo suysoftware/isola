@@ -1,9 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class GroupChatMessage {
   late String member_avatar_url;
   late String member_message;
-  late int member_message_time;
+  late Timestamp member_message_time;
   late String member_name;
   late String member_uid;
   late bool member_message_isVoice;
@@ -14,8 +16,7 @@ class GroupChatMessage {
   late bool member_message_isVideo;
   late bool member_message_isDocument;
   late String message_target_1_uid;
-    late String message_target_2_uid;
-  
+  late String message_target_2_uid;
 
   GroupChatMessage(
       this.member_avatar_url,
@@ -29,8 +30,47 @@ class GroupChatMessage {
       this.member_message_attachment_url,
       this.member_message_isImage,
       this.member_message_isVideo,
-      this.member_message_isDocument,this.message_target_1_uid,this.message_target_2_uid);
+      this.member_message_isDocument,
+      this.message_target_1_uid,
+      this.message_target_2_uid);
 
+  GroupChatMessage.fromJson(Map<String, Object?> json)
+      : this(
+          json["member_avatar_url"] as String,
+          json["member_message"] as String,
+          json["member_message_time"] as Timestamp,
+          json["member_name"] as String,
+          json["member_uid"] as String,
+          json["member_message_isvoice"] as bool,
+          json["member_message_voice_url"] as String,
+          json["member_message_isattachment"] as bool,
+          json["member_message_attachment_url"] as String,
+          json["member_message_isimage"] as bool,
+          json["member_message_isvideo"] as bool,
+          json["member_message_isdocument"] as bool,
+          json["member_message_target_1_uid"] as String,
+          json["member_message_target_2_uid"] as String,
+        );
+
+  Map<String, Object?> toJson() {
+    return {
+      'member_avatar_url': member_avatar_url,
+      "member_message": member_message,
+      "member_message_time": member_message_time,
+      "member_name": member_name,
+      "member_uid": member_uid,
+      "member_message_isvoice": member_message_isVoice,
+      "member_message_voice_url": member_message_voice_url,
+      "member_message_isattachment": member_message_isAttachment,
+      "member_message_attachment_url": member_message_attachment_url,
+      "member_message_isimage": member_message_isImage,
+      "member_message_isvideo": member_message_isVideo,
+      "member_message_isdocument": member_message_isDocument,
+      "member_message_target_1_uid": message_target_1_uid,
+      "member_message_target_2_uid": message_target_2_uid,
+    };
+  }
+/*
   factory GroupChatMessage.fromJson(Map<dynamic, dynamic> json) {
     return GroupChatMessage(
       json["member_avatar_url"] as String,
@@ -48,5 +88,5 @@ class GroupChatMessage {
       json["member_message_target_1_uid"] as String,
        json["member_message_target_2_uid"] as String,
     );
-  }
+  }*/
 }

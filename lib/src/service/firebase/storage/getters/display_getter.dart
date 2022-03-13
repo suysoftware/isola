@@ -13,6 +13,8 @@ import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 
+import '../../../../model/group/groups_model.dart';
+
 Future<UserAll> getDisplayData(String uid) async {
   var _ref = refGetter(
       enum2: RefEnum.Userdisplay, userUid: uid, targetUid: uid, crypto: "");
@@ -1303,4 +1305,48 @@ Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
 
   var userAll = IsolaUserAll(userDisplay, userMeta);
   return userAll;
+}
+
+Future<GroupMergeData> mergeForChatPage(String userUid) async {
+  var userAll;
+  var groupDatas;
+  //we search user
+
+  await getUserAllFromDataBase(userUid).then((value) => userAll = value);
+
+  await getGroupDataFromDatabase(userAll).then((value) => groupDatas = value);
+
+  var groupMergeDatas = GroupMergeData(userAll, groupDatas);
+
+  return groupMergeDatas;
+}
+
+Future<List<dynamic>> getGroupDataFromDatabase(IsolaUserAll userAll) async {
+  var groupsModelList = <GroupsModel>[];
+  if (userAll.isolaUserMeta.joinedGroupList[0] == "nothing") {
+    return groupsModelList;
+  } else {
+    for (var item in userAll.isolaUserMeta.joinedGroupList) {
+      var groupData;
+
+      DocumentReference groupsData =
+          FirebaseFirestore.instance.collection('groups').doc(item);
+
+      await groupsData.get().then((docValue) => groupData = GroupsModel(
+          docValue['gActive'],
+          docValue['gValue'],
+          docValue['gNeed'],
+          docValue['gSex'],
+          docValue['gNonBinary'],
+          docValue['gValid'],
+          docValue['gToken'],
+          docValue['gList'],
+          docValue['gNo'],
+          docValue['gChaos'],
+          docValue['gChaosNo']));
+      groupsModelList.add(groupData);
+    }
+
+    return groupsModelList;
+  }
 }

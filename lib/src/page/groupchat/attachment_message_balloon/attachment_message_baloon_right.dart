@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/document_chat_cont_right.dart';
@@ -9,7 +10,7 @@ import 'package:sizer/sizer.dart';
 
 class AttachmentMessageBalloonRight extends StatelessWidget {
   String memberAvatarUrl;
-  int memberMessageTime;
+  Timestamp memberMessageTime;
   String memberName;
   String memberUid;
   String memberAttachmentUrl;

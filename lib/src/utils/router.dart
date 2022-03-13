@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:isola_app/src/page/groupchat/chatting_page.dart';
 import 'package:isola_app/src/page/groupchat/group_settings_page.dart';
-import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
 import 'package:isola_app/src/page/logging_out.dart';
 import 'package:isola_app/src/page/navigationbar.dart';
 import 'package:isola_app/src/page/settings_page.dart';

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, implementation_imports
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,21 +19,24 @@ import 'package:sizer/sizer.dart';
 
 class ChaosGroupCont extends StatelessWidget {
   const ChaosGroupCont(
-      {Key? key, required this.myUid,
+      {Key? key,
+      required this.myUid,
       required this.notiValue,
       required this.ref,
       required this.chatGroupNo,
-      required this.userAll}) : super(key: key);
+      required this.userAll})
+      : super(key: key);
 
   final String myUid;
   final int notiValue;
-  final DatabaseReference ref;
+   final Stream<QuerySnapshot> ref;
   final String chatGroupNo;
   final IsolaUserAll userAll;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<dynamic>(
+    return SizedBox();
+    /* StreamBuilder<dynamic>(
         stream: ref.onValue,
         builder: (context, event) {
           if (event.hasData) {
@@ -420,14 +424,14 @@ class ChaosGroupCont extends StatelessWidget {
             );
           }
         });
+ */
   }
 }
 
-
-
 class ChaosChatGroupCard extends StatelessWidget {
-   const ChaosChatGroupCard(
-      {Key? key, required this.chatPicFirst,
+  const ChaosChatGroupCard(
+      {Key? key,
+      required this.chatPicFirst,
       required this.chatPicSecond,
       required this.chatPicThird,
       required this.chatPicForth,
@@ -439,7 +443,8 @@ class ChaosChatGroupCard extends StatelessWidget {
       required this.chatGroupNo,
       required this.isImage,
       required this.isVideo,
-      required this.isDoc}) : super(key: key);
+      required this.isDoc})
+      : super(key: key);
 
   final Widget chatPicFirst;
   final Widget chatPicSecond;

@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
+import 'package:isola_app/src/page/groupchat/chatting_page.dart';
 import 'package:isola_app/src/page/groupchat/system_message_balloon/system_chat_container.dart';
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_chat_container_left.dart';
 import 'package:sizer/sizer.dart';
@@ -11,7 +13,7 @@ import 'package:sizer/sizer.dart';
 class SystemMessageBalloon extends StatelessWidget {
   String memberMessage;
   String memberAvatarUrl;
-  int memberMessageTime;
+  Timestamp memberMessageTime;
   String memberName;
   String memberUid;
 

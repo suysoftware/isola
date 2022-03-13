@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_init_to_null, avoid_print, implementation_imports
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -76,13 +77,13 @@ class _ProfilePageState extends State<ProfilePage> {
       case 0:
         return ProfileTimelinePage(
           user: widget.user,
-         userAll: widget.userAll,
+          userAll: widget.userAll,
         );
 
       case 1:
         return ProfileMediaPage(
-        
-          user: widget.user, userAll:widget.userAll,
+          user: widget.user,
+          userAll: widget.userAll,
         );
 
       case 2:
@@ -157,19 +158,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: 100.h >= 700
                                           ? (100.h <= 1100
                                               ? Image.network(
-                                                  widget.userAll.isolaUserDisplay.avatarUrl,
+                                                  widget
+                                                      .userAll
+                                                      .isolaUserDisplay
+                                                      .avatarUrl,
                                                   width: 110.sp,
                                                   height: 110.sp,
                                                   fit: BoxFit.cover,
                                                 )
                                               : Image.network(
-                                                   widget.userAll.isolaUserDisplay.avatarUrl,
+                                                  widget
+                                                      .userAll
+                                                      .isolaUserDisplay
+                                                      .avatarUrl,
                                                   width: 80.sp,
                                                   height: 80.sp,
                                                   fit: BoxFit.cover,
                                                 ))
                                           : Image.network(
-                                              widget.userAll.isolaUserDisplay.avatarUrl,
+                                              widget.userAll.isolaUserDisplay
+                                                  .avatarUrl,
                                               width: 75.sp,
                                               height: 75.sp,
                                               fit: BoxFit.cover,
@@ -234,7 +242,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ? StyleConstants.profileNameTabletTextStyle
                           : StyleConstants.profileNameTextStyle,
                     ),
-                    context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline == true
+                    context
+                                .read<UserAllCubit>()
+                                .state
+                                .isolaUserDisplay
+                                .userIsOnline ==
+                            true
                         ? Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Image.asset("asset/img/profile_online.png"),
@@ -455,9 +468,18 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
         await ImageSaver.save('extended_image_cropped_image.jpg', fileData);
 
     file2 = File(fileFath!);
-    await uploadImage(widget.userAll.isolaUserMeta.userUid, file2!, "profilePhoto")
+    await uploadImage(
+            widget.userAll.isolaUserMeta.userUid, file2!, "profilePhoto")
         // widget.userDisplay,gestureKey"profilePhoto")
         .then((value) {
+      CollectionReference users_display =
+          FirebaseFirestore.instance.collection('users_display');
+
+      users_display
+          .doc(widget.userAll.isolaUserMeta.userUid)
+          .update({'uPic': value});
+
+      /*
       var refAvatarUrl = refGetter(
           enum2: RefEnum.Useravatar,
           targetUid: widget.userAll.isolaUserMeta.userUid,
@@ -465,8 +487,9 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
           crypto: "");
       refAvatarUrl.set(value);
 
-      widget.userAll.isolaUserDisplay.avatarUrl = value;
+      widget.userAll.isolaUserDisplay.avatarUrl = value;*/
     });
+
     _cropping = false;
   }
 }
