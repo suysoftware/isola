@@ -85,7 +85,20 @@ class _ChatPageState extends State<ChatPage> {
           backgroundColor: ColorConstant.milkColor,
           automaticallyImplyLeading: false,
         ),
-        child: Container(
+        child:chatContValue<1&&widget.groupMergeDataComing.userAll.isolaUserMeta.userIsSearching==false?( Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset("asset/img/chat_warning_icon.png"),
+                                const Text(
+                                  "You didnt join group",
+                                  style:
+                                      TextStyle(color: ColorConstant.softBlack),
+                                ),
+                              ],
+                            ),
+                          )):Container(
           color: ColorConstant.themeGrey,
           child: ListView.builder(
               itemCount: chatContValue,

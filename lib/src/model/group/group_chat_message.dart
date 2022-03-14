@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class GroupChatMessage {
   late String member_avatar_url;
@@ -34,7 +35,7 @@ class GroupChatMessage {
       this.message_target_1_uid,
       this.message_target_2_uid);
 
-  GroupChatMessage.fromJson(Map<String, Object?> json)
+  GroupChatMessage.fromJson(Map<String, dynamic> json)
       : this(
           json["member_avatar_url"] as String,
           json["member_message"] as String,
@@ -52,7 +53,7 @@ class GroupChatMessage {
           json["member_message_target_2_uid"] as String,
         );
 
-  Map<String, Object?> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'member_avatar_url': member_avatar_url,
       "member_message": member_message,

@@ -117,7 +117,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     refChatInterior.doc().set({
       'member_avatar_url': userAll.isolaUserDisplay.avatarUrl,
       'member_message': t1.text,
-      'member_message_time': ServerValue.timestamp,
+      'member_message_time': DateTime.now().toUtc(),
       'member_name': userAll.isolaUserDisplay.userName,
       'member_uid': userAll.isolaUserMeta.userUid,
       'member_message_isvoice': false,
@@ -134,6 +134,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     t1.clear();
   }
 
+/*
   void _onRefresh() async {
     // monitor network fetch
     print("onrefresh");
@@ -146,8 +147,23 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     });
 
     refreshController.refreshCompleted();
-  }
+  }*/
+/*
+  void _onLoading() async {
+    print("onloading");
+    // monitor network fetch
+    await Future.delayed(const Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
 
+    
+      setState(() {
+        itemCountValue = itemCountValue + 20;
+
+        //_onRefresh();
+      });
+      refreshController.loadComplete();
+    
+  }*/
   void _onLoading() async {
     print("onloading");
     // monitor network fetch
@@ -532,33 +548,19 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
     userAll = context.read<UserAllCubit>().state;
 
+    var groupSetting = GroupSettingModel(
+        groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
+        groupMemberAvatarUrl2: userAll.isolaUserDisplay.avatarUrl,
+        groupMemberAvatarUrl3: userAll.isolaUserDisplay.avatarUrl,
+        groupMemberName1: userAll.isolaUserDisplay.userName,
+        groupMemberName2: "name222222",
+        groupMemberName3: "name333333",
+        groupMemberUid2: userAll.isolaUserMeta.userUid,
+        groupMemberUid3: userAll.isolaUserMeta.userUid,
+        groupNo: userAll.isolaUserMeta.joinedGroupList[0],
+        userUid: userAll.isolaUserMeta.userUid);
 
-                             var groupSetting = GroupSettingModel(
-                groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
-                groupMemberAvatarUrl2:userAll.isolaUserDisplay.avatarUrl,
-           
-                groupMemberAvatarUrl3:userAll.isolaUserDisplay.avatarUrl,
-                   
-                groupMemberName1: userAll.isolaUserDisplay.userName,
-                groupMemberName2:"name222222",
-                groupMemberName3:"name333333",
-                groupMemberUid2: userAll.isolaUserMeta.userUid,
-                groupMemberUid3: userAll.isolaUserMeta.userUid,
-                groupNo:userAll.isolaUserMeta.joinedGroupList[0],
-                userUid: userAll.isolaUserMeta.userUid);
-
-            context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
-
-
-
-
-
-
-
-
-
-
-
+    context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
 
     //silinecek
     isChaosSearching = false;
@@ -566,8 +568,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     _audioPlayer = AudioPlayer();
 
     user = auth.currentUser!;
-
-
 
     refChatInterior = context.read<ChatReferenceCubit>().state;
 
@@ -877,7 +877,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                 children: [
                   Flexible(
                     child: StreamBuilder<QuerySnapshot<GroupChatMessage>>(
-                        stream: refChatInterior
+                        stream: refChatInterior.orderBy("member_message_time",descending: true).limit(itemCountValue)
+                          
                             .withConverter<GroupChatMessage>(
                               fromFirestore: (snapshot, _) =>
                                   GroupChatMessage.fromJson(snapshot.data()!),
@@ -892,7 +893,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                   animating: true, radius: 12.sp),
                             );
 
-                       //   var chatMessageDatas = <AllMessageBalloon>[];
+                          //   var chatMessageDatas = <AllMessageBalloon>[];
                           final data = snapshot.requireData;
 
                           /* List<DocumentSnapshot> comingMessage =
@@ -1166,19 +1167,24 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             }
                           }
 */
-                        //  chatMessageDatas.sort((b, a) => a.memberMessageTime
-                          //    .compareTo(b.memberMessageTime));
+                          //     data.docs.sort((b, a) => a['member_message_time']
+                            //   .compareTo(b['member_message_time']));
 
-                          return data.docs.isNotEmpty
-                              ? SmartRefresher(
+                          return data.docs.isEmpty
+                              ? Column(
+                                  children: const [],
+                                )
+                              : SmartRefresher(
+                                  enablePullDown: false,
                                   enablePullUp: true,
                                   header: const ClassicHeader(),
                                   controller: refreshController,
-                                  onRefresh: _onRefresh,
+                                  // onRefresh: _onLoading,
                                   onLoading: _onLoading,
                                   child: ListView.builder(
-                                      //   reverse: true,
+                                      reverse: true,
                                       //itemCount: chatMessageDatas.length,
+                                      //   itemCount: data.size<itemCountValue?data.size:itemCountValue,
                                       itemCount: data.size,
                                       itemBuilder: (context, indeksNumarasi) =>
                                           Padding(
@@ -1190,8 +1196,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                   isMe: data.docs[indeksNumarasi].data().member_uid == userAll.isolaUserMeta.userUid
                                                       ? true
                                                       : false,
-                                                  memberMessage: data.docs[indeksNumarasi].data()
-                                                 
+                                                  memberMessage: data.docs[indeksNumarasi]
+                                                      .data()
                                                       .member_message,
                                                   memberAvatarUrl: data
                                                       .docs[indeksNumarasi]
@@ -1217,10 +1223,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                   memberIsVideo: data.docs[indeksNumarasi].data().member_message_isVideo,
                                                   memberIsDocument: data.docs[indeksNumarasi].data().member_message_isDocument,
                                                   memberAttachmentUrl: data.docs[indeksNumarasi].data().member_message_attachment_url))),
-                                ):Column(
-                                  children: const [],
                                 );
-                              
                         }),
                   ),
                   metinGirisAlani(),

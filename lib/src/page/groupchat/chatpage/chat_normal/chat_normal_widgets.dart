@@ -42,8 +42,7 @@ class ChatGroupCont extends StatelessWidget {
             .collection('groups_chat')
             .doc(chatGroupNo)
             .collection('chat_data')
-            .orderBy('member_message_time')
-
+            .orderBy('member_message_time', descending: true)
             .snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshots) {

@@ -237,10 +237,35 @@ class _NavigationBarState extends State<NavigationBar>
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return const CupertinoActivityIndicator();
+                        return Center(child: const CupertinoActivityIndicator());
+                      case ConnectionState.done:
+                          if ((snapshot.data as GroupMergeData).userAll.isolaUserMeta.joinedGroupList[0]=="nothing"&&(snapshot.data as GroupMergeData).userAll.isolaUserMeta.userIsSearching==false) {
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset("asset/img/chat_warning_icon.png"),
+                                const Text(
+                                  "You didnt join group",
+                                  style:
+                                      TextStyle(color: ColorConstant.softBlack),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          var refChatPageItems =
+                              snapshot.data as GroupMergeData;
+                          return ChatPage(
+                            user: user,
+                            groupMergeDataComing: refChatPageItems,
+                          );
+                        }
+
 
                       default:
-                        if (snapshot.hasError) {
+                        if (snapshot.hasError||!snapshot.hasData) {
                           return Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
