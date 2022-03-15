@@ -32,7 +32,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-			<string>com.googleusercontent.apps.136642145273-6762gpsacf6ugsm7lncaccr0ckpcd29p</string>
+				<string>com.googleusercontent.apps.136642145273-6762gpsacf6ugsm7lncaccr0ckpcd29p</string>
 			</array>
 		</dict>
 	</array>
@@ -58,6 +58,11 @@
 	<string>Allow "ISOLA" to access your microphone even recording your voice</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow "ISOLA" to access your photo library even edit and upload your profile photo</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -75,9 +80,14 @@
 	</array>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
+
 </dict>
 </plist>

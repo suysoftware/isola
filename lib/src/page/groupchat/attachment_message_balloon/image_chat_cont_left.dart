@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -51,15 +52,25 @@ class ImageChatContLeft extends StatelessWidget {
                                     child: Center(
                                         child: Padding(
                                       padding: const EdgeInsets.all(16.0),
-                                      child: Image.network(
+                                      child: CachedNetworkImage(
+                                        imageUrl:
                                         memberAttachmentUrl,
                                         fit: BoxFit.fill,
+                                         errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                                       ),
                                     )))),
-                            child: Image.network(
+                            child: CachedNetworkImage(
+                              imageUrl:
                               memberAttachmentUrl,
                               height: contHeight,
                               width: contWidth,
+                               errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                             ))),
                   ),
                   Align(

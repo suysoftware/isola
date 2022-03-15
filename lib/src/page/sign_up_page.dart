@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/sign_up_cubit.dart';
@@ -543,7 +544,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               ? StyleConstants.signUpGenderButtonActiveTextStyle
                               : StyleConstants
                                   .signUpGenderPassiveButtonTextStyle),
-                      onPressed: () {
+                      onPressed: () async {
                         if (t1.text.length > 2 &&
                             t2.text.length > 2 &&
                             t3.text.isNotEmpty) {
@@ -562,17 +563,20 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
 
                               //resim var
                               File file = File(picPath);
-                              uploadImage(widget.userAll.isolaUserMeta.userUid, file,
-                                      "profilePhoto")
+                              uploadImage(widget.userAll.isolaUserMeta.userUid,
+                                      file, "profilePhoto")
                                   // widget.userDisplay,gestureKey"profilePhoto")
-                                  .then((value) {
+                                  .then((value) async {
                                 FirebaseAuth _auth = FirebaseAuth.instance;
+                                FirebaseMessaging messaging =
+                                    FirebaseMessaging.instance;
+                                String? token = await messaging.getToken();
 
                                 CollectionReference users_display =
                                     FirebaseFirestore.instance
                                         .collection('users_display');
 
-                                users_display
+                                await users_display
                                     .doc(_auth.currentUser!.uid)
                                     .update({
                                   'uPic': value,
@@ -582,7 +586,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                       : isFemale == true
                                           ? false
                                           : true),
-                                  'uNonBinary': isOther
+                                  'uNonBinary': isOther,
+                                  'uDbToken': token,
                                 });
 
 //widget.userDisplay.avatarUrl = value;
@@ -590,13 +595,17 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 ///// eskiler
                                 var refAvatarUrl = refGetter(
                                     enum2: RefEnum.Useravatar,
-                                    targetUid: widget.userAll.isolaUserMeta.userUid,
-                                    userUid: widget.userAll.isolaUserMeta.userUid,
+                                    targetUid:
+                                        widget.userAll.isolaUserMeta.userUid,
+                                    userUid:
+                                        widget.userAll.isolaUserMeta.userUid,
                                     crypto: "");
                                 var refUserDisplay = refGetter(
                                     enum2: RefEnum.Userdisplay,
-                                    targetUid:widget.userAll.isolaUserMeta.userUid,
-                                    userUid: widget.userAll.isolaUserMeta.userUid,
+                                    targetUid:
+                                        widget.userAll.isolaUserMeta.userUid,
+                                    userUid:
+                                        widget.userAll.isolaUserMeta.userUid,
                                     crypto: "");
 
                                 refAvatarUrl.set(value);
@@ -620,7 +629,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                     .child("user_is_non_binary")
                                     .set(isOther);
 
-                                widget.userAll.isolaUserDisplay.avatarUrl = value;
+                                widget.userAll.isolaUserDisplay.avatarUrl =
+                                    value;
                                 print("kakakakkakakakka");
                                 print("kakakakkakakakka");
                                 print("kakakakkakakakka");
@@ -633,14 +643,38 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                     context,
                                     CupertinoPageRoute(
                                         builder: (context) => InterestAddPage(
-                                              userUid:
-                                                  widget.userAll.isolaUserMeta.userUid,
+                                              userUid: widget.userAll
+                                                  .isolaUserMeta.userUid,
                                             )));
                               });
                             } else {
+                              FirebaseAuth _auth = FirebaseAuth.instance;
+                              FirebaseMessaging messaging =
+                                  FirebaseMessaging.instance;
+                              String? token = await messaging.getToken();
+
+                              CollectionReference users_display =
+                                  FirebaseFirestore.instance
+                                      .collection('users_display');
+
+                              await users_display
+                                  .doc(_auth.currentUser!.uid)
+                                  .update({
+                                'uName': "${t1.text} ${t2.text}",
+                                'uSex': (isMale == true
+                                    ? true
+                                    : isFemale == true
+                                        ? false
+                                        : true),
+                                'uNonBinary': isOther,
+                                'uDbToken': token,
+                              });
+
+                              ///////////////
                               var refUserDisplay = refGetter(
                                   enum2: RefEnum.Userdisplay,
-                                  targetUid: widget.userAll.isolaUserMeta.userUid,
+                                  targetUid:
+                                      widget.userAll.isolaUserMeta.userUid,
                                   userUid: widget.userAll.isolaUserMeta.userUid,
                                   crypto: "");
 
@@ -668,8 +702,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) => InterestAddPage(
-                                            userUid: widget.userAll.isolaUserMeta.userUid
-                                          )));
+                                          userUid: widget
+                                              .userAll.isolaUserMeta.userUid)));
                             }
                           } else {
                             showCupertinoDialog(

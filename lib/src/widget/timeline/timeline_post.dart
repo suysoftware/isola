@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 import 'dart:collection';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -169,8 +170,8 @@ class _TimelineItemState extends State<TimelineItem>
                                   borderRadius: BorderRadius.circular(20.sp),
                                   child: CircleAvatar(
                                     radius: 100.h >= 1100 ? 13.sp : 20.sp,
-                                    child: Image.network(
-                                      widget.feedMeta.avatarUrl,
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.feedMeta.avatarUrl,
                                       width: 100.h >= 1100 ? 26.sp : 40.sp,
                                       height: 100.h >= 1100 ? 26.sp : 40.sp,
                                       fit: BoxFit.cover,
@@ -449,7 +450,9 @@ class _TimelineItemState extends State<TimelineItem>
                                                                     Center(
                                                                         child:
                                                                             AddPostReportContainer(
-                                                                  userUid: widget.userUid,
+                                                                      userUid:
+                                                                          widget
+                                                                              .userUid,
                                                                       feedMeta:
                                                                           widget
                                                                               .feedMeta,
@@ -573,7 +576,8 @@ class TimelineLikeModel extends Cubit<int> {
 }
 
 class AddPostReportContainer extends StatefulWidget {
-  const AddPostReportContainer({Key? key, required this.feedMeta,required this.userUid})
+  const AddPostReportContainer(
+      {Key? key, required this.feedMeta, required this.userUid})
       : super(key: key);
 
   final FeedMeta feedMeta;

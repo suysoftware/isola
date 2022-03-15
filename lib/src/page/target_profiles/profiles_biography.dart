@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, unused_field, must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +32,7 @@ TextStyle hobbiesStyle = 100.h >= 1100
     ? StyleConstants.hobbiesTabletTextStyle
     : StyleConstants.hobbiesTextStyle;
 
-    double hobbiesIconSize = 100.h >= 1100 ? 25.sp : 30.sp;
+double hobbiesIconSize = 100.h >= 1100 ? 25.sp : 30.sp;
 
 class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
   RefreshController _refreshController =
@@ -41,7 +42,6 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
   late User user;
   // ignore: prefer_typing_uninitialized_variables
   late var _refBio;
-
 
   void _onRefresh() async {}
 
@@ -57,7 +57,6 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
       targetUid: user.uid,
       crypto: '',
     );
- 
   }
 
   @override
@@ -126,106 +125,100 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                 ),
               ],
             ),
-              Row(
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(4.w, 0.0, 1.w, 0.0),
+                  child: Column(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(4.w, 0.0, 1.w, 0.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                                  height: hobbiesIconSize,
+                      SizedBox(
+                        height: hobbiesIconSize,
                         width: hobbiesIconSize,
-                              child: Image.asset(
-                                "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[0]}.png",
-                               fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(
-                              "${widget.feedMeta.userInterest[0]}",
-                              style: hobbiesStyle,
-                            ),
-                          ],
+                        child: Image.asset(
+                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[0]}.png",
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                                  height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                              child: Image.asset(
-             "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[1]}.png",
-                                fit:BoxFit.cover
-
-                              ),
-                            ),
-                            Text(
-                              "${widget.feedMeta.userInterest[1]}",
-                              style: hobbiesStyle,
-                            ),
-                          ],
-                        ),
+                      Text(
+                        "${widget.feedMeta.userInterest[0]}",
+                        style: hobbiesStyle,
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                                  height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                              child: Image.asset(
-                   "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[2]}.png",
-                           fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(
-                              "${widget.feedMeta.userInterest[2]}",
-                              style: hobbiesStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                                  height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                              child: Image.asset(
-              "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[3]}.png",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(
-                              "${widget.feedMeta.userInterest[3]}",
-                              style:hobbiesStyle
-                            ),
-                          ],
-                        ),
-                      ),
-                       Padding(
-                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                                  height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                              child: Image.asset(
-                           "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[4]}.png",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(
-                              "${widget.feedMeta.userInterest[4]}",
-                              style:hobbiesStyle
-                            ),
-                          ],
-                        ),
-                      )
                     ],
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: hobbiesIconSize,
+                        width: hobbiesIconSize,
+                        child: Image.asset(
+                            "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[1]}.png",
+                            fit: BoxFit.cover),
+                      ),
+                      Text(
+                        "${widget.feedMeta.userInterest[1]}",
+                        style: hobbiesStyle,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: hobbiesIconSize,
+                        width: hobbiesIconSize,
+                        child: Image.asset(
+                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[2]}.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Text(
+                        "${widget.feedMeta.userInterest[2]}",
+                        style: hobbiesStyle,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: hobbiesIconSize,
+                        width: hobbiesIconSize,
+                        child: Image.asset(
+                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[3]}.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Text("${widget.feedMeta.userInterest[3]}",
+                          style: hobbiesStyle),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: hobbiesIconSize,
+                        width: hobbiesIconSize,
+                        child: Image.asset(
+                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[4]}.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Text("${widget.feedMeta.userInterest[4]}",
+                          style: hobbiesStyle),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),
@@ -278,9 +271,12 @@ class ClubImageTile extends StatelessWidget {
     return BiographPageContainer(
       contInteriorWidget: ClipRRect(
         borderRadius: BorderRadius.circular(15.0),
-        child: Image.network(
-            'https://picsum.photos/$width/$height?random=$index',
-            fit: BoxFit.cover),
+        child: CachedNetworkImage(
+            imageUrl:'https://picsum.photos/$width/$height?random=$index',
+            fit: BoxFit.cover, errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),),
       ),
     );
   }
@@ -289,7 +285,8 @@ class ClubImageTile extends StatelessWidget {
 class BiographPageContainer extends StatelessWidget {
   Widget contInteriorWidget;
 
-  BiographPageContainer({Key? key, required this.contInteriorWidget}) : super(key: key);
+  BiographPageContainer({Key? key, required this.contInteriorWidget})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

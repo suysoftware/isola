@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_init_to_null, avoid_print, implementation_imports
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -157,41 +158,50 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: ClipOval(
                                       child: 100.h >= 700
                                           ? (100.h <= 1100
-                                              ? Image.network(
-                                                  widget
+                                              ? CachedNetworkImage(
+                                                  imageUrl: widget
                                                       .userAll
                                                       .isolaUserDisplay
                                                       .avatarUrl,
                                                   width: 110.sp,
                                                   height: 110.sp,
                                                   fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
+                                                  
                                                 )
-                                              : Image.network(
-                                                  widget
+                                              : CachedNetworkImage(
+                                                  imageUrl: widget
                                                       .userAll
                                                       .isolaUserDisplay
                                                       .avatarUrl,
                                                   width: 80.sp,
                                                   height: 80.sp,
                                                   fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
+                                                
                                                 ))
-                                          : Image.network(
-                                              widget.userAll.isolaUserDisplay
-                                                  .avatarUrl,
-                                              width: 75.sp,
-                                              height: 75.sp,
-                                              fit: BoxFit.cover,
-                                            ))
+                                          : CachedNetworkImage(
+                                                  imageUrl: widget
+                                                      .userAll
+                                                      .isolaUserDisplay
+                                                      .avatarUrl,
+                                                  width: 75.sp,
+                                                  height: 75.sp,
+                                                  fit: BoxFit.cover,
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
+                                                 
+                                                ))
 
-                                  /*CircleAvatar(
-                                  radius: 60.sp,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(60.sp),
-                                    child: Image.network(
-                                        widget.userDisplay.avatarUrl,
-                                        ),
-                                  ),
-                                ),*/
+                              
                                   ),
                             ),
                           ),

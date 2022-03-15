@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/blocs/chaos_group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/chat_message_targets_cubit.dart';
@@ -36,13 +40,58 @@ import 'package:sizer/sizer.dart';
 late Box box;
 late UserHive _userHive;
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print('Handling a background message ${message.messageId}');
+}
+
+Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
+  RemoteNotification? notification = message.notification;
+
+  print(
+      'Handling aOnMessage message ${message.messageId} / ${message.sentTime} / ${message.data} / ${message.messageId} /  ${message.notification}');
+}
+
+Future<void> _firebaseMessagingOpenedAppHandler(RemoteMessage message) async {
+/*  if (message.data['type'] == 'chat') {
+      Navigator.pushNamed(context, '/chat', 
+        arguments: ChatArguments(message),
+      );
+    }*/
+
+  print('Handling a OpenedApp message ${message.messageId}');
+}
+
 Future<void> main() async {
+  await init();
+  runApp(EasyLocalization(
+      supportedLocales: AppConstant.SUPPORTED_LOCALE,
+      path: AppConstant.LANG_PATH,
+      fallbackLocale: const Locale('en', 'US'),
+      child: const MyApp()));
+}
+
+Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
   EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
   box = await Hive.openBox('HiveDatabase2');
   Hive.registerAdapter(UserHiveAdapter());
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  await messaging.setForegroundNotificationPresentationOptions(
+    alert: true, // Required to display a heads up notification
+    badge: true,
+    sound: true,
+  );
 
   var history = <String>[];
   history.add("11");
@@ -53,11 +102,15 @@ Future<void> main() async {
       .onError((error, stackTrace) =>
           _userHive = UserHive(likesData: likeList, exloreData: history));
 
-  runApp(EasyLocalization(
-      supportedLocales: AppConstant.SUPPORTED_LOCALE,
-      path: AppConstant.LANG_PATH,
-      fallbackLocale: const Locale('en', 'US'),
-      child: const MyApp()));
+  /*
+  NotificationSettings settings = await messaging.getNotificationSettings();
+
+  FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
+  FirebaseMessaging.onMessageOpenedApp
+      .listen(_firebaseMessagingOpenedAppHandler);
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+*/
 }
 
 class MyApp extends StatelessWidget {
@@ -75,9 +128,19 @@ class MyApp extends StatelessWidget {
         true,
         "null",
         ["null1", "null2"],
-        ["null1", "null2"]);
-    var userMeta = IsolaUserMeta("null", 0, ["null", "null"], "null", true,
-        ["null", "null"], ["null", "null"], ["null", "null"], false);
+        ["null1", "null2"],
+        "");
+    var userMeta = IsolaUserMeta(
+      "null",
+      0,
+      ["null", "null"],
+      "null",
+      true,
+      ["null", "null"],
+      ["null", "null"],
+      ["null", "null"],
+      false,
+    );
 
     var userAll = IsolaUserAll(userDisplay, userMeta);
 

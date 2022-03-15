@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables, unused_local_variable, avoid_print, avoid_init_to_null
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -123,19 +124,19 @@ class _SearchPageState extends State<SearchPage> {
                 padding: const EdgeInsets.all(1.0),
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(1.0),
-                  onPressed: () async=>  addSearchItemDialogContent(context),
+                  onPressed: () async => addSearchItemDialogContent(context),
                   child: Container(
                     padding: const EdgeInsets.all(1.0),
                     child: Center(
-                        child: Image.asset(
-                "asset/img/search_page_cam_icon.png",
-              ),),
+                      child: Image.asset(
+                        "asset/img/search_page_cam_icon.png",
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-
           backgroundColor: ColorConstant.milkColor,
           leading: const Padding(
             padding: EdgeInsets.all(8.0),
@@ -360,7 +361,12 @@ class ImageTile extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(15.0))),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: Image.network(imageUrl, fit: BoxFit.cover),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) =>
+                    Icon(CupertinoIcons.xmark_square),
+              ),
             ),
           ),
         ),
@@ -483,37 +489,29 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                   width: 40.w,
                   decoration: BoxDecoration(
                       gradient: ColorConstant.isolaMainGradient,
-                      border:
-                          Border.all(color: ColorConstant.transparentColor),
+                      border: Border.all(color: ColorConstant.transparentColor),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(6.0))),
                   child: Padding(
                     padding: const EdgeInsets.all(1.0),
                     child: CupertinoButton(
-                      padding:   const EdgeInsets.all(1.0),
-                      onPressed: () async{
-                              String fileID = const Uuid().v4();
-                              uploadImage(
-                                      widget.userAll.isolaUserMeta.userUid, file!, fileID)
-                                  .then((value) {
-                                addSearchPageFeed(
-                                    widget.userAll, value, fileID);
-                              }).whenComplete(() {
+                      padding: const EdgeInsets.all(1.0),
+                      onPressed: () async {
+                        String fileID = const Uuid().v4();
+                        uploadImage(widget.userAll.isolaUserMeta.userUid, file!,
+                                fileID)
+                            .then((value) {
+                          addSearchPageFeed(widget.userAll, value, fileID);
+                        }).whenComplete(() {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          setState(() {});
+                        });
 
-                                  Navigator.pop(context);
-                                Navigator.pop(context);
-                                setState(() {});
-                              });
-
-                              
                         showCupertinoDialog(
                             context: context,
                             builder: (BuildContext context) =>
-                              AnimatedLiquidCircularProgressIndicator());
-
-                          
-
-
+                                AnimatedLiquidCircularProgressIndicator());
                       },
                       child: Container(
                         padding: const EdgeInsets.all(1.0),

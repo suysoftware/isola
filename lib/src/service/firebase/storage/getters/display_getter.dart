@@ -243,7 +243,7 @@ Future<UserAll> getDisplayData(String uid) async {
   var userAll = UserAll(userDisplay, userMeta, _searchStatus);
   return userAll;
 }
-
+/*
 Future<GroupPreviewData> getAllDataForChatPage(String uid) async {
   var _ref = refGetter(
       enum2: RefEnum.Userdisplay, userUid: uid, targetUid: uid, crypto: "");
@@ -1083,7 +1083,7 @@ Future<GroupPreviewData> getAllDataForChatPage(String uid) async {
       userDisplay.userFriends,
       userDisplay.userBlocked,
       ["null"],
-      false);
+      false,);
   var userAll = IsolaUserAll(isolaUserDisplay, isolaUserMeta);
   print("14");
   var groupPreview = GroupPreviewData(userAll, groupAlives);
@@ -1165,7 +1165,7 @@ Future<List<dynamic>> getPopularFeeds() async {
 
   return popularFeedList;
 }
-
+*/
 Future<UserDisplay> getUserDisplay(String uid) async {
   dynamic comingValue;
   var _ref = refGetter(
@@ -1286,7 +1286,7 @@ Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
         docValue['uNonBinary'],
         docValue['uUniversity'],
         docValue['uAct'],
-        docValue['uLike']));
+        docValue['uLike'],docValue['uDbToken']));
 
     await users_meta.get().then((docValue) => userMeta = IsolaUserMeta(
         docValue['uEmail'],

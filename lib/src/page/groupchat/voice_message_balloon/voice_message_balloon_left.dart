@@ -1,8 +1,8 @@
-
-
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -18,12 +18,14 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
   String memberUid;
   String memberVoiceUrl;
 
-  VoiceMessageBalloonLeft (
-      {Key? key, required this.memberVoiceUrl,
+  VoiceMessageBalloonLeft(
+      {Key? key,
+      required this.memberVoiceUrl,
       required this.memberAvatarUrl,
       required this.memberMessageTime,
       required this.memberName,
-      required this.memberUid}) : super(key: key);
+      required this.memberUid})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
                   border: Border.all(color: ColorConstant.transparentColor),
                   borderRadius: BorderRadius.all(Radius.circular(20.sp))),
               child: Padding(
-                padding:const EdgeInsets.all(0.5),
+                padding: const EdgeInsets.all(0.5),
                 child: Container(
                   decoration: BoxDecoration(
                       color: ColorConstant.milkColor,
@@ -50,7 +52,11 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
                   child: CircleAvatar(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.sp),
-                      child: Image.network(memberAvatarUrl),
+                      child: CachedNetworkImage(
+                        imageUrl: memberAvatarUrl,
+                        errorWidget: (context, url, error) =>
+                            Icon(CupertinoIcons.xmark_square),
+                      ),
                     ),
                   ),
                 ),

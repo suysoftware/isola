@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -55,7 +57,11 @@ class AttachmentMessageBalloonLeft extends StatelessWidget {
                   child: CircleAvatar(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.sp),
-                      child: Image.network(memberAvatarUrl),
+                      child: CachedNetworkImage(
+                        imageUrl:memberAvatarUrl, errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),),
                     ),
                   ),
                 ),

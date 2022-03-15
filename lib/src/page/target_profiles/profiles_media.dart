@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -67,7 +68,7 @@ class _TargetProfileMediaPageState extends State<TargetProfileMediaPage> {
             child: ProfileBasicGridWidget(
               key: widget.key,
               refProfileMedia: _refProfileMedia,
-             userUid: widget.userUid,
+              userUid: widget.userUid,
             ),
           )),
     );
@@ -205,7 +206,11 @@ class ImageTile extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(15.0))),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: Image.network(imageUrl, fit: BoxFit.cover),
+              child: CachedNetworkImage(
+               imageUrl: imageUrl, fit: BoxFit.cover ,errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),),
             ),
           ),
         ),

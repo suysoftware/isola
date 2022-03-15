@@ -1,8 +1,11 @@
 // ignore_for_file: avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/page/sign_up_page.dart';
+import 'package:isola_app/src/service/firebase/storage/add_user.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
@@ -19,13 +22,26 @@ class _SplashPageState extends State<SplashPage> {
     User? user = FirebaseAuth.instance.currentUser;
     print("sf");
     if (user != null) {
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      String? token = await messaging.getToken();
+
+      FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
+
+   
+      print(token);
+      print(token);
+      print(token);
+      print(token);
+      print(token);
+      print(token);
+      print(token);
+
       getUserAllFromDataBase(user.uid).then((value) {
         if (value.isolaUserDisplay.userInterest.first == "interest1") {
           Navigator.push(
               context,
               CupertinoPageRoute(
-                  builder: (context) =>
-                      SignUpPage(userAll: value)));
+                  builder: (context) => SignUpPage(userAll: value)));
         } else {
           Navigator.pushReplacementNamed(context, navigationBar);
         }
@@ -48,7 +64,7 @@ class _SplashPageState extends State<SplashPage> {
   void dispose() {
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(

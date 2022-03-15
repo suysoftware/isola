@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -547,7 +548,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     WidgetsBinding.instance!.addObserver(this);
 
     userAll = context.read<UserAllCubit>().state;
-
+/*
     var groupSetting = GroupSettingModel(
         groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
         groupMemberAvatarUrl2: userAll.isolaUserDisplay.avatarUrl,
@@ -558,9 +559,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         groupMemberUid2: userAll.isolaUserMeta.userUid,
         groupMemberUid3: userAll.isolaUserMeta.userUid,
         groupNo: userAll.isolaUserMeta.joinedGroupList[0],
-        userUid: userAll.isolaUserMeta.userUid);
+        userUid: userAll.isolaUserMeta.userUid);*/
 
-    context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
+ //   context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
 
     //silinecek
     isChaosSearching = false;
@@ -833,8 +834,12 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               borderRadius: 100.h <= 1100
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
-                              child: Image.network(groupSettingModelForTrawling
-                                  .groupMemberAvatarUrl2),
+                              child: CachedNetworkImage(
+                              imageUrl: groupSettingModelForTrawling
+                                  .groupMemberAvatarUrl2, errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),),
                             ),
                           ),
                         )),
@@ -853,10 +858,15 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               borderRadius: 100.h <= 1100
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
-                              child: Image.network(
+                              child: CachedNetworkImage(
+                                imageUrl:
                                 groupSettingModelForTrawling
                                     .groupMemberAvatarUrl3,
                                 fit: BoxFit.fitWidth,
+                                 errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                               ),
                             ),
                           ),

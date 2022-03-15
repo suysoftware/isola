@@ -1,5 +1,6 @@
 // ignore_for_file: implementation_imports, must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
@@ -67,11 +68,16 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(70.sp),
-                        child: Image.network(
+                        child: CachedNetworkImage(
+                          imageUrl:
                           groupSettingModel.groupMemberAvatarUrl2,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
+                           errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                         )),
                   ))),
               Positioned(
@@ -82,17 +88,22 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(70.sp),
-                        child: Image.network(
+                        child: CachedNetworkImage(
+                          imageUrl:
                           groupSettingModel.groupMemberAvatarUrl3,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
+                           errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                         )),
                   ))),
               Positioned(
                   top: 100.h <= 700 ? 28.h : 25.h,
                   child: Text(
-                      "${groupSettingModel.groupMemberName2} & ${groupSettingModel.groupMemberName3}",
+                      "${(groupSettingModel.groupMemberName2).substring(0,10)} & ${(groupSettingModel.groupMemberName3).substring(0,10)}",
                       style: StyleConstants.profileNameTextStyle)),
               Positioned(
                 top: 100.h <= 1100 ? (100.h <= 700 ? 34.h : 30.h) : 34.h,
@@ -123,12 +134,15 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.sp),
-                                    child: Image.network(
+                                    borderRadius: BorderRadius.circular(18.sp),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
                                       groupSettingModel.groupMemberAvatarUrl1,
-                                      fit: BoxFit.cover,
-                                      height: 35.sp,
-                                      width: 35.sp,
+                                    
+                                       errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                                     ),
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
@@ -172,11 +186,16 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     circleImage: CircleAvatar(
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.sp),
-                                    child: Image.network(
+                                    child: CachedNetworkImage(
+                                      imageUrl:
                                       groupSettingModel.groupMemberAvatarUrl2,
                                       fit: BoxFit.cover,
                                       height: 50.sp,
                                       width: 50.sp,
+                                       errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                                     ),
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
@@ -248,8 +267,12 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     circleImage: CircleAvatar(
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(18.sp),
-                                    child: Image.network(groupSettingModel
-                                        .groupMemberAvatarUrl3),
+                                    child: CachedNetworkImage(
+                                      imageUrl:groupSettingModel
+                                        .groupMemberAvatarUrl3, errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),),
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),

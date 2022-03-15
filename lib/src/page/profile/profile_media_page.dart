@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables, must_be_immutable, unused_local_variable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,8 +15,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileMediaPage extends StatefulWidget {
-  const ProfileMediaPage(
-      {Key? key, required this.user, required this.userAll})
+  const ProfileMediaPage({Key? key, required this.user, required this.userAll})
       : super(key: key);
   final User user;
   final IsolaUserAll userAll;
@@ -120,16 +120,13 @@ class ProfileBasicGridWidget extends StatelessWidget {
 
   var feedValue = <ProfileGridTile>[];
 
-  
-
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder<dynamic>(
         stream: refProfileMedia.onValue,
         builder: (context, event) {
           if (event.hasData) {
-                feedValue.clear();
+            feedValue.clear();
             var searchDatas = <FeedMeta>[];
 
             var gettingSearch = event.data.snapshot.value as Map;
@@ -219,7 +216,11 @@ class ImageTile extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(15.0))),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: Image.network(imageUrl, fit: BoxFit.cover),
+              child: CachedNetworkImage(
+               imageUrl: imageUrl, fit: BoxFit.cover ,errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),),
             ),
           ),
         ),

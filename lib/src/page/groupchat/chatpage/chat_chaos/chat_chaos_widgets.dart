@@ -29,7 +29,7 @@ class ChaosGroupCont extends StatelessWidget {
 
   final String myUid;
   final int notiValue;
-   final Stream<QuerySnapshot> ref;
+  final Stream<QuerySnapshot> ref;
   final String chatGroupNo;
   final IsolaUserAll userAll;
 
@@ -392,11 +392,11 @@ class ChaosGroupCont extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(15.0))),
                   child: ChaosChatGroupCard(
-                    chatPicFirst: Image.network(
+                    chatPicFirst: CachedNetworkImage(
                       chatFriendAvatarUrl1,
                       fit: BoxFit.contain,
                     ),
-                    chatPicSecond: Image.network(
+                    chatPicSecond: CachedNetworkImage(
                       chatFriendAvatarUrl2,
                       fit: BoxFit.cover,
                     ),

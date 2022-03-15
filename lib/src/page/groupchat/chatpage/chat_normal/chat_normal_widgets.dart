@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, unused_local_variable, implementation_imports
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,29 +44,136 @@ class ChatGroupCont extends StatelessWidget {
             .doc(chatGroupNo)
             .collection('chat_data')
             .orderBy('member_message_time', descending: true)
+            .withConverter<GroupChatMessage>(
+              fromFirestore: (snapshot, _) =>
+                  GroupChatMessage.fromJson(snapshot.data()!),
+              toFirestore: (message, _) => message.toJson(),
+            )
             .snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshots) {
           if (snapshots.hasData) {
             //   var groupDatasAll = <GroupChatMessage>[];
-            // var groupDatasFriend1 = <GroupChatMessage>[];
-            //var groupDatasFriend2 = <GroupChatMessage>[];
+            var groupDatasFriend1 = <GroupChatMessage>[];
+            var groupDatasFriend2 = <GroupChatMessage>[];
+            var chatFriendName1;
+            var chatFriendName2;
 
-            var chatFriendName1 = "name123121";
-            var chatFriendName2 = "namesadasd2";
+            var chatFriendAvatarUrl1;
+            var chatFriendAvatarUrl2;
+            var chatFriendUid1;
+            var chatFriendUid2;
 
-            var chatFriendAvatarUrl1 =
-                "https://firebasestorage.googleapis.com/v0/b/isoladeneme.appspot.com/o/constant_files%2Fgroup_leave_icon.png?alt=media&token=ecb802a0-8972-465c-8777-c0a9576397d6";
-            var chatFriendAvatarUrl2 =
-                "https://firebasestorage.googleapis.com/v0/b/isoladeneme.appspot.com/o/constant_files%2Fgroup_leave_icon.png?alt=media&token=ecb802a0-8972-465c-8777-c0a9576397d6";
-            var chatFriendUid1 = "dsfafsffsa";
-            var chatFriendUid2 = "safassffsf";
+            for (var comingInfo in snapshots.data!.docs) {
+         
+
+              if (comingInfo["member_uid"] != myUid &&
+                  comingInfo["member_name"] != "System Message") {
+                if (comingInfo["member_uid"] == chatFriendUid1 &&
+                    groupDatasFriend1.isNotEmpty) {
+                  var groupFriend1 = GroupChatMessage(
+                      comingInfo["member_avatar_url"],
+                      comingInfo["member_message"],
+                      comingInfo["member_message_time"],
+                      comingInfo["member_name"],
+                      comingInfo["member_uid"],
+                      comingInfo["member_message_isvoice"],
+                      comingInfo["member_message_voice_url"],
+                      comingInfo["member_message_isattachment"],
+                      comingInfo["member_message_attachment_url"],
+                      comingInfo["member_message_isimage"],
+                      comingInfo["member_message_isvideo"],
+                      comingInfo["member_message_isdocument"],
+                      comingInfo["member_message_target_1_uid"],
+                      comingInfo["member_message_target_2_uid"]);
+                  groupDatasFriend1.add(groupFriend1);
+                }
+                if (groupDatasFriend1.isEmpty) {
+                  chatFriendUid1 = comingInfo["member_uid"];
+                  chatFriendName1 = comingInfo["member_name"];
+                  chatFriendAvatarUrl1 = comingInfo["member_avatar_url"];
+                  var groupFriend1 = GroupChatMessage(
+                      comingInfo["member_avatar_url"],
+                      comingInfo["member_message"],
+                      comingInfo["member_message_time"],
+                      comingInfo["member_name"],
+                      comingInfo["member_uid"],
+                      comingInfo["member_message_isvoice"],
+                      comingInfo["member_message_voice_url"],
+                      comingInfo["member_message_isattachment"],
+                      comingInfo["member_message_attachment_url"],
+                      comingInfo["member_message_isimage"],
+                      comingInfo["member_message_isvideo"],
+                      comingInfo["member_message_isdocument"],
+                      comingInfo["member_message_target_1_uid"],
+                      comingInfo["member_message_target_2_uid"]);
+                  groupDatasFriend1.add(groupFriend1);
+                }
+
+                if (comingInfo["member_uid"] != chatFriendUid1) {
+                  chatFriendUid2 = comingInfo["member_uid"];
+                  chatFriendAvatarUrl2 = comingInfo["member_avatar_url"];
+                  chatFriendName2 = comingInfo["member_name"];
+                  var groupFriend2 = GroupChatMessage(
+                      comingInfo["member_avatar_url"],
+                      comingInfo["member_message"],
+                      comingInfo["member_message_time"],
+                      comingInfo["member_name"],
+                      comingInfo["member_uid"],
+                      comingInfo["member_message_isvoice"],
+                      comingInfo["member_message_voice_url"],
+                      comingInfo["member_message_isattachment"],
+                      comingInfo["member_message_attachment_url"],
+                      comingInfo["member_message_isimage"],
+                      comingInfo["member_message_isvideo"],
+                      comingInfo["member_message_isdocument"],
+                      comingInfo["member_message_target_1_uid"],
+                      comingInfo["member_message_target_2_uid"]);
+                  groupDatasFriend2.add(groupFriend2);
+                }
+              }
+            }
+            groupDatasFriend1.sort((b, a) =>
+                a.member_message_time.compareTo(b.member_message_time));
+            groupDatasFriend2.sort((b, a) =>
+                a.member_message_time.compareTo(b.member_message_time));
+
+            var groupSetting = GroupSettingModel(
+                groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
+                groupMemberAvatarUrl2:
+                    groupDatasFriend1.first.member_avatar_url,
+                groupMemberAvatarUrl3:
+                    groupDatasFriend2.first.member_avatar_url,
+                groupMemberName1: userAll.isolaUserDisplay.userName,
+                groupMemberName2: groupDatasFriend1.first.member_name,
+                groupMemberName3: groupDatasFriend2.first.member_name,
+                groupMemberUid2: groupDatasFriend1.first.member_uid,
+                groupMemberUid3: groupDatasFriend2.first.member_uid,
+                groupNo: chatGroupNo,
+                userUid: userAll.isolaUserMeta.userUid);
+
             DocumentSnapshot ds = snapshots.data!.docs[0];
             var chatLastMessage = ds["member_message"];
+            var isImage = ds["member_message_isimage"];
+            var isVideo = ds["member_message_isvideo"];
+            var isDoc = ds["member_message_isdocument"];
+            var isVoice = ds["member_message_isvoice"];
 
+            context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
+            chatFriendName1 = groupDatasFriend1.first.member_name;
+            chatFriendName2 = groupDatasFriend2.first.member_name;
+            chatFriendAvatarUrl1 = groupDatasFriend1.first.member_avatar_url;
+            chatFriendAvatarUrl2 = groupDatasFriend2.first.member_avatar_url;
+            chatLastMessage = chatLastMessage;
+            isImage = isImage;
+            isVideo = isVideo;
+            isDoc = isDoc;
+            //   var chatLastMessage = "";
+/*
             var isImage = false;
             var isVideo = false;
             var isDoc = false;
+            var isVoice = false;*/
 
             return Container(
               decoration: BoxDecoration(
@@ -84,12 +192,14 @@ class ChatGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChatGroupCard(
-                      chatPicFirst: Image.network(
-                        chatFriendAvatarUrl1,
+                      chatPicFirst: CachedNetworkImage(
+                        imageUrl: chatFriendAvatarUrl1,
                         fit: BoxFit.cover,
+                        errorWidget: (context, url, error) =>
+                            Icon(CupertinoIcons.xmark_square),
                       ),
-                      chatPicSecond: Image.network(
-                        chatFriendAvatarUrl2,
+                      chatPicSecond: CachedNetworkImage(
+                        imageUrl: chatFriendAvatarUrl2,
                         fit: BoxFit.cover,
                       ),
                       chatBoxText: chatLastMessage,
@@ -101,6 +211,7 @@ class ChatGroupCont extends StatelessWidget {
                       isImage: isImage,
                       isVideo: isVideo,
                       isDoc: isDoc,
+                      isVoice: isVoice,
                     ),
                   ),
                 ),
@@ -129,12 +240,6 @@ class ChatGroupCont extends StatelessWidget {
               items2["member_message_target_2_uid"],
             );
             groupDatasAll.add(comingInfo);
-
-
-    
-
-            
-        
             var chatFriendName1;
             var chatFriendName2;
             var chatFriendAvatarUrl1;
@@ -283,12 +388,12 @@ class ChatGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChatGroupCard(
-                      chatPicFirst: Image.network(
+                      chatPicFirst: CachedNetworkImage(
                         chatFriendAvatarUrl1,
                         fit: BoxFit.cover,
                       
                       ),
-                      chatPicSecond: Image.network(
+                      chatPicSecond: CachedNetworkImage(
                         chatFriendAvatarUrl2,
                         fit: BoxFit.cover,
                       ),
@@ -335,7 +440,8 @@ class ChatGroupCard extends StatelessWidget {
       required this.chatGroupNo,
       required this.isImage,
       required this.isVideo,
-      required this.isDoc})
+      required this.isDoc,
+      required this.isVoice})
       : super(key: key);
 
   final Widget chatPicFirst;
@@ -349,6 +455,7 @@ class ChatGroupCard extends StatelessWidget {
   final bool isImage;
   final bool isVideo;
   final bool isDoc;
+  final bool isVoice;
 
   @override
   Widget build(BuildContext context) {
@@ -419,7 +526,9 @@ class ChatGroupCard extends StatelessWidget {
                                           ? "Video Message"
                                           : isDoc == true
                                               ? "Document Message"
-                                              : chatBoxText)
+                                              : isVoice == true
+                                                  ? "Voice Message"
+                                                  : chatBoxText)
                                   : chatBoxText)
                               : "",
                       rowLetterValue: 40,

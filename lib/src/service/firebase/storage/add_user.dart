@@ -160,3 +160,17 @@ Future<UserDisplay> createUserChecker(String uid) async {
 
   return userDisplay;
 }
+
+
+
+Future<void> saveTokenToDatabase(String token) async {
+  // Assume user is logged in for this example
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  await FirebaseFirestore.instance
+    .collection('users_display')
+    .doc(userId)
+    .update({
+      'uDbToken': FieldValue.arrayUnion([token]),
+    });
+}

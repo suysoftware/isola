@@ -1,7 +1,9 @@
 // ignore_for_file: implementation_imports, prefer_typing_uninitialized_variables, avoid_print, invalid_use_of_protected_member, must_be_immutable, unused_field, duplicate_ignore
 import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/src/public_ext.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,6 +55,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController animationController4;
   late Animation<double> rotateAnimationValue3;
 
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print(message.data);
+   /* if (message.data['type'] == 'chat') {
+      Navigator.pushNamed(
+        context,
+        '/chat',
+        arguments: ChatArguments(message),
+      );
+    }*/
+  }
+
   void addGroupToJoinedList(String comingValue) {
     context.read<JoinedListCubit>().joinedListAdd(comingValue);
   }
@@ -64,7 +94,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    setupInteractedMessage();
+/*
+     FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
+  FirebaseMessaging.onMessageOpenedApp
+      .listen(_firebaseMessagingOpenedAppHandler);
+*/
     print(widget.userAll.isolaUserMeta.userIsSearching);
     print(widget.userAll.isolaUserMeta.userIsSearching);
     print(widget.userAll.isolaUserMeta.userIsSearching);
@@ -280,7 +315,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (widget.userAll.isolaUserMeta.userIsSearching) {
-      
       animationController4.repeat(period: const Duration(milliseconds: 1800));
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
     }
@@ -417,58 +451,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               5) {
                             if (widget.userAll.isolaUserMeta.userToken > 0) {
                               // YOU HAVE TOKEN AND YOU CAN USE
-                                  animationController.forward();
-                                                animationController2
-                                                    .forward()
-                                                    .whenComplete(() {
-                                                  animationController3
-                                                      .forward()
-                                                      .whenComplete(() {
-                                                    joinToMatchingPool(
-                                                            widget
-                                                                .userAll
-                                                                .isolaUserMeta
-                                                                .userUid,
-                                                            widget
-                                                                .userAll
-                                                                .isolaUserDisplay
-                                                                .userSex,
-                                                            widget
-                                                                .userAll
-                                                                .isolaUserDisplay
-                                                                .userIsNonBinary,
-                                                            widget
-                                                                .userAll
-                                                                .isolaUserMeta
-                                                                .userIsValid)
-                                                        .whenComplete(() {
-                                                      context
-                                                          .read<
-                                                              MatchButtonCubit>()
-                                                          .imageButtonSearching(
-                                                              isTablet:
-                                                                  isTablet);
-                                                      context
-                                                          .read<
-                                                              SearchStatusCubit>()
-                                                          .searching();
-                                                      animationController
-                                                          .reset();
+                              animationController.forward();
+                              animationController2.forward().whenComplete(() {
+                                animationController3.forward().whenComplete(() {
+                                  joinToMatchingPool(
+                                          widget.userAll.isolaUserMeta.userUid,
+                                          widget
+                                              .userAll.isolaUserDisplay.userSex,
+                                          widget.userAll.isolaUserDisplay
+                                              .userIsNonBinary,
+                                          widget.userAll.isolaUserMeta
+                                              .userIsValid)
+                                      .whenComplete(() {
+                                    context
+                                        .read<MatchButtonCubit>()
+                                        .imageButtonSearching(
+                                            isTablet: isTablet);
+                                    context
+                                        .read<SearchStatusCubit>()
+                                        .searching();
+                                    animationController.reset();
 
-                                                      Navigator
-                                                          .pushReplacementNamed(
-                                                              context,
-                                                              navigationBar);
-                                                    });
-                                                  });
-                                                });
+                                    Navigator.pushReplacementNamed(
+                                        context, navigationBar);
+                                  });
+                                });
+                              });
                             } else {
                               // YOU HAVENT TOKEN , YOU HAVE TO BUY
                               showCupertinoDialog(
                                   context: context,
                                   builder: (context) => CupertinoAlertDialog(
-                                        content: const Text(
-                                            "You need token"),
+                                        content: const Text("You need token"),
                                         title: const Text("Token Alert"),
                                         actions: [
                                           CupertinoButton(
@@ -500,8 +514,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             showCupertinoDialog(
                                 context: context,
                                 builder: (context) => CupertinoAlertDialog(
-                                      content: const Text(
-                                          "No more match :("),
+                                      content: const Text("No more match :("),
                                       title: const Text("Full"),
                                       actions: [
                                         CupertinoButton(
@@ -819,9 +832,14 @@ class PostAvatarLeft extends StatelessWidget {
       child: CircleAvatar(
         radius: avatarRadius.h,
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.sp),
-            child: Image.network(
-                'https://images.unsplash.com/photo-1565464027194-7957a2295fb7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80')),
+          borderRadius: BorderRadius.circular(20.sp),
+          child: CachedNetworkImage(
+            imageUrl:
+                'https://images.unsplash.com/photo-1565464027194-7957a2295fb7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
+            errorWidget: (context, url, error) =>
+                Icon(CupertinoIcons.xmark_square),
+          ),
+        ),
       ),
     );
   }
@@ -841,8 +859,12 @@ class PostAvatarRight extends StatelessWidget {
         radius: avatarRadius.h,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
-            child: Image.network(
-                'https://images.unsplash.com/photo-1528341866330-07e6d1752ec2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=881&q=80')),
+            child: CachedNetworkImage(
+              imageUrl:
+                  'https://images.unsplash.com/photo-1528341866330-07e6d1752ec2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=881&q=80',
+              errorWidget: (context, url, error) =>
+                  Icon(CupertinoIcons.xmark_square),
+            )),
       ),
     );
   }

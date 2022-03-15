@@ -1600,7 +1600,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               borderRadius: 100.h <= 1100
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
-                              child: Image.network(groupSettingModelForTrawling
+                              child: CachedNetworkImage(groupSettingModelForTrawling
                                   .groupMemberAvatarUrl2),
                             ),
                           ),
@@ -1620,7 +1620,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               borderRadius: 100.h <= 1100
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
-                              child: Image.network(
+                              child: CachedNetworkImage(
                                 groupSettingModelForTrawling
                                     .groupMemberAvatarUrl3,
                                 fit: BoxFit.fitWidth,
@@ -1643,7 +1643,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                           backgroundColor: CupertinoColors.systemYellow,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.sp),
-                            child: Image.network(groupSettingModelForTrawling
+                            child: CachedNetworkImage(groupSettingModelForTrawling
                                 .groupMemberAvatarUrl3),
                           ),
                         ),

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, unused_field, prefer_typing_uninitialized_variables, avoid_print, must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,13 +50,15 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
     // monitor network fetch
     /// await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
-    await getUserAllFromDataBase(widget.userAll.isolaUserMeta.userUid).then((value) {
+    await getUserAllFromDataBase(widget.userAll.isolaUserMeta.userUid)
+        .then((value) {
       setState(() {
-        widget.userAll.isolaUserDisplay.userInterest = value.isolaUserDisplay.userInterest;
+        widget.userAll.isolaUserDisplay.userInterest =
+            value.isolaUserDisplay.userInterest;
       });
     });
 
-   _refreshController.refreshCompleted();
+    _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
@@ -74,7 +77,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
   @override
   void initState() {
     super.initState();
-   
+
     user = auth.currentUser!;
     _refBio = refGetter(
       enum2: RefEnum.Userdisplay,
@@ -141,7 +144,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       initialData: const CupertinoActivityIndicator(),
                       builder: (context, snapshot) {
                         return bioTextWidgetGetter(context,
-                            targetMessage: userAll.isolaUserDisplay.userBiography,
+                            targetMessage:
+                                userAll.isolaUserDisplay.userBiography,
                             targetName: "",
                             rowLetterValue: 70,
                             letterTextStyle: biographyStyle);
@@ -418,8 +422,10 @@ class ClubImageTile extends StatelessWidget {
     return BiographPageContainer(
       contInteriorWidget: ClipRRect(
         borderRadius: BorderRadius.circular(15.0),
-        child: Image.network(
-            'https://picsum.photos/$width/$height?random=$index',
+        child: CachedNetworkImage(
+            imageUrl: 'https://picsum.photos/$width/$height?random=$index',
+            errorWidget: (context, url, error) =>
+                Icon(CupertinoIcons.xmark_square),
             fit: BoxFit.cover),
       ),
     );
@@ -429,7 +435,8 @@ class ClubImageTile extends StatelessWidget {
 class BiographPageContainer extends StatelessWidget {
   Widget contInteriorWidget;
 
-  BiographPageContainer({Key? key, required this.contInteriorWidget}) : super(key: key);
+  BiographPageContainer({Key? key, required this.contInteriorWidget})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

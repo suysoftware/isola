@@ -28,6 +28,7 @@ class IsolaUserMeta {
   late List<dynamic> userBlocked;
   late List<dynamic> userActivityClubs;
   late bool userIsSearching;
+ 
 
   IsolaUserMeta(
       this.userEmail,
@@ -38,7 +39,8 @@ class IsolaUserMeta {
       this.userFriends,
       this.userBlocked,
       this.userActivityClubs,
-      this.userIsSearching);
+      this.userIsSearching,
+    );
 
   factory IsolaUserMeta.fromJson(Map<dynamic, dynamic> json) {
     return IsolaUserMeta(
@@ -50,6 +52,7 @@ class IsolaUserMeta {
         json["uFriends"] as List<dynamic>,
         json["uBlocked"] as List<dynamic>,
         json["uClubs"] as List<dynamic>,
-        json["uSearching"] as bool);
+        json["uSearching"] as bool,
+       );
   }
 }

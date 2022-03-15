@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, unused_field
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -425,11 +426,15 @@ class _AddPostContainerState extends State<AddPostContainer> {
                             borderRadius: BorderRadius.circular(21.sp),
                             child: CircleAvatar(
                               radius: 20.sp,
-                              child: Image.network(
-                                widget.userAll.isolaUserDisplay.avatarUrl,
+                              child: CachedNetworkImage(
+                               imageUrl: widget.userAll.isolaUserDisplay.avatarUrl,
                                 width: 40.sp,
                                 height: 40.sp,
                                 fit: BoxFit.cover,
+                                 errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                               ),
                             ),
                           ),

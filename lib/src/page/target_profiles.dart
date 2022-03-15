@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -10,13 +11,9 @@ import 'package:isola_app/src/service/firebase/storage/getters/display_getter.da
 import 'package:sizer/sizer.dart';
 
 class TargetProfilePage extends StatefulWidget {
-  const TargetProfilePage({
-    Key? key,
-    required this.feedMeta
-  }) : super(key: key);
+  const TargetProfilePage({Key? key, required this.feedMeta}) : super(key: key);
 
   final FeedMeta feedMeta;
-
 
   @override
   _TargetProfilePageState createState() => _TargetProfilePageState();
@@ -70,19 +67,14 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
         );
 
       case 1:
-        return TargetProfileMediaPage(
-          userUid:widget.feedMeta.userUid
-        );
+        return TargetProfileMediaPage(userUid: widget.feedMeta.userUid);
 
       case 2:
         return TargetProfileBiographPage(
           feedMeta: widget.feedMeta,
-        
         );
       default:
-        return TargetProfileTimelinePage(
-    feedMeta:widget.feedMeta
-        );
+        return TargetProfileTimelinePage(feedMeta: widget.feedMeta);
     }
   }
 
@@ -117,10 +109,8 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
               return const Center(child: CupertinoActivityIndicator());
 
             default:
-            
               if (snapshot.hasError) {
-            
-              return Container(
+                return Container(
                   color: ColorConstant.themeGrey,
                   child: Column(
                     children: [
@@ -155,23 +145,40 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                           child: ClipOval(
                                               child: 100.h >= 700
                                                   ? (100.h <= 1100
-                                                      ? Image.network(
-                                                          widget.feedMeta.avatarUrl,
+                                                      ? CachedNetworkImage(
+                                                          imageUrl: widget
+                                                              .feedMeta
+                                                              .avatarUrl,
                                                           width: 120.sp,
                                                           height: 120.sp,
                                                           fit: BoxFit.cover,
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(CupertinoIcons
+                                                                  .xmark_square),
                                                         )
-                                                      : Image.network(
-                                                            widget.feedMeta.avatarUrl,
+                                                      : CachedNetworkImage(
+                                                          imageUrl: widget
+                                                              .feedMeta
+                                                              .avatarUrl,
                                                           width: 80.sp,
                                                           height: 80.sp,
                                                           fit: BoxFit.cover,
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(CupertinoIcons
+                                                                  .xmark_square),
                                                         ))
-                                                  : Image.network(
-                                                         widget.feedMeta.avatarUrl,
+                                                  : CachedNetworkImage(
+                                                      imageUrl: widget
+                                                          .feedMeta.avatarUrl,
                                                       width: 65.sp,
                                                       height: 65.sp,
                                                       fit: BoxFit.cover,
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                                                     ))),
                                     ),
                                   ),
@@ -190,7 +197,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                               padding: EdgeInsets.all(8.0),
                             ),
                             Text(
-                                widget.feedMeta.userName,
+                              widget.feedMeta.userName,
                               style: 100.h >= 1100
                                   ? StyleConstants.profileNameTabletTextStyle
                                   : StyleConstants.profileNameTextStyle,
@@ -201,9 +208,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                     child: Image.asset(
                                         "asset/img/profile_online.png"),
                                   )
-                                :  Padding(
-                                    padding:const EdgeInsets.all(6.0),
-                                    child:  Image.asset(
+                                : Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Image.asset(
                                         "asset/img/profile_offline.png"),
                                   ),
                           ],
@@ -287,26 +294,37 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                           child: ClipOval(
                                               child: 100.h >= 700
                                                   ? (100.h <= 1100
-                                                      ? Image.network(
-                                                          targetDisplay
+                                                      ? CachedNetworkImage(
+                                                          imageUrl:targetDisplay
                                                               .avatarUrl,
                                                           width: 120.sp,
                                                           height: 120.sp,
                                                           fit: BoxFit.cover,
+                                                           errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                                                         )
-                                                      : Image.network(
-                                                          targetDisplay
+                                                      : CachedNetworkImage(
+                                                         imageUrl: targetDisplay
                                                               .avatarUrl,
                                                           width: 80.sp,
                                                           height: 80.sp,
                                                           fit: BoxFit.cover,
+                                                           errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                                                         ))
-                                                  : Image.network(
-                                                      targetDisplay
-                                                          .avatarUrl,
+                                                  : CachedNetworkImage(
+                                                      imageUrl:targetDisplay.avatarUrl,
                                                       width: 65.sp,
                                                       height: 65.sp,
                                                       fit: BoxFit.cover,
+                                                       errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(CupertinoIcons
+                                                              .xmark_square),
                                                     ))),
                                     ),
                                   ),
@@ -336,19 +354,19 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                     child: Image.asset(
                                         "asset/img/profile_online.png"),
                                   )
-                                :  Padding(
-                                    padding:const EdgeInsets.all(6.0),
+                                : Padding(
+                                    padding: const EdgeInsets.all(6.0),
                                     child: Padding(
-                                    padding:const EdgeInsets.all(6.0),
-                                    child:  Image.asset(
-                                        "asset/img/profile_offline.png"),
-                                  ),
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: Image.asset(
+                                          "asset/img/profile_offline.png"),
+                                    ),
                                   ),
                           ],
                         ),
                       ),
                       Text(
-                     targetDisplay.userUniversity,
+                        targetDisplay.userUniversity,
                         style: 100.h >= 1100
                             ? StyleConstants.profileUniversityTabletTextStyle
                             : StyleConstants.profileUniversityTextStyle,
