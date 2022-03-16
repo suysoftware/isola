@@ -561,7 +561,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         groupNo: userAll.isolaUserMeta.joinedGroupList[0],
         userUid: userAll.isolaUserMeta.userUid);*/
 
- //   context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
+    //   context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
 
     //silinecek
     isChaosSearching = false;
@@ -573,6 +573,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     refChatInterior = context.read<ChatReferenceCubit>().state;
 
     groupSettingModelForTrawling = context.read<GroupSettingCubit>().state;
+
+    print(groupSettingModelForTrawling.groupNo);
 
     target1 = context.read<GroupSettingCubit>().state.groupMemberUid2;
     target2 = context.read<GroupSettingCubit>().state.groupMemberUid3;
@@ -751,7 +753,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     _animationControllerChaosStreaming.dispose();
     _animationControllerChaosSearching.dispose();
     WidgetsBinding.instance!.removeObserver(this);
-    print("sfafsa");
+    // print("sfafsa");
 
     super.dispose();
   }
@@ -835,11 +837,11 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
                               child: CachedNetworkImage(
-                              imageUrl: groupSettingModelForTrawling
-                                  .groupMemberAvatarUrl2, errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),),
+                                imageUrl: groupSettingModelForTrawling
+                                    .groupMemberAvatarUrl2,
+                                errorWidget: (context, url, error) =>
+                                    Icon(CupertinoIcons.xmark_square),
+                              ),
                             ),
                           ),
                         )),
@@ -859,14 +861,11 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
                               child: CachedNetworkImage(
-                                imageUrl:
-                                groupSettingModelForTrawling
+                                imageUrl: groupSettingModelForTrawling
                                     .groupMemberAvatarUrl3,
                                 fit: BoxFit.fitWidth,
-                                 errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                errorWidget: (context, url, error) =>
+                                    Icon(CupertinoIcons.xmark_square),
                               ),
                             ),
                           ),
@@ -887,8 +886,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                 children: [
                   Flexible(
                     child: StreamBuilder<QuerySnapshot<GroupChatMessage>>(
-                        stream: refChatInterior.orderBy("member_message_time",descending: true).limit(itemCountValue)
-                          
+                        stream: refChatInterior
+                            .orderBy("member_message_time", descending: true)
+                            .limit(itemCountValue)
                             .withConverter<GroupChatMessage>(
                               fromFirestore: (snapshot, _) =>
                                   GroupChatMessage.fromJson(snapshot.data()!),
@@ -1178,7 +1178,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                           }
 */
                           //     data.docs.sort((b, a) => a['member_message_time']
-                            //   .compareTo(b['member_message_time']));
+                          //   .compareTo(b['member_message_time']));
 
                           return data.docs.isEmpty
                               ? Column(

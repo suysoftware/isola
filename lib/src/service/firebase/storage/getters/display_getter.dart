@@ -243,6 +243,7 @@ Future<UserAll> getDisplayData(String uid) async {
   var userAll = UserAll(userDisplay, userMeta, _searchStatus);
   return userAll;
 }
+
 /*
 Future<GroupPreviewData> getAllDataForChatPage(String uid) async {
   var _ref = refGetter(
@@ -1286,7 +1287,8 @@ Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
         docValue['uNonBinary'],
         docValue['uUniversity'],
         docValue['uAct'],
-        docValue['uLike'],docValue['uDbToken']));
+        docValue['uLike'],
+        docValue['uDbToken']));
 
     await users_meta.get().then((docValue) => userMeta = IsolaUserMeta(
         docValue['uEmail'],
@@ -1327,24 +1329,29 @@ Future<List<dynamic>> getGroupDataFromDatabase(IsolaUserAll userAll) async {
     return groupsModelList;
   } else {
     for (var item in userAll.isolaUserMeta.joinedGroupList) {
-      var groupData;
+      try {
+        var groupData;
 
-      DocumentReference groupsData =
-          FirebaseFirestore.instance.collection('groups').doc(item);
+        DocumentReference groupsData =
+            FirebaseFirestore.instance.collection('groups').doc(item);
 
-      await groupsData.get().then((docValue) => groupData = GroupsModel(
-          docValue['gActive'],
-          docValue['gValue'],
-          docValue['gNeed'],
-          docValue['gSex'],
-          docValue['gNonBinary'],
-          docValue['gValid'],
-          docValue['gToken'],
-          docValue['gList'],
-          docValue['gNo'],
-          docValue['gChaos'],
-          docValue['gChaosNo']));
-      groupsModelList.add(groupData);
+        await groupsData.get().then((docValue) => groupData = GroupsModel(
+            docValue['gActive'],
+            docValue['gValue'],
+            docValue['gNeed'],
+            docValue['gSex'],
+            docValue['gNonBinary'],
+            docValue['gValid'],
+            docValue['gToken'],
+            docValue['gList'],
+            docValue['gNo'],
+            docValue['gChaos'],
+            docValue['gChaosNo']));
+
+        groupsModelList.add(groupData);
+      } catch (e) {
+        break;
+      }
     }
 
     return groupsModelList;

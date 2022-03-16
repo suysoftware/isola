@@ -10,7 +10,7 @@ class JoinedListCubit extends Cubit<List<dynamic>> {
     emitingList.addAll(state);
     emitingList.add(addingValue);
 
-    print("searhingbastıcubit");
+  // print("searhingbastıcubit");
     emit(emitingList);
   }
 
@@ -27,7 +27,7 @@ class JoinedListCubit extends Cubit<List<dynamic>> {
 
     emitingList.addAll(comingJoinedList);
 
-    print("searhingbastıcubit");
+    //print("searhingbastıcubit");
     emit(emitingList);
   }
 

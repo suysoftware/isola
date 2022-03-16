@@ -65,8 +65,6 @@ class ChatGroupCont extends StatelessWidget {
             var chatFriendUid2;
 
             for (var comingInfo in snapshots.data!.docs) {
-         
-
               if (comingInfo["member_uid"] != myUid &&
                   comingInfo["member_name"] != "System Message") {
                 if (comingInfo["member_uid"] == chatFriendUid1 &&
@@ -159,7 +157,7 @@ class ChatGroupCont extends StatelessWidget {
             var isDoc = ds["member_message_isdocument"];
             var isVoice = ds["member_message_isvoice"];
 
-            context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
+            //      context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
             chatFriendName1 = groupDatasFriend1.first.member_name;
             chatFriendName2 = groupDatasFriend2.first.member_name;
             chatFriendAvatarUrl1 = groupDatasFriend1.first.member_avatar_url;
@@ -212,6 +210,7 @@ class ChatGroupCont extends StatelessWidget {
                       isVideo: isVideo,
                       isDoc: isDoc,
                       isVoice: isVoice,
+                      groupSettingModel: groupSetting,
                     ),
                   ),
                 ),
@@ -441,7 +440,8 @@ class ChatGroupCard extends StatelessWidget {
       required this.isImage,
       required this.isVideo,
       required this.isDoc,
-      required this.isVoice})
+      required this.isVoice,
+      required this.groupSettingModel})
       : super(key: key);
 
   final Widget chatPicFirst;
@@ -456,6 +456,7 @@ class ChatGroupCard extends StatelessWidget {
   final bool isVideo;
   final bool isDoc;
   final bool isVoice;
+  final GroupSettingModel groupSettingModel;
 
   @override
   Widget build(BuildContext context) {
@@ -476,14 +477,18 @@ class ChatGroupCard extends StatelessWidget {
                     ],
                   ));
         } else {
-          String meUid = context.read<ChaosGroupSettingCubit>().state.userUid;
+          String meUid = context.read<GroupSettingCubit>().state.userUid;
 
           String target1 =
-              context.read<ChaosGroupSettingCubit>().state.groupMemberUid2;
+              context.read<GroupSettingCubit>().state.groupMemberUid2;
           String target2 =
-              context.read<ChaosGroupSettingCubit>().state.groupMemberUid3;
+              context.read<GroupSettingCubit>().state.groupMemberUid3;
           //buraya if konacak
           context.read<ChatReferenceCubit>().chatGroupChanger(chatGroupNo);
+
+          context
+              .read<GroupSettingCubit>()
+              .groupSettingChanger(groupSettingModel);
           context.read<ChatMessageTargetsCubit>().chatMessageTargetsChanger(
               meUid: meUid, target1: target1, target2: target2);
 

@@ -1,6 +1,7 @@
 // ignore_for_file: implementation_imports, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
@@ -69,15 +70,12 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(70.sp),
                         child: CachedNetworkImage(
-                          imageUrl:
-                          groupSettingModel.groupMemberAvatarUrl2,
+                          imageUrl: groupSettingModel.groupMemberAvatarUrl2,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
-                           errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                          errorWidget: (context, url, error) =>
+                              Icon(CupertinoIcons.xmark_square),
                         )),
                   ))),
               Positioned(
@@ -89,21 +87,18 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(70.sp),
                         child: CachedNetworkImage(
-                          imageUrl:
-                          groupSettingModel.groupMemberAvatarUrl3,
+                          imageUrl: groupSettingModel.groupMemberAvatarUrl3,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
-                           errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                          errorWidget: (context, url, error) =>
+                              Icon(CupertinoIcons.xmark_square),
                         )),
                   ))),
               Positioned(
                   top: 100.h <= 700 ? 28.h : 25.h,
                   child: Text(
-                      "${(groupSettingModel.groupMemberName2).substring(0,10)} & ${(groupSettingModel.groupMemberName3).substring(0,10)}",
+                      "${(groupSettingModel.groupMemberName2).substring(0, 10)} & ${(groupSettingModel.groupMemberName3).substring(0, 10)}",
                       style: StyleConstants.profileNameTextStyle)),
               Positioned(
                 top: 100.h <= 1100 ? (100.h <= 700 ? 34.h : 30.h) : 34.h,
@@ -136,13 +131,10 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(18.sp),
                                     child: CachedNetworkImage(
-                                      imageUrl:
-                                      groupSettingModel.groupMemberAvatarUrl1,
-                                    
-                                       errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                      imageUrl: groupSettingModel
+                                          .groupMemberAvatarUrl1,
+                                      errorWidget: (context, url, error) =>
+                                          Icon(CupertinoIcons.xmark_square),
                                     ),
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
@@ -187,15 +179,13 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.sp),
                                     child: CachedNetworkImage(
-                                      imageUrl:
-                                      groupSettingModel.groupMemberAvatarUrl2,
+                                      imageUrl: groupSettingModel
+                                          .groupMemberAvatarUrl2,
                                       fit: BoxFit.cover,
                                       height: 50.sp,
                                       width: 50.sp,
-                                       errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(CupertinoIcons.xmark_square),
                                     ),
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
@@ -237,13 +227,14 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                           .whenComplete(() {
                                         var friendUpdate = <dynamic>[];
 
-                                        friendUpdate
-                                            .addAll(userAll.isolaUserMeta.userFriends);
+                                        friendUpdate.addAll(
+                                            userAll.isolaUserMeta.userFriends);
 
                                         friendUpdate.add(
                                             groupSettingModel.groupMemberUid2);
 
-                                        userAll.isolaUserMeta.userFriends = friendUpdate;
+                                        userAll.isolaUserMeta.userFriends =
+                                            friendUpdate;
 
                                         setState(() {});
                                       });
@@ -268,11 +259,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(18.sp),
                                     child: CachedNetworkImage(
-                                      imageUrl:groupSettingModel
-                                        .groupMemberAvatarUrl3, errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),),
+                                      imageUrl: groupSettingModel
+                                          .groupMemberAvatarUrl3,
+                                      errorWidget: (context, url, error) =>
+                                          Icon(CupertinoIcons.xmark_square),
+                                    ),
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
@@ -314,13 +305,14 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                         ///burada sorun veriyor çünkü userfriend listesini ilk biryere aktarıp sonradan ona eklicez;
                                         var friendUpdate = <dynamic>[];
 
-                                        friendUpdate
-                                            .addAll(userAll.isolaUserMeta.userFriends);
+                                        friendUpdate.addAll(
+                                            userAll.isolaUserMeta.userFriends);
 
                                         friendUpdate.add(
                                             groupSettingModel.groupMemberUid3);
 
-                                        userAll.isolaUserMeta.userFriends = friendUpdate;
+                                        userAll.isolaUserMeta.userFriends =
+                                            friendUpdate;
 
                                         setState(() {});
                                       });
@@ -370,7 +362,26 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                             ),
                             onPressed: () {
                               //buraya groupneedliste nothingi dğeiştirip kendi kodunu eklemeyi unutma
-                              groupChaosSearchingInfoGetter(
+                              //ilk olarak kontrol etmeyi ekle buraya o kişi o gruptamı baksın
+
+                              CollectionReference leaveRef = FirebaseFirestore
+                                  .instance
+                                  .collection('groups_leave_pool');
+
+                              leaveRef.doc(groupSettingModel.groupNo).set({
+                                'groupNo': groupSettingModel.groupNo,
+                                'leaverUser': groupSettingModel.userUid
+                              }).whenComplete(() {
+                                print(groupSettingModel.groupNo);
+                                 print(groupSettingModel.groupNo);
+                                  print(groupSettingModel.groupNo);
+                                   print(groupSettingModel.groupNo);
+                                    print(groupSettingModel.groupNo);
+                                Navigator.pushReplacementNamed(
+                                    context, navigationBar);
+                              });
+
+                              /* groupChaosSearchingInfoGetter(
                                       groupSettingModel.groupNo)
                                   .then((value) {
                                 if (value == true) {
@@ -403,6 +414,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   });
                                 }
                               });
+                              */
 
                               //    print(groupSettingModel.groupNo);
                               //  print(
@@ -432,7 +444,9 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     )
                                   ],
                                 )),
-                            onPressed: () {}),
+                            onPressed: () {
+                              print(groupSettingModel.groupNo);
+                            }),
                       ],
                     )
                   ],

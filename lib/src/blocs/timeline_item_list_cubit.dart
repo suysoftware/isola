@@ -10,12 +10,12 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
 
   void timelineAdder(dynamic item) {
     var expItem = <TimelineItem>[];
-    print("TTTTTTT");
+   // print("TTTTTTT");
 
-    print(expItem.length);
+    //print(expItem.length);
     expItem.addAll(item);
-    print(expItem.length);
-    print("TTTTTTT");
+  //  print(expItem.length);
+  //  print("TTTTTTT");
 
     emit(expItem);
   }

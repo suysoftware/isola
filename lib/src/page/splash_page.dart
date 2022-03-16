@@ -20,7 +20,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   void initializeFirebase() async {
     User? user = FirebaseAuth.instance.currentUser;
-    print("sf");
+
     if (user != null) {
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       String? token = await messaging.getToken();
@@ -29,12 +29,7 @@ class _SplashPageState extends State<SplashPage> {
 
    
       print(token);
-      print(token);
-      print(token);
-      print(token);
-      print(token);
-      print(token);
-      print(token);
+  
 
       getUserAllFromDataBase(user.uid).then((value) {
         if (value.isolaUserDisplay.userInterest.first == "interest1") {

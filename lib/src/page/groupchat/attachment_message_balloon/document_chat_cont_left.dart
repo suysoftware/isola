@@ -49,7 +49,7 @@ class DocumentChatContLeft extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () {
-                      print("fssaf");
+                   //   print("fssaf");
 
                       showCupertinoDialog(
                           context: context,

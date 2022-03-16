@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void _handleMessage(RemoteMessage message) {
     print(message.data);
-   /* if (message.data['type'] == 'chat') {
+    /* if (message.data['type'] == 'chat') {
       Navigator.pushNamed(
         context,
         '/chat',
@@ -100,6 +100,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   FirebaseMessaging.onMessageOpenedApp
       .listen(_firebaseMessagingOpenedAppHandler);
 */
+/*
     print(widget.userAll.isolaUserMeta.userIsSearching);
     print(widget.userAll.isolaUserMeta.userIsSearching);
     print(widget.userAll.isolaUserMeta.userIsSearching);
@@ -115,7 +116,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     print(widget.userAll.isolaUserMeta.joinedGroupList.length);
     print(widget.userAll.isolaUserMeta.joinedGroupList.length);
     print(widget.userAll.isolaUserMeta.joinedGroupList.length);
-
+*/
     isTablet = 100.h >= 1100 ? true : false;
 
     _refTimeline = refGetter(

@@ -6,12 +6,12 @@ class SearchStatusCubit extends Cubit<bool> {
   SearchStatusCubit() : super(false);
 
   void searching() {
-      print("searhingbastıcubit");
+    //  print("searhingbastıcubit");
     emit(true);
   }
 
   void pauseSearching() {
-     print("pausesearhingbastıcubit");
+    // print("pausesearhingbastıcubit");
     emit(false);
   }
 }
