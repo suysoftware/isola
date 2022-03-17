@@ -593,7 +593,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
 //widget.userDisplay.avatarUrl = value;
 
                                 ///// eskiler
-                                var refAvatarUrl = refGetter(
+                              /*  var refAvatarUrl = refGetter(
                                     enum2: RefEnum.Useravatar,
                                     targetUid:
                                         widget.userAll.isolaUserMeta.userUid,
@@ -627,7 +627,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
 
                                 refUserDisplay
                                     .child("user_is_non_binary")
-                                    .set(isOther);
+                                    .set(isOther);*/
 
                                 widget.userAll.isolaUserDisplay.avatarUrl =
                                     value;
@@ -671,6 +671,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               });
 
                               ///////////////
+                              /*
                               var refUserDisplay = refGetter(
                                   enum2: RefEnum.Userdisplay,
                                   targetUid:
@@ -697,6 +698,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                   .child("user_is_non_binary")
                                   .set(isOther);
                               FocusScope.of(context).requestFocus(FocusNode());
+                              */
                               //resim yok
                               Navigator.push(
                                   context,

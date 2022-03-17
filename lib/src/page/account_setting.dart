@@ -1,5 +1,6 @@
 // ignore_for_file: implementation_imports
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -49,22 +50,22 @@ class _AccountSettingPageState extends State<AccountSettingPage>
   void initState() {
     super.initState();
 
-    if (context.read<UserAllCubit>().state.isolaUserDisplay.userIsNonBinary != true) {
+    if (context.read<UserAllCubit>().state.isolaUserDisplay.userIsNonBinary !=
+        true) {
       if (context.read<UserAllCubit>().state.isolaUserDisplay.userSex == true) {
         isOther = false;
         isMale = true;
         isFemale = false;
-      }
-      else{
-         isOther = false;
+      } else {
+        isOther = false;
         isMale = false;
         isFemale = true;
       }
     }
 
     userName = context.read<UserAllCubit>().state.isolaUserDisplay.userName;
-    userUniversity = context.read<UserAllCubit>().state.isolaUserDisplay.userUniversity;
-    
+    userUniversity =
+        context.read<UserAllCubit>().state.isolaUserDisplay.userUniversity;
 
     t1.text = userName.split(" ").first;
     t2.text = userName.split(" ").last;
@@ -219,6 +220,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                     width: 70.w,
                     height: 4.h,
                     child: CupertinoTextField(
+                      /*
                       onChanged: (w) {
                         if (t3.text.length < 2) {
                           universityFilled = false;
@@ -227,7 +229,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                           universityFilled = true;
                           setState(() {});
                         }
-                      },
+                      },*/
+                      readOnly: true,
                       decoration: BoxDecoration(
                           border: Border(
                               bottom: universityFilled == true
@@ -320,10 +323,11 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       height: 3.5.h,
                       decoration: isMale == true
                           ? BoxDecoration(
-  color: ColorConstant.accountEditButtonColor,                              border: Border.all(width: 0.1),
+                              color: ColorConstant.accountEditButtonColor,
+                              border: Border.all(width: 0.1),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(7.sp)),
-                          )
+                            )
                           : BoxDecoration(
                               color: ColorConstant.messageBoxGrey,
                               border: Border.all(width: 0.01),
@@ -367,7 +371,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       height: 3.5.h,
                       decoration: isFemale == true
                           ? BoxDecoration(
-                 color: ColorConstant.accountEditButtonColor,
+                              color: ColorConstant.accountEditButtonColor,
                               border: Border.all(width: 0.1),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(7.sp)),
@@ -382,7 +386,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                               border: Border.all(width: 0.01),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(7.sp)),
-                           ),
+                            ),
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: CupertinoButton(
@@ -446,30 +450,22 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                             if (t1.text.length > 2 &&
                                 t2.text.length > 2 &&
                                 t3.text.isNotEmpty) {
-                              var refUserDisplay = refGetter(
-                                  enum2: RefEnum.Userdisplay,
-                                  targetUid: widget.userUid,
-                                  userUid: widget.userUid,
-                                  crypto: "");
+                              CollectionReference accountUpdateRef =
+                                  FirebaseFirestore.instance
+                                      .collection("users_display");
 
-                              refUserDisplay
-                                  .child("user_name")
-                                  .set("${t1.text} ${t2.text}");
-                              refUserDisplay
-                                  .child("user_university")
-                                  .set(t3.text);
-
-                              refUserDisplay
-                                  .child("user_sex")
-                                  .set(isMale == true
+                             accountUpdateRef.doc(widget.userUid).update({
+                                'uName':"${t1.text} ${t2.text}",
+                                'uSex':isMale == true
                                       ? true
                                       : isFemale == true
                                           ? false
-                                          : true);
+                                          : true,
+                                'uNonBinary':isOther,
 
-                              refUserDisplay
-                                  .child("user_is_non_binary")
-                                  .set(isOther);
+                              });
+
+                         
                               FocusScope.of(context).requestFocus(FocusNode());
                               //resim yok
                               Navigator.pop(context);

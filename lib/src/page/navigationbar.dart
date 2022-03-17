@@ -1,5 +1,6 @@
 // ignore_for_file: implementation_imports, prefer_typing_uninitialized_variables, unused_field, avoid_print, unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
@@ -30,11 +31,13 @@ class NavigationBar extends StatefulWidget {
 class _NavigationBarState extends State<NavigationBar>
     with WidgetsBindingObserver {
   late User user;
-  late var _refUserDisplay;
+  // late var _refUserDisplay;
 
 // late UserDisplay userDisplay;
   late IsolaUserAll userAll;
   late var userLikeHistory;
+  CollectionReference userDisplayRef =
+      FirebaseFirestore.instance.collection('users_display');
   @override
   void initState() {
     super.initState();
@@ -42,14 +45,19 @@ class _NavigationBarState extends State<NavigationBar>
 
     FirebaseAuth auth = FirebaseAuth.instance;
     user = auth.currentUser!;
+    /*
     _refUserDisplay = refGetter(
         enum2: RefEnum.Userdisplay,
         targetUid: user.uid,
         userUid: user.uid,
         crypto: "");
+        */
+
     context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
 
-    _refUserDisplay.child("user_is_online").set(true);
+    userDisplayRef.doc(user.uid).update({'uOnline': true});
+
+   // _refUserDisplay.child("user_is_online").set(true);
     //  getDisplayData(user.uid).then((value) => userDisplay = value);
     getUserAllFromDataBase(user.uid)
         .then((value) => userAll = value)
@@ -83,20 +91,23 @@ class _NavigationBarState extends State<NavigationBar>
 
     if (state == AppLifecycleState.paused) {
       print(" altta atıldı");
-      await _refUserDisplay.child("user_is_online").set(false);
-      context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
+      // await _refUserDisplay.child("user_is_online").set(false);
+      //context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
 
     if (state == AppLifecycleState.resumed) {
       print("alta atıp geri gelince");
-      await _refUserDisplay.child("user_is_online").set(true);
-      context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
+      // await _refUserDisplay.child("user_is_online").set(true);
+      //context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
     }
 
     if (state == AppLifecycleState.detached) {
       print("detached");
 
-      _refUserDisplay.child("user_is_online").set(false);
+
+
+        userDisplayRef.doc(user.uid).update({'uOnline': false});
+      //_refUserDisplay.child("user_is_online").set(false);
       context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
     super.didChangeAppLifecycleState(state);
@@ -237,9 +248,19 @@ class _NavigationBarState extends State<NavigationBar>
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Center(child: const CupertinoActivityIndicator());
+                        return Center(
+                            child: const CupertinoActivityIndicator());
                       case ConnectionState.done:
-                          if ((snapshot.data as GroupMergeData).userAll.isolaUserMeta.joinedGroupList[0]=="nothing"&&(snapshot.data as GroupMergeData).userAll.isolaUserMeta.userIsSearching==false) {
+                        if ((snapshot.data as GroupMergeData)
+                                    .userAll
+                                    .isolaUserMeta
+                                    .joinedGroupList[0] ==
+                                "nothing" &&
+                            (snapshot.data as GroupMergeData)
+                                    .userAll
+                                    .isolaUserMeta
+                                    .userIsSearching ==
+                                false) {
                           return Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -263,9 +284,8 @@ class _NavigationBarState extends State<NavigationBar>
                           );
                         }
 
-
                       default:
-                        if (snapshot.hasError||!snapshot.hasData) {
+                        if (snapshot.hasError || !snapshot.hasData) {
                           return Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'package:isola_app/src/model/enum/ref_enum.dart';
-
+/*
 Future<bool> searchingStatus(List<dynamic> userGroupJoinedList) async {
   var refSearchingStatus = refGetter(
       enum2: RefEnum.Groupdisplay, targetUid: "", userUid: "", crypto: "");
@@ -94,4 +94,4 @@ Future<bool> searchingStatus(List<dynamic> userGroupJoinedList) async {
 
 
 
-
+*/

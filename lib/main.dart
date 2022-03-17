@@ -139,7 +139,7 @@ class MyApp extends StatelessWidget {
       ["null", "null"],
       ["null", "null"],
       ["null", "null"],
-      false,
+      false,["null","null"]
     );
 
     var userAll = IsolaUserAll(userDisplay, userMeta);

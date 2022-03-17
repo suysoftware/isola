@@ -18,6 +18,7 @@ import 'package:isola_app/src/service/firebase/storage/groups/add_friend.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_leave.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_leave_message.dart';
 import 'package:isola_app/src/utils/router.dart';
+import 'package:isola_app/src/widget/report_sheets.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -52,7 +53,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
+        navigationBar: CupertinoNavigationBar(
           automaticallyImplyLeading: true,
           backgroundColor: ColorConstant.milkColor,
         ),
@@ -211,34 +212,74 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                         : const Icon(CupertinoIcons.person),
                                     onPressed: () {},
                                   )
-                                : CupertinoButton(
-                                    child: 100.h >= 1100
-                                        ? Icon(
-                                            CupertinoIcons.plus,
-                                            size: 16.sp,
-                                          )
-                                        : const Icon(
-                                            CupertinoIcons.plus,
-                                          ),
-                                    onPressed: () {
-                                      addFriend(
-                                              groupSettingModel.groupMemberUid2,
-                                              userAll)
-                                          .whenComplete(() {
-                                        var friendUpdate = <dynamic>[];
+                                : userAll.isolaUserMeta.userFriendOrders
+                                        .contains(
+                                            groupSettingModel.groupMemberUid2)
+                                    ? CupertinoButton(
+                                        child: 100.h >= 1100
+                                            ? Icon(
+                                                CupertinoIcons.clock_fill,
+                                                size: 16.sp,
+                                              )
+                                            : const Icon(
+                                                CupertinoIcons.clock_fill,
+                                              ),
+                                        onPressed: () {
+                                          print('zaten pending');
+                                        })
+                                    : userAll.isolaUserMeta.userBlocked
+                                            .contains(groupSettingModel
+                                                .groupMemberUid2)
+                                        ? CupertinoButton(
+                                            child: 100.h >= 1100
+                                                ? Icon(
+                                                    CupertinoIcons
+                                                        .exclamationmark_triangle,
+                                                    color:
+                                                        ColorConstant.redAlert,
+                                                    size: 16.sp,
+                                                  )
+                                                : const Icon(
+                                                    CupertinoIcons
+                                                        .exclamationmark_triangle,
+                                                    color:
+                                                        ColorConstant.redAlert,
+                                                  ),
+                                            onPressed: () {
+                                              print('zaten pending');
+                                            })
+                                        : CupertinoButton(
+                                            child: 100.h >= 1100
+                                                ? Icon(
+                                                    CupertinoIcons.plus,
+                                                    size: 16.sp,
+                                                  )
+                                                : const Icon(
+                                                    CupertinoIcons.plus,
+                                                  ),
+                                            onPressed: () {
+                                              addFriend(
+                                                      groupSettingModel
+                                                          .groupMemberUid2,
+                                                      userAll)
+                                                  .whenComplete(() {
+                                                var friendOrderUpdate =
+                                                    <dynamic>[];
 
-                                        friendUpdate.addAll(
-                                            userAll.isolaUserMeta.userFriends);
+                                                friendOrderUpdate.addAll(userAll
+                                                    .isolaUserMeta.userFriends);
 
-                                        friendUpdate.add(
-                                            groupSettingModel.groupMemberUid2);
+                                                friendOrderUpdate.add(
+                                                    groupSettingModel
+                                                        .groupMemberUid2);
 
-                                        userAll.isolaUserMeta.userFriends =
-                                            friendUpdate;
+                                                userAll.isolaUserMeta
+                                                        .userFriendOrders =
+                                                    friendOrderUpdate;
 
-                                        setState(() {});
-                                      });
-                                    }),
+                                                setState(() {});
+                                              });
+                                            }),
                           )
                         ],
                       ),
@@ -288,35 +329,74 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                         : const Icon(CupertinoIcons.person),
                                     onPressed: () {},
                                   )
-                                : CupertinoButton(
-                                    child: 100.h >= 1100
-                                        ? Icon(
-                                            CupertinoIcons.plus,
-                                            size: 16.sp,
-                                          )
-                                        : const Icon(
-                                            CupertinoIcons.plus,
-                                          ),
-                                    onPressed: () {
-                                      addFriend(
-                                              groupSettingModel.groupMemberUid3,
-                                              userAll)
-                                          .whenComplete(() {
-                                        ///burada sorun veriyor çünkü userfriend listesini ilk biryere aktarıp sonradan ona eklicez;
-                                        var friendUpdate = <dynamic>[];
+                                : userAll.isolaUserMeta.userFriendOrders
+                                        .contains(
+                                            groupSettingModel.groupMemberUid3)
+                                    ? CupertinoButton(
+                                        child: 100.h >= 1100
+                                            ? Icon(
+                                                CupertinoIcons.clock_fill,
+                                                size: 16.sp,
+                                              )
+                                            : const Icon(
+                                                CupertinoIcons.clock_fill,
+                                              ),
+                                        onPressed: () {
+                                          print('zaten pending');
+                                        })
+                                    : userAll.isolaUserMeta.userBlocked
+                                            .contains(groupSettingModel
+                                                .groupMemberUid3)
+                                        ? CupertinoButton(
+                                            child: 100.h >= 1100
+                                                ? Icon(
+                                                    CupertinoIcons
+                                                        .exclamationmark_triangle,
+                                                    color:
+                                                        ColorConstant.redAlert,
+                                                    size: 16.sp,
+                                                  )
+                                                : const Icon(
+                                                    CupertinoIcons
+                                                        .exclamationmark_triangle,
+                                                    color:
+                                                        ColorConstant.redAlert,
+                                                  ),
+                                            onPressed: () {
+                                              print('zaten pending');
+                                            })
+                                        : CupertinoButton(
+                                            child: 100.h >= 1100
+                                                ? Icon(
+                                                    CupertinoIcons.plus,
+                                                    size: 16.sp,
+                                                  )
+                                                : const Icon(
+                                                    CupertinoIcons.plus,
+                                                  ),
+                                            onPressed: () {
+                                              addFriend(
+                                                      groupSettingModel
+                                                          .groupMemberUid3,
+                                                      userAll)
+                                                  .whenComplete(() {
+                                                var friendOrderUpdate =
+                                                    <dynamic>[];
 
-                                        friendUpdate.addAll(
-                                            userAll.isolaUserMeta.userFriends);
+                                                friendOrderUpdate.addAll(userAll
+                                                    .isolaUserMeta.userFriends);
 
-                                        friendUpdate.add(
-                                            groupSettingModel.groupMemberUid3);
+                                                friendOrderUpdate.add(
+                                                    groupSettingModel
+                                                        .groupMemberUid3);
 
-                                        userAll.isolaUserMeta.userFriends =
-                                            friendUpdate;
+                                                userAll.isolaUserMeta
+                                                        .userFriendOrders =
+                                                    friendOrderUpdate;
 
-                                        setState(() {});
-                                      });
-                                    }),
+                                                setState(() {});
+                                              });
+                                            }),
                           )
                         ],
                       ),
@@ -373,10 +453,10 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 'leaverUser': groupSettingModel.userUid
                               }).whenComplete(() {
                                 print(groupSettingModel.groupNo);
-                                 print(groupSettingModel.groupNo);
-                                  print(groupSettingModel.groupNo);
-                                   print(groupSettingModel.groupNo);
-                                    print(groupSettingModel.groupNo);
+                                print(groupSettingModel.groupNo);
+                                print(groupSettingModel.groupNo);
+                                print(groupSettingModel.groupNo);
+                                print(groupSettingModel.groupNo);
                                 Navigator.pushReplacementNamed(
                                     context, navigationBar);
                               });
@@ -445,6 +525,87 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   ],
                                 )),
                             onPressed: () {
+                              showCupertinoModalPopup(
+                                  context: context,
+                                  builder:
+                                      (BuildContext context) =>
+                                          CupertinoActionSheet(
+                                            title:
+                                                const Text('Report & Block !'),
+                                            message: const Text(
+                                                'Please choose a operation, then you will leave this group '),
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                child: Text(groupSettingModel
+                                                    .groupMemberName2),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showCupertinoModalPopup(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          ReportSheet(
+                                                              reporterUid:
+                                                                  groupSettingModel
+                                                                      .userUid,
+                                                              targetUid1:
+                                                                  groupSettingModel
+                                                                      .groupMemberUid2,
+                                                              targetUid2: "",
+                                                              isAllGroup: false,
+                                                              groupNo:
+                                                                  groupSettingModel
+                                                                      .groupNo));
+                                                },
+                                              ),
+                                              CupertinoActionSheetAction(
+                                                child: Text(groupSettingModel
+                                                    .groupMemberName3),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showCupertinoModalPopup(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          ReportSheet(
+                                                              reporterUid:
+                                                                  groupSettingModel
+                                                                      .userUid,
+                                                              targetUid1:
+                                                                  groupSettingModel
+                                                                      .groupMemberUid3,
+                                                              targetUid2: "",
+                                                              isAllGroup: false,
+                                                              groupNo:
+                                                                  groupSettingModel
+                                                                      .groupNo));
+                                                },
+                                              ),
+                                              CupertinoActionSheetAction(
+                                                child: const Text(' All Group'),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showCupertinoModalPopup(
+                                                      context: context,
+                                                      builder: (BuildContext context) => ReportSheet(
+                                                          reporterUid:
+                                                              groupSettingModel
+                                                                  .userUid,
+                                                          targetUid1:
+                                                              groupSettingModel
+                                                                  .groupMemberUid2,
+                                                          targetUid2:
+                                                              groupSettingModel
+                                                                  .groupMemberUid3,
+                                                          isAllGroup: true,
+                                                          groupNo:
+                                                              groupSettingModel
+                                                                  .groupNo));
+                                                },
+                                              ),
+                                            ],
+                                          ));
+
                               print(groupSettingModel.groupNo);
                             }),
                       ],

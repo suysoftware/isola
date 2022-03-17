@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields, unused_field, prefer_typing_uninitialized_variables, avoid_print, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,7 +43,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
   FirebaseDatabase _refConnect = FirebaseDatabase.instance;
 
   late User user;
-  late var _refBio;
+  // late var _refBio;
   late IsolaUserAll userAll;
   bool editingHobby = false;
   String editingChooseText = " ";
@@ -79,12 +80,12 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
     super.initState();
 
     user = auth.currentUser!;
-    _refBio = refGetter(
+    /*  _refBio = refGetter(
       enum2: RefEnum.Userdisplay,
       userUid: user.uid,
       targetUid: user.uid,
       crypto: '',
-    );
+    );*/
     userAll = widget.userAll;
   }
 
@@ -544,13 +545,23 @@ class _BioEditContainerState extends State<BioEditContainer> {
                     padding: EdgeInsets.fromLTRB(60.w, 1.5.h, 1.0, 1.0),
                     child: GestureDetector(
                       onTap: () {
+                        CollectionReference userDisplayRef = FirebaseFirestore
+                            .instance
+                            .collection('users_display');
+
+                        userDisplayRef
+                            .doc(widget.userAll.isolaUserMeta.userUid)
+                            .update({
+                              'uBio':t1.text,
+                            });
+                        /*
                         var refUserBio = refGetter(
                             enum2: RefEnum.Userdisplay,
                             userUid: widget.userAll.isolaUserMeta.userUid,
                             targetUid: widget.userAll.isolaUserMeta.userUid,
                             crypto: "");
 
-                        refUserBio.child("user_biography").set(t1.text);
+                        refUserBio.child("user_biography").set(t1.text);*/
                         //change bio
                         t1.clear();
                         Navigator.pop(context);

@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:uuid/uuid.dart';
-
+/*
 Future<void> addUser(String uid, String userName, String userMail) async {
   String fileID = const Uuid().v4();
   String fileID2 = const Uuid().v4();
@@ -114,7 +114,9 @@ Future<void> addUser(String uid, String userName, String userMail) async {
 
   // refAddUserTimelineFeed.set(feedMeta);
 }
+*/
 
+/*
 Future<void> addUserCloudFirestore(
     String userUid, IsolaUserDisplay isolaUserDisplay) {
   // FirebaseAuth _auth =  FirebaseAuth.instance;
@@ -160,7 +162,7 @@ Future<UserDisplay> createUserChecker(String uid) async {
 
   return userDisplay;
 }
-
+*/
 
 
 Future<void> saveTokenToDatabase(String token) async {

@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -65,23 +66,20 @@ class _InterestAddPageState extends State<ProfileInterestEditPage> {
                     color: CupertinoColors.systemGreen,
                   ),
                   onPressed: () {
-                    var refUpdateInterest = refGetter(
-                        enum2: RefEnum.Userdisplay,
-                        userUid: widget.userAll.isolaUserMeta.userUid,
-                        targetUid: widget.userAll.isolaUserMeta.userUid,
-                        crypto: "");
+                    CollectionReference userDisplayRef =
+                        FirebaseFirestore.instance.collection("users_display");
 
-                    refUpdateInterest
-                        .child("user_interest")
-                        .set(context
-                            .read<HobbyEditStatusCubit>()
-                            .state
-                            .addingHobby)
-                        .whenComplete(() {
-                      
-                      // Navigator.pushNamed(context, navigationBar);
+                    userDisplayRef
+                        .doc(widget.userAll.isolaUserMeta.userUid)
+                        .update({
+                      'uInterest': context
+                          .read<HobbyEditStatusCubit>()
+                          .state
+                          .addingHobby,
+                    }).whenComplete(() {
                       Navigator.pop(context);
                     });
+
                     print(
                         context.read<HobbyEditStatusCubit>().state.addingHobby);
                     print("geç devammkeeeee");
@@ -100,8 +98,8 @@ class _InterestAddPageState extends State<ProfileInterestEditPage> {
           }),
         ),
         child: GridView.builder(
-            gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4),
             itemCount: 35,
             itemBuilder: (context, index) {
               return iconButtonList[index];

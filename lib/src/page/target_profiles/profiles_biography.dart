@@ -41,7 +41,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
   FirebaseDatabase _refConnect = FirebaseDatabase.instance;
   late User user;
   // ignore: prefer_typing_uninitialized_variables
-  late var _refBio;
+  //late var _refBio;
 
   void _onRefresh() async {}
 
@@ -50,13 +50,14 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
   @override
   void initState() {
     super.initState();
+    /*
     user = auth.currentUser!;
     _refBio = refGetter(
       enum2: RefEnum.Userdisplay,
       userUid: user.uid,
       targetUid: user.uid,
       crypto: '',
-    );
+    );*/
   }
 
   @override

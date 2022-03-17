@@ -15,6 +15,7 @@ import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 
 import '../../../../model/group/groups_model.dart';
 
+/*
 Future<UserAll> getDisplayData(String uid) async {
   var _ref = refGetter(
       enum2: RefEnum.Userdisplay, userUid: uid, targetUid: uid, crypto: "");
@@ -243,7 +244,7 @@ Future<UserAll> getDisplayData(String uid) async {
   var userAll = UserAll(userDisplay, userMeta, _searchStatus);
   return userAll;
 }
-
+*/
 /*
 Future<GroupPreviewData> getAllDataForChatPage(String uid) async {
   var _ref = refGetter(
@@ -1167,25 +1168,29 @@ Future<List<dynamic>> getPopularFeeds() async {
   return popularFeedList;
 }
 */
-Future<UserDisplay> getUserDisplay(String uid) async {
-  dynamic comingValue;
-  var _ref = refGetter(
+Future<IsolaUserDisplay> getUserDisplay(String uid) async {
+  // dynamic comingValue;
+  var userDisplay;
+/*  var _ref = refGetter(
       enum2: RefEnum.Userdisplay, userUid: uid, targetUid: uid, crypto: "");
   await _ref.once().then((snapshot) => comingValue = snapshot.snapshot.value);
-  var userDisplay = UserDisplay(
-      comingValue["user_uid"],
-      comingValue["user_name"],
-      comingValue["user_biography"],
-      comingValue["user_avatar_url"],
-      comingValue["user_university"],
-      comingValue["user_sex"],
-      comingValue["user_is_online"],
-      comingValue["user_is_valid"],
-      comingValue["user_activities"],
-      comingValue["user_interest"],
-      comingValue["user_friends"],
-      comingValue["user_blocked"],
-      comingValue["user_is_non_binary"]);
+
+  */
+  DocumentReference users_display =
+      FirebaseFirestore.instance.collection('users_display').doc(uid);
+
+  await users_display.get().then((docValue) => userDisplay =IsolaUserDisplay(
+        docValue['uName'],
+        docValue['uBio'],
+        docValue['uPic'],
+        docValue['uSex'],
+        docValue['uOnline'],
+        docValue['uInterest'],
+        docValue['uNonBinary'],
+        docValue['uUniversity'],
+        docValue['uAct'],
+        docValue['uLike'],
+        docValue['uDbToken']));
 
   return userDisplay;
 }
@@ -1299,7 +1304,8 @@ Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
         docValue['uFriends'],
         docValue['uBlocked'],
         docValue['uClubs'],
-        docValue['uSearching']));
+        docValue['uSearching'],
+        docValue['uFriendOrders']));
   } else {
     //Hata göster belki restart atar
 

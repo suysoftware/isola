@@ -60,6 +60,8 @@ class _InterestAddPageState extends State<InterestAddPage> {
                     });
 
                     ///eskisi
+                    /// 
+                    /*
                     var refUpdateInterest = refGetter(
                         enum2: RefEnum.Userdisplay,
                         userUid: widget.userUid,
@@ -83,7 +85,7 @@ class _InterestAddPageState extends State<InterestAddPage> {
                                   )));
                     });
                     print(context.read<HobbyStatusCubit>().state.addingHobby);
-                    print("geç devammkeeeee");
+                    print("geç devammkeeeee");*/
                   }),
             );
           }),

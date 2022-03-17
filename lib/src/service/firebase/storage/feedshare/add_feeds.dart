@@ -245,3 +245,11 @@ Future<void> addFeedToTextFeed(int lineValue) async {
 //base
   // refAddFeedMeta.set(feedMeta);
 }
+
+
+
+
+Future<void> addFeedToDatabase()async{
+
+  
+}
