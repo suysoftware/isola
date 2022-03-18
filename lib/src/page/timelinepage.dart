@@ -55,7 +55,6 @@ class _TimelinePageState extends State<TimelinePage> {
     var timeItem = TimelineItem(
       feedMeta: feedMeta,
       userUid: widget.user!.uid,
-
       isTimeline: true,
     );
 
@@ -139,7 +138,7 @@ class _TimelinePageState extends State<TimelinePage> {
         userUid: user!.uid,
         crypto: '',
         targetUid: '');
-  
+
     _refTimelineToText = refGetter(
         enum2: RefEnum.Feedcomesfromfeedtext,
         targetUid: "",
@@ -175,8 +174,8 @@ class _TimelinePageState extends State<TimelinePage> {
                 padding: const EdgeInsets.all(1.0),
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(1.0),
-                   onPressed: () async => addPostDialogContent(context),
-                /*  onPressed: () async {
+                  onPressed: () async => addPostDialogContent(context),
+                  /*  onPressed: () async {
                     var ref = await refGetter(
                         enum2: RefEnum.Feedtofeedtext,
                         targetUid: "",
@@ -381,8 +380,7 @@ class _TimelinePageState extends State<TimelinePage> {
 }
 
 class AddPostContainer extends StatefulWidget {
-  const AddPostContainer({Key? key, required this.userAll})
-      : super(key: key);
+  const AddPostContainer({Key? key, required this.userAll}) : super(key: key);
   final IsolaUserAll userAll;
 
   @override
@@ -393,13 +391,12 @@ class _AddPostContainerState extends State<AddPostContainer> {
   var t1 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-     print(100.h);
+    print(100.h);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-       
         Container(
-          height: 100.h<=700?35.h:30.h,
+          height: 100.h <= 700 ? 35.h : 30.h,
           width: 95.w,
           decoration: BoxDecoration(
               gradient: ColorConstant.isolaMainGradient,
@@ -422,19 +419,20 @@ class _AddPostContainerState extends State<AddPostContainer> {
                       children: [
                         Padding(
                           padding: EdgeInsets.fromLTRB(3.w, 1.h, 0.0, 0.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(21.sp),
-                            child: CircleAvatar(
-                              radius: 20.sp,
+                          child: CircleAvatar(
+                             radius: 20.sp,
+                             backgroundColor: ColorConstant.themeGrey,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(21.sp),
                               child: CachedNetworkImage(
-                               imageUrl: widget.userAll.isolaUserDisplay.avatarUrl,
+                             
+                                imageUrl:
+                                    widget.userAll.isolaUserDisplay.avatarUrl,
                                 width: 40.sp,
                                 height: 40.sp,
                                 fit: BoxFit.cover,
-                                 errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                errorWidget: (context, url, error) =>
+                                    Icon(CupertinoIcons.xmark_square),
                               ),
                             ),
                           ),
@@ -455,7 +453,7 @@ class _AddPostContainerState extends State<AddPostContainer> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(3.w, 0.7.h, 0.0, 0.0),
                           child: SizedBox(
-                            height:100.h<=700?15.h : 12.h,
+                            height: 100.h <= 700 ? 15.h : 12.h,
                             width: 65.w,
                             child: CupertinoTextField(
                               controller: t1,
@@ -484,7 +482,7 @@ class _AddPostContainerState extends State<AddPostContainer> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(50.w, 1.5.h, 1.0, 8.0),
                           child: Container(
-                            height: 100.h<=700?5.h:3.5.h,
+                            height: 100.h <= 700 ? 5.h : 3.5.h,
                             width: 24.w,
                             decoration: BoxDecoration(
                                 gradient: ColorConstant.isolaMainGradient,
@@ -497,8 +495,9 @@ class _AddPostContainerState extends State<AddPostContainer> {
                               child: CupertinoButton(
                                 padding: const EdgeInsets.all(0.2),
                                 onPressed: () {
-                                  addFeed(widget.userAll.isolaUserMeta.userUid,
-                                      widget.userAll, t1.text);
+                                  addTextFeedToDatabase(
+                                      widget.userAll.isolaUserMeta.userUid,
+                                      t1.text,widget.userAll.isolaUserDisplay.avatarUrl,widget.userAll.isolaUserDisplay.userName);
 
                                   t1.clear();
                                   Navigator.pop(context);

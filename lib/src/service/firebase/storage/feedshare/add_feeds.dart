@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:collection';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
@@ -9,6 +10,7 @@ import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 import 'package:uuid/uuid.dart';
 
+/*
 Future<void> addFeed(
     String uid, IsolaUserAll userAll, String feedText) async {
   var feedLikes = <dynamic>[];
@@ -248,8 +250,41 @@ Future<void> addFeedToTextFeed(int lineValue) async {
 
 
 
+*/
+Future<void> addTextFeedToDatabase(String uid, String feedText,String userAvatarUrl,String userName) async {
+  DocumentReference feedTextRef =
+      FirebaseFirestore.instance.collection('text_feeds_pool').doc();
 
-Future<void> addFeedToDatabase()async{
-
+  await feedTextRef.set({
+    'feed_text': feedText,
+    'feed_date': DateTime.now().toUtc(),
+    'user_uid': uid,
+    'user_avatar_url':userAvatarUrl,
+    'user_name':userName
   
+  });
+
+/*
+  feedMeta["feed_time"] = ServerValue.timestamp;
+  feedMeta["feed_date"] = DateTime.now().toString();
+  feedMeta["feed_no"] = newKey.toString();
+  feedMeta["feed_image_url"] = "";
+  feedMeta["feed_text"] = feedText;
+  feedMeta["feed_is_image"] = false;
+  feedMeta["user_activities"] = userAll.isolaUserDisplay.userActivities;
+  feedMeta["user_interest"] = userAll.isolaUserDisplay.userInterest;
+  feedMeta["like_list"] = feedLikes;
+  feedMeta["like_value"] = 0;
+  feedMeta["user_friends"] = userAll.isolaUserMeta.userFriends;
+  feedMeta["user_blocked"] = userAll.isolaUserMeta.userBlocked;
+  feedMeta["user_uid"] = uid;
+  feedMeta["user_name"] = userAll.isolaUserDisplay.userName;
+  feedMeta["user_biography"] = userAll.isolaUserDisplay.userBiography;
+  feedMeta["user_avatar_url"] = userAll.isolaUserDisplay.avatarUrl;
+  feedMeta["user_university"] = userAll.isolaUserDisplay.userUniversity;
+  feedMeta["user_sex"] = userAll.isolaUserDisplay.userSex;
+  feedMeta["user_is_online"] = userAll.isolaUserDisplay.userIsOnline;
+  feedMeta["user_is_valid"] = userAll.isolaUserMeta.userIsValid;
+  feedMeta["user_is_non_binary"] = userAll.isolaUserDisplay.userIsNonBinary;
+  */
 }

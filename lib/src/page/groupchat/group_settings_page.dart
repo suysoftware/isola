@@ -22,6 +22,8 @@ import 'package:isola_app/src/widget/report_sheets.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../widget/liquid_progress_indicator.dart';
+
 class GroupSettingsPage extends StatefulWidget {
   const GroupSettingsPage({Key? key}) : super(key: key);
 
@@ -440,10 +442,22 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 ],
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               //buraya groupneedliste nothingi dğeiştirip kendi kodunu eklemeyi unutma
                               //ilk olarak kontrol etmeyi ekle buraya o kişi o gruptamı baksın
 
+                              leaveGroup(groupSettingModel).whenComplete(() {
+                                Future.delayed(Duration(milliseconds: 3000),
+                                    () {
+                                  Navigator.pushReplacementNamed(
+                                      context, navigationBar);
+                                });
+                              });
+                              showCupertinoDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AnimatedLiquidCircularProgressIndicator());
+/*
                               CollectionReference leaveRef = FirebaseFirestore
                                   .instance
                                   .collection('groups_leave_pool');
@@ -460,6 +474,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 Navigator.pushReplacementNamed(
                                     context, navigationBar);
                               });
+                              */
 
                               /* groupChaosSearchingInfoGetter(
                                       groupSettingModel.groupNo)
@@ -555,7 +570,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                               isAllGroup: false,
                                                               groupNo:
                                                                   groupSettingModel
-                                                                      .groupNo));
+                                                                      .groupNo, groupSettingModel:groupSettingModel,));
                                                 },
                                               ),
                                               CupertinoActionSheetAction(
@@ -578,7 +593,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                               isAllGroup: false,
                                                               groupNo:
                                                                   groupSettingModel
-                                                                      .groupNo));
+                                                                      .groupNo, groupSettingModel: groupSettingModel,));
                                                 },
                                               ),
                                               CupertinoActionSheetAction(
@@ -600,7 +615,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                           isAllGroup: true,
                                                           groupNo:
                                                               groupSettingModel
-                                                                  .groupNo));
+                                                                  .groupNo, groupSettingModel: groupSettingModel,));
                                                 },
                                               ),
                                             ],

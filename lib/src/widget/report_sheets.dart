@@ -1,5 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:isola_app/src/model/group/group_setting_model.dart';
+import 'package:isola_app/src/utils/router.dart';
+import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
+
+import '../service/firebase/storage/groups/group_leave.dart';
+
+Future<void> addToReportPool(String groupNo, String reasonType,
+    String reporterUid, String targetUid) async {
+  DocumentReference reportRef =
+      FirebaseFirestore.instance.collection('reports_pool').doc();
+  await reportRef.set({
+    'reportGroup': groupNo,
+    'reasonType': reasonType,
+    'reportNo': reportRef.id,
+    'reportDate': DateTime.now().toUtc(),
+    'reporterUid': reporterUid,
+    'targetUid': targetUid,
+  });
+}
 
 class ReportSheet extends StatelessWidget {
   const ReportSheet(
@@ -8,7 +27,8 @@ class ReportSheet extends StatelessWidget {
       required this.targetUid1,
       required this.targetUid2,
       required this.isAllGroup,
-      required this.groupNo})
+      required this.groupNo,
+      required this.groupSettingModel})
       : super(key: key);
 
   final String reporterUid;
@@ -16,6 +36,7 @@ class ReportSheet extends StatelessWidget {
   final String targetUid2;
   final bool isAllGroup;
   final String groupNo;
+  final GroupSettingModel groupSettingModel;
 
   final String rt101 = 'rt101';
   final String rt102 = 'rt102';
@@ -30,10 +51,10 @@ class ReportSheet extends StatelessWidget {
       message: const Text('sebebini söyle aga '),
       actions: [
         CupertinoActionSheetAction(
-          child: Text(rt101),
-          onPressed: () async {
-            if (isAllGroup == false) {
-              DocumentReference reportRef =
+            child: Text(rt101),
+            onPressed: () {
+              if (isAllGroup == false) {
+                /*    DocumentReference reportRef =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
               await reportRef.set({
@@ -43,15 +64,26 @@ class ReportSheet extends StatelessWidget {
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid1,
-              });
-            } else {
+              });*/
+                addToReportPool(groupNo, rt101, reporterUid, targetUid1);
+                 leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
+              } else {
+                /*
               DocumentReference reportRef1 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
               DocumentReference reportRef2 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
-             await reportRef1.set({
+              await reportRef1.set({
                 'reportGroup': groupNo,
                 'reasonType': rt101,
                 'reportNo': reportRef1.id,
@@ -60,7 +92,7 @@ class ReportSheet extends StatelessWidget {
                 'targetUid': targetUid1,
               });
 
-             await reportRef2.set({
+              await reportRef2.set({
                 'reportGroup': groupNo,
                 'reasonType': rt101,
                 'reportNo': reportRef2.id,
@@ -76,13 +108,28 @@ class ReportSheet extends StatelessWidget {
             print(targetUid2);
             print(isAllGroup);
             print(groupNo);
-            Navigator.pop(context);
-          },
-        ),
+            Navigator.pop(context);*/
+
+                addToReportPool(groupNo, rt101, reporterUid, targetUid1);
+                addToReportPool(groupNo, rt101, reporterUid, targetUid2);
+                leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
+              }
+
+            //  Navigator.pop(context);
+            }),
         CupertinoActionSheetAction(
           child: Text(rt102),
-            onPressed: () async {
+          onPressed: () {
             if (isAllGroup == false) {
+              /*
               DocumentReference reportRef =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
@@ -93,15 +140,27 @@ class ReportSheet extends StatelessWidget {
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid1,
-              });
+              });*/
+
+              addToReportPool(groupNo, rt102, reporterUid, targetUid1);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
             } else {
+              /*
               DocumentReference reportRef1 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
               DocumentReference reportRef2 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
-             await reportRef1.set({
+              await reportRef1.set({
                 'reportGroup': groupNo,
                 'reasonType': rt102,
                 'reportNo': reportRef1.id,
@@ -110,7 +169,7 @@ class ReportSheet extends StatelessWidget {
                 'targetUid': targetUid1,
               });
 
-             await reportRef2.set({
+              await reportRef2.set({
                 'reportGroup': groupNo,
                 'reasonType': rt102,
                 'reportNo': reportRef2.id,
@@ -118,21 +177,28 @@ class ReportSheet extends StatelessWidget {
                 'reporterUid': reporterUid,
                 'targetUid': targetUid2,
               });
-            }
+              */
 
-            print('/////////');
-            print(reporterUid);
-            print(targetUid1);
-            print(targetUid2);
-            print(isAllGroup);
-            print(groupNo);
-            Navigator.pop(context);
+              addToReportPool(groupNo, rt102, reporterUid, targetUid1);
+              addToReportPool(groupNo, rt102, reporterUid, targetUid2);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
+            }
+         //   Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
           child: Text(rt103),
-             onPressed: () async {
+          onPressed: () {
             if (isAllGroup == false) {
+              /*
               DocumentReference reportRef =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
@@ -143,15 +209,26 @@ class ReportSheet extends StatelessWidget {
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid1,
-              });
+              });*/
+              addToReportPool(groupNo, rt103, reporterUid, targetUid1);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
             } else {
+              /*
               DocumentReference reportRef1 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
               DocumentReference reportRef2 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
-             await reportRef1.set({
+              await reportRef1.set({
                 'reportGroup': groupNo,
                 'reasonType': rt103,
                 'reportNo': reportRef1.id,
@@ -160,29 +237,35 @@ class ReportSheet extends StatelessWidget {
                 'targetUid': targetUid1,
               });
 
-             await reportRef2.set({
+              await reportRef2.set({
                 'reportGroup': groupNo,
                 'reasonType': rt103,
                 'reportNo': reportRef2.id,
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid2,
-              });
-            }
+              });*/
 
-            print('/////////');
-            print(reporterUid);
-            print(targetUid1);
-            print(targetUid2);
-            print(isAllGroup);
-            print(groupNo);
-            Navigator.pop(context);
+              addToReportPool(groupNo, rt103, reporterUid, targetUid1);
+              addToReportPool(groupNo, rt103, reporterUid, targetUid2);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
+            }
+          //  Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
           child: Text(rt104),
-     onPressed: () async {
+          onPressed: () {
             if (isAllGroup == false) {
+              /*
               DocumentReference reportRef =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
@@ -193,15 +276,27 @@ class ReportSheet extends StatelessWidget {
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid1,
-              });
+              });*/
+
+              addToReportPool(groupNo, rt104, reporterUid, targetUid1);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
             } else {
+              /*
               DocumentReference reportRef1 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
               DocumentReference reportRef2 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
-             await reportRef1.set({
+              await reportRef1.set({
                 'reportGroup': groupNo,
                 'reasonType': rt104,
                 'reportNo': reportRef1.id,
@@ -210,29 +305,34 @@ class ReportSheet extends StatelessWidget {
                 'targetUid': targetUid1,
               });
 
-             await reportRef2.set({
+              await reportRef2.set({
                 'reportGroup': groupNo,
                 'reasonType': rt104,
                 'reportNo': reportRef2.id,
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid2,
-              });
+              });*/
+              addToReportPool(groupNo, rt104, reporterUid, targetUid1);
+              addToReportPool(groupNo, rt104, reporterUid, targetUid2);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
             }
-
-            print('/////////');
-            print(reporterUid);
-            print(targetUid1);
-            print(targetUid2);
-            print(isAllGroup);
-            print(groupNo);
-            Navigator.pop(context);
+         //   Navigator.pop(context);
           },
         ),
-                CupertinoActionSheetAction(
+        CupertinoActionSheetAction(
           child: Text(rt105),
-     onPressed: () async {
+          onPressed: () {
             if (isAllGroup == false) {
+              /*
               DocumentReference reportRef =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
@@ -243,15 +343,27 @@ class ReportSheet extends StatelessWidget {
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid1,
-              });
+              });*/
+
+              addToReportPool(groupNo, rt105, reporterUid, targetUid1);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
             } else {
+              /*
               DocumentReference reportRef1 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
               DocumentReference reportRef2 =
                   FirebaseFirestore.instance.collection('reports_pool').doc();
 
-             await reportRef1.set({
+              await reportRef1.set({
                 'reportGroup': groupNo,
                 'reasonType': rt105,
                 'reportNo': reportRef1.id,
@@ -260,23 +372,28 @@ class ReportSheet extends StatelessWidget {
                 'targetUid': targetUid1,
               });
 
-             await reportRef2.set({
+              await reportRef2.set({
                 'reportGroup': groupNo,
                 'reasonType': rt105,
                 'reportNo': reportRef2.id,
                 'reportDate': DateTime.now().toUtc(),
                 'reporterUid': reporterUid,
                 'targetUid': targetUid2,
-              });
-            }
+              });*/
 
-            print('/////////');
-            print(reporterUid);
-            print(targetUid1);
-            print(targetUid2);
-            print(isAllGroup);
-            print(groupNo);
-            Navigator.pop(context);
+              addToReportPool(groupNo, rt105, reporterUid, targetUid1);
+              addToReportPool(groupNo, rt105, reporterUid, targetUid2);
+               leaveGroup(groupSettingModel).whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
+            }
+          //  Navigator.pop(context);
           },
         ),
       ],

@@ -42,7 +42,7 @@ class _SplashPageState extends State<SplashPage> {
         }
       });
     } else {
-      Navigator.pushNamed(context, loggingOutRoute);
+      Navigator.pushReplacementNamed(context, loggingOutRoute);
     }
   }
 

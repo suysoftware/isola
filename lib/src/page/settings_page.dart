@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -11,6 +12,7 @@ import 'package:isola_app/src/service/firebase/authentication.dart';
 import 'package:isola_app/src/service/firebase/storage/add_user.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
+import 'package:isola_app/src/service/firebase/storage/feedshare/like_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
@@ -68,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(CupertinoIcons.lock, color: ColorConstant.softBlack),
                 Text("Privacy", style: settingTextStyle), () {
               // for (var i = 3000; i < 15000; i++) {
-              addFeedToTextFeed(99999);
+              //  addFeedToTextFeed(99999);
               //  addFeedToExample();
               //  print(i);
               //  print(i);
@@ -82,6 +84,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     color: ColorConstant.softBlack),
                 Text("Security", style: settingTextStyle), () async {
               User? user = FirebaseAuth.instance.currentUser;
+
+              await likeAddToPool("4em8s6rMxzGtFBhubdWr", user!.uid, false,
+                  "8nRYW1UcOPd7aUw5keHADQhfc302");
+
               //    late UserDisplay userDisplay;
               //  await getDisplayData(user!.uid)
               //    .then((value) => userDisplay = value);

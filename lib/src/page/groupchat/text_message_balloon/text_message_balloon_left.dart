@@ -54,7 +54,8 @@ class TextMessageBalloonLeft extends StatelessWidget {
                     backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.sp),
-                      child: CachedNetworkImage(
+                      child: Image.network(memberAvatarUrl)
+                      /*CachedNetworkImage(
                       imageUrl:  memberAvatarUrl,
                         fit: BoxFit.cover,
                         height: 35.sp,
@@ -63,7 +64,7 @@ class TextMessageBalloonLeft extends StatelessWidget {
                                                       (context, url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
-                      ),
+                      ),*/
                     ),
                   ),
                 ),

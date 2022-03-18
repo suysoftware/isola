@@ -1,7 +1,26 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, unused_local_variable, avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/group/group_setting_model.dart';
 
+Future<void> leaveGroup(GroupSettingModel groupSettingModel) async {
+  CollectionReference leaveRef =
+      FirebaseFirestore.instance.collection('groups_leave_pool');
+
+  leaveRef.doc(groupSettingModel.groupNo).set({
+    'groupNo': groupSettingModel.groupNo,
+    'leaverUser': groupSettingModel.userUid
+  });
+}
+
+
+
+
+
+
+/*
 Future<void> groupLeave(
     String groupNo, String userUid, List<dynamic> joinedGroup) async {
   var refMyLine = refGetter(
@@ -75,7 +94,8 @@ Future<void> groupLeave(
   // print(line1);
   //print("///");
 }
-
+*/
+/*
 void groupLeaveRemoveMyLine(
     String groupNo, String myLine, String userUid, List<dynamic> joinedList) {
   var refMyMetaList = refGetter(
@@ -139,3 +159,4 @@ void groupLeaveRemoveMyLine(
     //  addMyLineToNeedList.add(myLine);
   });
 }
+*/

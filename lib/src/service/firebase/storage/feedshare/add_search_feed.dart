@@ -64,6 +64,31 @@ Future<String> uploadImage(
   return urlImage;
 }
 
+Future<String> uploadImageForProfile(
+  String userUid,
+  File image,
+) async {
+  String urlImage = "";
+  var refStorage = FirebaseStorage.instance
+      .ref()
+      .child("profile_items")
+      .child(userUid)
+      .child('profilePhoto');
+
+    
+  //.writeToFile(image);
+
+  // .child(feedNo)
+  // .child('profilePhoto');
+
+  UploadTask uploadTask = refStorage.putFile(image);
+  TaskSnapshot taskSnapshot = await uploadTask;
+
+  await taskSnapshot.ref.getDownloadURL().then((value) => urlImage = value);
+
+  return urlImage;
+}
+
 Future<void> addSearchPageFeed100(
   String uid,
 ) async {

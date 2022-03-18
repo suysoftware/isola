@@ -478,8 +478,8 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
         await ImageSaver.save('extended_image_cropped_image.jpg', fileData);
 
     file2 = File(fileFath!);
-    await uploadImage(
-            widget.userAll.isolaUserMeta.userUid, file2!, "profilePhoto")
+    await uploadImageForProfile(
+            widget.userAll.isolaUserMeta.userUid, file2!, )
         // widget.userDisplay,gestureKey"profilePhoto")
         .then((value) {
       CollectionReference users_display =

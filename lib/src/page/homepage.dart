@@ -37,7 +37,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late bool isTablet;
-  late var _refTimeline;
   int popularItemAmount = 0;
 
   late AnimationController animationController;
@@ -119,11 +118,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 */
     isTablet = 100.h >= 1100 ? true : false;
 
-    _refTimeline = refGetter(
-        enum2: RefEnum.Timelinereadfeeds,
-        userUid: "",
-        crypto: '',
-        targetUid: '');
+   
 
     animationController = AnimationController(
         duration: (const Duration(milliseconds: 3000)), vsync: this);
