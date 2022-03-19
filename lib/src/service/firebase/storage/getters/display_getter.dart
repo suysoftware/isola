@@ -1179,18 +1179,18 @@ Future<IsolaUserDisplay> getUserDisplay(String uid) async {
   DocumentReference users_display =
       FirebaseFirestore.instance.collection('users_display').doc(uid);
 
-  await users_display.get().then((docValue) => userDisplay =IsolaUserDisplay(
-        docValue['uName'],
-        docValue['uBio'],
-        docValue['uPic'],
-        docValue['uSex'],
-        docValue['uOnline'],
-        docValue['uInterest'],
-        docValue['uNonBinary'],
-        docValue['uUniversity'],
-        docValue['uAct'],
-        docValue['uLike'],
-        docValue['uDbToken']));
+  await users_display.get().then((docValue) => userDisplay = IsolaUserDisplay(
+      docValue['uName'],
+      docValue['uBio'],
+      docValue['uPic'],
+      docValue['uSex'],
+      docValue['uOnline'],
+      docValue['uInterest'],
+      docValue['uNonBinary'],
+      docValue['uUniversity'],
+      docValue['uAct'],
+      docValue['uLike'],
+      docValue['uDbToken']));
 
   return userDisplay;
 }
@@ -1361,5 +1361,61 @@ Future<List<dynamic>> getGroupDataFromDatabase(IsolaUserAll userAll) async {
     }
 
     return groupsModelList;
+  }
+}
+
+Future<void> getTimelineFeeds(IsolaUserAll isolaUserAll) async {
+  print(DateTime.now().toString());
+  var timelineDatas = <TimelineItem>[];
+
+  var isolaFeedDatas = <IsolaFeedModel>[];
+
+  final Timestamp now = Timestamp.fromDate(DateTime.now());
+  final Timestamp yesterday = Timestamp.fromDate(
+    DateTime.now().subtract(const Duration(days: 1)),
+  );
+
+  for (var friend in isolaUserAll.isolaUserMeta.userFriends) {
+    await FirebaseFirestore.instance
+        .collection('feeds')
+        .doc(friend)
+        .collection('text_feeds')
+        .where('feed_date', isLessThan: now, isGreaterThan: yesterday)
+        .orderBy('feed_date', descending: true)
+        .withConverter<IsolaFeedModel>(
+          fromFirestore: (snapshot, _) =>
+              IsolaFeedModel.fromJson(snapshot.data()!),
+          toFirestore: (message, _) => message.toJson(),
+        )
+        .get()
+        .then((value) {
+      for (var item in value.docs) {
+        var isolaItem = IsolaFeedModel(
+            item['feed_date'],
+            item['feed_no'],
+            item['feed_text'],
+            item['like_list'],
+            item['like_value'],
+            item['user_avatar_url'],
+            item['user_name'],
+            item['user_uid']);
+
+        print('Name : ${item['user_name']}');
+        print('Tarih : ${item['feed_date']}');
+        print('Like : ${item['like_value']}');
+        print('//////////////////////');
+
+        isolaFeedDatas.add(isolaItem);
+        print(isolaFeedDatas.length);
+      }
+    });
+
+    /* for (var item in value.docs) {
+      print('Name : ${item['user_name']}');
+      print('Tarih : ${item['feed_date']}');
+      print('Like : ${item['like_value']}');
+      print('//////////////////////');
+    }*/
+    print(DateTime.now().toString());
   }
 }

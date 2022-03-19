@@ -83,10 +83,105 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(CupertinoIcons.shield,
                     color: ColorConstant.softBlack),
                 Text("Security", style: settingTextStyle), () async {
-              User? user = FirebaseAuth.instance.currentUser;
+              //User? user = FirebaseAuth.instance.currentUser;
 
-              await likeAddToPool("4em8s6rMxzGtFBhubdWr", user!.uid, false,
+              var uidList = <String>[
+                '0EOs1AhPCddXz7RGOkNzE9HHzr62',
+                'I9Pp17tqTRUflixnRosdsiNM2FA2',
+                'Q1j0ibLDbhQye11fduuKmjkw3Ry2',
+                'UJz489Kp1eeG5fQsHY0Lhunc9Nf1',
+                'hz94SInSRXc5YOToR2Kn0gNDOwf2',
+                '6WsWSakp5dURSSBo1h9Ob2ruI0l2'
+              ];
+
+              var nameList = <String>[
+                'ilion12mini device',
+                'Batuhan Yavuz',
+                'Ufuk Yavuz',
+                'ilion13mini device',
+                'ilion13promax device',
+                'meryem can11'
+              ];
+
+              /*    int i = 0;
+              for (var uidItem in uidList) {
+           
+
+                addTextFeedToDatabase(
+                    uidItem,
+                    DateTime.now().toUtc().millisecondsSinceEpoch.toString(),
+                    'https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586',
+                    nameList[i]);
+
+                         i = i + 1;
+              }*/
+
+              /*await FirebaseFirestore.instance
+                  .collectionGroup("text_feeds")
+                  .whereArrayContainsAny('user_uid', arrayContainsAny: [
+                    '0EOs1AhPCddXz7RGOkNzE9HHzr62',
+                    'I9Pp17tqTRUflixnRosdsiNM2FA2',
+                    'Q1j0ibLDbhQye11fduuKmjkw3Ry2',
+                    'UJz489Kp1eeG5fQsHY0Lhunc9Nf1',
+                    'hz94SInSRXc5YOToR2Kn0gNDOwf2',
+                    '6WsWSakp5dURSSBo1h9Ob2ruI0l2'
+                  ])*/
+//'dateTime': DateTime.parse('2019-03-13 16:49:42.044'
+              //w     FirebaseFirestore.instance.collectionGroup("text_feeds").whereGreaterThan('feed_date',1000).orderBy('feed_date',descending: true)
+              print("dfs");
+              
+              final Timestamp now = Timestamp.fromDate(DateTime.now());
+              final Timestamp yesterday = Timestamp.fromDate(
+                DateTime.now().subtract(const Duration(days: 1)),
+              );
+              FirebaseFirestore.instance
+                  .collection('feeds')
+                  .doc('I9Pp17tqTRUflixnRosdsiNM2FA2')
+                  .collection('text_feeds')
+                  .where('feed_date', isLessThan: now, isGreaterThan: yesterday)
+                  .orderBy('feed_date', descending: true)
+                  .get()
+                  .then((value) {
+                for (var item in value.docs) {
+                  print('Name : ${item['user_name']}');
+                  print('Tarih : ${item['feed_date']}');
+                  print('Like : ${item['like_value']}');
+                  print('//////////////////////');
+                }
+              });
+
+              // .orderBy('like_value', descending: true);
+              /*    .where('user_uid', arrayContainsAny: uidList)
+                  .orderBy('feed_date', descending: true);*/
+
+              //var snapshot = query.orderBy('like_value',descending: true).get();
+              //var ss = snapshot.docs[0]['feed_date'];
+              //print(ss);
+/*
+              print('///');
+              print(snapshot.docs.first['feed_date']);
+              print(snapshot.docs.first['feed_no']);
+              print(snapshot.docs.first['like_value']);
+              print(snapshot.docs.first['user_name']);*/
+
+              // namedQueryGet('popular_feeds');
+              // .collection("popular_feeds")
+              /* .get()
+                  .then((value) {
+                for (var item in value.docs) {
+                  print('Name : ${item['user_name']}');
+                  print('Tarih : ${item['feed_date']}');
+                }
+              });*/
+
+/*
+              await likeAddToPool(
+                  "4em8s6rMxzGtFBhubdWr",
+                  "6WsWSakp5dURSSBo1h9Ob2ruI0l2",
+                  true,
                   "8nRYW1UcOPd7aUw5keHADQhfc302");
+*/
+              //
 
               //    late UserDisplay userDisplay;
               //  await getDisplayData(user!.uid)

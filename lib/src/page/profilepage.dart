@@ -16,6 +16,7 @@ import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/profile/profile_biography.dart';
 import 'package:isola_app/src/page/profile/profile_media_page.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
+import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/image_cropper.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/page/profile/profile_timeline_page.dart';
@@ -119,8 +120,11 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(4.0),
             child: GestureDetector(
                 onTap: () {
+                  /*
                   Navigator.of(context, rootNavigator: true)
-                      .pushNamed(settingsPage);
+                      .pushNamed(settingsPage);*/
+
+                  getTimelineFeeds(widget.userAll);
                 },
                 child: Image.asset("asset/img/settings_button.png")),
           ),
@@ -170,7 +174,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       (context, url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
-                                                  
                                                 )
                                               : CachedNetworkImage(
                                                   imageUrl: widget
@@ -184,25 +187,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       (context, url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
-                                                
                                                 ))
                                           : CachedNetworkImage(
-                                                  imageUrl: widget
-                                                      .userAll
-                                                      .isolaUserDisplay
-                                                      .avatarUrl,
-                                                  width: 75.sp,
-                                                  height: 75.sp,
-                                                  fit: BoxFit.cover,
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
-                                                 
-                                                ))
-
-                              
-                                  ),
+                                              imageUrl: widget.userAll
+                                                  .isolaUserDisplay.avatarUrl,
+                                              width: 75.sp,
+                                              height: 75.sp,
+                                              fit: BoxFit.cover,
+                                              errorWidget:
+                                                  (context, url, error) => Icon(
+                                                      CupertinoIcons
+                                                          .xmark_square),
+                                            ))),
                             ),
                           ),
                         ),
@@ -479,7 +475,9 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
 
     file2 = File(fileFath!);
     await uploadImageForProfile(
-            widget.userAll.isolaUserMeta.userUid, file2!, )
+      widget.userAll.isolaUserMeta.userUid,
+      file2!,
+    )
         // widget.userDisplay,gestureKey"profilePhoto")
         .then((value) {
       CollectionReference users_display =
