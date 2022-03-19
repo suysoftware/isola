@@ -9,15 +9,16 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
+import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
 class TargetProfileBiographPage extends StatefulWidget {
-  const TargetProfileBiographPage({Key? key, required this.feedMeta})
+  const TargetProfileBiographPage({Key? key, required this.targetUid})
       : super(key: key);
 
-  final FeedMeta feedMeta;
+  final String targetUid;
 
   @override
   _TargetProfileBiographPageState createState() =>
@@ -67,163 +68,171 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        footer: const ClassicFooter(),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5.w, 0.0, 0.0, 0.5.h),
-                  child: Text("Biography", style: biographyStyle),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 100.h >= 1100 ? 15.h : 11.h,
-              width: 94.w,
-              child: BiographPageContainer(
-                  contInteriorWidget: Padding(
-                padding: EdgeInsets.fromLTRB(3.w, 2.h, 3.w, 2.h),
-                child: FutureBuilder(
-                  initialData: const CupertinoActivityIndicator(),
-                  builder: (context, snapshot) {
-                    return bioTextWidgetGetter(context,
-                        targetMessage: widget.feedMeta.userBiography,
-                        targetName: "",
-                        rowLetterValue: 70,
-                        letterTextStyle: biographyStyle);
-                  },
-                ),
-              )),
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                  child: Text("Club & Activities", style: biographyStyle),
-                ),
-              ],
-            ),
-            ConstrainedBox(
-                constraints: BoxConstraints.tightFor(
-                    height: 100.h >= 1100 ? 15.h : 12.h),
-                child: const ClubGridView()),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5.w, 2.h, 0.0, 1.5.h),
-                  child: Text(
-                    "Hobbies & Interests",
-                    style: biographyStyle,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(4.w, 0.0, 1.w, 0.0),
-                  child: Column(
+    return FutureBuilder(
+        future: getUserDisplay(widget.targetUid),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CupertinoActivityIndicator());
+          }
+          var userDisplay = snapshot.data as IsolaUserDisplay;
+          return Flexible(
+            child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              footer: const ClassicFooter(),
+              controller: _refreshController,
+              onRefresh: _onRefresh,
+              onLoading: _onLoading,
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      SizedBox(
-                        height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                        child: Image.asset(
-                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[0]}.png",
-                          fit: BoxFit.cover,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5.w, 0.0, 0.0, 0.5.h),
+                        child: Text("Biography", style: biographyStyle),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 100.h >= 1100 ? 15.h : 11.h,
+                    width: 94.w,
+                    child: BiographPageContainer(
+                        contInteriorWidget: Padding(
+                      padding: EdgeInsets.fromLTRB(3.w, 2.h, 3.w, 2.h),
+                      child: FutureBuilder(
+                        initialData: const CupertinoActivityIndicator(),
+                        builder: (context, snapshot) {
+                          return bioTextWidgetGetter(context,
+                              targetMessage: userDisplay.userBiography,
+                              targetName: "",
+                              rowLetterValue: 70,
+                              letterTextStyle: biographyStyle);
+                        },
+                      ),
+                    )),
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
+                        child: Text("Club & Activities", style: biographyStyle),
+                      ),
+                    ],
+                  ),
+                  ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(
+                          height: 100.h >= 1100 ? 15.h : 12.h),
+                      child: const ClubGridView()),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5.w, 2.h, 0.0, 1.5.h),
+                        child: Text(
+                          "Hobbies & Interests",
+                          style: biographyStyle,
                         ),
                       ),
-                      Text(
-                        "${widget.feedMeta.userInterest[0]}",
-                        style: hobbiesStyle,
-                      ),
                     ],
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                  child: Column(
+                  Row(
                     children: [
-                      SizedBox(
-                        height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                        child: Image.asset(
-                            "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[1]}.png",
-                            fit: BoxFit.cover),
-                      ),
-                      Text(
-                        "${widget.feedMeta.userInterest[1]}",
-                        style: hobbiesStyle,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                        child: Image.asset(
-                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[2]}.png",
-                          fit: BoxFit.cover,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(4.w, 0.0, 1.w, 0.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: hobbiesIconSize,
+                              width: hobbiesIconSize,
+                              child: Image.asset(
+                                "asset/img/hobbies_icons/active_${userDisplay.userInterest[0]}.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Text(
+                              "${userDisplay.userInterest[0]}",
+                              style: hobbiesStyle,
+                            ),
+                          ],
                         ),
                       ),
-                      Text(
-                        "${widget.feedMeta.userInterest[2]}",
-                        style: hobbiesStyle,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                        child: Image.asset(
-                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[3]}.png",
-                          fit: BoxFit.cover,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: hobbiesIconSize,
+                              width: hobbiesIconSize,
+                              child: Image.asset(
+                                  "asset/img/hobbies_icons/active_${userDisplay.userInterest[1]}.png",
+                                  fit: BoxFit.cover),
+                            ),
+                            Text(
+                              "${userDisplay.userInterest[1]}",
+                              style: hobbiesStyle,
+                            ),
+                          ],
                         ),
                       ),
-                      Text("${widget.feedMeta.userInterest[3]}",
-                          style: hobbiesStyle),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: hobbiesIconSize,
-                        width: hobbiesIconSize,
-                        child: Image.asset(
-                          "asset/img/hobbies_icons/active_${widget.feedMeta.userInterest[4]}.png",
-                          fit: BoxFit.cover,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: hobbiesIconSize,
+                              width: hobbiesIconSize,
+                              child: Image.asset(
+                                "asset/img/hobbies_icons/active_${userDisplay.userInterest[2]}.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Text(
+                              "${userDisplay.userInterest[2]}",
+                              style: hobbiesStyle,
+                            ),
+                          ],
                         ),
                       ),
-                      Text("${widget.feedMeta.userInterest[4]}",
-                          style: hobbiesStyle),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: hobbiesIconSize,
+                              width: hobbiesIconSize,
+                              child: Image.asset(
+                                "asset/img/hobbies_icons/active_${userDisplay.userInterest[3]}.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Text("${userDisplay.userInterest[3]}",
+                                style: hobbiesStyle),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: hobbiesIconSize,
+                              width: hobbiesIconSize,
+                              child: Image.asset(
+                                "asset/img/hobbies_icons/active_${userDisplay.userInterest[4]}.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Text("${userDisplay.userInterest[4]}",
+                                style: hobbiesStyle),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
 
@@ -273,11 +282,11 @@ class ClubImageTile extends StatelessWidget {
       contInteriorWidget: ClipRRect(
         borderRadius: BorderRadius.circular(15.0),
         child: CachedNetworkImage(
-            imageUrl:'https://picsum.photos/$width/$height?random=$index',
-            fit: BoxFit.cover, errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),),
+          imageUrl: 'https://picsum.photos/$width/$height?random=$index',
+          fit: BoxFit.cover,
+          errorWidget: (context, url, error) =>
+              Icon(CupertinoIcons.xmark_square),
+        ),
       ),
     );
   }

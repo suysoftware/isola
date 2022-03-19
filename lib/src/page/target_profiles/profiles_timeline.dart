@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
@@ -11,12 +12,12 @@ import 'package:sizer/sizer.dart';
 
 class TargetProfileTimelinePage extends StatefulWidget {
   // const ProfileTimelinePage({Key? key}) : super(key: key);
-  final FeedMeta feedMeta;
+  final String targetUid;
+  final String userUid;
 
-  const TargetProfileTimelinePage({
-    Key? key,
-    required this.feedMeta,
-  }) : super(key: key);
+  const TargetProfileTimelinePage(
+      {Key? key, required this.targetUid, required this.userUid})
+      : super(key: key);
 
   @override
   _TargetProfileTimelinePageState createState() =>
@@ -44,13 +45,12 @@ class _TargetProfileTimelinePageState extends State<TargetProfileTimelinePage> {
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-       if (amountData < 50) {
+    if (amountData < 50) {
       if (mounted) {
         setState(() {
           amountData = amountData + 10;
         });
       }
-   
     }
     _refreshController.loadComplete();
   }
@@ -59,44 +59,63 @@ class _TargetProfileTimelinePageState extends State<TargetProfileTimelinePage> {
   void initState() {
     super.initState();
     amountData = 10;
-    _profileRef = refGetter(
+    _profileRef = FirebaseFirestore.instance
+        .collection('feeds')
+        .doc(widget.targetUid)
+        .collection('text_feeds');
+    /*  _profileRef = refGetter(
         enum2: RefEnum.Basetargetreadfeeds,
         targetUid: widget.feedMeta.userUid,
         userUid: "",
-        crypto: "");
+        crypto: "");*/
   }
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
       child: StreamBuilder<dynamic>(
-          stream: _profileRef.limitToLast(amountData).onValue,
-          builder: (context, event) {
-            if (event.hasData) {
-              var bioTimeLineDatas = <FeedMeta>[];
+          stream: _profileRef
+              .orderBy("feed_date", descending: true)
+              .limit(amountData)
+              /*.withConverter<IsolaFeedModel>(
+                fromFirestore: (snapshot, _) =>
+                    IsolaFeedModel.fromJson(snapshot.data()!),
+                toFirestore: (message, _) => message.toJson(),
+              )*/
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
               var bioTimeLineItem = <TimelineItem>[];
 
-              var gettingBioTimeline = event.data.snapshot.value as Map;
+              //  var gettingBioTimeline = event.data.snapshot.value as Map;
+              if (!snapshot.hasData)
+                return Center(
+                  child: CupertinoActivityIndicator(
+                      animating: true, radius: 12.sp),
+                );
 
+              /*
               gettingBioTimeline.forEach((key, event) {
                 var comingItem = FeedMeta.fromJson(event);
-               
-                    bioTimeLineDatas.add(comingItem);
 
-                    var bioTimeItem = TimelineItem(
-                      feedMeta: comingItem,
-                      userUid: widget.feedMeta.userUid,
-                     
-                      isTimeline: false,
-                    );
-                    bioTimeLineItem.add(bioTimeItem);
-           
+                bioTimeLineDatas.add(comingItem);
+
+                var bioTimeItem = TimelineItem(
+                  feedMeta: comingItem,
+                  userUid: widget.feedMeta.userUid,
+                  isTimeline: false,
+                );
+                bioTimeLineItem.add(bioTimeItem);
               });
+  
+  */
+              final data = snapshot.requireData;
 
-              if (bioTimeLineItem.isNotEmpty) {
+              /*if (bioTimeLineItem.isNotEmpty) {
                 bioTimeLineItem.sort((b, a) =>
                     a.feedMeta.feedTime.compareTo(b.feedMeta.feedTime));
-              }
+              }*/
+
               return SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: true,
@@ -106,15 +125,29 @@ class _TargetProfileTimelinePageState extends State<TargetProfileTimelinePage> {
                 onLoading: _onLoading,
                 child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    itemCount: bioTimeLineItem.length,
+                    itemCount: data.size,
                     itemBuilder: (context, indeks) {
                       return Padding(
-                        padding: EdgeInsets.fromLTRB(3.w, 0.0, 3.w, 1.h),
-                        child: Column(
+                          padding: EdgeInsets.fromLTRB(3.w, 0.0, 3.w, 1.h),
+                          child: TimelineItem(
+                            feedMeta: IsolaFeedModel(
+                                data.docs[indeks]['feed_date'],
+                                data.docs[indeks]['feed_no'],
+                                data.docs[indeks]['feed_text'],
+                                data.docs[indeks]['like_list'],
+                                data.docs[indeks]['like_value'],
+                                data.docs[indeks]['user_avatar_url'],
+                                data.docs[indeks]['user_name'],
+                                data.docs[indeks]['user_uid']),
+                            userUid: widget.userUid,
+                            isTimeline: false,
+                          )
+
+                          /*Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [bioTimeLineItem[indeks]],
-                        ),
-                      );
+                        ),*/
+                          );
                     }),
               );
             } else {

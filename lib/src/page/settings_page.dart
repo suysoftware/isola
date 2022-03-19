@@ -129,27 +129,64 @@ class _SettingsPageState extends State<SettingsPage> {
 //'dateTime': DateTime.parse('2019-03-13 16:49:42.044'
               //w     FirebaseFirestore.instance.collectionGroup("text_feeds").whereGreaterThan('feed_date',1000).orderBy('feed_date',descending: true)
               print("dfs");
-              
+
               final Timestamp now = Timestamp.fromDate(DateTime.now());
               final Timestamp yesterday = Timestamp.fromDate(
                 DateTime.now().subtract(const Duration(days: 1)),
               );
-              FirebaseFirestore.instance
-                  .collection('feeds')
-                  .doc('I9Pp17tqTRUflixnRosdsiNM2FA2')
-                  .collection('text_feeds')
-                  .where('feed_date', isLessThan: now, isGreaterThan: yesterday)
-                  .orderBy('feed_date', descending: true)
+
+
+
+
+       
+/*
+
+
+              for (var item in uidList) {
+                var testQuery = FirebaseFirestore.instance
+                    .collection('feeds')
+                    .doc(item)
+                    .collection('text_feeds')
+                    .where('feed_date',
+                        isLessThan: now, isGreaterThan: yesterday).limit(1);
+
+                      
+
+                
+                
+
+                if (uidList.last == item) {
+                  testQuery.get().then((value) {
+                    for (var item in value.docs) {
+                      print('Name : ${item['user_name']}');
+                      print('Tarih : ${item['feed_date']}');
+                      print('Like : ${item['like_value']}');
+                      print('Uid : ${item['user_uid']}');
+
+                      print('//////////////////////');
+                    }
+                  });
+                }
+              }*/
+
+              /* FirebaseFirestore.instance
+                  .collectionGroup('text_feeds')
+                  .where('Q1j0ibLDbhQye11fduuKmjkw3Ry2', isEqualTo: 'user_uid')
                   .get()
+                  //.where('feed_date', isLessThan: now, isGreaterThan: yesterday)
+                  //.orderBy('feed_date', descending: true)
+                  //.get()
                   .then((value) {
                 for (var item in value.docs) {
                   print('Name : ${item['user_name']}');
                   print('Tarih : ${item['feed_date']}');
                   print('Like : ${item['like_value']}');
+                  print('Uid : ${item['user_uid']}');
+
                   print('//////////////////////');
                 }
               });
-
+*/
               // .orderBy('like_value', descending: true);
               /*    .where('user_uid', arrayContainsAny: uidList)
                   .orderBy('feed_date', descending: true);*/

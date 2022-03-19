@@ -12,7 +12,7 @@ import 'package:isola_app/src/service/hive/hive_likes.dart';
 var hiveOperations = HiveOperations();
 
 Future<void> likeFeed(
-    {required FeedMeta feedMeta,
+    {required IsolaFeedModel feedMeta,
     required String targetUid,
     required String userUid,
     required String feedNo,
@@ -74,7 +74,7 @@ Future<void> unLikeFeed(
     {required String targetUid,
     required String userUid,
     required String feedNo,
-    required FeedMeta feedMeta,
+    required IsolaFeedModel feedMeta,
     }) async {
   var box = await Hive.openBox('userHive');
 

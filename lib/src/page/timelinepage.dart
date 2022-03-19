@@ -51,7 +51,7 @@ class _TimelinePageState extends State<TimelinePage> {
 
   late bool isRefresh;
 
-  TimelineItem timelineWithLikeInfo(FeedMeta feedMeta, bool isLiked) {
+  TimelineItem timelineWithLikeInfo(IsolaFeedModel feedMeta, bool isLiked) {
     var timeItem = TimelineItem(
       feedMeta: feedMeta,
       userUid: widget.user!.uid,
@@ -229,7 +229,7 @@ class _TimelinePageState extends State<TimelinePage> {
                     }),
               )
             : FutureBuilder(
-                future: getTimelineDatas(widget.userAll, 10),
+                future: getTimelineFeeds(widget.userAll, 10),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:

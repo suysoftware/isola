@@ -120,11 +120,11 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(4.0),
             child: GestureDetector(
                 onTap: () {
-                  /*
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed(settingsPage);*/
+                  
+                //  Navigator.of(context, rootNavigator: true)
+                  //    .pushNamed(settingsPage);
 
-                  getTimelineFeeds(widget.userAll);
+                  getTimelineFeeds(widget.userAll,20);
                 },
                 child: Image.asset("asset/img/settings_button.png")),
           ),

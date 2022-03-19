@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -16,11 +17,9 @@ class ProfileTimelinePage extends StatefulWidget {
   final User user;
   final IsolaUserAll userAll;
 
-  const ProfileTimelinePage({
-    Key? key,
-    required this.user,
-    required this.userAll
-  }) : super(key: key);
+  const ProfileTimelinePage(
+      {Key? key, required this.user, required this.userAll})
+      : super(key: key);
 
   @override
   _ProfileTimelinePageState createState() => _ProfileTimelinePageState();
@@ -53,34 +52,50 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
           amountData = amountData + 10;
         });
       }
-     
     }
-     _refreshController.loadComplete();
+    _refreshController.loadComplete();
   }
 
   @override
   void initState() {
     super.initState();
     amountData = 10;
-    _profileRef = refGetter(
+    /*  _profileRef = refGetter(
         enum2: RefEnum.Basereadfeeds,
         targetUid: widget.user.uid,
         userUid: widget.user.uid,
-        crypto: "");
+        crypto: "");*/
+    _profileRef = FirebaseFirestore.instance
+        .collection('feeds')
+        .doc(widget.userAll.isolaUserMeta.userUid)
+        .collection('text_feeds');
   }
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
       child: StreamBuilder<dynamic>(
-          stream: _profileRef.limitToLast(amountData).onValue,
-          builder: (context, event) {
-            if (event.hasData && event.data.snapshot.value != null) {
-              var bioTimeLineDatas = <FeedMeta>[];
+          stream: _profileRef
+              .orderBy("feed_date", descending: true)
+              .limit(amountData)
+           /*   .withConverter<IsolaFeedModel>(
+                fromFirestore: (snapshot, _) =>
+                    IsolaFeedModel.fromJson(snapshot.data()!),
+                toFirestore: (message, _) => message.toJson(),
+              )*/
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
               var bioTimeLineItem = <TimelineItem>[];
 
-              var gettingBioTimeline = event.data.snapshot.value as Map;
+              //  var gettingBioTimeline = event.data.snapshot.value as Map;
+              if (!snapshot.hasData)
+                return Center(
+                  child: CupertinoActivityIndicator(
+                      animating: true, radius: 12.sp),
+                );
 
+              /*
               gettingBioTimeline.forEach((key, event) {
                 var comingItem = FeedMeta.fromJson(event);
 
@@ -88,60 +103,59 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
 
                 var bioTimeItem = TimelineItem(
                   feedMeta: comingItem,
-                  userUid: widget.user.uid,
-   
+                  userUid: widget.feedMeta.userUid,
                   isTimeline: false,
                 );
                 bioTimeLineItem.add(bioTimeItem);
               });
-              if (bioTimeLineItem.isNotEmpty) {
+  
+  */
+              final data = snapshot.requireData;
+
+              /*if (bioTimeLineItem.isNotEmpty) {
                 bioTimeLineItem.sort((b, a) =>
                     a.feedMeta.feedTime.compareTo(b.feedMeta.feedTime));
-              }
-              return bioTimeLineItem.isEmpty
-                  ? Center(
-                      child: Column(
-                      children: [
-                        Icon(
-                          CupertinoIcons.pen,
-                          size: 65.sp,
-                          color: ColorConstant.softGrey,
-                        ),
-                        const Text("You have not post")
-                      ],
-                    ))
-                  : SmartRefresher(
-                      enablePullDown: true,
-                      enablePullUp: true,
-                      footer: const ClassicFooter(),
-                      controller: _refreshController,
-                      onRefresh: _onRefresh,
-                      onLoading: _onLoading,
-                      child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: bioTimeLineItem.length,
-                          itemBuilder: (context, indeks) {
-                            return Padding(
-                              padding: EdgeInsets.fromLTRB(3.w, 0.0, 3.w, 1.h),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [bioTimeLineItem[indeks]],
-                              ),
-                            );
-                          }),
-                    );
+              }*/
+
+              return SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                footer: const ClassicFooter(),
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: data.size,
+                    itemBuilder: (context, indeks) {
+                      return Padding(
+                          padding: EdgeInsets.fromLTRB(3.w, 0.0, 3.w, 1.h),
+                          child: TimelineItem(
+                            feedMeta: IsolaFeedModel(
+                                data.docs[indeks]['feed_date'],
+                                data.docs[indeks]['feed_no'],
+                                data.docs[indeks]['feed_text'],
+                                data.docs[indeks]['like_list'],
+                                data.docs[indeks]['like_value'],
+                                data.docs[indeks]['user_avatar_url'],
+                                data.docs[indeks]['user_name'],
+                                data.docs[indeks]['user_uid']),
+                            userUid: widget.userAll.isolaUserMeta.userUid,
+                            isTimeline: false,
+                          )
+
+                          /*Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [bioTimeLineItem[indeks]],
+                        ),*/
+                          );
+                    }),
+              );
             } else {
               return Center(
-                  child: Column(
-                children: [
-                  Icon(
-                    CupertinoIcons.pen,
-                    size: 65.sp,
-                    color: ColorConstant.softGrey,
-                  ),
-                  const Text("You have not post")
-                ],
-              ));
+                child:
+                    CupertinoActivityIndicator(animating: true, radius: 12.sp),
+              );
             }
           }),
     );

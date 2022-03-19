@@ -25,7 +25,7 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
     sortedItem.addAll(state);
 
     sortedItem
-        .sort((b, a) => a.feedMeta.feedTime.compareTo(b.feedMeta.feedTime));
+        .sort((b, a) => a.feedMeta.feedDate.compareTo(b.feedMeta.feedDate));
 
     emit(sortedItem);
   }

@@ -23,7 +23,7 @@ import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
 
 class TimelineItem extends StatefulWidget {
-  FeedMeta feedMeta;
+  IsolaFeedModel feedMeta;
   String userUid;
 
   bool isTimeline;
@@ -71,6 +71,8 @@ class _TimelineItemState extends State<TimelineItem>
     return BlocBuilder<UserHiveCubit, UserHive>(builder: (context, userHive) {
       return GestureDetector(
           onTap: () async {
+            print(widget.feedMeta.userUid);
+            print(widget.userUid);
             if (widget.feedMeta.userUid != widget.userUid) {
 /*
   var userDisplay = UserDisplay(
@@ -88,27 +90,17 @@ class _TimelineItemState extends State<TimelineItem>
       comingValue["user_blocked"],
       comingValue["user_is_non_binary"]);*/
 
-              var targetProfileDisplay = UserDisplay(
-                  widget.feedMeta.userUid,
-                  widget.feedMeta.userName,
-                  widget.feedMeta.userBiography,
-                  widget.feedMeta.avatarUrl,
-                  widget.feedMeta.userUniversity,
-                  widget.feedMeta.userSex,
-                  widget.feedMeta.userIsOnline,
-                  widget.feedMeta.userIsValid,
-                  widget.feedMeta.userActivities,
-                  widget.feedMeta.userInterest,
-                  widget.feedMeta.userFriends,
-                  widget.feedMeta.userBlocked,
-                  widget.feedMeta.userIsNonBinary);
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => TargetProfilePage(
-                            feedMeta: widget.feedMeta,
-                          )));
-
+              if (widget.isTimeline == true) {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => TargetProfilePage(
+                              targetUid: widget.feedMeta.userUid,
+                              targetName: widget.feedMeta.userName,
+                              targetAvatarUrl: widget.feedMeta.userAvatarUrl,
+                              userUid: widget.userUid,
+                            )));
+              }
               /*
               refTargetProfile.get().then((value) {
                 var gettingInfo = value.snapshot.value as Map;
@@ -171,7 +163,7 @@ class _TimelineItemState extends State<TimelineItem>
                                   child: CircleAvatar(
                                     radius: 100.h >= 1100 ? 13.sp : 20.sp,
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.feedMeta.avatarUrl,
+                                      imageUrl: widget.feedMeta.userAvatarUrl,
                                       width: 100.h >= 1100 ? 26.sp : 40.sp,
                                       height: 100.h >= 1100 ? 26.sp : 40.sp,
                                       fit: BoxFit.cover,
@@ -580,7 +572,7 @@ class AddPostReportContainer extends StatefulWidget {
       {Key? key, required this.feedMeta, required this.userUid})
       : super(key: key);
 
-  final FeedMeta feedMeta;
+  final IsolaFeedModel feedMeta;
   final String userUid;
 
   @override

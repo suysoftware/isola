@@ -1195,6 +1195,7 @@ Future<IsolaUserDisplay> getUserDisplay(String uid) async {
   return userDisplay;
 }
 
+/*
 Future<List<dynamic>> getTimelineDatas(
     IsolaUserAll userAll, int amountData) async {
   var timelineDatas = <TimelineItem>[];
@@ -1258,7 +1259,7 @@ Future<List<dynamic>> getTimelineDatas(
   print("GONDER GELSIIIIIN");
   return timelineDatas;
 }
-
+*/
 Future<bool> groupChaosSearchingInfoGetter(String groupNo) async {
   var refGroupChaos = refGetter(
       enum2: RefEnum.Groupschaos, targetUid: "", userUid: "", crypto: groupNo);
@@ -1364,11 +1365,12 @@ Future<List<dynamic>> getGroupDataFromDatabase(IsolaUserAll userAll) async {
   }
 }
 
-Future<void> getTimelineFeeds(IsolaUserAll isolaUserAll) async {
+Future<List<dynamic>> getTimelineFeeds(
+    IsolaUserAll isolaUserAll, int amountData) async {
   print(DateTime.now().toString());
   var timelineDatas = <TimelineItem>[];
 
-  var isolaFeedDatas = <IsolaFeedModel>[];
+  //var isolaFeedDatas = <IsolaFeedModel>[];
 
   final Timestamp now = Timestamp.fromDate(DateTime.now());
   final Timestamp yesterday = Timestamp.fromDate(
@@ -1382,11 +1384,12 @@ Future<void> getTimelineFeeds(IsolaUserAll isolaUserAll) async {
         .collection('text_feeds')
         .where('feed_date', isLessThan: now, isGreaterThan: yesterday)
         .orderBy('feed_date', descending: true)
-        .withConverter<IsolaFeedModel>(
+        .limit(20)
+        /*.withConverter<IsolaFeedModel>(
           fromFirestore: (snapshot, _) =>
               IsolaFeedModel.fromJson(snapshot.data()!),
           toFirestore: (message, _) => message.toJson(),
-        )
+        )*/
         .get()
         .then((value) {
       for (var item in value.docs) {
@@ -1399,14 +1402,14 @@ Future<void> getTimelineFeeds(IsolaUserAll isolaUserAll) async {
             item['user_avatar_url'],
             item['user_name'],
             item['user_uid']);
+        var timelineItem = TimelineItem(
+            feedMeta: isolaItem, userUid: isolaUserAll.isolaUserMeta.userUid, isTimeline: true);
 
         print('Name : ${item['user_name']}');
-        print('Tarih : ${item['feed_date']}');
-        print('Like : ${item['like_value']}');
-        print('//////////////////////');
 
-        isolaFeedDatas.add(isolaItem);
-        print(isolaFeedDatas.length);
+        timelineDatas.add(timelineItem);
+
+       //isolaFeedDatas.add(isolaItem);
       }
     });
 
@@ -1418,4 +1421,56 @@ Future<void> getTimelineFeeds(IsolaUserAll isolaUserAll) async {
     }*/
     print(DateTime.now().toString());
   }
+
+  return timelineDatas;
+}
+
+Future<void> getProfileTimeline(String userUid, int amountData) async {
+  print(DateTime.now().toString());
+  var timelineDatas = <TimelineItem>[];
+
+  var isolaFeedDatas = <IsolaFeedModel>[];
+
+  final Timestamp now = Timestamp.fromDate(DateTime.now());
+  final Timestamp yesterday = Timestamp.fromDate(
+    DateTime.now().subtract(const Duration(days: 1)),
+  );
+
+  await FirebaseFirestore.instance
+      .collection('feeds')
+      .doc(userUid)
+      .collection('text_feeds')
+      .orderBy('feed_date', descending: true)
+      .limit(20)
+      /*.withConverter<IsolaFeedModel>(
+          fromFirestore: (snapshot, _) =>
+              IsolaFeedModel.fromJson(snapshot.data()!),
+          toFirestore: (message, _) => message.toJson(),
+        )*/
+      .get()
+      .then((value) {
+    for (var item in value.docs) {
+      var isolaItem = IsolaFeedModel(
+          item['feed_date'],
+          item['feed_no'],
+          item['feed_text'],
+          item['like_list'],
+          item['like_value'],
+          item['user_avatar_url'],
+          item['user_name'],
+          item['user_uid']);
+
+      print('Name : ${item['user_name']}');
+
+      isolaFeedDatas.add(isolaItem);
+    }
+  });
+
+  /* for (var item in value.docs) {
+      print('Name : ${item['user_name']}');
+      print('Tarih : ${item['feed_date']}');
+      print('Like : ${item['like_value']}');
+      print('//////////////////////');
+    }*/
+  print(DateTime.now().toString());
 }

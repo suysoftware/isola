@@ -11,9 +11,17 @@ import 'package:isola_app/src/service/firebase/storage/getters/display_getter.da
 import 'package:sizer/sizer.dart';
 
 class TargetProfilePage extends StatefulWidget {
-  const TargetProfilePage({Key? key, required this.feedMeta}) : super(key: key);
+  const TargetProfilePage(
+      {Key? key,
+      required this.targetUid,
+      required this.targetAvatarUrl,
+      required this.targetName,required this.userUid})
+      : super(key: key);
 
-  final FeedMeta feedMeta;
+  final String targetUid;
+  final String targetAvatarUrl;
+  final String targetName;
+  final String userUid;
 
   @override
   _TargetProfilePageState createState() => _TargetProfilePageState();
@@ -62,19 +70,19 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   StatefulWidget buildProfileWidget() {
     switch (_profileSegmentedValue) {
       case 0:
-        return TargetProfileTimelinePage(
-          feedMeta: widget.feedMeta,
+        return TargetProfileTimelinePage(targetUid: widget.targetUid, userUid: widget.userUid,
+         
         );
 
       case 1:
-        return TargetProfileMediaPage(userUid: widget.feedMeta.userUid);
+        return TargetProfileMediaPage(userUid: widget.targetUid);
 
       case 2:
         return TargetProfileBiographPage(
-          feedMeta: widget.feedMeta,
+        targetUid: widget.targetUid,
         );
       default:
-        return TargetProfileTimelinePage(feedMeta: widget.feedMeta);
+        return TargetProfileTimelinePage(targetUid: widget.targetUid,userUid: widget.userUid,);
     }
   }
 
@@ -102,7 +110,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
         ),
       ),
       child: FutureBuilder(
-        future: getUserDisplay(widget.feedMeta.userUid),
+        future: getUserDisplay(widget.targetUid),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -147,8 +155,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                   ? (100.h <= 1100
                                                       ? CachedNetworkImage(
                                                           imageUrl: widget
-                                                              .feedMeta
-                                                              .avatarUrl,
+                                                              .targetAvatarUrl,
                                                           width: 120.sp,
                                                           height: 120.sp,
                                                           fit: BoxFit.cover,
@@ -159,8 +166,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                         )
                                                       : CachedNetworkImage(
                                                           imageUrl: widget
-                                                              .feedMeta
-                                                              .avatarUrl,
+                                                              .targetAvatarUrl,
                                                           width: 80.sp,
                                                           height: 80.sp,
                                                           fit: BoxFit.cover,
@@ -171,7 +177,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                         ))
                                                   : CachedNetworkImage(
                                                       imageUrl: widget
-                                                          .feedMeta.avatarUrl,
+                                                          .targetAvatarUrl,
                                                       width: 65.sp,
                                                       height: 65.sp,
                                                       fit: BoxFit.cover,
@@ -197,12 +203,12 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                               padding: EdgeInsets.all(8.0),
                             ),
                             Text(
-                              widget.feedMeta.userName,
+                              widget.targetName,
                               style: 100.h >= 1100
                                   ? StyleConstants.profileNameTabletTextStyle
                                   : StyleConstants.profileNameTextStyle,
                             ),
-                            widget.feedMeta.userIsOnline
+                            true
                                 ? Padding(
                                     padding: const EdgeInsets.all(6.0),
                                     child: Image.asset(
@@ -217,7 +223,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                         ),
                       ),
                       Text(
-                        widget.feedMeta.userUniversity,
+                        "uni",
                         style: 100.h >= 1100
                             ? StyleConstants.profileUniversityTabletTextStyle
                             : StyleConstants.profileUniversityTextStyle,
@@ -257,7 +263,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                           userDisplay: userDisplay,
                         );
                         */
-                var targetDisplay = snapshot.data as UserDisplay;
+                var targetDisplay = snapshot.data as IsolaUserDisplay;
 
                 return Container(
                   color: ColorConstant.themeGrey,
@@ -295,34 +301,37 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                               child: 100.h >= 700
                                                   ? (100.h <= 1100
                                                       ? CachedNetworkImage(
-                                                          imageUrl:targetDisplay
-                                                              .avatarUrl,
+                                                          imageUrl:
+                                                              targetDisplay
+                                                                  .avatarUrl,
                                                           width: 120.sp,
                                                           height: 120.sp,
                                                           fit: BoxFit.cover,
-                                                           errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(CupertinoIcons
+                                                                  .xmark_square),
                                                         )
                                                       : CachedNetworkImage(
-                                                         imageUrl: targetDisplay
-                                                              .avatarUrl,
+                                                          imageUrl:
+                                                              targetDisplay
+                                                                  .avatarUrl,
                                                           width: 80.sp,
                                                           height: 80.sp,
                                                           fit: BoxFit.cover,
-                                                           errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(CupertinoIcons
+                                                                  .xmark_square),
                                                         ))
                                                   : CachedNetworkImage(
-                                                      imageUrl:targetDisplay.avatarUrl,
+                                                      imageUrl: targetDisplay
+                                                          .avatarUrl,
                                                       width: 65.sp,
                                                       height: 65.sp,
                                                       fit: BoxFit.cover,
-                                                       errorWidget:
-                                                      (context, url, error) =>
+                                                      errorWidget: (context,
+                                                              url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
                                                     ))),
