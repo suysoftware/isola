@@ -87,6 +87,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                   child: CircleImageContainer(
                       circleImage: CircleAvatar(
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
+                              backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(70.sp),
                         child: CachedNetworkImage(
@@ -131,6 +132,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
+                                                backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(18.sp),
                                     child: CachedNetworkImage(
@@ -179,6 +181,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
+                                                backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.sp),
                                     child: CachedNetworkImage(
@@ -299,6 +302,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
+                                                backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(18.sp),
                                     child: CachedNetworkImage(

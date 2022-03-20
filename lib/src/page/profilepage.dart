@@ -15,6 +15,7 @@ import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/profile/profile_biography.dart';
 import 'package:isola_app/src/page/profile/profile_media_page.dart';
+import 'package:isola_app/src/service/firebase/storage/feedshare/add_image_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/image_cropper.dart';
@@ -120,11 +121,22 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(4.0),
             child: GestureDetector(
                 onTap: () {
-                  
-                //  Navigator.of(context, rootNavigator: true)
-                  //    .pushNamed(settingsPage);
+                /*  addImageFeedToDatabase(
+                      widget.userAll.isolaUserMeta.userUid,
+                      widget.userAll.isolaUserDisplay.avatarUrl,
+                      widget.userAll.isolaUserDisplay.userName,
+                      "https://en.pimg.jp/054/507/693/1/54507693.jpg");*/
 
-                  getTimelineFeeds(widget.userAll,20);
+
+                    //image feed bölümünü eklemeyi unutma
+
+
+
+
+                   Navigator.of(context, rootNavigator: true)
+                   .pushNamed(settingsPage);
+
+                  //   getTimelineFeeds(widget.userAll,20);
                 },
                 child: Image.asset("asset/img/settings_button.png")),
           ),

@@ -299,7 +299,8 @@ class _TimelinePageState extends State<TimelinePage> {
 
                     default:
                       if (snapshot.hasError) {
-                        return const Text("Error");
+                        return Center(child: const Text("Error"));
+                        
                       } else {
                         /*
                         var userDisplaySnap = snapshot.data as UserDisplay;
@@ -350,6 +351,9 @@ class _TimelinePageState extends State<TimelinePage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+   
+
+                                          
                                       context
                                           .read<TimelineItemListCubit>()
                                           .state[indeks]

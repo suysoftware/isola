@@ -11,6 +11,7 @@ import 'package:isola_app/src/page/account_setting.dart';
 import 'package:isola_app/src/service/firebase/authentication.dart';
 import 'package:isola_app/src/service/firebase/storage/add_user.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_feeds.dart';
+import 'package:isola_app/src/service/firebase/storage/feedshare/add_image_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/like_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
@@ -134,11 +135,61 @@ class _SettingsPageState extends State<SettingsPage> {
               final Timestamp yesterday = Timestamp.fromDate(
                 DateTime.now().subtract(const Duration(days: 1)),
               );
+/*
+              for (var item in uidList) {
+               await FirebaseFirestore.instance
+                    .collection('feeds')
+                    .doc(item)
+                    .collection('image_feeds')
+                    .get()
+                    .then((value) {
+                  List<dynamic> itemList =
+                      value.docs.map((doc) => doc['feed_no']).toList();
 
+                  for (var item2 in itemList) {
+                    FirebaseFirestore.instance
+                        .collection('feeds')
+                        .doc(item)
+                        .collection('image_feeds')
+                        .doc(item2)
+                        .delete();
+                  }
+                });
+              }*/
+         /*     FirebaseFirestore.instance
+                  .collectionGroup('image_feeds')
+                  .get()
+                  .then((value) {
+                List<dynamic> itemList =
+                    value.docs.map((doc) => doc['feed_no']).toList();
 
+                print(itemList);
 
+                for (var item in itemList) {}
+              });*/
 
-       
+                  /*        addImageFeedToDatabase(
+                      "uFNp9o11ExPRildurDCh8VaBY2J2",
+                      "https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586",
+                "akbaba reyis",
+                      "https://picsum.photos/400/400?random=1999");
+*/
+            /*     int dnm = 150;
+                //1300
+              for (var i = 0; i < 30; i++) {
+                int ikk = 0;
+                for (var item in uidList) {
+                  addImageFeedToDatabase(
+                      item,
+                      "https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586",
+                      nameList[ikk],
+                      "https://picsum.photos/400/400?random=$dnm");
+
+                  ikk = ikk + 1;
+                  dnm = dnm + 1;
+                }
+              }
+*/
 /*
 
 

@@ -24,13 +24,6 @@ Future<void>groupLeaveMessage(GroupSettingModel groupSettingModel,DatabaseRefere
 
     ref.push().set(firstMessage);
 
-    
-
-    // setState(() {
-    //    AllMessageBalloon mesajNesnesi = AllMessageBalloon(isMe: true,theMessage: gelenMesaj);
-    //    userMesajListesi.insert(0, mesajNesnesi);
-    //   t1.clear();
-    // });
  
 
 

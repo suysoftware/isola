@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 import 'dart:collection';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -161,6 +162,7 @@ class _TimelineItemState extends State<TimelineItem>
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20.sp),
                                   child: CircleAvatar(
+                                              backgroundColor: ColorConstant.milkColor,
                                     radius: 100.h >= 1100 ? 13.sp : 20.sp,
                                     child: CachedNetworkImage(
                                       imageUrl: widget.feedMeta.userAvatarUrl,
@@ -242,7 +244,90 @@ class _TimelineItemState extends State<TimelineItem>
                                                               .imageLikeReader(),
                                                         ),
                                                         onPressed: () {
-                                                          var refLikeFeed =
+                                                          Image unlike =
+                                                              Image.asset(
+                                                                  "asset/img/mini_like_button.png");
+
+                                                          if (context
+                                                                  .read<
+                                                                      TimelineModel>()
+                                                                  .imageLikeReader()
+                                                                  .image ==
+                                                              unlike.image) {
+                                                            try {
+                                                              print('like et');
+                                                              timelineModelNesne
+                                                                  .imageLikeOn();
+
+                                                              likeFeed(
+                                                                feedMeta: widget
+                                                                    .feedMeta,
+                                                                targetUid: widget
+                                                                    .feedMeta
+                                                                    .userUid,
+                                                                userUid: widget
+                                                                    .userUid,
+                                                                feedNo: widget
+                                                                    .feedMeta
+                                                                    .feedNo,
+                                                              ).whenComplete(
+                                                                  () {
+                                                                timelineUpOrDown
+                                                                    .likeUp();
+                                                                context
+                                                                    .read<
+                                                                        TimelineItemListCubit>()
+                                                                    .timelineItemLike(
+                                                                        widget
+                                                                            .feedMeta
+                                                                            .feedNo,
+                                                                        true,
+                                                                        widget
+                                                                            .userUid);
+                                                              });
+                                                            } catch (e) {
+                                                              print(e);
+                                                            }
+                                                          } else {
+                                                            try {
+                                                              print(
+                                                                  'like geri alma');
+                                                              timelineModelNesne
+                                                                  .imageLikeOff();
+
+                                                              unLikeFeed(
+                                                                targetUid: widget
+                                                                    .feedMeta
+                                                                    .userUid,
+                                                                userUid: widget
+                                                                    .userUid,
+                                                                feedNo: widget
+                                                                    .feedMeta
+                                                                    .feedNo,
+                                                                feedMeta: widget
+                                                                    .feedMeta,
+                                                              ).whenComplete(
+                                                                  () {
+                                                                timelineUpOrDown
+                                                                    .likeDown();
+                                                                context
+                                                                    .read<
+                                                                        TimelineItemListCubit>()
+                                                                    .timelineItemLike(
+                                                                        widget
+                                                                            .feedMeta
+                                                                            .feedNo,
+                                                                        false,
+                                                                        widget
+                                                                            .userUid);
+                                                              });
+                                                            } catch (e) {
+                                                              print(e);
+                                                            }
+                                                          }
+                                                          print("exist");
+
+                                                          /*  var refLikeFeed =
                                                               refGetter(
                                                                   enum2: RefEnum
                                                                       .Feedsdelete,
@@ -251,8 +336,8 @@ class _TimelineItemState extends State<TimelineItem>
                                                                       .userUid,
                                                                   crypto: widget
                                                                       .feedMeta
-                                                                      .feedNo);
-
+                                                                      .feedNo);*/
+/*
                                                           refLikeFeed
                                                               .child(
                                                                   "like_value")
@@ -260,81 +345,10 @@ class _TimelineItemState extends State<TimelineItem>
                                                               .then((value) {
                                                             if (value.snapshot
                                                                 .exists) {
-                                                              Image unlike =
-                                                                  Image.asset(
-                                                                      "asset/img/mini_like_button.png");
+                                                             
+                                                            }*/
 
-                                                              if (context
-                                                                      .read<
-                                                                          TimelineModel>()
-                                                                      .imageLikeReader()
-                                                                      .image ==
-                                                                  unlike
-                                                                      .image) {
-                                                                try {
-                                                                  timelineModelNesne
-                                                                      .imageLikeOn();
-
-                                                                  likeFeed(
-                                                                    feedMeta: widget
-                                                                        .feedMeta,
-                                                                    targetUid: widget
-                                                                        .feedMeta
-                                                                        .userUid,
-                                                                    userUid: widget
-                                                                        .userUid,
-                                                                    feedNo: widget
-                                                                        .feedMeta
-                                                                        .feedNo,
-                                                                  ).whenComplete(
-                                                                      () {
-                                                                    timelineUpOrDown
-                                                                        .likeUp();
-                                                                    context.read<TimelineItemListCubit>().timelineItemLike(
-                                                                        widget
-                                                                            .feedMeta
-                                                                            .feedNo,
-                                                                        true,
-                                                                        widget
-                                                                            .userUid);
-                                                                  });
-                                                                } catch (e) {
-                                                                  print(e);
-                                                                }
-                                                              } else {
-                                                                try {
-                                                                  timelineModelNesne
-                                                                      .imageLikeOff();
-
-                                                                  unLikeFeed(
-                                                                    targetUid: widget
-                                                                        .feedMeta
-                                                                        .userUid,
-                                                                    userUid: widget
-                                                                        .userUid,
-                                                                    feedNo: widget
-                                                                        .feedMeta
-                                                                        .feedNo,
-                                                                    feedMeta: widget
-                                                                        .feedMeta,
-                                                                  ).whenComplete(
-                                                                      () {
-                                                                    timelineUpOrDown
-                                                                        .likeDown();
-                                                                    context.read<TimelineItemListCubit>().timelineItemLike(
-                                                                        widget
-                                                                            .feedMeta
-                                                                            .feedNo,
-                                                                        false,
-                                                                        widget
-                                                                            .userUid);
-                                                                  });
-                                                                } catch (e) {
-                                                                  print(e);
-                                                                }
-                                                              }
-                                                              print("exist");
-                                                            } else {
+                                                          /* else {
                                                               showCupertinoDialog(
                                                                   context:
                                                                       context,
@@ -351,8 +365,8 @@ class _TimelineItemState extends State<TimelineItem>
                                                                                   })
                                                                             ],
                                                                           ));
-                                                            }
-                                                          });
+                                                            }*/
+                                                          // });
                                                         }),
                                               );
                                             }),
@@ -389,19 +403,24 @@ class _TimelineItemState extends State<TimelineItem>
                                                                       .black),
                                                         ),
                                                         onPressed: () {
-                                                          var refDeleteFeed = refGetter(
-                                                              enum2: RefEnum
-                                                                  .Feedsdelete,
-                                                              targetUid: "",
-                                                              userUid: widget
-                                                                  .userUid,
-                                                              crypto: widget
-                                                                  .feedMeta
-                                                                  .feedNo);
+                                           
 
                                                           try {
-                                                            refDeleteFeed
-                                                                .remove()
+                                                                           DocumentReference
+                                                              textFeedDeleteRef =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'text_feed_delete_pool')
+                                                                  .doc();
+
+                                                          textFeedDeleteRef
+                                                              .set({
+                                                                'orderNo':textFeedDeleteRef.id,
+                                                                'targetFeed':widget.feedMeta.feedNo,
+                                                                'userUid':widget.userUid
+                                                              })
+                                                          
                                                                 .whenComplete(
                                                                     () {
                                                               Navigator.pop(

@@ -55,6 +55,7 @@ class AttachmentMessageBalloonLeft extends StatelessWidget {
                       border: Border.all(color: ColorConstant.transparentColor),
                       borderRadius: BorderRadius.all(Radius.circular(20.sp))),
                   child: CircleAvatar(
+                              backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.sp),
                       child: CachedNetworkImage(

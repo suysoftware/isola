@@ -41,6 +41,7 @@ class _NavigationBarState extends State<NavigationBar>
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance!.addObserver(this);
 
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -57,7 +58,7 @@ class _NavigationBarState extends State<NavigationBar>
 
     userDisplayRef.doc(user.uid).update({'uOnline': true});
 
-   // _refUserDisplay.child("user_is_online").set(true);
+    // _refUserDisplay.child("user_is_online").set(true);
     //  getDisplayData(user.uid).then((value) => userDisplay = value);
     getUserAllFromDataBase(user.uid)
         .then((value) => userAll = value)
@@ -104,9 +105,7 @@ class _NavigationBarState extends State<NavigationBar>
     if (state == AppLifecycleState.detached) {
       print("detached");
 
-
-
-        userDisplayRef.doc(user.uid).update({'uOnline': false});
+      userDisplayRef.doc(user.uid).update({'uOnline': false});
       //_refUserDisplay.child("user_is_online").set(false);
       context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
@@ -199,7 +198,7 @@ class _NavigationBarState extends State<NavigationBar>
                           userDisplay: userDisplay,
                         );
                         */
-                        var userAllSnap = snapshot.data as UserAll;
+                        var userAllSnap = snapshot.data as IsolaUserAll;
                         context.read<UserAllCubit>().userAllChanger(userAll);
                         return SearchPage(user: user, userAll: userAll);
                       }

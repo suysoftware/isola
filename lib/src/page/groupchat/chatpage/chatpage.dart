@@ -368,6 +368,7 @@ class ImageChatClip extends StatelessWidget {
             color: ColorConstant.milkColor.withOpacity(0.05),
             borderRadius: BorderRadius.all(Radius.circular(35.sp))),
         child: CircleAvatar(
+          
           radius: 15.sp,
           backgroundColor: ColorConstant.milkColor,
           child: ClipRRect(

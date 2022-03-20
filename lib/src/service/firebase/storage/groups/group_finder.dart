@@ -2,14 +2,10 @@
 
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_display.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
-import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:uuid/uuid.dart';
 
 Future<List<dynamic>> findGroup(IsolaUserAll userAll) async {

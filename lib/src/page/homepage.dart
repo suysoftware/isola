@@ -854,6 +854,7 @@ class PostAvatarRight extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4.0, 0.0, 10.0, 2.0),
       child: CircleAvatar(
         radius: avatarRadius.h,
+                  backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
             child: CachedNetworkImage(

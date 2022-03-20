@@ -1370,6 +1370,10 @@ Future<List<dynamic>> getTimelineFeeds(
   print(DateTime.now().toString());
   var timelineDatas = <TimelineItem>[];
 
+  var timelineUserList = <dynamic>[];
+  timelineUserList.addAll(isolaUserAll.isolaUserMeta.userFriends);
+  timelineUserList.add(isolaUserAll.isolaUserMeta.userUid);
+
   //var isolaFeedDatas = <IsolaFeedModel>[];
 
   final Timestamp now = Timestamp.fromDate(DateTime.now());
@@ -1377,7 +1381,7 @@ Future<List<dynamic>> getTimelineFeeds(
     DateTime.now().subtract(const Duration(days: 1)),
   );
 
-  for (var friend in isolaUserAll.isolaUserMeta.userFriends) {
+  for (var friend in timelineUserList) {
     await FirebaseFirestore.instance
         .collection('feeds')
         .doc(friend)
@@ -1403,23 +1407,15 @@ Future<List<dynamic>> getTimelineFeeds(
             item['user_name'],
             item['user_uid']);
         var timelineItem = TimelineItem(
-            feedMeta: isolaItem, userUid: isolaUserAll.isolaUserMeta.userUid, isTimeline: true);
+            feedMeta: isolaItem,
+            userUid: isolaUserAll.isolaUserMeta.userUid,
+            isTimeline: true);
 
         print('Name : ${item['user_name']}');
 
         timelineDatas.add(timelineItem);
-
-       //isolaFeedDatas.add(isolaItem);
       }
     });
-
-    /* for (var item in value.docs) {
-      print('Name : ${item['user_name']}');
-      print('Tarih : ${item['feed_date']}');
-      print('Like : ${item['like_value']}');
-      print('//////////////////////');
-    }*/
-    print(DateTime.now().toString());
   }
 
   return timelineDatas;
@@ -1466,11 +1462,5 @@ Future<void> getProfileTimeline(String userUid, int amountData) async {
     }
   });
 
-  /* for (var item in value.docs) {
-      print('Name : ${item['user_name']}');
-      print('Tarih : ${item['feed_date']}');
-      print('Like : ${item['like_value']}');
-      print('//////////////////////');
-    }*/
   print(DateTime.now().toString());
 }
