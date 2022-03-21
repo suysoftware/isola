@@ -27,6 +27,7 @@ import 'package:sizer/sizer.dart';
 import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
 import '../service/firebase/storage/feedshare/add_image_feeds.dart';
+import '../widget/hero_preview.dart';
 
 int feedAllControl = 0;
 void amountUpdater(int updateValue) async {
@@ -159,7 +160,7 @@ class _SearchPageState extends State<SearchPage> {
             child: Container(
               color: ColorConstant.themeGrey,
               child: BasicGridWidget(
-                key: widget.key,
+                key: widget.key, userUid: widget.userAll.isolaUserMeta.userUid,
               ),
             )));
   }
@@ -181,9 +182,11 @@ int downloadedItem = 0;
 
 class BasicGridWidget extends StatefulWidget {
   const BasicGridWidget({
-    Key? key,
+    Key? key,required this.userUid
   }) : super(key: key);
 
+
+final String userUid;
   static void gtGetter() {
     feedValue.addAll(tiles2);
 
@@ -303,7 +306,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['user_uid'],
                     doc['user_loc'],
                     doc['feed_visibility'],
-                    doc['feed_report_value']))
+                    doc['feed_report_value'],doc['user_university']))
                 .toList();
             //  itemDatas.shuffle();
             //   itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
@@ -331,12 +334,16 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                         return StaggeredGridTile.count(
                           crossAxisCellCount: tile.crossAxisCount,
                           mainAxisCellCount: tile.mainAxisCount,
-                          child: ImageTile(
-                            index: index,
-                            width: tile.crossAxisCount * 100,
-                            height: tile.mainAxisCount * 100,
-                            //   imageUrl: searchDatas[index].feedImageUrl,
-                            imageUrl: itemDatas[index].feedImageUrl,
+                          child: GestureDetector(
+                            onTap:()=>_openDetail(context, index,itemDatas,widget.userUid),
+
+                            child: ImageTile(
+                              index: index,
+                              width: tile.crossAxisCount * 100,
+                              height: tile.mainAxisCount * 100,
+                              //   imageUrl: searchDatas[index].feedImageUrl,
+                              imageUrl: itemDatas[index].feedImageUrl,
+                            ),
                           ),
                         );
                       })
@@ -350,10 +357,17 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
               animating: true,
               radius: 15.sp,
             ));
+            
           }
         });
   }
 }
+  _openDetail(context, index,List<dynamic> imageItemList,String userUid) {
+    final route = CupertinoPageRoute(
+      builder: (context) => DetailPage(index: index, imageItemList: imageItemList,userUid:userUid ,),
+    );
+    Navigator.push(context, route);
+  }
 
 class ImageTile extends StatefulWidget {
   const ImageTile({
@@ -395,18 +409,15 @@ class _ImageTileState extends State<ImageTile> {
                 borderRadius: const BorderRadius.all(Radius.circular(15.0))),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: FullScreenWidget(
-                disposeLevel: DisposeLevel.Low,
-                child: Hero(
-                  tag: 'tag ${widget.imageUrl}',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.imageUrl,
-                      fit: BoxFit.cover,
-                      errorWidget: (context, url, error) =>
-                          Icon(CupertinoIcons.xmark_square),
-                    ),
+              child: Hero(
+                tag: 'tag ${widget.imageUrl}',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.imageUrl,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) =>
+                        Icon(CupertinoIcons.xmark_square),
                   ),
                 ),
               ),
@@ -554,7 +565,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                               widget.userAll.isolaUserMeta.userUid,
                               widget.userAll.isolaUserDisplay.avatarUrl,
                               value,
-                              fileID);
+                              fileID,widget.userAll.isolaUserDisplay.userUniversity,false);
                         }).whenComplete(() {
                           Navigator.pop(context);
                           Navigator.pop(context);

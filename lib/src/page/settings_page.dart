@@ -92,7 +92,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 'Q1j0ibLDbhQye11fduuKmjkw3Ry2',
                 'UJz489Kp1eeG5fQsHY0Lhunc9Nf1',
                 'hz94SInSRXc5YOToR2Kn0gNDOwf2',
-                '6WsWSakp5dURSSBo1h9Ob2ruI0l2'
+                '6WsWSakp5dURSSBo1h9Ob2ruI0l2',
+                '8nRYW1UcOPd7aUw5keHADQhfc302',
+                'uFNp9o11ExPRildurDCh8VaBY2J2'
               ];
 
               var nameList = <String>[
@@ -101,7 +103,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 'Ufuk Yavuz',
                 'ilion13mini device',
                 'ilion13promax device',
-                'meryem can11'
+                'meryem can11',
+                'Birnur Kara',
+                'akbaba reyis'
               ];
 
               /*    int i = 0;
@@ -125,7 +129,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     'Q1j0ibLDbhQye11fduuKmjkw3Ry2',
                     'UJz489Kp1eeG5fQsHY0Lhunc9Nf1',
                     'hz94SInSRXc5YOToR2Kn0gNDOwf2',
-                    '6WsWSakp5dURSSBo1h9Ob2ruI0l2'
+                    '6WsWSakp5dURSSBo1h9Ob2ruI0l2',
+                    '8nRYW1UcOPd7aUw5keHADQhfc302'
                   ])*/
 //'dateTime': DateTime.parse('2019-03-13 16:49:42.044'
               //w     FirebaseFirestore.instance.collectionGroup("text_feeds").whereGreaterThan('feed_date',1000).orderBy('feed_date',descending: true)
@@ -135,8 +140,8 @@ class _SettingsPageState extends State<SettingsPage> {
               final Timestamp yesterday = Timestamp.fromDate(
                 DateTime.now().subtract(const Duration(days: 1)),
               );
-/*
-              for (var item in uidList) {
+
+       /*       for (var item in uidList) {
                await FirebaseFirestore.instance
                     .collection('feeds')
                     .doc(item)
@@ -156,6 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                 });
               }*/
+            
          /*     FirebaseFirestore.instance
                   .collectionGroup('image_feeds')
                   .get()
@@ -174,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 "akbaba reyis",
                       "https://picsum.photos/400/400?random=1999");
 */
-            /*     int dnm = 150;
+             int dnm = 150;
                 //1300
               for (var i = 0; i < 30; i++) {
                 int ikk = 0;
@@ -183,13 +189,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       item,
                       "https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586",
                       nameList[ikk],
-                      "https://picsum.photos/400/400?random=$dnm");
+                      "https://picsum.photos/400/400?random=$dnm",'Test University',false);
 
                   ikk = ikk + 1;
                   dnm = dnm + 1;
                 }
               }
-*/
+
 /*
 
 

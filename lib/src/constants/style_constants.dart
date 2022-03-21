@@ -96,6 +96,22 @@ class StyleConstants {
     overflow: TextOverflow.fade,
   );
 
+
+    static  TextStyle imageFeedUniversityTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.softBlack,
+    fontSize: 14.sp,
+    overflow: TextOverflow.fade,
+  );
+
+  static TextStyle imageFeedUniversityTabletTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.softBlack,
+    fontSize: 13.sp,
+    overflow: TextOverflow.fade,
+  );
+
+
   static const TextStyle signUpTitlesTextStyle = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.softBlack,

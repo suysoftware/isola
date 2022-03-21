@@ -20,6 +20,21 @@ Future<void> addToReportPool(String groupNo, String reasonType,
   });
 }
 
+Future<void> addFeedToReportPool(String reasonType, String reporterUid,
+    bool isImageFeed, String feedNo, String targetUid) async {
+  DocumentReference reportRef =
+      FirebaseFirestore.instance.collection('feed_reports_pool').doc();
+  await reportRef.set({
+    'reportFeedNo': feedNo,
+    'reasonType': reasonType,
+    'reportIsImage': isImageFeed,
+    'reportNo': reportRef.id,
+    'reportDate': DateTime.now().toUtc(),
+    'reporterUid': reporterUid,
+    'targetUid': targetUid,
+  });
+}
+
 class ReportSheet extends StatelessWidget {
   const ReportSheet(
       {Key? key,
@@ -66,7 +81,7 @@ class ReportSheet extends StatelessWidget {
                 'targetUid': targetUid1,
               });*/
                 addToReportPool(groupNo, rt101, reporterUid, targetUid1);
-                 leaveGroup(groupSettingModel).whenComplete(() {
+                leaveGroup(groupSettingModel).whenComplete(() {
                   Future.delayed(Duration(milliseconds: 3000), () {
                     Navigator.pushReplacementNamed(context, navigationBar);
                   });
@@ -123,7 +138,7 @@ class ReportSheet extends StatelessWidget {
                         AnimatedLiquidCircularProgressIndicator());
               }
 
-            //  Navigator.pop(context);
+              //  Navigator.pop(context);
             }),
         CupertinoActionSheetAction(
           child: Text(rt102),
@@ -143,15 +158,15 @@ class ReportSheet extends StatelessWidget {
               });*/
 
               addToReportPool(groupNo, rt102, reporterUid, targetUid1);
-               leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
-                    Navigator.pushReplacementNamed(context, navigationBar);
-                  });
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
                 });
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             } else {
               /*
               DocumentReference reportRef1 =
@@ -181,17 +196,17 @@ class ReportSheet extends StatelessWidget {
 
               addToReportPool(groupNo, rt102, reporterUid, targetUid1);
               addToReportPool(groupNo, rt102, reporterUid, targetUid2);
-               leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
-                    Navigator.pushReplacementNamed(context, navigationBar);
-                  });
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
                 });
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             }
-         //   Navigator.pop(context);
+            //   Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
@@ -211,15 +226,15 @@ class ReportSheet extends StatelessWidget {
                 'targetUid': targetUid1,
               });*/
               addToReportPool(groupNo, rt103, reporterUid, targetUid1);
-               leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
-                    Navigator.pushReplacementNamed(context, navigationBar);
-                  });
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
                 });
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             } else {
               /*
               DocumentReference reportRef1 =
@@ -248,17 +263,17 @@ class ReportSheet extends StatelessWidget {
 
               addToReportPool(groupNo, rt103, reporterUid, targetUid1);
               addToReportPool(groupNo, rt103, reporterUid, targetUid2);
-               leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
-                    Navigator.pushReplacementNamed(context, navigationBar);
-                  });
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
                 });
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             }
-          //  Navigator.pop(context);
+            //  Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
@@ -279,15 +294,15 @@ class ReportSheet extends StatelessWidget {
               });*/
 
               addToReportPool(groupNo, rt104, reporterUid, targetUid1);
-               leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
-                    Navigator.pushReplacementNamed(context, navigationBar);
-                  });
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
                 });
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             } else {
               /*
               DocumentReference reportRef1 =
@@ -315,17 +330,17 @@ class ReportSheet extends StatelessWidget {
               });*/
               addToReportPool(groupNo, rt104, reporterUid, targetUid1);
               addToReportPool(groupNo, rt104, reporterUid, targetUid2);
-               leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
-                    Navigator.pushReplacementNamed(context, navigationBar);
-                  });
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
                 });
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             }
-         //   Navigator.pop(context);
+            //   Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
@@ -346,15 +361,15 @@ class ReportSheet extends StatelessWidget {
               });*/
 
               addToReportPool(groupNo, rt105, reporterUid, targetUid1);
-               leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
-                    Navigator.pushReplacementNamed(context, navigationBar);
-                  });
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
                 });
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             } else {
               /*
               DocumentReference reportRef1 =
@@ -383,19 +398,236 @@ class ReportSheet extends StatelessWidget {
 
               addToReportPool(groupNo, rt105, reporterUid, targetUid1);
               addToReportPool(groupNo, rt105, reporterUid, targetUid2);
-               leaveGroup(groupSettingModel).whenComplete(() {
+              leaveGroup(groupSettingModel).whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            }
+            //  Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class ReportFeedSheet extends StatelessWidget {
+  const ReportFeedSheet(
+      {Key? key,
+      required this.reporterUid,
+      required this.isImageFeed,
+      required this.feedNo,
+      required this.targetUid})
+      : super(key: key);
+
+  final String reporterUid;
+
+  final bool isImageFeed;
+  final String feedNo;
+  final String targetUid;
+
+  final String rt101 = 'rt101';
+  final String rt102 = 'rt102';
+  final String rt103 = 'rt103';
+  final String rt104 = 'rt104';
+  final String rt105 = 'rt105';
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoActionSheet(
+      title: const Text('Choose Reason !'),
+      message: const Text('sebebini söyle aga '),
+      actions: [
+        CupertinoActionSheetAction(
+            child: Text(rt101),
+            onPressed: () {
+              if (isImageFeed == true) {
+//reporting feed is image feed
+
+                addFeedToReportPool(rt101, reporterUid, true, feedNo, targetUid)
+                    .whenComplete(() {
                   Future.delayed(Duration(milliseconds: 3000), () {
                     Navigator.pushReplacementNamed(context, navigationBar);
                   });
                 });
+
                 showCupertinoDialog(
                     context: context,
                     builder: (BuildContext context) =>
                         AnimatedLiquidCircularProgressIndicator());
+              } else {
+                //feed is not image feed
+
+                addFeedToReportPool(
+                        rt101, reporterUid, false, feedNo, targetUid)
+                    .whenComplete(() {
+                  Future.delayed(Duration(milliseconds: 3000), () {
+                    Navigator.pushReplacementNamed(context, navigationBar);
+                  });
+                });
+
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        AnimatedLiquidCircularProgressIndicator());
+              }
+
+              //  Navigator.pop(context);
+            }),
+        CupertinoActionSheetAction(
+          child: Text(rt102),
+          onPressed: () {
+            if (isImageFeed == true) {
+//reporting feed is image feed
+
+              addFeedToReportPool(rt102, reporterUid, true, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            } else {
+              //feed is not image feed
+
+              addFeedToReportPool(rt102, reporterUid, false, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
             }
-          //  Navigator.pop(context);
+
+            //   Navigator.pop(context);
           },
         ),
+        CupertinoActionSheetAction(
+          child: Text(rt103),
+          onPressed: () {
+            if (isImageFeed == true) {
+//reporting feed is image feed
+
+              addFeedToReportPool(rt103, reporterUid, true, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            } else {
+              //feed is not image feed
+
+              addFeedToReportPool(rt103, reporterUid, false, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            }
+
+            //  Navigator.pop(context);
+          },
+        ),
+        CupertinoActionSheetAction(
+          child: Text(rt104),
+          onPressed: () {
+            if (isImageFeed == true) {
+//reporting feed is image feed
+
+              addFeedToReportPool(rt104, reporterUid, true, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            } else {
+              //feed is not image feed
+
+              addFeedToReportPool(rt104, reporterUid, false, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            }
+
+            //   Navigator.pop(context);
+          },
+        ),
+        CupertinoActionSheetAction(
+          child: Text(rt105),
+          onPressed: () {
+            if (isImageFeed == true) {
+//reporting feed is image feed
+
+              addFeedToReportPool(rt105, reporterUid, true, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            } else {
+              //feed is not image feed
+
+              addFeedToReportPool(rt105, reporterUid, false, feedNo, targetUid)
+                  .whenComplete(() {
+                Future.delayed(Duration(milliseconds: 3000), () {
+                  Navigator.pushReplacementNamed(context, navigationBar);
+                });
+              });
+
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AnimatedLiquidCircularProgressIndicator());
+            }
+
+            //  Navigator.pop(context);
+          },
+        ),
+        CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'))
       ],
     );
   }
