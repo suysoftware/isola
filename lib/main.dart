@@ -248,6 +248,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) {
             return TimelineItemListCubit(testItem: <TimelineItem>[]);
           }),
+         
+         
+
         ],
         child: CupertinoApp(
           debugShowCheckedModeBanner: false,

@@ -9,16 +9,19 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
+import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
@@ -110,6 +113,13 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+
+    print(widget.userAll.isolaUserMeta.userToken);
+    widget.userAll.isolaUserMeta.userToken =
+        context.read<UserAllCubit>().state.isolaUserMeta.userToken;
+    print('////////');
+    print(widget.userAll.isolaUserMeta.userToken);
+        print('////////');
   }
 
   @override
@@ -160,7 +170,9 @@ class _SearchPageState extends State<SearchPage> {
             child: Container(
               color: ColorConstant.themeGrey,
               child: BasicGridWidget(
-                key: widget.key, userUid: widget.userAll.isolaUserMeta.userUid,
+                key: widget.key,
+                userUid: widget.userAll.isolaUserMeta.userUid,
+                userMeta: widget.userAll.isolaUserMeta,
               ),
             )));
   }
@@ -181,12 +193,12 @@ class _SearchPageState extends State<SearchPage> {
 int downloadedItem = 0;
 
 class BasicGridWidget extends StatefulWidget {
-  const BasicGridWidget({
-    Key? key,required this.userUid
-  }) : super(key: key);
+  const BasicGridWidget(
+      {Key? key, required this.userUid, required this.userMeta})
+      : super(key: key);
 
-
-final String userUid;
+  final String userUid;
+  final IsolaUserMeta userMeta;
   static void gtGetter() {
     feedValue.addAll(tiles2);
 
@@ -306,7 +318,10 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['user_uid'],
                     doc['user_loc'],
                     doc['feed_visibility'],
-                    doc['feed_report_value'],doc['user_university']))
+                    doc['feed_report_value'],
+                    doc['user_university'],
+                    doc['feed_token'],
+                    doc['feed_token_list']))
                 .toList();
             //  itemDatas.shuffle();
             //   itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
@@ -335,8 +350,8 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                           crossAxisCellCount: tile.crossAxisCount,
                           mainAxisCellCount: tile.mainAxisCount,
                           child: GestureDetector(
-                            onTap:()=>_openDetail(context, index,itemDatas,widget.userUid),
-
+                            onTap: () => _openDetail(context, index, itemDatas,
+                                widget.userUid, widget.userMeta),
                             child: ImageTile(
                               index: index,
                               width: tile.crossAxisCount * 100,
@@ -357,17 +372,25 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
               animating: true,
               radius: 15.sp,
             ));
-            
           }
         });
   }
 }
-  _openDetail(context, index,List<dynamic> imageItemList,String userUid) {
-    final route = CupertinoPageRoute(
-      builder: (context) => DetailPage(index: index, imageItemList: imageItemList,userUid:userUid ,),
-    );
-    Navigator.push(context, route);
-  }
+
+_openDetail(context, index, List<dynamic> imageItemList, String userUid,
+    IsolaUserMeta userMeta) {
+  print(userMeta.userToken);
+
+  final route = CupertinoPageRoute(
+    builder: (context) => SearchPageItemDetails(
+      index: index,
+      imageItemList: imageItemList,
+      userUid: userUid,
+      userMeta: userMeta,
+    ),
+  );
+  Navigator.push(context, route);
+}
 
 class ImageTile extends StatefulWidget {
   const ImageTile({
@@ -392,7 +415,6 @@ class _ImageTileState extends State<ImageTile> {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Container(
@@ -565,7 +587,9 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                               widget.userAll.isolaUserMeta.userUid,
                               widget.userAll.isolaUserDisplay.avatarUrl,
                               value,
-                              fileID,widget.userAll.isolaUserDisplay.userUniversity,false);
+                              fileID,
+                              widget.userAll.isolaUserDisplay.userUniversity,
+                              false);
                         }).whenComplete(() {
                           Navigator.pop(context);
                           Navigator.pop(context);

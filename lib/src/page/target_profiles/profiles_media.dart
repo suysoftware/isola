@@ -141,7 +141,7 @@ class ProfileBasicGridWidget extends StatelessWidget {
                     doc['user_uid'],
                     doc['user_loc'],
                     doc['feed_visibility'],
-                    doc['feed_report_value'],doc['user_university']))
+                    doc['feed_report_value'],doc['user_university'],doc['feed_token'],doc['feed_token_list']))
                 .toList();
 
             if (itemDatas.length != 0) {

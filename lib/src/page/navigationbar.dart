@@ -199,8 +199,11 @@ class _NavigationBarState extends State<NavigationBar>
                         );
                         */
                         var userAllSnap = snapshot.data as IsolaUserAll;
-                        context.read<UserAllCubit>().userAllChanger(userAll);
-                        return SearchPage(user: user, userAll: userAll);
+                        context.read<UserAllCubit>().userAllChanger(userAllSnap);
+                        print('kakak');
+                        print(userAllSnap.isolaUserMeta.userToken);
+                        print('kakak');
+                        return SearchPage(user: user, userAll: userAllSnap);
                       }
                   }
                 },

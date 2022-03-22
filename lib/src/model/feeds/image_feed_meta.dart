@@ -13,6 +13,8 @@ class IsolaImageFeedModel {
   late bool feedVisibility;
   late int feedReportValue;
   late String userUniversity;
+  late int feedToken;
+  late List<dynamic> feedTokenList;
 
   IsolaImageFeedModel(
       this.feedDate,
@@ -23,7 +25,10 @@ class IsolaImageFeedModel {
       this.userAvatarUrl,
       this.userName,
       this.userUid,
-      this.userLoc,this.feedVisibility,this.feedReportValue,this.userUniversity);
+      this.userLoc,
+      this.feedVisibility,
+      this.feedReportValue,
+      this.userUniversity,this.feedToken,this.feedTokenList);
 
   IsolaImageFeedModel.fromJson(Map<String, dynamic> json)
       : this(
@@ -38,7 +43,10 @@ class IsolaImageFeedModel {
             json["user_loc"] as GeoPoint,
             json["feed_visibility"] as bool,
             json["feed_report_value"] as int,
-            json["user_university"]as String);
+            json["user_university"] as String,
+            json["feed_token"]as int,
+            json["feed_token_list"] as List<dynamic>,
+            );
 
   Map<String, dynamic> toJson() {
     return {
@@ -51,9 +59,11 @@ class IsolaImageFeedModel {
       "user_name": userName,
       "user_uid": userUid,
       "user_loc": userLoc,
-      "feed_visibility":feedVisibility,
-      "feed_report_value":feedReportValue,
-      "user_university":userUniversity
+      "feed_visibility": feedVisibility,
+      "feed_report_value": feedReportValue,
+      "user_university": userUniversity,
+      "feed_token":feedToken,
+      "feed_token_list":feedTokenList
     };
   }
 }

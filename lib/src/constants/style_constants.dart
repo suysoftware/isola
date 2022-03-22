@@ -9,12 +9,10 @@ import 'package:sizer/sizer.dart';
 class StyleConstants {
   static const TextStyle splashScreenDynamicGentisTextStyle = TextStyle(
       fontFamily: "Roboto-Bold", color: ColorConstant.textColor, fontSize: 18);
-
   static const TextStyle softMilkTextStyle = TextStyle(
       fontFamily: "Roboto-Bold", color: ColorConstant.textColor, fontSize: 16);
   static const TextStyle softDarkTextStyle = TextStyle(
       fontFamily: "Roboto-Bold", color: ColorConstant.softBlack, fontSize: 14);
-
   static const TextStyle softDarkTabletTextStyle = TextStyle(
       fontFamily: "Roboto-Bold", color: ColorConstant.softBlack, fontSize: 27);
   static const TextStyle cardTextStyle = TextStyle(
@@ -23,7 +21,6 @@ class StyleConstants {
     fontSize: 11.5,
     overflow: TextOverflow.fade,
   );
-
   static const TextStyle cardTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -31,14 +28,12 @@ class StyleConstants {
     height: 1.3,
     overflow: TextOverflow.fade,
   );
-
   static const TextStyle firstLocTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
     fontSize: 16,
     overflow: TextOverflow.fade,
   );
-
   static const TextStyle firstLocTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -46,7 +41,6 @@ class StyleConstants {
     height: 1.3,
     overflow: TextOverflow.fade,
   );
-
   static const TextStyle biographTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -56,24 +50,20 @@ class StyleConstants {
     letterSpacing: 0.02,
     overflow: TextOverflow.fade,
   );
-  static const TextStyle signUpGenderButtonActiveTextStyle =
-      TextStyle(shadows: [
+  static const TextStyle signUpGenderButtonActiveTextStyle =TextStyle(shadows: [
     Shadow(
       blurRadius: 2.0,
     )
   ], fontFamily: "Roboto-Bold", color: ColorConstant.textColor, fontSize: 30);
-  static const TextStyle signUpGenderPassiveButtonTextStyle =
-      TextStyle(shadows: [
+  static const TextStyle signUpGenderPassiveButtonTextStyle =TextStyle(shadows: [
     Shadow(
       blurRadius: 2.0,
     )
   ], fontFamily: "Roboto", color: ColorConstant.softBlack, fontSize: 30);
-
   static const TextStyle isolaTokenTextStyle = TextStyle(
       fontFamily: "Roboto-Black",
       color: ColorConstant.isolaTokenColor,
       fontSize: 18);
-
   static const TextStyle biographTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -88,36 +78,29 @@ class StyleConstants {
     fontSize: 14,
     overflow: TextOverflow.fade,
   );
-
   static const TextStyle profileUniversityTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
-
-
-    static  TextStyle imageFeedUniversityTextStyle = TextStyle(
+  static TextStyle imageFeedUniversityTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
     fontSize: 14.sp,
     overflow: TextOverflow.fade,
   );
-
   static TextStyle imageFeedUniversityTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
     fontSize: 13.sp,
     overflow: TextOverflow.fade,
   );
-
-
   static const TextStyle signUpTitlesTextStyle = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.softBlack,
     fontSize: 16,
   );
-
   static const TextStyle groupCardTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -128,7 +111,6 @@ class StyleConstants {
     color: ColorConstant.softBlack,
     fontSize: 23,
   );
-
   static TextStyle matchTextStyle = TextStyle(
       fontFamily: "Staatliches-Regular",
       color: ColorConstant.textColor,
@@ -152,7 +134,6 @@ class StyleConstants {
     decorationThickness: 1.0,
     fontFeatures: const [FontFeature.oldstyleFigures()],
   );
-
   static TextStyle circularTabletTextStyle = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.textColor,
@@ -166,13 +147,11 @@ class StyleConstants {
     decorationThickness: 1.0,
     fontFeatures: const [FontFeature.oldstyleFigures()],
   );
-
   static const TextStyle profileNaviTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
     fontSize: 16,
   );
-
   static const TextStyle profileNaviTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -183,7 +162,6 @@ class StyleConstants {
     color: ColorConstant.softBlack,
     fontSize: 14,
   );
-
   static const TextStyle profileActiveNaviTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -208,6 +186,27 @@ class StyleConstants {
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
     fontSize: 18.sp,
+  );
+  static TextStyle searchFeedNameTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.milkColor,
+    fontSize: 10.sp,
+  );
+  static TextStyle searchFeedNameTabletTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.milkColor,
+    fontSize: 7.sp,
+  );
+
+    static TextStyle searchFeedUniversityTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.milkColor,
+    fontSize: 6.sp,
+  );
+  static TextStyle searchFeedUniversityTabletTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.milkColor,
+    fontSize: 4.sp,
   );
   static TextStyle hobbiesTextStyle = TextStyle(
     fontFamily: "Roboto",
@@ -234,13 +233,11 @@ class StyleConstants {
     color: ColorConstant.softBlack,
     fontSize: 5.sp,
   );
-
   static const TextStyle hobbiesTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
     fontSize: 20,
   );
-
   static TextStyle targetChatMessageTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -261,13 +258,11 @@ class StyleConstants {
     color: ColorConstant.milkColor,
     fontSize: 8.sp,
   );
-
   static TextStyle postAddTextStyle = TextStyle(
       fontFamily: "Roboto",
       color: ColorConstant.softBlack,
       fontSize: 11.sp,
       letterSpacing: 0.08);
-
   static TextStyle groupSettingsNameTextStyle = TextStyle(
     fontFamily: "Roboto-Medium",
     color: ColorConstant.softBlack,

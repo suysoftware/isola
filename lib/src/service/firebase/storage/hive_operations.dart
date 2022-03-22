@@ -9,10 +9,11 @@ import 'package:isola_app/src/service/hive/hive_likes.dart';
 var hiveOperations = HiveOperations();
 
 Future<void> likeFeed({
-  required IsolaFeedModel feedMeta,
+  required List<dynamic> feedLikeList,
   required String targetUid,
   required String userUid,
   required String feedNo,
+  required bool isImage
 }) async {
   var box = await Hive.openBox('userHive');
   if (box.isNotEmpty) {
@@ -24,9 +25,9 @@ Future<void> likeFeed({
     await hiveOperations.likeDataSetter();
   }
 
-  if (feedMeta.likeList.contains(userUid)) {
+  if (feedLikeList.contains(userUid)) {
   } else {
-    await likeAddToPool(feedNo, userUid, true, targetUid);
+    await likeAddToPool(feedNo, userUid, true, targetUid,isImage);
   }
 }
 
@@ -34,7 +35,8 @@ Future<void> unLikeFeed({
   required String targetUid,
   required String userUid,
   required String feedNo,
-  required IsolaFeedModel feedMeta,
+  required List<dynamic> feedLikeList,
+  required bool isImage
 }) async {
   var box = await Hive.openBox('userHive');
 
@@ -46,7 +48,7 @@ Future<void> unLikeFeed({
     await hiveOperations.likeDelete(feedNo);
   }
 
-  await likeAddToPool(feedNo, userUid, false, targetUid).whenComplete(() {
+  await likeAddToPool(feedNo, userUid, false, targetUid,isImage).whenComplete(() {
     print('komplete');
   });
 

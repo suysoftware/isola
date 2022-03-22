@@ -260,8 +260,8 @@ class _TimelineItemState extends State<TimelineItem>
                                                                   .imageLikeOn();
 
                                                               likeFeed(
-                                                                feedMeta: widget
-                                                                    .feedMeta,
+                                                                feedLikeList: widget
+                                                                    .feedMeta.likeList,
                                                                 targetUid: widget
                                                                     .feedMeta
                                                                     .userUid,
@@ -269,7 +269,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                                     .userUid,
                                                                 feedNo: widget
                                                                     .feedMeta
-                                                                    .feedNo,
+                                                                    .feedNo,isImage: false
                                                               ).whenComplete(
                                                                   () {
                                                                 timelineUpOrDown
@@ -304,8 +304,9 @@ class _TimelineItemState extends State<TimelineItem>
                                                                 feedNo: widget
                                                                     .feedMeta
                                                                     .feedNo,
-                                                                feedMeta: widget
-                                                                    .feedMeta,
+                                                                feedLikeList: widget
+                                                                    .feedMeta.likeList,
+                                                                  isImage: false
                                                               ).whenComplete(
                                                                   () {
                                                                 timelineUpOrDown
