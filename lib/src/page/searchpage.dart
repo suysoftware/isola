@@ -1,17 +1,13 @@
 // ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables, unused_local_variable, avoid_print, avoid_init_to_null
 
 import 'dart:async';
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
@@ -31,6 +27,7 @@ import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
 import '../service/firebase/storage/feedshare/add_image_feeds.dart';
 import '../widget/hero_preview.dart';
+import '../widget/search_detail.dart';
 
 int feedAllControl = 0;
 void amountUpdater(int updateValue) async {
@@ -119,7 +116,7 @@ class _SearchPageState extends State<SearchPage> {
         context.read<UserAllCubit>().state.isolaUserMeta.userToken;
     print('////////');
     print(widget.userAll.isolaUserMeta.userToken);
-        print('////////');
+    print('////////');
   }
 
   @override
@@ -294,7 +291,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collectionGroup('image_feeds')
-            .limit(BasicGridWidget.feedValue.length + 30)
+            .limit(BasicGridWidget.feedValue.length + 40)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -323,8 +320,12 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['feed_token'],
                     doc['feed_token_list']))
                 .toList();
+
+            print(itemDatas);
+            print('////////////');
+
             //  itemDatas.shuffle();
-            //   itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
+            // itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
 /*
             for (IsolaImageFeedModel item in itemDatas) {
               print(item.feedImageUrl);
@@ -350,8 +351,11 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                           crossAxisCellCount: tile.crossAxisCount,
                           mainAxisCellCount: tile.mainAxisCount,
                           child: GestureDetector(
-                            onTap: () => _openDetail(context, index, itemDatas,
-                                widget.userUid, widget.userMeta),
+                            onTap: () {
+                              print('ilk $index');
+                              _openDetail(context, index, itemDatas,
+                                  widget.userUid, widget.userMeta, index);
+                            },
                             child: ImageTile(
                               index: index,
                               width: tile.crossAxisCount * 100,
@@ -378,15 +382,20 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
 }
 
 _openDetail(context, index, List<dynamic> imageItemList, String userUid,
-    IsolaUserMeta userMeta) {
+    IsolaUserMeta userMeta, int sira) {
   print(userMeta.userToken);
+  print(sira);
+  //imageItemList.sort((a, b) => a.feedDate.compareTo(b.feedDate));
+
+  List<dynamic> slicedList = imageItemList.slice(sira);
 
   final route = CupertinoPageRoute(
-    builder: (context) => SearchPageItemDetails(
+    builder: (context) => SearchDetail(
       index: index,
-      imageItemList: imageItemList,
+      imageItemList: slicedList,
       userUid: userUid,
       userMeta: userMeta,
+      itemLoc: sira,
     ),
   );
   Navigator.push(context, route);
@@ -475,7 +484,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
     XFile? xfile = await ImagePicker().pickImage(
         source: ImageSource.gallery,
         maxHeight: 1000,
-        maxWidth: 800,
+        maxWidth: 600,
         imageQuality: 100);
     file = File(xfile!.path);
     setState(() {});

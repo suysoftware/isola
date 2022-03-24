@@ -18,11 +18,11 @@ import '../model/hive_models/user_hive.dart';
 
 class SearchPageItemDetails extends StatelessWidget {
   final List<dynamic> imageItemList;
-  final int index;
+  int index;
   final String userUid;
   final IsolaUserMeta userMeta;
 
-  const SearchPageItemDetails(
+  SearchPageItemDetails(
       {required this.imageItemList,
       required this.index,
       required this.userUid,
@@ -36,6 +36,8 @@ class SearchPageItemDetails extends StatelessWidget {
       child: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
+
+           
             expandedHeight: 85.h,
             flexibleSpace: FlexibleSpaceBar(
               title: Column(
@@ -523,4 +525,7 @@ class SearchPageItemDetails extends StatelessWidget {
 
     //return !isLiked;
   }
+
+
+
 }

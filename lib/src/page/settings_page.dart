@@ -160,9 +160,9 @@ class _SettingsPageState extends State<SettingsPage> {
                         .delete();
                   }
                 });
-              }*/
-
-              /*     FirebaseFirestore.instance
+              }
+*//*
+                 FirebaseFirestore.instance
                   .collectionGroup('image_feeds')
                   .get()
                   .then((value) {
@@ -186,7 +186,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
 
-
               int dnm = 150;
               //1300
               for (var i = 0; i < 30; i++) {
@@ -196,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       item,
                       "https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586",
                       nameList[ikk],
-                      "https://picsum.photos/400/400?random=$dnm",
+                      "https://picsum.photos/600/1000?random=$dnm",
                       'Test University',
                       false);
 

@@ -50,12 +50,14 @@ class StyleConstants {
     letterSpacing: 0.02,
     overflow: TextOverflow.fade,
   );
-  static const TextStyle signUpGenderButtonActiveTextStyle =TextStyle(shadows: [
+  static const TextStyle signUpGenderButtonActiveTextStyle =
+      TextStyle(shadows: [
     Shadow(
       blurRadius: 2.0,
     )
   ], fontFamily: "Roboto-Bold", color: ColorConstant.textColor, fontSize: 30);
-  static const TextStyle signUpGenderPassiveButtonTextStyle =TextStyle(shadows: [
+  static const TextStyle signUpGenderPassiveButtonTextStyle =
+      TextStyle(shadows: [
     Shadow(
       blurRadius: 2.0,
     )
@@ -190,23 +192,23 @@ class StyleConstants {
   static TextStyle searchFeedNameTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
-    fontSize: 10.sp,
+    fontSize: 16.sp,
   );
   static TextStyle searchFeedNameTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
-    fontSize: 7.sp,
+    fontSize: 12.sp,
   );
 
-    static TextStyle searchFeedUniversityTextStyle = TextStyle(
+  static TextStyle searchFeedUniversityTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
-    fontSize: 6.sp,
+    fontSize: 10.sp,
   );
   static TextStyle searchFeedUniversityTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
-    fontSize: 4.sp,
+    fontSize: 7.sp,
   );
   static TextStyle hobbiesTextStyle = TextStyle(
     fontFamily: "Roboto",
