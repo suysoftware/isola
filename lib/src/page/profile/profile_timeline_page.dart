@@ -141,7 +141,7 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
                                 data.docs[indeks]['user_name'],
                                 data.docs[indeks]['user_uid']),
                             userUid: widget.userAll.isolaUserMeta.userUid,
-                            isTimeline: false,
+                            isTimeline: false, isolaUserAll: widget.userAll,
                           )
 
                           /*Column(

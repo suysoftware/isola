@@ -118,8 +118,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 */
     isTablet = 100.h >= 1100 ? true : false;
 
-   
-
     animationController = AnimationController(
         duration: (const Duration(milliseconds: 3000)), vsync: this);
 
@@ -324,6 +322,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             padding: EdgeInsets.zero,
             child: GestureDetector(
                 onTap: () {
+                  print(widget.userAll.isolaUserDisplay.avatarUrl);
+                  print(widget.userAll.isolaUserDisplay.userName);
+
+           
                   /*
                   Navigator.push(
                       context,
@@ -827,7 +829,7 @@ class PostAvatarLeft extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12.0, 0.0, 4.0, 10.0),
       child: CircleAvatar(
         radius: avatarRadius.h,
-            backgroundColor: ColorConstant.milkColor,
+        backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.sp),
           child: CachedNetworkImage(
@@ -854,7 +856,7 @@ class PostAvatarRight extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4.0, 0.0, 10.0, 2.0),
       child: CircleAvatar(
         radius: avatarRadius.h,
-                  backgroundColor: ColorConstant.milkColor,
+        backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
             child: CachedNetworkImage(

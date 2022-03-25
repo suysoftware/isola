@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
-import 'package:isola_app/src/page/target_profiles/profiles_biography.dart';
-import 'package:isola_app/src/page/target_profiles/profiles_media.dart';
-import 'package:isola_app/src/page/target_profiles/profiles_timeline.dart';
+import 'package:isola_app/src/page/target_profiles/target_profiles_biography.dart';
+import 'package:isola_app/src/page/target_profiles/target_profiles_media.dart';
+import 'package:isola_app/src/page/target_profiles/target_profiles_timeline.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,13 +16,14 @@ class TargetProfilePage extends StatefulWidget {
       {Key? key,
       required this.targetUid,
       required this.targetAvatarUrl,
-      required this.targetName,required this.userUid})
+      required this.targetName,required this.userUid,required this.isolaUserAll})
       : super(key: key);
 
   final String targetUid;
   final String targetAvatarUrl;
   final String targetName;
   final String userUid;
+  final IsolaUserAll isolaUserAll;
 
   @override
   _TargetProfilePageState createState() => _TargetProfilePageState();
@@ -70,19 +72,19 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   StatefulWidget buildProfileWidget() {
     switch (_profileSegmentedValue) {
       case 0:
-        return TargetProfileTimelinePage(targetUid: widget.targetUid, userUid: widget.userUid,
+        return TargetProfileTimelinePage(targetUid: widget.targetUid, userUid: widget.userUid, isolaUserAll:widget.isolaUserAll,
          
         );
 
       case 1:
-        return TargetProfileMediaPage(userUid: widget.targetUid);
+        return TargetProfileMediaPage( userAll: widget.isolaUserAll, targetUid: widget.targetUid,);
 
       case 2:
         return TargetProfileBiographPage(
         targetUid: widget.targetUid,
         );
       default:
-        return TargetProfileTimelinePage(targetUid: widget.targetUid,userUid: widget.userUid,);
+        return TargetProfileTimelinePage(targetUid: widget.targetUid,userUid: widget.userUid, isolaUserAll: widget.isolaUserAll,);
     }
   }
 

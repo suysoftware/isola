@@ -47,7 +47,7 @@ voiceMessageAdd(
   ref.doc().set({
     'member_avatar_url': userAll.isolaUserDisplay.avatarUrl,
     'member_message': "",
-    'member_message_time': ServerValue.timestamp,
+    'member_message_time': DateTime.now().toUtc(),
     'member_name': userAll.isolaUserDisplay.userName,
     'member_uid': userAll.isolaUserMeta.userUid,
     'member_message_isvoice': true,

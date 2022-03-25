@@ -1409,7 +1409,7 @@ Future<List<dynamic>> getTimelineFeeds(
         var timelineItem = TimelineItem(
             feedMeta: isolaItem,
             userUid: isolaUserAll.isolaUserMeta.userUid,
-            isTimeline: true);
+            isTimeline: true, isolaUserAll: isolaUserAll,);
 
         print('Name : ${item['user_name']}');
 

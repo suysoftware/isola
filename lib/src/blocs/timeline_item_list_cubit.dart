@@ -10,12 +10,12 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
 
   void timelineAdder(dynamic item) {
     var expItem = <TimelineItem>[];
-   // print("TTTTTTT");
+    // print("TTTTTTT");
 
     //print(expItem.length);
     expItem.addAll(item);
-  //  print(expItem.length);
-  //  print("TTTTTTT");
+    //  print(expItem.length);
+    //  print("TTTTTTT");
 
     emit(expItem);
   }
@@ -30,8 +30,17 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
     emit(sortedItem);
   }
 
-  
+  void timelineFeedRemover(String targetFeedNo) {
+    var allItem = <TimelineItem>[];
+    allItem.addAll(state);
 
+    final int foundIndex =
+        state.indexWhere((element) => element.feedMeta.feedNo == targetFeedNo);
+
+    allItem.removeAt(foundIndex);
+
+    emit(allItem);
+  }
 
   Future<List<dynamic>> timelineItemsGetter() async {
     return state;
@@ -71,8 +80,6 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
 
     print(foundIndex);
   }
-
-
 
   void resetItems() {
     var expItem = <TimelineItem>[];

@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 
 String readTimestamp(int timestamp) {
-  var now =  DateTime.now();
+  var now = DateTime.now();
   var format = DateFormat('HH:mm a');
-  var date =  DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
+  var date = DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
 
   var diff = date.difference(now);
   var time = '';
@@ -20,6 +20,6 @@ String readTimestamp(int timestamp) {
       time = diff.inDays.toString() + 'DAYS AGO';
     }
   }
-
+  print(time);
   return time;
 }

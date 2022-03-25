@@ -17,6 +17,7 @@ import 'package:isola_app/src/model/hive_models/user_hive.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/target_profiles.dart';
+import 'package:isola_app/src/service/firebase/storage/deleting/feed_delete.dart';
 import 'package:isola_app/src/service/firebase/storage/hive_operations.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:provider/provider.dart';
@@ -26,13 +27,14 @@ import 'package:uuid/uuid.dart';
 class TimelineItem extends StatefulWidget {
   IsolaFeedModel feedMeta;
   String userUid;
+  IsolaUserAll isolaUserAll;
 
   bool isTimeline;
   TimelineItem(
       {Key? key,
       required this.feedMeta,
       required this.userUid,
-      required this.isTimeline})
+      required this.isTimeline,required this.isolaUserAll})
       : super(key: key);
 
   @override
@@ -99,7 +101,7 @@ class _TimelineItemState extends State<TimelineItem>
                               targetUid: widget.feedMeta.userUid,
                               targetName: widget.feedMeta.userName,
                               targetAvatarUrl: widget.feedMeta.userAvatarUrl,
-                              userUid: widget.userUid,
+                              userUid: widget.userUid, isolaUserAll: widget.isolaUserAll,
                             )));
               }
               /*
@@ -162,7 +164,7 @@ class _TimelineItemState extends State<TimelineItem>
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20.sp),
                                   child: CircleAvatar(
-                                              backgroundColor: ColorConstant.milkColor,
+                                    backgroundColor: ColorConstant.milkColor,
                                     radius: 100.h >= 1100 ? 13.sp : 20.sp,
                                     child: CachedNetworkImage(
                                       imageUrl: widget.feedMeta.userAvatarUrl,
@@ -260,18 +262,22 @@ class _TimelineItemState extends State<TimelineItem>
                                                                   .imageLikeOn();
 
                                                               likeFeed(
-                                                                feedLikeList: widget
-                                                                    .feedMeta.likeList,
-                                                                targetUid: widget
-                                                                    .feedMeta
-                                                                    .userUid,
-                                                                userUid: widget
-                                                                    .userUid,
-                                                                feedNo: widget
-                                                                    .feedMeta
-                                                                    .feedNo,isImage: false
-                                                              ).whenComplete(
-                                                                  () {
+                                                                      feedLikeList: widget
+                                                                          .feedMeta
+                                                                          .likeList,
+                                                                      targetUid: widget
+                                                                          .feedMeta
+                                                                          .userUid,
+                                                                      userUid:
+                                                                          widget
+                                                                              .userUid,
+                                                                      feedNo: widget
+                                                                          .feedMeta
+                                                                          .feedNo,
+                                                                      isImage:
+                                                                          false)
+                                                                  .whenComplete(
+                                                                      () {
                                                                 timelineUpOrDown
                                                                     .likeUp();
                                                                 context
@@ -296,19 +302,22 @@ class _TimelineItemState extends State<TimelineItem>
                                                                   .imageLikeOff();
 
                                                               unLikeFeed(
-                                                                targetUid: widget
-                                                                    .feedMeta
-                                                                    .userUid,
-                                                                userUid: widget
-                                                                    .userUid,
-                                                                feedNo: widget
-                                                                    .feedMeta
-                                                                    .feedNo,
-                                                                feedLikeList: widget
-                                                                    .feedMeta.likeList,
-                                                                  isImage: false
-                                                              ).whenComplete(
-                                                                  () {
+                                                                      targetUid: widget
+                                                                          .feedMeta
+                                                                          .userUid,
+                                                                      userUid:
+                                                                          widget
+                                                                              .userUid,
+                                                                      feedNo: widget
+                                                                          .feedMeta
+                                                                          .feedNo,
+                                                                      feedLikeList: widget
+                                                                          .feedMeta
+                                                                          .likeList,
+                                                                      isImage:
+                                                                          false)
+                                                                  .whenComplete(
+                                                                      () {
                                                                 timelineUpOrDown
                                                                     .likeDown();
                                                                 context
@@ -404,8 +413,21 @@ class _TimelineItemState extends State<TimelineItem>
                                                                       .black),
                                                         ),
                                                         onPressed: () {
-                                           
+                                                          textFeedDelete(
+                                                              widget.feedMeta
+                                                                  .feedNo,
+                                                              widget.userUid);
+                                                          context
+                                                              .read<
+                                                                  TimelineItemListCubit>()
+                                                              .timelineFeedRemover(
+                                                                  widget
+                                                                      .feedMeta
+                                                                      .feedNo);
+                                                          Navigator.pop(
+                                                              context);
 
+/*
                                                           try {
                                                                            DocumentReference
                                                               textFeedDeleteRef =
@@ -436,7 +458,7 @@ class _TimelineItemState extends State<TimelineItem>
 
                                                             print(e);
                                                           }
-
+*/
                                                           /*  refDeleteFeed
                                                               .remove()
                                                               .whenComplete(() {

@@ -1,47 +1,28 @@
-// ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables, must_be_immutable, unused_local_variable
+// ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:collection/collection.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
-import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
-import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../blocs/user_all_cubit.dart';
+import '../../model/feeds/image_feed_meta.dart';
+import '../../model/hive_models/user_hive.dart';
+import '../../model/user/user_all.dart';
 import '../../model/user/user_meta.dart';
+import '../../service/firebase/storage/explore_history.dart';
 import '../../widget/search_detail.dart';
-import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:extended_image/extended_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:isola_app/src/blocs/user_all_cubit.dart';
-import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/feeds/feed_meta.dart';
-import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
-import 'package:isola_app/src/model/hive_models/user_hive.dart';
-import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_meta.dart';
-import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
-import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
-import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:sizer/sizer.dart';
-import 'package:collection/collection.dart';
-import 'package:uuid/uuid.dart';
 
 int feedAllControl = 0;
 
@@ -55,16 +36,17 @@ void deletedStatusChanger() async {
   aDeleted = !aDeleted;
 }
 
-class ProfileMediaPage extends StatefulWidget {
-  const ProfileMediaPage({Key? key, required this.user, required this.userAll})
+class TargetProfileMediaPage extends StatefulWidget {
+  const TargetProfileMediaPage({Key? key, required this.userAll,required this.targetUid})
       : super(key: key);
-  final User user;
+
   final IsolaUserAll userAll;
+  final String targetUid;
   @override
-  _ProfileMediaPageState createState() => _ProfileMediaPageState();
+  _TargetProfileMediaPageState createState() => _TargetProfileMediaPageState();
 }
 
-class _ProfileMediaPageState extends State<ProfileMediaPage> {
+class _TargetProfileMediaPageState extends State<TargetProfileMediaPage> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -153,6 +135,16 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.userAll.isolaUserMeta.userUid);
+     print(widget.userAll.isolaUserMeta.userUid);
+      print(widget.userAll.isolaUserMeta.userUid);
+       print(widget.userAll.isolaUserMeta.userUid);
+        print(widget.userAll.isolaUserMeta.userUid);
+        print(widget.userAll.isolaUserMeta.userUid);
+     print(widget.userAll.isolaUserMeta.userUid);
+      print(widget.userAll.isolaUserMeta.userUid);
+       print(widget.userAll.isolaUserMeta.userUid);
+        print(widget.userAll.isolaUserMeta.userUid);
     return Flexible(
       child: SmartRefresher(
           enablePullDown: true,
@@ -166,7 +158,7 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
             color: ColorConstant.themeGrey,
             child: BasicGridWidget(
               key: widget.key,
-              userUid: widget.userAll.isolaUserMeta.userUid,
+              userUid:widget.targetUid,
               userMeta: widget.userAll.isolaUserMeta,
             ),
           )),
@@ -314,16 +306,14 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['feed_token_list']))
                 .toList();
 
-            if (itemDatas.length < BasicGridWidget.feedValue.length&&itemDatas.isNotEmpty) {
+            if (itemDatas.length < BasicGridWidget.feedValue.length &&
+                itemDatas.isNotEmpty) {
               int deleteNeed =
                   BasicGridWidget.feedValue.length - itemDatas.length;
 
-
-                  for (var i = 0; i < deleteNeed; i++) {
-
-                      BasicGridWidget.feedValue.removeLast();
-                    
-                  }
+              for (var i = 0; i < deleteNeed; i++) {
+                BasicGridWidget.feedValue.removeLast();
+              }
             }
 
             print(itemDatas);
@@ -479,63 +469,65 @@ class GridTile {
   final int mainAxisCount;
 }
 
+
+
+
+
 /*
 
 
 
+
+
  return StreamBuilder<dynamic>(
-        stream: refSearch.onValue,
+        stream: refProfileMedia.onValue,
         builder: (context, event) {
           if (event.hasData) {
+            feedValue.clear();
             var searchDatas = <FeedMeta>[];
-            var exploreHistory = <String>[];
-            var allDataAmount = <FeedMeta>[];
-            downloadedItem = downloadedItem + 1;
+
             var gettingSearch = event.data.snapshot.value as Map;
 
             gettingSearch.forEach((key, value) {
               var imageFeed = FeedMeta.fromJson(value);
-              allDataAmount.add(imageFeed);
 
               if (imageFeed.feedIsImage == true &&
-                  exploreHistory.length <= feedValue.length) {
-                if (exploreHistory.contains(imageFeed.feedNo) != true) {
-                  if (alreadySeem.contains(imageFeed.feedNo) != true) {
-                    searchDatas.add(imageFeed);
-                    // String explorerItem = imageFeed.feedNo;
-                    exploreHistory.add(imageFeed.feedNo);
-
-                    if (exploreHistoryState.contains(imageFeed.feedNo) !=
-                        true) {
-                      exploreHistoryState.add(imageFeed.feedNo);
-                    }
-
-                    print("Feed miktarı ${exploreHistory.length}");
-                    print("Feed No :  ${imageFeed.feedNo}");
-                  }
-                }
+                  imageFeed.userUid == userUid) {
+                searchDatas.add(imageFeed);
+                gridTileWithPostValue();
               }
             });
 
-            amountUpdater((allDataAmount.length) - 20);
-
-            return StaggeredGrid.count(
-              crossAxisCount: 3,
-              children: [
-                ...feedValue.mapIndexed((index, tile) {
-                  return StaggeredGridTile.count(
-                    crossAxisCellCount: tile.crossAxisCount,
-                    mainAxisCellCount: tile.mainAxisCount,
-                    child: ImageTile(
-                      index: index,
-                      width: tile.crossAxisCount * 100,
-                      height: tile.mainAxisCount * 100,
-                      imageUrl: searchDatas[index].feedImageUrl,
-                    ),
+            return searchDatas.isEmpty
+                ? Center(
+                    child: Column(
+                    children: [
+                      Icon(
+                        CupertinoIcons.photo,
+                        size: 65.sp,
+                        color: ColorConstant.softGrey,
+                      ),
+                      const Text("You have not image")
+                    ],
+                  ))
+                : StaggeredGrid.count(
+                    crossAxisCount: 3,
+                    children: [
+                      ...feedValue.mapIndexed((index, tile) {
+                        return StaggeredGridTile.count(
+                          crossAxisCellCount: tile.crossAxisCount,
+                          mainAxisCellCount: tile.mainAxisCount,
+                          child: ImageTile(
+                            postValue: searchDatas.length,
+                            index: index,
+                            width: tile.crossAxisCount * 100,
+                            height: tile.mainAxisCount * 100,
+                            imageUrl: searchDatas[index].feedImageUrl,
+                          ),
+                        );
+                      })
+                    ],
                   );
-                })
-              ],
-            );
           } else {
             return Center(
               child: CupertinoActivityIndicator(
@@ -550,84 +542,50 @@ class GridTile {
 
 */
 
+
+
+
 /*
-class ProfileMediaPage extends StatefulWidget {
-  const ProfileMediaPage({Key? key, required this.user, required this.userAll})
+// ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:isola_app/src/constants/color_constants.dart';
+import 'package:collection/collection.dart';
+import 'package:isola_app/src/model/enum/ref_enum.dart';
+import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/user/user_display.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../model/feeds/image_feed_meta.dart';
+
+class TargetProfileMediaPage extends StatefulWidget {
+  const TargetProfileMediaPage({Key? key, required this.userUid})
       : super(key: key);
-  final User user;
-  final IsolaUserAll userAll;
+  final String userUid;
+
   @override
-  _ProfileMediaPageState createState() => _ProfileMediaPageState();
+  _TargetProfileMediaPageState createState() => _TargetProfileMediaPageState();
 }
 
-class _ProfileMediaPageState extends State<ProfileMediaPage> {
-  RefreshController _refreshController =
+class _TargetProfileMediaPageState extends State<TargetProfileMediaPage> {
+  final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   late var _refProfileMedia;
   //late var searchHistoryData;
   var searchFeed = <FeedMeta>[];
-
-
-
-  void _onRefresh() async {
-    // monitor network fetch
-    await Future.delayed(const Duration(milliseconds: 1000));
-
-    // if failed,use refreshFailed()
-    setState(() {
-      // BasicGridWidget.explorerUpdate(widget.user);
-      // BasicGridWidget.explorerGetter(widget.user);
-
-      ProfileBasicGridWidget.gtGetterReset();
-    });
-    _refreshController.loadComplete();
-    _refreshController.refreshCompleted();
-  }
-
-  /*
   void _onRefresh() async {
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
-  }*/
-
-    void _onLoading() async {
-    List<ProfileGridTile> gTile = ProfileBasicGridWidget.feedValue;
-    if (ProfileBasicGridWidget.feedValue.length >= feedAllControl) {
-      /*
-      setState(() {
-        //   BasicGridWidget.gtMixer();
-        BasicGridWidget.explorerGetter(widget.user);
-        BasicGridWidget.gtGetterReset();
-        _refreshController.loadComplete();
-        // _onRefresh();
-      });*/
-      feedAllControl = 0;
-      _refreshController.loadNoData();
-
-      print("aha");
-    } else {
-      print("bscgridfeedvalue ${ProfileBasicGridWidget.feedValue.length}");
-
-      // print("gtilelength ${gTile.length}");
-      // monitor network fetch
-      await Future.delayed(const Duration(milliseconds: 1000));
-      // if failed,use loadFailed(),if no data return,use LoadNodata()
-
-      if (mounted) {
-        setState(() {
-          ProfileBasicGridWidget.gtGetter();
-          //   loadingValue = loadingValue + 1;
-          //   print(loadingValue);
-        });
-      }
-      _refreshController.loadComplete();
-    }
   }
 
-/*
   void _onLoading() async {
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
@@ -635,7 +593,7 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
 
     _refreshController.loadComplete();
   }
-*/
+
   @override
   void initState() {
     super.initState();
@@ -643,7 +601,7 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
         enum2: RefEnum.Searchfeedsget,
         targetUid: "",
         crypto: '',
-        userUid: widget.user.uid);
+        userUid: widget.userUid);
   }
 
   @override
@@ -661,7 +619,7 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
             child: ProfileBasicGridWidget(
               key: widget.key,
               refProfileMedia: _refProfileMedia,
-              userAll: widget.userAll,
+              userUid: widget.userUid,
             ),
           )),
     );
@@ -670,74 +628,46 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
 
 class ProfileBasicGridWidget extends StatelessWidget {
   ProfileBasicGridWidget(
-      {Key? key, required this.refProfileMedia, required this.userAll})
+      {Key? key, required this.refProfileMedia, required this.userUid})
       : super(key: key);
   final DatabaseReference refProfileMedia;
-  final IsolaUserAll userAll;
-   static void gtGetterReset() {
-    feedValue.clear();
-    feedValue.addAll(tiles2);
+  final String userUid;
 
-    //  context.read<SearchCubit>().feedValueLoader(feedValue);
-  }
-
-
- static void gtGetter() {
-    feedValue.addAll(tiles2);
-
-    //  context.read<SearchCubit>().feedValueLoader(feedValue);
-  }
-
-static const tiles2 = [
-
-   ProfileGridTile(2, 1),
- ProfileGridTile(1, 2),
-     ProfileGridTile(2, 2),
-     ProfileGridTile(1, 1),
+  static const tiles = [
     ProfileGridTile(2, 1),
-   ProfileGridTile(1, 2),
-  ProfileGridTile(2, 2),
-     ProfileGridTile(1, 1),
- ProfileGridTile(2, 1),
-     ProfileGridTile(1, 2),
- ProfileGridTile(2, 2),
+    ProfileGridTile(1, 2),
+    ProfileGridTile(2, 2),
     ProfileGridTile(1, 1),
     ProfileGridTile(2, 1),
-   ProfileGridTile(1, 2),
- ProfileGridTile(2, 2),
-   ProfileGridTile(1, 1),
- 
+    ProfileGridTile(1, 2),
+    ProfileGridTile(2, 2),
+    ProfileGridTile(1, 1),
+    ProfileGridTile(2, 1),
+    ProfileGridTile(1, 2),
+    ProfileGridTile(2, 2),
+    ProfileGridTile(1, 1),
+    ProfileGridTile(2, 1),
+    ProfileGridTile(1, 2),
+    ProfileGridTile(2, 2),
+    ProfileGridTile(1, 1),
+    ProfileGridTile(2, 1),
+    ProfileGridTile(1, 2),
+    ProfileGridTile(2, 2),
+    ProfileGridTile(1, 1),
   ];
 
-   static var feedValue = <ProfileGridTile>[
-    const ProfileGridTile(2, 1),
-    const ProfileGridTile(1, 2),
-    const ProfileGridTile(2, 2),
-    const ProfileGridTile(1, 1),
-    const ProfileGridTile(2, 1),
-    const ProfileGridTile(1, 2),
-    const ProfileGridTile(2, 2),
-    const ProfileGridTile(1, 1),
-    const ProfileGridTile(2, 1),
-    const ProfileGridTile(1, 2),
-    const ProfileGridTile(2, 2),
-    const ProfileGridTile(1, 1),
-    const ProfileGridTile(2, 1),
-    const ProfileGridTile(1, 2),
-    const ProfileGridTile(2, 2),
-    const ProfileGridTile(1, 1),
-  ];
+  Future<void> gridTileWithPostValue() async {
+    feedValue.add(const ProfileGridTile(1, 2));
+  }
 
-
-
+  var feedValue = <ProfileGridTile>[];
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('feeds')
-            .doc(userAll.isolaUserMeta.userUid)
+            .doc(userUid)
             .collection('image_feeds')
-            .limit(feedValue.length)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -759,24 +689,12 @@ static const tiles2 = [
                     doc['user_uid'],
                     doc['user_loc'],
                     doc['feed_visibility'],
-                    doc['feed_report_value'],
-                    doc['user_university'],
-                    doc['feed_token'],
-                    doc['feed_token_list']))
+                    doc['feed_report_value'],doc['user_university'],doc['feed_token'],doc['feed_token_list']))
                 .toList();
 
             if (itemDatas.length != 0) {
-              if (itemDatas.length > 9) {
-                for (var i = 1; i < 9; i++) {
-                //  feedValue.add(const ProfileGridTile(1, 2));
-                }
-              }
-              for (var i = 1; i < itemDatas.length; i++) {
-               // feedValue.add(const ProfileGridTile(1, 2));
-              }
+              gridTileWithPostValue();
             }
-               amountUpdater((itemDatas.length) - 20);
-
             print(itemDatas.length);
             return itemDatas.isEmpty
                 ? Center(
@@ -797,21 +715,12 @@ static const tiles2 = [
                         return StaggeredGridTile.count(
                           crossAxisCellCount: tile.crossAxisCount,
                           mainAxisCellCount: tile.mainAxisCount,
-                          child: GestureDetector(
-                            onTap: () => _openDetail(
-                                context,
-                                index,
-                                itemDatas,
-                                userAll.isolaUserMeta.userUid,
-                                userAll.isolaUserMeta,
-                                index),
-                            child: ImageTile(
-                              postValue: itemDatas.length,
-                              index: index,
-                              width: tile.crossAxisCount * 100,
-                              height: tile.mainAxisCount * 100,
-                              imageUrl: itemDatas[index].feedImageUrl,
-                            ),
+                          child: ImageTile(
+                            postValue: itemDatas.length,
+                            index: index,
+                            width: tile.crossAxisCount * 100,
+                            height: tile.mainAxisCount * 100,
+                            imageUrl: itemDatas[index].feedImageUrl,
                           ),
                         );
                       })
@@ -827,26 +736,6 @@ static const tiles2 = [
           }
         });
   }
-}
-
-_openDetail(context, index, List<dynamic> imageItemList, String userUid,
-    IsolaUserMeta userMeta, int sira) {
-  print(userMeta.userToken);
-  print(sira);
-  //imageItemList.sort((a, b) => a.feedDate.compareTo(b.feedDate));
-
-  List<dynamic> slicedList = imageItemList.slice(sira);
-
-  final route = CupertinoPageRoute(
-    builder: (context) => SearchDetail(
-      index: index,
-      imageItemList: slicedList,
-      userUid: userUid,
-      userMeta: userMeta,
-      itemLoc: sira,
-    ),
-  );
-  Navigator.push(context, route);
 }
 
 class ImageTile extends StatelessWidget {
@@ -904,11 +793,16 @@ class ProfileGridTile {
 
 
 
+
+
+
 /*
 
 
 
-return StreamBuilder<dynamic>(
+
+
+ return StreamBuilder<dynamic>(
         stream: refProfileMedia.onValue,
         builder: (context, event) {
           if (event.hasData) {
@@ -921,7 +815,7 @@ return StreamBuilder<dynamic>(
               var imageFeed = FeedMeta.fromJson(value);
 
               if (imageFeed.feedIsImage == true &&
-                  imageFeed.userUid == userAll.isolaUserMeta.userUid) {
+                  imageFeed.userUid == userUid) {
                 searchDatas.add(imageFeed);
                 gridTileWithPostValue();
               }
@@ -966,10 +860,6 @@ return StreamBuilder<dynamic>(
             );
           }
         });
-
-
-
-
 
 
 

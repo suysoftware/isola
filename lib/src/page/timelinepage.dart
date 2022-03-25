@@ -55,7 +55,7 @@ class _TimelinePageState extends State<TimelinePage> {
     var timeItem = TimelineItem(
       feedMeta: feedMeta,
       userUid: widget.user!.uid,
-      isTimeline: true,
+      isTimeline: true, isolaUserAll: widget.userAll,
     );
 
     return timeItem;

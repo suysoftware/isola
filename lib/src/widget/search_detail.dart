@@ -12,13 +12,17 @@ import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/page/groupchat/chatting_page.dart';
+import 'package:isola_app/src/page/profile/profile_media_page.dart';
+import 'package:isola_app/src/page/target_profiles/target_profiles_media.dart';
+import 'package:isola_app/src/service/firebase/storage/deleting/feed_delete.dart';
 import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
+import 'package:isola_app/src/service/firebase/storage/feedshare/feed_timestamp.dart';
+import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/report_sheets.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:collection/collection.dart';
-
 import '../constants/style_constants.dart';
 import '../service/firebase/storage/hive_operations.dart';
 import '../service/firebase/storage/tokensystem/single_token_send.dart';
@@ -34,13 +38,15 @@ class SearchDetail extends StatefulWidget {
   final String userUid;
   final IsolaUserMeta userMeta;
   int itemLoc;
+  bool isProfile;
 
   SearchDetail(
       {required this.imageItemList,
       required this.index,
       required this.userUid,
       required this.userMeta,
-      required this.itemLoc});
+      required this.itemLoc,
+      required this.isProfile});
   @override
   _SearchDetailState createState() => _SearchDetailState();
 }
@@ -52,9 +58,7 @@ class _SearchDetailState extends State<SearchDetail> {
   //late var searchHistoryData;
   var searchFeed = <FeedMeta>[];
   int loadingValue = 2;
- // var newItemList=<dynamic>[];
-
-
+  // var newItemList=<dynamic>[];
 
   void _onLoading() async {
     List<GridTile> gTile = BasicGridWidget.feedValue;
@@ -86,7 +90,14 @@ class _SearchDetailState extends State<SearchDetail> {
   void initState() {
     super.initState();
 
-  //  newItemList.addAll(widget.imageItemList.slice(widget.index));
+    if (widget.isProfile == true) {
+      BasicGridWidget.feedValue.clear();
+
+      for (var i = 0; i < widget.imageItemList.length; i++) {
+        BasicGridWidget.feedValue.add(GridTile(3, 5));
+      }
+    }
+    //  newItemList.addAll(widget.imageItemList.slice(widget.index));
     //newItemList.sort((b, a) => a.feedDate.compareTo(b.feedDate));
   }
 
@@ -106,9 +117,7 @@ class _SearchDetailState extends State<SearchDetail> {
             enablePullDown: false,
             enablePullUp: true,
             footer: const ClassicFooter(),
-           
             controller: _refreshController,
-          
             onLoading: _onLoading,
             child: Container(
               color: ColorConstant.themeGrey,
@@ -118,6 +127,7 @@ class _SearchDetailState extends State<SearchDetail> {
                 userMeta: widget.userMeta,
                 lastIndex: widget.itemLoc,
                 imageItemList: widget.imageItemList,
+                isProfile: widget.isProfile,
               ),
             )));
   }
@@ -126,18 +136,20 @@ class _SearchDetailState extends State<SearchDetail> {
 int downloadedItem = 0;
 
 class BasicGridWidget extends StatefulWidget {
-  const BasicGridWidget({
-    Key? key,
-    required this.userUid,
-    required this.userMeta,
-    required this.lastIndex,
-    required this.imageItemList,
-  }) : super(key: key);
+  const BasicGridWidget(
+      {Key? key,
+      required this.userUid,
+      required this.userMeta,
+      required this.lastIndex,
+      required this.imageItemList,
+      required this.isProfile})
+      : super(key: key);
 
   final String userUid;
   final IsolaUserMeta userMeta;
   final int lastIndex;
   final List<dynamic> imageItemList;
+  final bool isProfile;
 
   static void gtGetter() {
     feedValue.addAll(tiles2);
@@ -209,48 +221,67 @@ class BasicGridWidget extends StatefulWidget {
 
 class _BasicGridWidgetState extends State<BasicGridWidget> {
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.imageItemList.length < BasicGridWidget.feedValue.length &&
+        widget.imageItemList.isNotEmpty) {
+      int deleteNeed =
+          BasicGridWidget.feedValue.length - widget.imageItemList.length;
+
+      for (var i = 0; i < deleteNeed; i++) {
+        BasicGridWidget.feedValue.removeLast();
+      }
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-      amountUpdater((widget.imageItemList.length) - 8);
-    return  widget.imageItemList.isEmpty
-                ? Center(
-                    child: Column(
-                    children: [
-                      Icon(
-                        CupertinoIcons.photo,
-                        size: 65.sp,
-                        color: ColorConstant.softGrey,
-                      ),
-                      const Text("You have not image")
-                    ],
-                  ))
-                : StaggeredGrid.count(
-                    crossAxisCount: 3,
-                    children: [
-                      ...BasicGridWidget.feedValue.mapIndexed((index, tile) {
-                        return StaggeredGridTile.count(
-                          crossAxisCellCount: tile.crossAxisCount,
-                          mainAxisCellCount: tile.mainAxisCount,
-                          child: BoneOfPost(
-                            index: index,
-                            width: tile.crossAxisCount * 100,
-                            height: tile.mainAxisCount * 100,
-                            imageUrl: widget.imageItemList[index]
-                                .feedImageUrl,
-                            // imageUrl: itemDatas[index].feedImageUrl,
-                            userUid: widget.userUid,
-                            imageItemList: widget.imageItemList,
-                            userMeta: widget.userMeta,
-                          ),
-                        );
-                      })
-                    ],
-                  );
-    
+    amountUpdater((widget.imageItemList.length) - 8);
+
+    return widget.imageItemList.isEmpty
+        ? Center(
+            child: Column(
+            children: [
+              Icon(
+                CupertinoIcons.photo,
+                size: 65.sp,
+                color: ColorConstant.softGrey,
+              ),
+              const Text("You have not image")
+            ],
+          ))
+        : StaggeredGrid.count(
+            crossAxisCount: 3,
+
+            mainAxisSpacing: 2.h,
+            
+            children: [
+              ...BasicGridWidget.feedValue.mapIndexed((index, tile) {
+                return StaggeredGridTile.count(
+                  crossAxisCellCount: tile.crossAxisCount,
+                  mainAxisCellCount: tile.mainAxisCount,
+                
+                  child: BoneOfPost(
+                    index: index,
+                    width: tile.crossAxisCount * 100,
+                    height: tile.mainAxisCount * 100,
+                    imageUrl: widget.imageItemList[index].feedImageUrl,
+                    // imageUrl: itemDatas[index].feedImageUrl,
+                    userUid: widget.userUid,
+                    imageItemList: widget.imageItemList,
+                    userMeta: widget.userMeta, isProfile: widget.isProfile,
+                  ),
+                );
+              })
+            ],
+          );
+
     /*
     StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -363,10 +394,10 @@ class PostTile extends StatefulWidget {
 }
 
 class _PostTileState extends State<PostTile> {
-
-
   @override
   Widget build(BuildContext context) {
+    print(80.h);
+    print(100.w);
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Container(
@@ -383,11 +414,18 @@ class _PostTileState extends State<PostTile> {
                 borderRadius: const BorderRadius.all(Radius.circular(15.0))),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: CachedNetworkImage(
-                imageUrl: widget.imageUrl,
-                fit: BoxFit.cover,
-                errorWidget: (context, url, error) =>
-                    Icon(CupertinoIcons.xmark_square),
+              child: SizedBox(
+                height: 80.h,
+                width: 100.w,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.imageUrl,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) =>
+                        Icon(CupertinoIcons.xmark_square),
+                  ),
+                ),
               ),
             ),
           ),
@@ -412,7 +450,8 @@ class BoneOfPost extends StatelessWidget {
       required this.height,
       required this.userUid,
       required this.imageItemList,
-      required this.userMeta})
+      required this.userMeta,
+      required this.isProfile})
       : super(key: key);
 
   final String imageUrl;
@@ -422,36 +461,23 @@ class BoneOfPost extends StatelessWidget {
   final String userUid;
   final List<dynamic> imageItemList;
   final IsolaUserMeta userMeta;
+  final bool isProfile;
 
   @override
   Widget build(BuildContext context) {
     print('aasaafafsafs');
     return Stack(
       children: [
-
-
-        Align(
-          
-          alignment: Alignment.topRight,
-          child:     CupertinoButton(
-                child: Text('Report'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  showCupertinoModalPopup(
-                      context: context,
-                      //imageUrlList[index].userName
-                      builder: (BuildContext context) => ReportFeedSheet(
-                            reporterUid: userUid,
-                            isImageFeed: true,
-                            feedNo: imageItemList[index].feedNo,
-                            targetUid: imageItemList[index].userUid,
-                          ));
-                },
-              ),),
         GestureDetector(
           onTap: () {
             print('imageUrl: $imageUrl');
             print('indeks: $index');
+            Timestamp dateStamp = imageItemList[index].feedDate;
+
+            var ss = DateTime.fromMicrosecondsSinceEpoch(
+                dateStamp.microsecondsSinceEpoch);
+
+            print(ss);
           },
           child: PostTile(
             index: index,
@@ -461,6 +487,63 @@ class BoneOfPost extends StatelessWidget {
             userUid: userUid,
             imageItemList: imageItemList,
             userMeta: userMeta,
+          ),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: CupertinoButton(
+              child:
+                  isProfile == true && imageItemList[index].userUid == userUid
+                      ? Icon(
+                          CupertinoIcons.trash,
+                          size: 20.sp,
+                          color: ColorConstant.iGradientMaterial4,
+                        )
+                      : Icon(
+                          CupertinoIcons.exclamationmark_circle,
+                          color: ColorConstant.iGradientMaterial4,
+                          size: 23.sp,
+                        ),
+              onPressed: isProfile == true &&
+                      imageItemList[index].userUid == userUid
+                  ? () {
+                      showCupertinoDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                                actions: [
+                                  CupertinoButton(
+                                      child: Text('Delete Post'),
+                                      onPressed: () {
+                                        imageFeedDelete(
+                                            imageItemList[index].feedNo,
+                                            userUid);
+
+                                        Navigator.pushReplacementNamed(
+                                            context, navigationBar);
+                                      }),
+                                  CupertinoButton(
+                                      child: Text('Back'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                ],
+                              ));
+                    }
+                  : () {
+                      Navigator.pop(context);
+                      showCupertinoModalPopup(
+                          context: context,
+                          //imageUrlList[index].userName
+                          builder: (BuildContext context) => ReportFeedSheet(
+                                reporterUid: userUid,
+                                isImageFeed: true,
+                                feedNo: imageItemList[index].feedNo,
+                                targetUid: imageItemList[index].userUid,
+                              ));
+                    },
+            ),
           ),
         ),
         Align(

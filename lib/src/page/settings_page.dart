@@ -140,7 +140,7 @@ class _SettingsPageState extends State<SettingsPage> {
               final Timestamp yesterday = Timestamp.fromDate(
                 DateTime.now().subtract(const Duration(days: 1)),
               );
-/*
+
                     for (var item in uidList) {
                await FirebaseFirestore.instance
                     .collection('feeds')
@@ -161,7 +161,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                 });
               }
-*//*
+
+
+/*
                  FirebaseFirestore.instance
                   .collectionGroup('image_feeds')
                   .get()
@@ -185,7 +187,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
 
 
-
+/*
               int dnm = 150;
               //1300
               for (var i = 0; i < 30; i++) {
@@ -203,7 +205,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   dnm = dnm + 1;
                 }
               }
-
+*/
 
 
 

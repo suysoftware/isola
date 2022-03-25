@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables, unused_local_variable, avoid_print, avoid_init_to_null
-
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -126,6 +125,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.userAll.isolaUserDisplay.avatarUrl);
+    print(widget.userAll.isolaUserDisplay.userName);
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           trailing: Padding(
@@ -137,7 +138,9 @@ class _SearchPageState extends State<SearchPage> {
                 padding: const EdgeInsets.all(1.0),
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(1.0),
-                  onPressed: () async => addSearchItemDialogContent(context),
+                  onPressed: () async =>addSearchItemDialogContent(context)
+                    ,
+                
                   child: Container(
                     padding: const EdgeInsets.all(1.0),
                     child: Center(
@@ -290,8 +293,8 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collectionGroup('image_feeds')
-            .limit(BasicGridWidget.feedValue.length + 40)
+            .collectionGroup('image_feeds').orderBy('feed_date',descending: true)
+            .limit(BasicGridWidget.feedValue.length + 16)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -324,13 +327,28 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
             print(itemDatas);
             print('////////////');
 
+            if (itemDatas.length < BasicGridWidget.feedValue.length &&
+                itemDatas.isNotEmpty) {
+              int deleteNeed =
+                  BasicGridWidget.feedValue.length - itemDatas.length;
+
+              for (var i = 0; i < deleteNeed; i++) {
+                BasicGridWidget.feedValue.removeLast();
+                if (BasicGridWidget.feedValue.length == 1) {
+                  BasicGridWidget.feedValue.removeLast();
+                  BasicGridWidget.feedValue.add(
+                    const GridTile(3, 3),
+                  );
+                }
+              }
+            }
             //  itemDatas.shuffle();
             // itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
 /*
             for (IsolaImageFeedModel item in itemDatas) {
               print(item.feedImageUrl);
             }*/
-            amountUpdater((itemDatas.length) - 20);
+            amountUpdater((itemDatas.length) );
             return itemDatas.isEmpty
                 ? Center(
                     child: Column(
@@ -396,6 +414,7 @@ _openDetail(context, index, List<dynamic> imageItemList, String userUid,
       userUid: userUid,
       userMeta: userMeta,
       itemLoc: sira,
+      isProfile: false,
     ),
   );
   Navigator.push(context, route);
@@ -482,9 +501,11 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
   File? file = null;
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
+      preferredCameraDevice:CameraDevice.rear
         source: ImageSource.gallery,
-        maxHeight: 1000,
-        maxWidth: 600,
+     //   maxHeight: 1000,
+        
+       // maxWidth: 600,
         imageQuality: 100);
     file = File(xfile!.path);
     setState(() {});
@@ -542,6 +563,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                       ? GestureDetector(
                           onTap: () {
                             print("dd");
+
                             chooseImage();
                           },
                           child: ClipOval(
@@ -553,18 +575,23 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                           ),
                         )
                       : ExtendedImage.file(
+                        
                           file!,
                           fit: BoxFit.contain,
                           mode: ExtendedImageMode.editor,
+                       
+                          height: 1000,
+                          width: 600,
                           extendedImageEditorKey: editorKey,
                           initEditorConfigHandler: (state) {
                             return EditorConfig(
+                            
                                 cornerColor: ColorConstant.iGradientMaterial4,
                                 maxScale: 4.0,
-                                cropRectPadding: const EdgeInsets.all(15.0),
+                              //  cropRectPadding: const EdgeInsets.all(15.0),
                                 hitTestSize: 10.0,
-                                initCropRectType: InitCropRectType.imageRect,
-                                cropAspectRatio: CropAspectRatios.ratio8_10,
+                                initCropRectType: InitCropRectType.layoutRect,// imageRect,
+                                cropAspectRatio: CropAspectRatios.ratio6_10,
                                 editActionDetailsIsChanged:
                                     (EditActionDetails? details) {
                                   //print(details?.totalScale);
@@ -593,12 +620,22 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                                 fileID)
                             .then((value) {
                           addImageFeedToDatabase(
-                              widget.userAll.isolaUserMeta.userUid,
+                            feedIsActivity: false,
+                            imageFeedUrl: value,
+                            uid: widget.userAll.isolaUserMeta.userUid,
+                            userAvatarUrl:
+                                widget.userAll.isolaUserDisplay.avatarUrl,
+                            userName: widget.userAll.isolaUserDisplay.userName,
+                            userUniversity:
+                                widget.userAll.isolaUserDisplay.userUniversity,
+                          );
+
+                          /* widget.userAll.isolaUserMeta.userUid,
                               widget.userAll.isolaUserDisplay.avatarUrl,
                               value,
                               fileID,
                               widget.userAll.isolaUserDisplay.userUniversity,
-                              false);
+                              false);*/
                         }).whenComplete(() {
                           Navigator.pop(context);
                           Navigator.pop(context);
@@ -655,7 +692,7 @@ class CropAspectRatios {
   static const double ratio4_3 = 4.0 / 3.0;
 
   /// ratio of width and height is 8 : 10
-  static const double ratio8_10 = 8.0 / 10.0;
+  static const double ratio6_10 = 6.0 / 10.0;
 
   /// ratio of width and height is 9 : 16
   static const double ratio9_16 = 9.0 / 16.0;
