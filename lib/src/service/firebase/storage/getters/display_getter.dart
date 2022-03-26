@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
+import 'package:isola_app/src/model/feeds/popular_timeline.dart';
 import 'package:isola_app/src/model/group/group_alives.dart';
 import 'package:isola_app/src/model/group/group_preview_data.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
@@ -1407,9 +1408,11 @@ Future<List<dynamic>> getTimelineFeeds(
             item['user_name'],
             item['user_uid']);
         var timelineItem = TimelineItem(
-            feedMeta: isolaItem,
-            userUid: isolaUserAll.isolaUserMeta.userUid,
-            isTimeline: true, isolaUserAll: isolaUserAll,);
+          feedMeta: isolaItem,
+          userUid: isolaUserAll.isolaUserMeta.userUid,
+          isTimeline: true,
+          isolaUserAll: isolaUserAll,
+        );
 
         print('Name : ${item['user_name']}');
 
@@ -1463,4 +1466,27 @@ Future<void> getProfileTimeline(String userUid, int amountData) async {
   });
 
   print(DateTime.now().toString());
+}
+
+Future<PopularTimeline> getPopularItems() async {
+  var itemList = <PopularItem>[];
+
+  CollectionReference refPopular =
+      FirebaseFirestore.instance.collection('news_and_popular');
+
+  await refPopular.get().then((value) {
+    for (var item in value.docs) {
+      var popularItem = PopularItem(item['pAvatarUrl'], item['pDate'],
+          item['pLink'], item['pName'], item['pText'],item['pLikeValue']);
+      itemList.add(popularItem);
+    }
+  });
+
+  print(itemList[0].pAvatarUrl);
+    print(itemList[0].pAvatarUrl);
+      print(itemList[0].pAvatarUrl);
+        print(itemList[0].pAvatarUrl);
+          print(itemList[0].pAvatarUrl);  print(itemList[0].pAvatarUrl);
+
+  return PopularTimeline(itemList[0], itemList[1]);
 }

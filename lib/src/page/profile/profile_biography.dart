@@ -159,7 +159,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                    child: Text("Club & Activities", style: biographyStyle),
+                    child: Text("Club & Activities (coming soon)", style: biographyStyle),
                   ),
                 ],
               ),

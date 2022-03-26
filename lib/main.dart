@@ -131,16 +131,16 @@ class MyApp extends StatelessWidget {
         ["null1", "null2"],
         "");
     var userMeta = IsolaUserMeta(
-      "null",
-      0,
-      ["null", "null"],
-      "null",
-      true,
-      ["null", "null"],
-      ["null", "null"],
-      ["null", "null"],
-      false,["null","null"]
-    );
+        "null",
+        0,
+        ["null", "null"],
+        "null",
+        true,
+        ["null", "null"],
+        ["null", "null"],
+        ["null", "null"],
+        false,
+        ["null", "null"]);
 
     var userAll = IsolaUserAll(userDisplay, userMeta);
 
@@ -248,9 +248,6 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) {
             return TimelineItemListCubit(testItem: <TimelineItem>[]);
           }),
-         
-         
-
         ],
         child: CupertinoApp(
           debugShowCheckedModeBanner: false,

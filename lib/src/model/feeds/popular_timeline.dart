@@ -1,8 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 
 class PopularTimeline {
-  late FeedMeta popularItem1;
-  late FeedMeta popularItem2;
+  late PopularItem popularItem1;
+  late PopularItem popularItem2;
 
   PopularTimeline(this.popularItem1, this.popularItem2);
+}
+
+class PopularItem {
+  late String pAvatarUrl;
+  late Timestamp pDate;
+  late String pLink;
+  late String pName;
+  late String pText;
+  late int pLikeValue;
+
+  PopularItem(this.pAvatarUrl, this.pDate, this.pLink, this.pName, this.pText,this.pLikeValue);
 }
