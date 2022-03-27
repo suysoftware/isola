@@ -41,7 +41,7 @@ class TextMessageBalloonRight extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 0.0, 2.w, 0.0),
                 child: TextChatContRight(
-                  targetMesaj: memberMessage,
+                  targetMesaj: memberMessage, messageTime: memberMessageTime,
                 ),
               ),
             ],

@@ -40,7 +40,7 @@ class VoiceMessageBalloonRight extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0.0, 0.0, 2.w, 0.0),
                 child: VoiceChatContRight(
                   memberVoiceUrl: memberVoiceUrl,
-                  memberName: memberName,
+                  memberName: memberName, messageTime: memberMessageTime,
                 ),
               ),
             ],

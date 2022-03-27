@@ -12,6 +12,7 @@ class GroupPreviewData {
 class GroupMergeData {
   late IsolaUserAll userAll;
   late List<dynamic> groupsModel;
+  late List<dynamic> exploreData;
 
-  GroupMergeData(this.userAll, this.groupsModel);
+  GroupMergeData(this.userAll, this.groupsModel,this.exploreData);
 }

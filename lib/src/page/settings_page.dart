@@ -134,7 +134,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ])*/
 //'dateTime': DateTime.parse('2019-03-13 16:49:42.044'
               //w     FirebaseFirestore.instance.collectionGroup("text_feeds").whereGreaterThan('feed_date',1000).orderBy('feed_date',descending: true)
-              print("dfs");
+            
+            /*  print("dfs");
 
               final Timestamp now = Timestamp.fromDate(DateTime.now());
               final Timestamp yesterday = Timestamp.fromDate(
@@ -161,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                 });
               }
-
+*/
 
 /*
                  FirebaseFirestore.instance
@@ -335,10 +336,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(CupertinoIcons.info_circle,
                     color: ColorConstant.softBlack),
                 Text("About", style: settingTextStyle), () {
-              getUserAllFromDataBase(user!.uid).then((value) {
+            /*  getUserAllFromDataBase(user!.uid).then((value) {
                 print(value.isolaUserDisplay.userName);
               });
-
+*/
               /*
               addUserCloudFirestore(
                   "ornekuid123",

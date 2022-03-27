@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
@@ -15,6 +16,7 @@ import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 
 import '../../../../model/group/groups_model.dart';
+import '../../../../model/hive_models/user_hive.dart';
 
 /*
 Future<UserAll> getDisplayData(String uid) async {
@@ -1284,6 +1286,11 @@ Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
     DocumentReference users_meta =
         FirebaseFirestore.instance.collection('users_meta').doc(userUid);
 
+
+         
+
+  
+
     await users_display.get().then((docValue) => userDisplay = IsolaUserDisplay(
         docValue['uName'],
         docValue['uBio'],
@@ -1325,8 +1332,10 @@ Future<GroupMergeData> mergeForChatPage(String userUid) async {
   await getUserAllFromDataBase(userUid).then((value) => userAll = value);
 
   await getGroupDataFromDatabase(userAll).then((value) => groupDatas = value);
+ var box = await Hive.openBox('userHive');
 
-  var groupMergeDatas = GroupMergeData(userAll, groupDatas);
+    UserHive userHive = box.get('datetoday');
+  var groupMergeDatas = GroupMergeData(userAll, groupDatas,userHive.exloreData);
 
   return groupMergeDatas;
 }
@@ -1482,11 +1491,6 @@ Future<PopularTimeline> getPopularItems() async {
     }
   });
 
-  print(itemList[0].pAvatarUrl);
-    print(itemList[0].pAvatarUrl);
-      print(itemList[0].pAvatarUrl);
-        print(itemList[0].pAvatarUrl);
-          print(itemList[0].pAvatarUrl);  print(itemList[0].pAvatarUrl);
-
+ 
   return PopularTimeline(itemList[0], itemList[1]);
 }

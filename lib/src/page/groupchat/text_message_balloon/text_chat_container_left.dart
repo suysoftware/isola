@@ -1,6 +1,7 @@
-
 // ignore_for_file: must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -8,10 +9,12 @@ import 'package:sizer/sizer.dart';
 
 class TextChatContLeft extends StatelessWidget {
   String targetMesaj;
-  TextChatContLeft({Key? key, required this.targetMesaj}) : super(key: key);
+  Timestamp messageTime;
+  TextChatContLeft({Key? key, required this.targetMesaj,required this.messageTime}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+     DateFormat dFormat = DateFormat("HH:mm");
     double contHeight = 100.h <= 1100
         ? ((targetMesaj.length < 50 ? 1 : targetMesaj.length / 50) + 1.0)
         : ((targetMesaj.length / 30) + 0.6);
@@ -60,7 +63,7 @@ class TextChatContLeft extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 5.w, 0.3.h),
                   child: Text(
-                    "11:30",
+                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
                     style: 100.h <= 1100
                         ? StyleConstants.chatTimeTextStyleLeft
                         : StyleConstants.chatTabletTimeTextStyleLeft,

@@ -86,7 +86,7 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 0.0),
                 child: VoiceChatContLeft(
-                    memberVoiceUrl: memberVoiceUrl, memberName: memberName),
+                    memberVoiceUrl: memberVoiceUrl, memberName: memberName, messageTime: memberMessageTime,),
               ),
             ],
           ),

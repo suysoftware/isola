@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
@@ -14,6 +15,8 @@ import 'package:isola_app/src/page/groupchat/chatpage/chat_normal/chat_normal_wi
 import 'package:isola_app/src/page/groupchat/chatpage/chat_waiting/chat_waiting_widgets.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../model/hive_models/user_hive.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage(
@@ -30,6 +33,9 @@ class _ChatPageState extends State<ChatPage> {
   late int chatContValue;
   late bool needSearchingContainer;
   late var groupMergeData;
+
+
+
 
   @override
   void initState() {
@@ -68,6 +74,8 @@ class _ChatPageState extends State<ChatPage> {
             .groupPreviewData.userAll.isolaUserMeta.joinedGroupList.length);
 
     initTraw.add("asset/img/settings_button.png");*/
+
+    
   }
 
   @override
@@ -77,76 +85,81 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-  //  print("H: ${100.h}");
-   // print("W: ${100.w}");
+    //  print("H: ${100.h}");
+    // print("W: ${100.w}");
 
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
           automaticallyImplyLeading: false,
         ),
-        child:chatContValue<1&&widget.groupMergeDataComing.userAll.isolaUserMeta.userIsSearching==false?( Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset("asset/img/chat_warning_icon.png"),
-                                const Text(
-                                  "You didnt join group",
-                                  style:
-                                      TextStyle(color: ColorConstant.softBlack),
-                                ),
-                              ],
-                            ),
-                          )):Container(
-          color: ColorConstant.themeGrey,
-          child: ListView.builder(
-              itemCount: chatContValue,
-              itemBuilder: (context, indeks) {
-                var groupsItem = <Widget>[];
+        child: chatContValue < 1 &&
+                widget.groupMergeDataComing.userAll.isolaUserMeta
+                        .userIsSearching ==
+                    false
+            ? (Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset("asset/img/chat_warning_icon.png"),
+                    const Text(
+                      "You didnt join group",
+                      style: TextStyle(color: ColorConstant.softBlack),
+                    ),
+                  ],
+                ),
+              ))
+            : Container(
+                color: ColorConstant.themeGrey,
+                child: ListView.builder(
+                    itemCount: chatContValue,
+                    itemBuilder: (context, indeks) {
+                      var groupsItem = <Widget>[];
 
-                var itemWaiting = const ChatGroupContWaiting();
-                // ignore: unused_local_variable
+                      var itemWaiting = const ChatGroupContWaiting();
+                      // ignore: unused_local_variable
 
-                for (var groupData in groupMergeData as List<GroupsModel>){
-                  if (groupData.groupChaosIsActive) {
-                  //  print("1 kere döndü");
+                      for (var groupData
+                          in groupMergeData as List<GroupsModel>) {
+                        if (groupData.groupChaosIsActive) {
+                          //  print("1 kere döndü");
 
-                      final Stream<QuerySnapshot> _chaosStream = FirebaseFirestore.instance
-                        .collection('chaos_groups_chat')
-                        .doc(groupData.groupChaosNo)
-                        .collection('chat_data').snapshots();
+                          final Stream<QuerySnapshot> _chaosStream =
+                              FirebaseFirestore.instance
+                                  .collection('chaos_groups_chat')
+                                  .doc(groupData.groupChaosNo)
+                                  .collection('chat_data')
+                                  .snapshots();
 
-                  /*  CollectionReference chaosRef = FirebaseFirestore.instance
+                          /*  CollectionReference chaosRef = FirebaseFirestore.instance
                         .collection('chaos_groups_chat')
                         .doc(groupData.groupChaosNo)
                         .collection('chat_data');*/
-                    var chaosCont = ChaosGroupCont(
-                        myUid: widget
-                            .groupMergeDataComing.userAll.isolaUserMeta.userUid,
-                        notiValue: 2,
-                        ref: _chaosStream,
-                        chatGroupNo: groupData.groupChaosNo,
-                        userAll: widget.groupMergeDataComing.userAll);
+                          var chaosCont = ChaosGroupCont(
+                              myUid: widget.groupMergeDataComing.userAll
+                                  .isolaUserMeta.userUid,
+                              notiValue: 2,
+                              ref: _chaosStream,
+                              chatGroupNo: groupData.groupChaosNo,
+                              userAll: widget.groupMergeDataComing.userAll);
 
-                    groupsItem.add(chaosCont);
-                  } else {
-   
-                   /* CollectionReference chatRef = FirebaseFirestore.instance
+                          groupsItem.add(chaosCont);
+                        } else {
+                          /* CollectionReference chatRef = FirebaseFirestore.instance
                         .collection('groups_chat')
                         .doc(groupData.groupNo)
                         .collection('chat_data');*/
-                    var groupCont = ChatGroupCont(
-                        myUid: widget
-                            .groupMergeDataComing.userAll.isolaUserMeta.userUid,
-                        notiValue: 2,
-                     
-                        chatGroupNo: groupData.groupNo,
-                        userAll: widget.groupMergeDataComing.userAll);
+                          var groupCont = ChatGroupCont(
+                              myUid: widget.groupMergeDataComing.userAll
+                                  .isolaUserMeta.userUid,
+                      
+                              chatGroupNo: groupData.groupNo,
+                              userAll: widget.groupMergeDataComing.userAll, groupMergeData: widget.groupMergeDataComing,);
 
-                    groupsItem.add(groupCont);
-                  }
-                }
+                          groupsItem.add(groupCont);
+                        }
+                      }
 
 /*
                 widget.groupPreviewData.groupAlives.group1Alive == true;
@@ -324,19 +337,19 @@ class _ChatPageState extends State<ChatPage> {
                   groupsItem.add(item5);
                 }
 */
-                if (needSearchingContainer == true) {
-                  groupsItem.add(itemWaiting);
-                }
-               // print("fashjjhbfsa");
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 1.h),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [groupsItem[indeks]],
-                  ),
-                );
-              }),
-        ));
+                      if (needSearchingContainer == true) {
+                        groupsItem.add(itemWaiting);
+                      }
+                      // print("fashjjhbfsa");
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 1.h),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [groupsItem[indeks]],
+                        ),
+                      );
+                    }),
+              ));
   }
 }
 
@@ -368,7 +381,6 @@ class ImageChatClip extends StatelessWidget {
             color: ColorConstant.milkColor.withOpacity(0.05),
             borderRadius: BorderRadius.all(Radius.circular(35.sp))),
         child: CircleAvatar(
-          
           radius: 15.sp,
           backgroundColor: ColorConstant.milkColor,
           child: ClipRRect(

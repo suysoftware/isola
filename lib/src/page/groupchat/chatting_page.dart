@@ -34,6 +34,7 @@ import 'package:isola_app/src/page/groupchat/text_message_balloon/text_message_b
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_right.dart';
 import 'package:isola_app/src/service/firebase/storage/chaos/chaos_group_finder.dart';
+import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_attachment_message.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_voice_message.dart';
@@ -114,8 +115,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
   late Animation<double> _trashContainerWithCoverTranslateDown;
 
-  userMessageAdd(String gelenMesaj, bool isVoice, String voiceUrl) {
-    refChatInterior.doc().set({
+  userMessageAdd(String gelenMesaj, bool isVoice, String voiceUrl,
+      DocumentReference messageRef) {
+    messageRef.set({
       'member_avatar_url': userAll.isolaUserDisplay.avatarUrl,
       'member_message': t1.text,
       'member_message_time': DateTime.now().toUtc(),
@@ -130,6 +132,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
       'member_message_isdocument': false,
       'member_message_target_1_uid': target1,
       'member_message_target_2_uid': target2,
+      'member_message_no': messageRef.id,
     });
 
     t1.clear();
@@ -403,7 +406,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             sayacModelNesne.micRecording();
                           } else {
                             if (t1.text != "") {
-                              userMessageAdd(t1.text, false, "nothing");
+                              DocumentReference docRef = refChatInterior.doc();
+                              userMessageAdd(t1.text, false, "nothing", docRef);
                             }
                           }
                         },
@@ -473,7 +477,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
                             if (sayacModelNesne.sendIcon.icon ==
                                 CupertinoIcons.add) {
-                              userMessageAdd(t1.text, false, "nothing");
+                              DocumentReference docRef = refChatInterior.doc();
+                              userMessageAdd(t1.text, false, "nothing", docRef);
                               sayacModelNesne.micOnline();
                             } else {
                               print("mikrofonbaşladı");
@@ -574,7 +579,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
     groupSettingModelForTrawling = context.read<GroupSettingCubit>().state;
 
-    print(groupSettingModelForTrawling.groupNo);
+   // print(groupSettingModelForTrawling.groupNo);
 
     target1 = context.read<GroupSettingCubit>().state.groupMemberUid2;
     target2 = context.read<GroupSettingCubit>().state.groupMemberUid3;
@@ -904,7 +909,19 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             );
 
                           //   var chatMessageDatas = <AllMessageBalloon>[];
+
+                          var seemingMessage = <String>[];
                           final data = snapshot.requireData;
+
+                          for (var item in data.docs) {
+                            seemingMessage.add(item.data().member_message_no);
+                          }
+
+                          exploreHistoryItemsSave(seemingMessage,
+                              groupSettingModelForTrawling.groupNo);
+
+                          exploreHistoryGetter(
+                              groupSettingModelForTrawling.groupNo);
 
                           /* List<DocumentSnapshot> comingMessage =
                               snapshot.data!.docs;

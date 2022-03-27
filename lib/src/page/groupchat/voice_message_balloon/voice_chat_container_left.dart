@@ -2,6 +2,8 @@
 
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/blocs/chat_voice_message_cubit.dart';
@@ -11,17 +13,18 @@ import 'package:isola_app/src/model/group/group_chat_voice.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-
 double fontVoiceTextSize = 100.h <= 1100 ? 8.sp : 6.sp;
 double thumbRadius = 100.h <= 1100 ? 5.sp : 3.sp;
 double voicePadding = 100.h <= 1100 ? 6.w : 4.5.w;
 double playerWidth = 100.h <= 1100 ? 50.w : 55.w;
 
-
 class VoiceChatContLeft extends StatelessWidget {
   String memberVoiceUrl;
   String memberName;
-  VoiceChatContLeft({Key? key, required this.memberVoiceUrl, required this.memberName}) : super(key: key);
+  Timestamp messageTime;
+  VoiceChatContLeft(
+      {Key? key, required this.memberVoiceUrl, required this.memberName,required this.messageTime})
+      : super(key: key);
   var playIcon = const Icon(CupertinoIcons.play_arrow_solid);
   var pauseIcon = const Icon(CupertinoIcons.pause);
   var resumeIcon = const Icon(CupertinoIcons.play);
@@ -34,6 +37,8 @@ class VoiceChatContLeft extends StatelessWidget {
   final AudioPlayer _audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
+         DateFormat dFormat = DateFormat("HH:mm");
+
     double contHeight = 100.h <= 1100 ? 2 : 1;
     double topRight = (contHeight * 2 + 6.5) * 3;
     double bottomRight = (contHeight * 2 + 6.5) * 3;
@@ -154,8 +159,7 @@ class VoiceChatContLeft extends StatelessWidget {
                                     padding: EdgeInsets.fromLTRB(
                                         0.0, 0.0, 5.w, 0.3.h),
                                     child: Text(
-                                      "11:30",
-                                      style: 100.h <= 1100
+'11:30'                         ,             style: 100.h <= 1100
                                           ? StyleConstants.chatTimeTextStyleLeft
                                           : StyleConstants
                                               .chatTabletTimeTextStyleLeft,
@@ -284,7 +288,7 @@ class VoiceChatContLeft extends StatelessWidget {
                                     padding: EdgeInsets.fromLTRB(
                                         0.0, 0.0, 5.w, 0.3.h),
                                     child: Text(
-                                      "11:30",
+                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
                                       style: 100.h <= 1100
                                           ? StyleConstants.chatTimeTextStyleLeft
                                           : StyleConstants

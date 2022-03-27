@@ -198,7 +198,7 @@ class BasicGridWidget extends StatefulWidget {
 
   static void explorerUpdate(User user) async {
     // updateExploreData(exploreHistoryState,user.uid, user.uid);
-    await exploreHistoryItemsSave(exploreHistoryState);
+   /// await exploreHistoryItemsSave(exploreHistoryState);
   }
 
   static void gtGetterReset() {

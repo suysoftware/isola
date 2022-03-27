@@ -93,15 +93,15 @@ class AttachmentMessageBalloonLeft extends StatelessWidget {
                   child: memberMessageIsImage == true
                       ? ImageChatContLeft(
                           memberAttachmentUrl: memberAttachmentUrl,
-                          memberName: memberName,
+                          memberName: memberName, messageTime: memberMessageTime,
                         )
                       : memberMessageIsVideo == true
                           ? VideoChatContLeft(
                               memberAttachmentUrl: memberAttachmentUrl,
-                              memberName: memberName)
+                              memberName: memberName, messageTime: memberMessageTime,)
                           : DocumentChatContLeft(
                               memberAttachmentUrl: memberAttachmentUrl,
-                              memberName: memberName)),
+                              memberName: memberName, messageTime: memberMessageTime,)),
             ],
           ),
         ),

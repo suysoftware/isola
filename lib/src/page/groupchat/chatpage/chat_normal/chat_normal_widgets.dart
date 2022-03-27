@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/blocs/chaos_group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/chat_message_targets_cubit.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
@@ -13,6 +14,7 @@ import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/group/group_chat_message.dart';
+import 'package:isola_app/src/model/group/group_preview_data.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/page/groupchat/chatpage/chatpage.dart';
@@ -20,21 +22,25 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../model/hive_models/user_hive.dart';
+
 class ChatGroupCont extends StatelessWidget {
   const ChatGroupCont(
       {Key? key,
       required this.myUid,
-      required this.notiValue,
+
       // required this.ref,
       required this.chatGroupNo,
-      required this.userAll})
+      required this.userAll,
+      required this.groupMergeData})
       : super(key: key);
 
   final String myUid;
-  final int notiValue;
+
   //final Stream<QuerySnapshot> ref;
   final String chatGroupNo;
   final IsolaUserAll userAll;
+  final GroupMergeData groupMergeData;
 
   @override
   Widget build(BuildContext context) {
@@ -64,26 +70,36 @@ class ChatGroupCont extends StatelessWidget {
             var chatFriendUid1;
             var chatFriendUid2;
 
+            int notiValue = 0;
+
             for (var comingInfo in snapshots.data!.docs) {
+              if (groupMergeData.exploreData
+                      .contains(comingInfo["member_message_no"]) ==
+                  false) {
+                notiValue = notiValue + 1;
+              }
+
               if (comingInfo["member_uid"] != myUid &&
                   comingInfo["member_name"] != "System Message") {
                 if (comingInfo["member_uid"] == chatFriendUid1 &&
                     groupDatasFriend1.isNotEmpty) {
                   var groupFriend1 = GroupChatMessage(
-                      comingInfo["member_avatar_url"],
-                      comingInfo["member_message"],
-                      comingInfo["member_message_time"],
-                      comingInfo["member_name"],
-                      comingInfo["member_uid"],
-                      comingInfo["member_message_isvoice"],
-                      comingInfo["member_message_voice_url"],
-                      comingInfo["member_message_isattachment"],
-                      comingInfo["member_message_attachment_url"],
-                      comingInfo["member_message_isimage"],
-                      comingInfo["member_message_isvideo"],
-                      comingInfo["member_message_isdocument"],
-                      comingInfo["member_message_target_1_uid"],
-                      comingInfo["member_message_target_2_uid"]);
+                    comingInfo["member_avatar_url"],
+                    comingInfo["member_message"],
+                    comingInfo["member_message_time"],
+                    comingInfo["member_name"],
+                    comingInfo["member_uid"],
+                    comingInfo["member_message_isvoice"],
+                    comingInfo["member_message_voice_url"],
+                    comingInfo["member_message_isattachment"],
+                    comingInfo["member_message_attachment_url"],
+                    comingInfo["member_message_isimage"],
+                    comingInfo["member_message_isvideo"],
+                    comingInfo["member_message_isdocument"],
+                    comingInfo["member_message_target_1_uid"],
+                    comingInfo["member_message_target_2_uid"],
+                    comingInfo["member_message_no"],
+                  );
                   groupDatasFriend1.add(groupFriend1);
                 }
                 if (groupDatasFriend1.isEmpty) {
@@ -91,20 +107,22 @@ class ChatGroupCont extends StatelessWidget {
                   chatFriendName1 = comingInfo["member_name"];
                   chatFriendAvatarUrl1 = comingInfo["member_avatar_url"];
                   var groupFriend1 = GroupChatMessage(
-                      comingInfo["member_avatar_url"],
-                      comingInfo["member_message"],
-                      comingInfo["member_message_time"],
-                      comingInfo["member_name"],
-                      comingInfo["member_uid"],
-                      comingInfo["member_message_isvoice"],
-                      comingInfo["member_message_voice_url"],
-                      comingInfo["member_message_isattachment"],
-                      comingInfo["member_message_attachment_url"],
-                      comingInfo["member_message_isimage"],
-                      comingInfo["member_message_isvideo"],
-                      comingInfo["member_message_isdocument"],
-                      comingInfo["member_message_target_1_uid"],
-                      comingInfo["member_message_target_2_uid"]);
+                    comingInfo["member_avatar_url"],
+                    comingInfo["member_message"],
+                    comingInfo["member_message_time"],
+                    comingInfo["member_name"],
+                    comingInfo["member_uid"],
+                    comingInfo["member_message_isvoice"],
+                    comingInfo["member_message_voice_url"],
+                    comingInfo["member_message_isattachment"],
+                    comingInfo["member_message_attachment_url"],
+                    comingInfo["member_message_isimage"],
+                    comingInfo["member_message_isvideo"],
+                    comingInfo["member_message_isdocument"],
+                    comingInfo["member_message_target_1_uid"],
+                    comingInfo["member_message_target_2_uid"],
+                    comingInfo["member_message_no"],
+                  );
                   groupDatasFriend1.add(groupFriend1);
                 }
 
@@ -113,20 +131,22 @@ class ChatGroupCont extends StatelessWidget {
                   chatFriendAvatarUrl2 = comingInfo["member_avatar_url"];
                   chatFriendName2 = comingInfo["member_name"];
                   var groupFriend2 = GroupChatMessage(
-                      comingInfo["member_avatar_url"],
-                      comingInfo["member_message"],
-                      comingInfo["member_message_time"],
-                      comingInfo["member_name"],
-                      comingInfo["member_uid"],
-                      comingInfo["member_message_isvoice"],
-                      comingInfo["member_message_voice_url"],
-                      comingInfo["member_message_isattachment"],
-                      comingInfo["member_message_attachment_url"],
-                      comingInfo["member_message_isimage"],
-                      comingInfo["member_message_isvideo"],
-                      comingInfo["member_message_isdocument"],
-                      comingInfo["member_message_target_1_uid"],
-                      comingInfo["member_message_target_2_uid"]);
+                    comingInfo["member_avatar_url"],
+                    comingInfo["member_message"],
+                    comingInfo["member_message_time"],
+                    comingInfo["member_name"],
+                    comingInfo["member_uid"],
+                    comingInfo["member_message_isvoice"],
+                    comingInfo["member_message_voice_url"],
+                    comingInfo["member_message_isattachment"],
+                    comingInfo["member_message_attachment_url"],
+                    comingInfo["member_message_isimage"],
+                    comingInfo["member_message_isvideo"],
+                    comingInfo["member_message_isdocument"],
+                    comingInfo["member_message_target_1_uid"],
+                    comingInfo["member_message_target_2_uid"],
+                    comingInfo["member_message_no"],
+                  );
                   groupDatasFriend2.add(groupFriend2);
                 }
               }

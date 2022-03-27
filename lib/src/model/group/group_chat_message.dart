@@ -18,6 +18,7 @@ class GroupChatMessage {
   late bool member_message_isDocument;
   late String message_target_1_uid;
   late String message_target_2_uid;
+  late String member_message_no;
 
   GroupChatMessage(
       this.member_avatar_url,
@@ -33,7 +34,8 @@ class GroupChatMessage {
       this.member_message_isVideo,
       this.member_message_isDocument,
       this.message_target_1_uid,
-      this.message_target_2_uid);
+      this.message_target_2_uid,
+      this.member_message_no);
 
   GroupChatMessage.fromJson(Map<String, dynamic> json)
       : this(
@@ -51,6 +53,7 @@ class GroupChatMessage {
           json["member_message_isdocument"] as bool,
           json["member_message_target_1_uid"] as String,
           json["member_message_target_2_uid"] as String,
+            json["member_message_no"] as String,
         );
 
   Map<String, dynamic> toJson() {
@@ -69,6 +72,7 @@ class GroupChatMessage {
       "member_message_isdocument": member_message_isDocument,
       "member_message_target_1_uid": message_target_1_uid,
       "member_message_target_2_uid": message_target_2_uid,
+      "member_message_no":member_message_no
     };
   }
 /*

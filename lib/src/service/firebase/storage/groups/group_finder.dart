@@ -7,7 +7,7 @@ import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_display.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:uuid/uuid.dart';
-
+/*
 Future<List<dynamic>> findGroup(IsolaUserAll userAll) async {
   var userNewGroupListReturn = <dynamic>[];
 
@@ -255,7 +255,7 @@ Future<List<dynamic>> findGroup(IsolaUserAll userAll) async {
   print(userNewGroupListReturn);
   return userNewGroupListReturn;
 }
-
+*/
 Future<void> joinToMatchingPool(
     String userUid, bool userSexType, bool userIsNonBinary, bool userIsValid) {
   CollectionReference matchingPool =

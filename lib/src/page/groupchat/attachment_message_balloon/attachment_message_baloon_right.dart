@@ -49,15 +49,15 @@ class AttachmentMessageBalloonRight extends StatelessWidget {
                 child: memberMessageIsImage == true
                       ? ImageChatContRight(
                           memberAttachmentUrl: memberAttachmentUrl,
-                          memberName: memberName,
+                          memberName: memberName, messageTime: memberMessageTime,
                         )
                       : memberMessageIsVideo == true
                           ? VideoChatContRight(
                               memberAttachmentUrl: memberAttachmentUrl,
-                              memberName: memberName)
+                              memberName: memberName, messageTime: memberMessageTime,)
                           : DocumentChatContRight(
                               memberAttachmentUrl: memberAttachmentUrl,
-                              memberName: memberName)
+                              memberName: memberName, messageTime: memberMessageTime,)
               ),
             ],
           ),
