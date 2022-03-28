@@ -15,7 +15,7 @@ import 'package:like_button/like_button.dart';
 import 'package:sizer/sizer.dart';
 
 import '../model/hive_models/user_hive.dart';
-
+/*
 class SearchPageItemDetails extends StatelessWidget {
   final List<dynamic> imageItemList;
   int index;
@@ -529,3 +529,4 @@ class SearchPageItemDetails extends StatelessWidget {
 
 
 }
+*/

@@ -137,7 +137,7 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
                                 data.docs[indeks]['feed_text'],
                                 data.docs[indeks]['like_list'],
                                 data.docs[indeks]['like_value'],
-                                data.docs[indeks]['user_avatar_url'],
+                                widget.userAll.isolaUserDisplay.avatarUrl,
                                 data.docs[indeks]['user_name'],
                                 data.docs[indeks]['user_uid']),
                             userUid: widget.userAll.isolaUserMeta.userUid,

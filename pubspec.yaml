@@ -72,6 +72,7 @@ dependencies:
   flutter_local_notifications: ^9.4.0
   like_button: ^2.0.4
   swipable_stack: ^1.2.0
+  in_app_review: ^2.0.4
   
 
 

@@ -167,7 +167,7 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
             child: BasicGridWidget(
               key: widget.key,
               userUid: widget.userAll.isolaUserMeta.userUid,
-              userMeta: widget.userAll.isolaUserMeta,
+              userAll: widget.userAll,
             ),
           )),
     );
@@ -178,11 +178,11 @@ int downloadedItem = 0;
 
 class BasicGridWidget extends StatefulWidget {
   const BasicGridWidget(
-      {Key? key, required this.userUid, required this.userMeta})
+      {Key? key, required this.userUid, required this.userAll})
       : super(key: key);
 
   final String userUid;
-  final IsolaUserMeta userMeta;
+  final IsolaUserAll userAll;
 
   static void gtMixer() {
     feedValue.shuffle();
@@ -303,7 +303,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['feed_image'],
                     doc['like_list'],
                     doc['like_value'],
-                    doc['user_avatar_url'],
+                    widget.userAll.isolaUserDisplay.avatarUrl,
                     doc['user_name'],
                     doc['user_uid'],
                     doc['user_loc'],
@@ -366,7 +366,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                             onTap: () {
                               print('ilk $index');
                               _openDetail(context, index, itemDatas,
-                                  widget.userUid, widget.userMeta, index);
+                                  widget.userUid, widget.userAll.isolaUserMeta, index);
                             },
                             child: ImageTile(
                               index: index,

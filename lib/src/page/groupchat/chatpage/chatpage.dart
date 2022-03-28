@@ -34,9 +34,6 @@ class _ChatPageState extends State<ChatPage> {
   late bool needSearchingContainer;
   late var groupMergeData;
 
-
-
-
   @override
   void initState() {
     super.initState();
@@ -74,8 +71,6 @@ class _ChatPageState extends State<ChatPage> {
             .groupPreviewData.userAll.isolaUserMeta.joinedGroupList.length);
 
     initTraw.add("asset/img/settings_button.png");*/
-
-    
   }
 
   @override
@@ -151,11 +146,12 @@ class _ChatPageState extends State<ChatPage> {
                         .doc(groupData.groupNo)
                         .collection('chat_data');*/
                           var groupCont = ChatGroupCont(
-                              myUid: widget.groupMergeDataComing.userAll
-                                  .isolaUserMeta.userUid,
-                      
-                              chatGroupNo: groupData.groupNo,
-                              userAll: widget.groupMergeDataComing.userAll, groupMergeData: widget.groupMergeDataComing,);
+                            myUid: widget.groupMergeDataComing.userAll
+                                .isolaUserMeta.userUid,
+                            chatGroupNo: groupData.groupNo,
+                            userAll: widget.groupMergeDataComing.userAll,
+                            groupMergeData: widget.groupMergeDataComing,
+                          );
 
                           groupsItem.add(groupCont);
                         }

@@ -178,7 +178,7 @@ class BasicGridWidget extends StatefulWidget {
 
   static void explorerUpdate(User user) async {
     // updateExploreData(exploreHistoryState,user.uid, user.uid);
-  ///  await exploreHistoryItemsSave(exploreHistoryState);
+    ///  await exploreHistoryItemsSave(exploreHistoryState);
   }
 
   static void explorerGetter(User user) async {
@@ -258,15 +258,12 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
           ))
         : StaggeredGrid.count(
             crossAxisCount: 3,
-
             mainAxisSpacing: 2.h,
-            
             children: [
               ...BasicGridWidget.feedValue.mapIndexed((index, tile) {
                 return StaggeredGridTile.count(
                   crossAxisCellCount: tile.crossAxisCount,
                   mainAxisCellCount: tile.mainAxisCount,
-                
                   child: BoneOfPost(
                     index: index,
                     width: tile.crossAxisCount * 100,
@@ -588,6 +585,12 @@ class BoneOfPost extends StatelessWidget {
                                   );*/
                           },
                           likeCount: imageItemList[index].likeValue,
+                             countDecoration: (Widget count, int? tokenCount) {
+                            return Text(
+                              tokenCount.toString(),
+                              style:100.h>900? StyleConstants.searchFeedLikeAndTokenTabletTextStyle:StyleConstants.searchFeedLikeAndTokenTextStyle
+                            );
+                          },
                           likeCountAnimationType: LikeCountAnimationType.part,
                           mainAxisAlignment: MainAxisAlignment.center,
                           onTap: onLikeButtonTapped,
@@ -621,6 +624,12 @@ class BoneOfPost extends StatelessWidget {
                           isLiked: imageItemList[index]
                               .feedTokenList
                               .contains(userUid),
+                          countDecoration: (Widget count, int? likeCount) {
+                            return Text(
+                              likeCount.toString(),
+                              style:100.h>900? StyleConstants.searchFeedLikeAndTokenTabletTextStyle:StyleConstants.searchFeedLikeAndTokenTextStyle
+                            );
+                          },
                           likeBuilder: (bool isGave) {
                             return isGave == true
                                 ? Image.asset(
@@ -767,14 +776,14 @@ class BoneOfPost extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 0.3.h),
                         child: Text(
                           "${imageItemList[index].userName}",
-                          style: StyleConstants.searchFeedNameTextStyle,
+                          style:100.h>900? StyleConstants.searchFeedNameTabletTextStyle:StyleConstants.searchFeedNameTextStyle,
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 1.5.h),
                         child: Text(
                           "${imageItemList[index].userUniversity}",
-                          style: StyleConstants.searchFeedUniversityTextStyle,
+                          style:100.h>900? StyleConstants.searchFeedUniversityTabletTextStyle: StyleConstants.searchFeedUniversityTextStyle,
                         ),
                       ),
                     ],

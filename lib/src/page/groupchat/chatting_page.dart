@@ -1249,7 +1249,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                   memberIsImage: data.docs[indeksNumarasi].data().member_message_isImage,
                                                   memberIsVideo: data.docs[indeksNumarasi].data().member_message_isVideo,
                                                   memberIsDocument: data.docs[indeksNumarasi].data().member_message_isDocument,
-                                                  memberAttachmentUrl: data.docs[indeksNumarasi].data().member_message_attachment_url))),
+                                                  memberAttachmentUrl: data.docs[indeksNumarasi].data().member_message_attachment_url, userMeAvatarUrl: userAll.isolaUserDisplay.avatarUrl,))),
                                 );
                         }),
                   ),
@@ -1303,7 +1303,8 @@ class AllMessageBalloon extends StatelessWidget {
       required this.memberIsImage,
       required this.memberIsVideo,
       required this.memberIsDocument,
-      required this.memberAttachmentUrl})
+      required this.memberAttachmentUrl,
+      required this.userMeAvatarUrl})
       : super(key: key);
 
   final bool isMe;
@@ -1319,6 +1320,7 @@ class AllMessageBalloon extends StatelessWidget {
   final bool memberIsVideo;
   final bool memberIsDocument;
   final String memberAttachmentUrl;
+  final String userMeAvatarUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -1360,8 +1362,9 @@ class AllMessageBalloon extends StatelessWidget {
                       memberUid: memberUid,
                     ))
           : (memberMessageIsVoice == true
+          //
               ? VoiceMessageBalloonRight(
-                  memberAvatarUrl: memberAvatarUrl,
+                  memberAvatarUrl: userMeAvatarUrl,
                   memberMessageTime: memberMessageTime,
                   memberName: memberName,
                   memberUid: memberUid,
@@ -1370,7 +1373,7 @@ class AllMessageBalloon extends StatelessWidget {
               : memberIsAttachment == true
                   ? AttachmentMessageBalloonRight(
                       memberAttachmentUrl: memberAttachmentUrl,
-                      memberAvatarUrl: memberAvatarUrl,
+                      memberAvatarUrl: userMeAvatarUrl,
                       memberMessageTime: memberMessageTime,
                       memberName: memberName,
                       memberUid: memberUid,
@@ -1380,7 +1383,7 @@ class AllMessageBalloon extends StatelessWidget {
                   : TextMessageBalloonRight(
                       memberMessage: memberMessage,
                       memberMessageTime: memberMessageTime,
-                      memberAvatarUrl: memberAvatarUrl,
+                      memberAvatarUrl: userMeAvatarUrl,
                       memberName: memberName,
                       memberUid: memberUid,
                     ));

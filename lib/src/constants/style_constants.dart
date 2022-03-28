@@ -193,22 +193,74 @@ class StyleConstants {
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
     fontSize: 16.sp,
+   shadows: [
+                                Shadow(
+                                  offset: Offset(1.sp, 1.sp),
+                                  color: ColorConstant.softGrey,
+                                  blurRadius: 5.sp
+                                )
+                              ]
   );
   static TextStyle searchFeedNameTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
     fontSize: 12.sp,
+     shadows: [
+                                Shadow(
+                                  offset: Offset(1.sp, 1.sp),
+                                  color: ColorConstant.softGrey,
+                                  blurRadius: 5.sp
+                                )
+                              ]
+  );
+  static TextStyle searchFeedLikeAndTokenTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.milkColor,
+    fontSize: 16.sp,
+   shadows: [
+                                Shadow(
+                                  offset: Offset(1.sp, 1.sp),
+                                  color: ColorConstant.softGrey,
+                                  blurRadius: 5.sp
+                                )
+                              ]
+  );
+  static TextStyle searchFeedLikeAndTokenTabletTextStyle = TextStyle(
+    fontFamily: "Roboto",
+    color: ColorConstant.milkColor,
+    fontSize: 12.sp,
+     shadows: [
+                                Shadow(
+                                  offset: Offset(1.sp, 1.sp),
+                                  color: ColorConstant.softGrey,
+                                  blurRadius: 5.sp
+                                )
+                              ]
   );
 
   static TextStyle searchFeedUniversityTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
     fontSize: 10.sp,
+       shadows: [
+                                Shadow(
+                                  offset: Offset(1.sp, 1.sp),
+                                  color: ColorConstant.softGrey,
+                                  blurRadius: 5.sp
+                                )
+                              ]
   );
   static TextStyle searchFeedUniversityTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.milkColor,
     fontSize: 7.sp,
+       shadows: [
+                                Shadow(
+                                  offset: Offset(1.sp, 1.sp),
+                                  color: ColorConstant.softGrey,
+                                  blurRadius: 5.sp
+                                )
+                              ]
   );
   static TextStyle hobbiesTextStyle = TextStyle(
     fontFamily: "Roboto",

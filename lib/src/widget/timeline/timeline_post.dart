@@ -417,13 +417,20 @@ class _TimelineItemState extends State<TimelineItem>
                                                               widget.feedMeta
                                                                   .feedNo,
                                                               widget.userUid);
-                                                          context
+                                                              if(context
+                                                              .read<
+                                                                  TimelineItemListCubit>().state.contains(widget.feedMeta.feedNo)){
+
+context
                                                               .read<
                                                                   TimelineItemListCubit>()
                                                               .timelineFeedRemover(
                                                                   widget
                                                                       .feedMeta
                                                                       .feedNo);
+
+                                                                  }
+                                                          
                                                           Navigator.pop(
                                                               context);
 

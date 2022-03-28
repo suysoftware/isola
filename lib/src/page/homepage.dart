@@ -17,6 +17,7 @@ import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/popular_timeline.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
+import 'package:isola_app/src/page/token_gain_page.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_finder.dart';
 import 'package:isola_app/src/utils/router.dart';
@@ -335,6 +336,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           print(widget.userAll.isolaUserDisplay.avatarUrl);
                           print(widget.userAll.isolaUserDisplay.userName);
 
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => TokenGainPage()));
                           /*
                       Navigator.push(
                           context,
@@ -786,10 +791,9 @@ class HomePageCard extends StatelessWidget {
           showCupertinoDialog(
               context: context,
               builder: (context) => CupertinoPageScaffold(
-                    navigationBar:
-                        CupertinoNavigationBar(automaticallyImplyLeading: true),
-                    child: SizedBox()
-                  ));
+                  navigationBar:
+                      CupertinoNavigationBar(automaticallyImplyLeading: true),
+                  child: SizedBox()));
         }
       },
       child: ContWithBorder(
