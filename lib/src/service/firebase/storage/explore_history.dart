@@ -3,7 +3,7 @@ import 'package:isola_app/src/model/hive_models/user_hive.dart';
 
 exploreHistoryItemsSave(
     List<String> targetFeedNoList, String whichGroup) async {
-  print(targetFeedNoList);
+  //print(targetFeedNoList);
   var box = await Hive.openBox('userHive');
 
   UserHive userHive = box.get('datetoday');
@@ -12,7 +12,7 @@ exploreHistoryItemsSave(
       userHive.exloreData.add(item);
     }
   }
-  print(userHive.exloreData.length);
+  //print(userHive.exloreData.length);
   //userHive.exloreData.addAll(targetFeedNoList);
   // = targetFeedNoList;
   // userHive.exloreData = targetFeedNoList;
@@ -29,7 +29,7 @@ exploreHistoryGetter(String whichGroup) async {
   var box = await Hive.openBox('userHive');
   UserHive userHive = box.get('datetoday');
 
-  print(userHive.exloreData);
+  //print(userHive.exloreData);
 }
 
 exploreHistoryItemDelete(String feedNo) async {

@@ -72,14 +72,17 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(70.sp),
-                        child: CachedNetworkImage(
+                        child:Image.network(groupSettingModel.groupMemberAvatarUrl2),
+                        
+                        /* CachedNetworkImage(
+
                           imageUrl: groupSettingModel.groupMemberAvatarUrl2,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
                               Icon(CupertinoIcons.xmark_square),
-                        )),
+                        )*/),
                   ))),
               Positioned(
                   top: 5.h,
@@ -90,14 +93,14 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                               backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(70.sp),
-                        child: CachedNetworkImage(
+                        child: Image.network(groupSettingModel.groupMemberAvatarUrl3),/*CachedNetworkImage(
                           imageUrl: groupSettingModel.groupMemberAvatarUrl3,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
                               Icon(CupertinoIcons.xmark_square),
-                        )),
+                        )*/),
                   ))),
               Positioned(
                   top: 100.h <= 700 ? 28.h : 25.h,
@@ -135,12 +138,14 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(18.sp),
-                                    child: CachedNetworkImage(
+                                    child:Image.network(groupSettingModel
+                                          .groupMemberAvatarUrl1,)
+                                /*     CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl1,
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
-                                    ),
+                                    ),*/
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
@@ -184,7 +189,9 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.sp),
-                                    child: CachedNetworkImage(
+                                    child: Image.network(groupSettingModel
+                                          .groupMemberAvatarUrl2,)
+                                    /*CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl2,
                                       fit: BoxFit.cover,
@@ -192,7 +199,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                       width: 50.sp,
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
-                                    ),
+                                    ),*/
                                   ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),

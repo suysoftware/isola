@@ -210,16 +210,16 @@ class ChatGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChatGroupCard(
-                      chatPicFirst: CachedNetworkImage(
+                      chatPicFirst:Image.network(chatFriendAvatarUrl1) , /*CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl1,
                         fit: BoxFit.cover,
                         errorWidget: (context, url, error) =>
                             Icon(CupertinoIcons.xmark_square),
-                      ),
-                      chatPicSecond: CachedNetworkImage(
+                      ),*/
+                      chatPicSecond:Image.network(chatFriendAvatarUrl2) /* CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl2,
                         fit: BoxFit.cover,
-                      ),
+                      ),*/,
                       chatBoxText: chatLastMessage,
                       notiValue: notiValue,
                       chatBoxName:

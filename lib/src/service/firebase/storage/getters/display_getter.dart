@@ -1264,7 +1264,7 @@ Future<List<dynamic>> getTimelineDatas(
 }
 */
 Future<bool> groupChaosSearchingInfoGetter(String groupNo) async {
-  var refGroupChaos = refGetter(
+/*  var refGroupChaos = refGetter(
       enum2: RefEnum.Groupschaos, targetUid: "", userUid: "", crypto: groupNo);
 
   var groupSearchingQuery = refGroupChaos.child("chaos_is_searching");
@@ -1273,6 +1273,18 @@ Future<bool> groupChaosSearchingInfoGetter(String groupNo) async {
   DataSnapshot snapMember1 = await groupSearchingQuery.get();
   print(snapMember1.value as bool);
   return snapMember1.value as bool;
+  */
+
+  var searchInfo;
+
+  DocumentReference groupSearchInfo =
+      FirebaseFirestore.instance.collection('groups').doc(groupNo);
+
+  await groupSearchInfo
+      .get()
+      .then((docValue) => searchInfo = docValue['gChaosSearching']);
+
+  return searchInfo;
 }
 
 Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
@@ -1285,11 +1297,6 @@ Future<IsolaUserAll> getUserAllFromDataBase(String userUid) async {
 
     DocumentReference users_meta =
         FirebaseFirestore.instance.collection('users_meta').doc(userUid);
-
-
-         
-
-  
 
     await users_display.get().then((docValue) => userDisplay = IsolaUserDisplay(
         docValue['uName'],
@@ -1332,10 +1339,11 @@ Future<GroupMergeData> mergeForChatPage(String userUid) async {
   await getUserAllFromDataBase(userUid).then((value) => userAll = value);
 
   await getGroupDataFromDatabase(userAll).then((value) => groupDatas = value);
- var box = await Hive.openBox('userHive');
+  var box = await Hive.openBox('userHive');
 
-    UserHive userHive = box.get('datetoday');
-  var groupMergeDatas = GroupMergeData(userAll, groupDatas,userHive.exloreData);
+  UserHive userHive = box.get('datetoday');
+  var groupMergeDatas =
+      GroupMergeData(userAll, groupDatas, userHive.exloreData);
 
   return groupMergeDatas;
 }
@@ -1363,7 +1371,8 @@ Future<List<dynamic>> getGroupDataFromDatabase(IsolaUserAll userAll) async {
             docValue['gList'],
             docValue['gNo'],
             docValue['gChaos'],
-            docValue['gChaosNo']));
+            docValue['gChaosNo'],
+            docValue['gChaosSearching']));
 
         groupsModelList.add(groupData);
       } catch (e) {
@@ -1486,11 +1495,10 @@ Future<PopularTimeline> getPopularItems() async {
   await refPopular.get().then((value) {
     for (var item in value.docs) {
       var popularItem = PopularItem(item['pAvatarUrl'], item['pDate'],
-          item['pLink'], item['pName'], item['pText'],item['pLikeValue']);
+          item['pLink'], item['pName'], item['pText'], item['pLikeValue']);
       itemList.add(popularItem);
     }
   });
 
- 
   return PopularTimeline(itemList[0], itemList[1]);
 }

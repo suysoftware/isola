@@ -10,6 +10,7 @@ class GroupsModel {
   late String groupNo;
   late bool groupChaosIsActive;
   late String groupChaosNo;
+  late bool groupChaosSearching;
 
   GroupsModel(
       this.groupIsActive,
@@ -21,7 +22,8 @@ class GroupsModel {
       this.groupToken,
       this.groupMemberList,
       this.groupNo,
-      this.groupChaosIsActive,this.groupChaosNo);
+      this.groupChaosIsActive,
+      this.groupChaosNo,this.groupChaosSearching);
 
   factory GroupsModel.fromJson(Map<dynamic, dynamic> json) {
     return GroupsModel(
@@ -35,6 +37,8 @@ class GroupsModel {
         json["gList"] as List<dynamic>,
         json["gNo"] as String,
         json["gChaos"] as bool,
-        json["gChaosNo"] as String);
+        json["gChaosNo"] as String,
+        json["gChaosSearching"]as bool,
+        );
   }
 }

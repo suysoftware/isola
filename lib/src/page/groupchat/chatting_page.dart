@@ -37,6 +37,7 @@ import 'package:isola_app/src/service/firebase/storage/chaos/chaos_group_finder.
 import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_attachment_message.dart';
+import 'package:isola_app/src/service/firebase/storage/groups/group_chaos_apply.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_voice_message.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:path_provider/path_provider.dart';
@@ -579,10 +580,22 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
     groupSettingModelForTrawling = context.read<GroupSettingCubit>().state;
 
-   // print(groupSettingModelForTrawling.groupNo);
+    // print(groupSettingModelForTrawling.groupNo);
 
     target1 = context.read<GroupSettingCubit>().state.groupMemberUid2;
     target2 = context.read<GroupSettingCubit>().state.groupMemberUid3;
+
+    groupChaosSearchingInfoGetter(
+            context.read<GroupSettingCubit>().state.groupNo)
+        .then((value) => isChaosSearching = value)
+        .whenComplete(() {
+      if (isChaosSearching == true &&
+          _animationControllerChaosSearching.isAnimating == false) {
+        _animationControllerChaosSearching.repeat();
+
+        // listenToChaosActive();
+      }
+    });
 
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 1700), vsync: this);
@@ -818,7 +831,57 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                         //groupNo print(context.read<GroupSettingCubit>().state.groupNo.toString());
 
                         //groupNo gerekli
-                        onTap: () async {},
+                        onTap: () async {
+                          if (isChaosSearching == true) {
+                            print('hala search ediyor');
+
+                            DocumentReference pool2Ref = FirebaseFirestore
+                                .instance
+                                .collection('chaos_apply_pool_2')
+                                .doc(groupSettingModelForTrawling.groupNo);
+
+                            var pool2Doc;
+
+                            await pool2Ref.get().then(
+                                (value) => pool2Doc = value['groupMemberList']);
+                            print(pool2Doc);
+
+                            var listDoc = pool2Doc as List<dynamic>;
+
+                            if (listDoc
+                                .contains(userAll.isolaUserMeta.userUid)) {
+                              print('içeriyor');
+                            } else {
+                              print('atiş serbset');
+                             await groupChaosApply(userAll.isolaUserMeta.userUid,
+                                  groupSettingModelForTrawling.groupNo);
+                            }
+                          } else {
+                            if (_animationControllerChaosStreaming
+                                .isAnimating) {
+                              print('islem yapamazsın');
+                            } else {
+                              if (userAll.isolaUserMeta.userToken == 0) {
+                                //uyarı göster token yetersiz
+                              } else {
+                                if (_animationControllerChaos.isAnimating) {
+                                  _animationControllerChaos.stop();
+                                  _animationControllerChaos.reset();
+                                } else {
+                                  await _animationControllerChaos.forward();
+                                }
+
+                                if (_animationControllerChaos.isCompleted) {
+                                  groupChaosApply(userAll.isolaUserMeta.userUid,
+                                          groupSettingModelForTrawling.groupNo)
+                                      .whenComplete(() {
+                                    _animationControllerChaosStreaming.repeat();
+                                  });
+                                }
+                              }
+                            }
+                          }
+                        },
                         child: Transform.rotate(
                           angle: isChaosSearching == false
                               ? (_animationControllerChaos.isCompleted
@@ -838,16 +901,18 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             radius: 13.sp,
                             backgroundColor: ColorConstant.milkColor,
                             child: ClipRRect(
-                              borderRadius: 100.h <= 1100
-                                  ? BorderRadius.circular(20.sp)
-                                  : BorderRadius.circular(30.sp),
-                              child: CachedNetworkImage(
+                                borderRadius: 100.h <= 1100
+                                    ? BorderRadius.circular(20.sp)
+                                    : BorderRadius.circular(30.sp),
+                                child: Image.network(groupSettingModelForTrawling
+                                    .groupMemberAvatarUrl2) /* CachedNetworkImage(
                                 imageUrl: groupSettingModelForTrawling
                                     .groupMemberAvatarUrl2,
                                 errorWidget: (context, url, error) =>
                                     Icon(CupertinoIcons.xmark_square),
-                              ),
-                            ),
+                              ),*/
+
+                                ),
                           ),
                         )),
                   ),
@@ -862,17 +927,18 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             radius: 13.sp,
                             backgroundColor: CupertinoColors.black,
                             child: ClipRRect(
-                              borderRadius: 100.h <= 1100
-                                  ? BorderRadius.circular(20.sp)
-                                  : BorderRadius.circular(30.sp),
-                              child: CachedNetworkImage(
+                                borderRadius: 100.h <= 1100
+                                    ? BorderRadius.circular(20.sp)
+                                    : BorderRadius.circular(30.sp),
+                                child: Image.network(groupSettingModelForTrawling
+                                    .groupMemberAvatarUrl3) /*CachedNetworkImage(
                                 imageUrl: groupSettingModelForTrawling
                                     .groupMemberAvatarUrl3,
                                 fit: BoxFit.fitWidth,
                                 errorWidget: (context, url, error) =>
                                     Icon(CupertinoIcons.xmark_square),
-                              ),
-                            ),
+                              ),*/
+                                ),
                           ),
                         )),
                   ),
@@ -1220,36 +1286,64 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                               // child: chatMessageDatas[
                                               //   indeksNumarasi],
                                               child: AllMessageBalloon(
-                                                  isMe: data.docs[indeksNumarasi].data().member_uid == userAll.isolaUserMeta.userUid
-                                                      ? true
-                                                      : false,
-                                                  memberMessage: data.docs[indeksNumarasi]
-                                                      .data()
-                                                      .member_message,
-                                                  memberAvatarUrl: data
-                                                      .docs[indeksNumarasi]
-                                                      .data()
-                                                      .member_avatar_url,
-                                                  memberMessageTime: data
-                                                      .docs[indeksNumarasi]
-                                                      .data()
-                                                      .member_message_time,
-                                                  memberName: data.docs[indeksNumarasi]
-                                                      .data()
-                                                      .member_name,
-                                                  memberUid: data.docs[indeksNumarasi]
-                                                      .data()
-                                                      .member_uid,
-                                                  memberMessageIsVoice: data
-                                                      .docs[indeksNumarasi]
-                                                      .data()
-                                                      .member_message_isVoice,
-                                                  memberMessageVoiceUrl: data.docs[indeksNumarasi].data().member_message_voice_url,
-                                                  memberIsAttachment: data.docs[indeksNumarasi].data().member_message_isAttachment,
-                                                  memberIsImage: data.docs[indeksNumarasi].data().member_message_isImage,
-                                                  memberIsVideo: data.docs[indeksNumarasi].data().member_message_isVideo,
-                                                  memberIsDocument: data.docs[indeksNumarasi].data().member_message_isDocument,
-                                                  memberAttachmentUrl: data.docs[indeksNumarasi].data().member_message_attachment_url, userMeAvatarUrl: userAll.isolaUserDisplay.avatarUrl,))),
+                                                isMe: data.docs[indeksNumarasi]
+                                                            .data()
+                                                            .member_uid ==
+                                                        userAll.isolaUserMeta
+                                                            .userUid
+                                                    ? true
+                                                    : false,
+                                                memberMessage: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message,
+                                                memberAvatarUrl: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_avatar_url,
+                                                memberMessageTime: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_time,
+                                                memberName: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_name,
+                                                memberUid: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_uid,
+                                                memberMessageIsVoice: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_isVoice,
+                                                memberMessageVoiceUrl: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_voice_url,
+                                                memberIsAttachment: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_isAttachment,
+                                                memberIsImage: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_isImage,
+                                                memberIsVideo: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_isVideo,
+                                                memberIsDocument: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_isDocument,
+                                                memberAttachmentUrl: data
+                                                    .docs[indeksNumarasi]
+                                                    .data()
+                                                    .member_message_attachment_url,
+                                                userMeAvatarUrl: userAll
+                                                    .isolaUserDisplay.avatarUrl,
+                                              ))),
                                 );
                         }),
                   ),
@@ -1362,7 +1456,7 @@ class AllMessageBalloon extends StatelessWidget {
                       memberUid: memberUid,
                     ))
           : (memberMessageIsVoice == true
-          //
+              //
               ? VoiceMessageBalloonRight(
                   memberAvatarUrl: userMeAvatarUrl,
                   memberMessageTime: memberMessageTime,
