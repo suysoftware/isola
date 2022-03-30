@@ -311,6 +311,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    print(100.h);
+    print(100.w);
     if (widget.userAll.isolaUserMeta.userIsSearching) {
       animationController4.repeat(period: const Duration(milliseconds: 1800));
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
@@ -711,7 +713,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     //  SizedBox(height: 1.h),
 
                     HomePageCard(
-                      contHeightSize: 100.h <= 820 ? 10 : 11,
+                      contHeightSize:
+                          100.h < 680 ? 13 : (100.h <= 820 ? 10 : 11),
                       contWidthSize: 90,
                       context: context,
                       targetName: popularItem.popularItem1.pName,
@@ -729,7 +732,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                     SizedBox(height: 1.h),
                     HomePageCard(
-                      contHeightSize: 100.h <= 820 ? 10 : 11,
+                      contHeightSize:
+                          100.h < 680 ? 13 : (100.h <= 820 ? 10 : 11),
                       contWidthSize: 90,
                       context: context,
                       targetName: popularItem.popularItem2.pName,
@@ -895,7 +899,7 @@ class CardInline extends StatelessWidget {
                       context: context,
                       targetText: targetText,
                       rowLetterValue: 100.h >= 1100 ? 60 : 45,
-                      letterTextStyle: letterTextStyle),
+                      letterTextStyle: letterTextStyle, heightValue: 1,),
                   PostAvatarRight(
                       avatarRadius: avatarRadius, avatarUrl: targetAvatar),
                 ],
@@ -916,15 +920,15 @@ class PostAvatarLeft extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 0.0, 4.0, 10.0),
       child: CircleAvatar(
-        radius: avatarRadius.h,
+        radius:100.h<=740?((avatarRadius+2).h) :avatarRadius.h,
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.sp),
-          child: CachedNetworkImage(
+          child:Image.network(avatarUrl)/* CachedNetworkImage(
             imageUrl: avatarUrl,
             errorWidget: (context, url, error) =>
                 Icon(CupertinoIcons.xmark_square),
-          ),
+          ),*/
         ),
       ),
     );
@@ -945,15 +949,15 @@ class PostAvatarRight extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(4.0, 0.0, 10.0, 2.0),
       child: CircleAvatar(
-        radius: avatarRadius.h,
+        radius:100.h<=740?((avatarRadius+2).h) :avatarRadius.h,
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
-            child: CachedNetworkImage(
+            child:Image.network(avatarUrl) /*CachedNetworkImage(
               imageUrl: avatarUrl,
               errorWidget: (context, url, error) =>
                   Icon(CupertinoIcons.xmark_square),
-            )),
+            )*/),
       ),
     );
   }
@@ -966,13 +970,14 @@ class HomeTextsRight extends StatelessWidget {
   String targetText;
   int rowLetterValue;
   TextStyle letterTextStyle;
+    double heightValue;
   HomeTextsRight(
       {Key? key,
       required this.targetName,
       required context,
       required this.targetText,
       required this.rowLetterValue,
-      required this.letterTextStyle})
+      required this.letterTextStyle,required this.heightValue})
       : super(key: key);
 
   @override
@@ -982,10 +987,10 @@ class HomeTextsRight extends StatelessWidget {
       children: [
         Padding(
           padding: 100.h <= 1100
-              ? (100.h >= 400
-                  ? EdgeInsets.fromLTRB(6.0, 8.0, 7.w, 0.0)
+              ? (100.h >= 800
+                  ? EdgeInsets.fromLTRB(6.0, 2.0, 7.w, 0.0)
                   : EdgeInsets.fromLTRB(6.0, 0.0, 7.w, 0.0))
-              : EdgeInsets.fromLTRB(3.w, 1.5.h, 10.w, 0.0),
+              : EdgeInsets.fromLTRB(3.w, 1.4.h, 10.w, 0.0),
           child: Text(
             targetName,
             style: 100.h >= 1100
@@ -994,7 +999,11 @@ class HomeTextsRight extends StatelessWidget {
           ),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(2.0, 4.0, 5.w, 2.0),
+
+               padding: 100.h >= 800
+              ? EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue + 0.7).h)
+              : EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue - 1).h),
+          //padding: EdgeInsets.fromLTRB(2.0, 4.0, 5.w, 2.0),
           child: textWidgetGetter(context,
               targetMessage: targetText,
               targetName: targetName,
@@ -1030,8 +1039,8 @@ class HomeTextsLeft extends StatelessWidget {
       children: [
         Padding(
           padding: 100.h <= 1100
-              ? (100.h >= 400
-                  ? EdgeInsets.fromLTRB(6.0, 8.0, 7.w, 0.0)
+              ? (100.h >= 800
+                  ? EdgeInsets.fromLTRB(6.0, 0.0, 7.w, 0.0)
                   : EdgeInsets.fromLTRB(6.0, 0.0, 7.w, 0.0))
               : EdgeInsets.fromLTRB(3.w, 1.5.h, 4.w, 0.0),
           child: Text(
@@ -1042,8 +1051,8 @@ class HomeTextsLeft extends StatelessWidget {
           ),
         ),
         Container(
-          padding: 100.h >= 400
-              ? EdgeInsets.fromLTRB(8.0, 2.0, 0.0, (heightValue + 1).h)
+          padding: 100.h >= 800
+              ? EdgeInsets.fromLTRB(8.0, 0.0, 0.0, (heightValue + 0.7).h)
               : EdgeInsets.fromLTRB(8.0, 0.0, 0.0, (heightValue - 1).h),
           child: textWidgetGetter(context,
               targetMessage: targetText,

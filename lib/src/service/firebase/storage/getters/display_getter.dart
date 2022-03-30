@@ -1335,17 +1335,55 @@ Future<GroupMergeData> mergeForChatPage(String userUid) async {
   var userAll;
   var groupDatas;
   //we search user
+  print('1111');
+  try {
+    print('girdi');
+    await getUserAllFromDataBase(userUid).then((value) => userAll = value);
+  } catch (e) {
+    print('$e PROBLEMİ VAR');
+  }
+  try {
+    print('girdi2');
+    await getGroupDataFromDatabase(userAll).then((value) => groupDatas = value);
+  } catch (e) {
+    print('$e PROBLEMİ VAR');
+  }
+  print('girdi3');
+  var isThereGroup = userAll as IsolaUserAll;
 
-  await getUserAllFromDataBase(userUid).then((value) => userAll = value);
+  print('grdi4');
+  if (isThereGroup.isolaUserMeta.joinedGroupList.first != "nothing") {
+    print('giiririiri');
+    var expList;
+    var box = await Hive.openBox('userHive');
+    if (box.isNotEmpty) {
+      UserHive userHive = box.get('datetoday');
 
-  await getGroupDataFromDatabase(userAll).then((value) => groupDatas = value);
-  var box = await Hive.openBox('userHive');
+      expList = userHive.exloreData;
+      print('ororoororor');
+    } else {
+      expList = ['s'];
 
-  UserHive userHive = box.get('datetoday');
-  var groupMergeDatas =
-      GroupMergeData(userAll, groupDatas, userHive.exloreData);
+      print('yok sana orrr');
+    }
 
-  return groupMergeDatas;
+    print('grdi5');
+    var groupMergeDatas = GroupMergeData(userAll, groupDatas, expList);
+    print('grdi6');
+    return groupMergeDatas;
+    /*
+    try {
+     
+    } catch (e) {
+      var groupMergeDatas = GroupMergeData(userAll, groupDatas, ['y']);
+      print('grdi6');
+      return groupMergeDatas;
+    }*/
+  } else {
+    var groupMergeDatas = GroupMergeData(userAll, groupDatas, ['df']);
+    print('grdi6');
+    return groupMergeDatas;
+  }
 }
 
 Future<List<dynamic>> getGroupDataFromDatabase(IsolaUserAll userAll) async {

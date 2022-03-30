@@ -210,16 +210,19 @@ class ChatGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChatGroupCard(
-                      chatPicFirst:Image.network(chatFriendAvatarUrl1) , /*CachedNetworkImage(
+                      chatPicFirst: Image.network(chatFriendAvatarUrl1),
+                      /*CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl1,
                         fit: BoxFit.cover,
                         errorWidget: (context, url, error) =>
                             Icon(CupertinoIcons.xmark_square),
                       ),*/
-                      chatPicSecond:Image.network(chatFriendAvatarUrl2) /* CachedNetworkImage(
+                      chatPicSecond: Image.network(
+                          chatFriendAvatarUrl2) /* CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl2,
                         fit: BoxFit.cover,
-                      ),*/,
+                      ),*/
+                      ,
                       chatBoxText: chatLastMessage,
                       notiValue: notiValue,
                       chatBoxName:
@@ -535,8 +538,13 @@ class ChatGroupCard extends StatelessWidget {
                 ),
                 notiValue == 19999
                     ? const SizedBox()
-                    : MessageNotificationMini(
-                        notiValue: notiValue, leftPadding: 17),
+                    : (notiValue == 0
+                        ? SizedBox()
+                        : notiValue > 99
+                            ? MessageNotificationMini(
+                                notiValue: 99, leftPadding: 17)
+                            : (MessageNotificationMini(
+                                notiValue: notiValue, leftPadding: 17))),
                 Padding(
                   padding: EdgeInsets.fromLTRB(24.w, 1.3.h, 2, 0.h),
                   child: ChatTextsLeft(

@@ -71,10 +71,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                       circleImage: CircleAvatar(
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(70.sp),
-                        child:Image.network(groupSettingModel.groupMemberAvatarUrl2),
-                        
-                        /* CachedNetworkImage(
+                      borderRadius: BorderRadius.circular(70.sp),
+                      child: Image.network(
+                          groupSettingModel.groupMemberAvatarUrl2),
+
+                      /* CachedNetworkImage(
 
                           imageUrl: groupSettingModel.groupMemberAvatarUrl2,
                           fit: BoxFit.cover,
@@ -82,7 +83,8 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
                               Icon(CupertinoIcons.xmark_square),
-                        )*/),
+                        )*/
+                    ),
                   ))),
               Positioned(
                   top: 5.h,
@@ -90,17 +92,19 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                   child: CircleImageContainer(
                       circleImage: CircleAvatar(
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
-                              backgroundColor: ColorConstant.milkColor,
+                    backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(70.sp),
-                        child: Image.network(groupSettingModel.groupMemberAvatarUrl3),/*CachedNetworkImage(
+                      borderRadius: BorderRadius.circular(70.sp),
+                      child: Image.network(groupSettingModel
+                          .groupMemberAvatarUrl3), /*CachedNetworkImage(
                           imageUrl: groupSettingModel.groupMemberAvatarUrl3,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
                               Icon(CupertinoIcons.xmark_square),
-                        )*/),
+                        )*/
+                    ),
                   ))),
               Positioned(
                   top: 100.h <= 700 ? 28.h : 25.h,
@@ -135,18 +139,20 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
-                                                backgroundColor: ColorConstant.milkColor,
+                                  backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(18.sp),
-                                    child:Image.network(groupSettingModel
-                                          .groupMemberAvatarUrl1,)
-                                /*     CachedNetworkImage(
+                                      borderRadius:
+                                          BorderRadius.circular(18.sp),
+                                      child: Image.network(
+                                        groupSettingModel.groupMemberAvatarUrl1,
+                                      )
+                                      /*     CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl1,
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
                                     ),*/
-                                  ),
+                                      ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
                               ),
@@ -186,12 +192,14 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
-                                                backgroundColor: ColorConstant.milkColor,
+                                  backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.sp),
-                                    child: Image.network(groupSettingModel
-                                          .groupMemberAvatarUrl2,)
-                                    /*CachedNetworkImage(
+                                      borderRadius:
+                                          BorderRadius.circular(20.sp),
+                                      child: Image.network(
+                                        groupSettingModel.groupMemberAvatarUrl2,
+                                      )
+                                      /*CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl2,
                                       fit: BoxFit.cover,
@@ -200,7 +208,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
                                     ),*/
-                                  ),
+                                      ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
                               ),
@@ -309,16 +317,19 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
-                                                backgroundColor: ColorConstant.milkColor,
+                                  backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(18.sp),
-                                    child: CachedNetworkImage(
+                                      borderRadius:
+                                          BorderRadius.circular(18.sp),
+                                      child: Image.network(
+                                        groupSettingModel.groupMemberAvatarUrl3,
+                                      ) /*CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl3,
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
-                                    ),
-                                  ),
+                                    ),*/
+                                      ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
                               ),
@@ -553,84 +564,93 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                             onPressed: () {
                               showCupertinoModalPopup(
                                   context: context,
-                                  builder:
-                                      (BuildContext context) =>
-                                          CupertinoActionSheet(
-                                            title:
-                                                const Text('Report & Block !'),
-                                            message: const Text(
-                                                'Please choose a operation, then you will leave this group '),
-                                            actions: [
-                                              CupertinoActionSheetAction(
-                                                child: Text(groupSettingModel
-                                                    .groupMemberName2),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  showCupertinoModalPopup(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
+                                  builder: (BuildContext context) =>
+                                      CupertinoActionSheet(
+                                        title: const Text('Report & Block !'),
+                                        message: const Text(
+                                            'Please choose a operation, then you will leave this group '),
+                                        actions: [
+                                          CupertinoActionSheetAction(
+                                            child: Text(groupSettingModel
+                                                .groupMemberName2),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              showCupertinoModalPopup(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
                                                           ReportSheet(
-                                                              reporterUid:
-                                                                  groupSettingModel
-                                                                      .userUid,
-                                                              targetUid1:
-                                                                  groupSettingModel
-                                                                      .groupMemberUid2,
-                                                              targetUid2: "",
-                                                              isAllGroup: false,
-                                                              groupNo:
-                                                                  groupSettingModel
-                                                                      .groupNo, groupSettingModel:groupSettingModel,));
-                                                },
-                                              ),
-                                              CupertinoActionSheetAction(
-                                                child: Text(groupSettingModel
-                                                    .groupMemberName3),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  showCupertinoModalPopup(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
+                                                            reporterUid:
+                                                                groupSettingModel
+                                                                    .userUid,
+                                                            targetUid1:
+                                                                groupSettingModel
+                                                                    .groupMemberUid2,
+                                                            targetUid2: "",
+                                                            isAllGroup: false,
+                                                            groupNo:
+                                                                groupSettingModel
+                                                                    .groupNo,
+                                                            groupSettingModel:
+                                                                groupSettingModel,
+                                                          ));
+                                            },
+                                          ),
+                                          CupertinoActionSheetAction(
+                                            child: Text(groupSettingModel
+                                                .groupMemberName3),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              showCupertinoModalPopup(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
                                                           ReportSheet(
-                                                              reporterUid:
-                                                                  groupSettingModel
-                                                                      .userUid,
-                                                              targetUid1:
-                                                                  groupSettingModel
-                                                                      .groupMemberUid3,
-                                                              targetUid2: "",
-                                                              isAllGroup: false,
-                                                              groupNo:
-                                                                  groupSettingModel
-                                                                      .groupNo, groupSettingModel: groupSettingModel,));
-                                                },
-                                              ),
-                                              CupertinoActionSheetAction(
-                                                child: const Text(' All Group'),
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  showCupertinoModalPopup(
-                                                      context: context,
-                                                      builder: (BuildContext context) => ReportSheet(
-                                                          reporterUid:
-                                                              groupSettingModel
-                                                                  .userUid,
-                                                          targetUid1:
-                                                              groupSettingModel
-                                                                  .groupMemberUid2,
-                                                          targetUid2:
-                                                              groupSettingModel
-                                                                  .groupMemberUid3,
-                                                          isAllGroup: true,
-                                                          groupNo:
-                                                              groupSettingModel
-                                                                  .groupNo, groupSettingModel: groupSettingModel,));
-                                                },
-                                              ),
-                                            ],
-                                          ));
+                                                            reporterUid:
+                                                                groupSettingModel
+                                                                    .userUid,
+                                                            targetUid1:
+                                                                groupSettingModel
+                                                                    .groupMemberUid3,
+                                                            targetUid2: "",
+                                                            isAllGroup: false,
+                                                            groupNo:
+                                                                groupSettingModel
+                                                                    .groupNo,
+                                                            groupSettingModel:
+                                                                groupSettingModel,
+                                                          ));
+                                            },
+                                          ),
+                                          CupertinoActionSheetAction(
+                                            child: const Text(' All Group'),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              showCupertinoModalPopup(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          ReportSheet(
+                                                            reporterUid:
+                                                                groupSettingModel
+                                                                    .userUid,
+                                                            targetUid1:
+                                                                groupSettingModel
+                                                                    .groupMemberUid2,
+                                                            targetUid2:
+                                                                groupSettingModel
+                                                                    .groupMemberUid3,
+                                                            isAllGroup: true,
+                                                            groupNo:
+                                                                groupSettingModel
+                                                                    .groupNo,
+                                                            groupSettingModel:
+                                                                groupSettingModel,
+                                                          ));
+                                            },
+                                          ),
+                                        ],
+                                      ));
 
                               print(groupSettingModel.groupNo);
                             }),

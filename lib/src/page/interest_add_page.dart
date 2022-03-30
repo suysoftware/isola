@@ -49,18 +49,28 @@ class _InterestAddPageState extends State<InterestAddPage> {
                     color: CupertinoColors.systemGreen,
                   ),
                   onPressed: () {
+                    print('sfffs');
                     FirebaseAuth _auth = FirebaseAuth.instance;
-
+                    print(context.read<HobbyStatusCubit>().state.addingHobby);
+                    print(_auth.currentUser!.uid);
                     CollectionReference users_display =
                         FirebaseFirestore.instance.collection('users_display');
 
                     users_display.doc(_auth.currentUser!.uid).update({
                       'uInterest':
                           context.read<HobbyStatusCubit>().state.addingHobby,
+                    }).whenComplete(() => {
+
+                       Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => LocationAddPage(
+                                    userUid: widget.userUid,
+                                  )))
                     });
 
                     ///eskisi
-                    /// 
+                    ///
                     /*
                     var refUpdateInterest = refGetter(
                         enum2: RefEnum.Userdisplay,

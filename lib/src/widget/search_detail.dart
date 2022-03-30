@@ -725,7 +725,15 @@ class BoneOfPost extends StatelessWidget {
                                     child: ClipOval(
                                         child: 100.h >= 700
                                             ? (100.h <= 1100
-                                                ? CachedNetworkImage(
+                                                ?Image.network(   imageItemList[index]
+                                                            .userAvatarUrl,width: 7.h,height: 7.h,fit: BoxFit.cover,):Image.network(imageItemList[index]
+                                                            .userAvatarUrl,width:35.sp,height: 35.sp,fit: BoxFit.cover,)):Image.network(   imageItemList[index]
+                                                            .userAvatarUrl,
+                                                    width: 35.sp,
+                                                    height: 35.sp,
+                                                    fit: BoxFit.cover,)
+                                                
+                                                /* CachedNetworkImage(
                                                     imageUrl:
                                                         imageItemList[index]
                                                             .userAvatarUrl,
@@ -759,7 +767,7 @@ class BoneOfPost extends StatelessWidget {
                                                     (context, url, error) =>
                                                         Icon(CupertinoIcons
                                                             .xmark_square),
-                                              ))),
+                                              )*/)),
                               ),
                             ),
                           )),
