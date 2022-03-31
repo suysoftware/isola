@@ -339,13 +339,59 @@ class StyleConstants {
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
+
   static TextStyle chatNameTextStyle2 = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.chatNameTextColor2.withOpacity(0.7),
     fontSize: 12,
     overflow: TextOverflow.fade,
   );
-
+  static TextStyle chatTabletNameTextStyle2 = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.chatNameTextColor2.withOpacity(0.7),
+    fontSize: 24,
+    overflow: TextOverflow.fade,
+  );
+  
+    static TextStyle chatNameTextStyle3 = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.chatNameTextColor3.withOpacity(0.7),
+    fontSize: 12,
+    overflow: TextOverflow.fade,
+  );
+  static TextStyle chatTabletNameTextStyle3 = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.chatNameTextColor3.withOpacity(0.7),
+    fontSize: 24,
+    overflow: TextOverflow.fade,
+  );
+  
+  static TextStyle chatNameTextStyle4 = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.chatNameTextColor4.withOpacity(0.7),
+    fontSize: 12,
+    overflow: TextOverflow.fade,
+  );
+  static TextStyle chatTabletNameTextStyle4 = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.chatNameTextColor4.withOpacity(0.7),
+    fontSize: 24,
+    overflow: TextOverflow.fade,
+  );
+  
+    static TextStyle chatNameTextStyle5 = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.chatNameTextColor5.withOpacity(0.7),
+    fontSize: 12,
+    overflow: TextOverflow.fade,
+  );
+  static TextStyle chatTabletNameTextStyle5 = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.chatNameTextColor5.withOpacity(0.7),
+    fontSize: 24,
+    overflow: TextOverflow.fade,
+  );
+  
   BoxDecoration isGradientBoxDec(
       {required bool isGradient,
       required Gradient buttonGradient,

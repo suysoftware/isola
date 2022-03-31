@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isola_app/src/model/group/group_setting_model.dart';
+
+import '../model/chaos/chaos_group_setting_model.dart';
 
 class ChaosGroupSettingCubit extends Cubit<ChaosGroupSettingModel> {
   final ChaosGroupSettingModel chaosGroupSettingModel;

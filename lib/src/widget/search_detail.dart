@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -416,11 +417,19 @@ class _PostTileState extends State<PostTile> {
                 width: 100.w,
                 child: FittedBox(
                   fit: BoxFit.cover,
-                  child: CachedNetworkImage(
+                  child: /*Image.network(widget.imageUrl,fit: BoxFit.cover,)*/
+                      CachedNetworkImage(
                     imageUrl: widget.imageUrl,
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) =>
                         Icon(CupertinoIcons.xmark_square),
+                                  cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                   ),
                 ),
               ),
@@ -585,11 +594,13 @@ class BoneOfPost extends StatelessWidget {
                                   );*/
                           },
                           likeCount: imageItemList[index].likeValue,
-                             countDecoration: (Widget count, int? tokenCount) {
-                            return Text(
-                              tokenCount.toString(),
-                              style:100.h>900? StyleConstants.searchFeedLikeAndTokenTabletTextStyle:StyleConstants.searchFeedLikeAndTokenTextStyle
-                            );
+                          countDecoration: (Widget count, int? tokenCount) {
+                            return Text(tokenCount.toString(),
+                                style: 100.h > 900
+                                    ? StyleConstants
+                                        .searchFeedLikeAndTokenTabletTextStyle
+                                    : StyleConstants
+                                        .searchFeedLikeAndTokenTextStyle);
                           },
                           likeCountAnimationType: LikeCountAnimationType.part,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -625,10 +636,12 @@ class BoneOfPost extends StatelessWidget {
                               .feedTokenList
                               .contains(userUid),
                           countDecoration: (Widget count, int? likeCount) {
-                            return Text(
-                              likeCount.toString(),
-                              style:100.h>900? StyleConstants.searchFeedLikeAndTokenTabletTextStyle:StyleConstants.searchFeedLikeAndTokenTextStyle
-                            );
+                            return Text(likeCount.toString(),
+                                style: 100.h > 900
+                                    ? StyleConstants
+                                        .searchFeedLikeAndTokenTabletTextStyle
+                                    : StyleConstants
+                                        .searchFeedLikeAndTokenTextStyle);
                           },
                           likeBuilder: (bool isGave) {
                             return isGave == true
@@ -725,18 +738,34 @@ class BoneOfPost extends StatelessWidget {
                                     child: ClipOval(
                                         child: 100.h >= 700
                                             ? (100.h <= 1100
-                                                ?Image.network(   imageItemList[index]
-                                                            .userAvatarUrl,width: 7.h,height: 7.h,fit: BoxFit.cover,):Image.network(imageItemList[index]
-                                                            .userAvatarUrl,width:35.sp,height: 35.sp,fit: BoxFit.cover,)):Image.network(   imageItemList[index]
-                                                            .userAvatarUrl,
+                                                ? /* Image.network(
+                                                    imageItemList[index]
+                                                        .userAvatarUrl,
+                                                    width: 7.h,
+                                                    height: 7.h,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Image.network(
+                                                    imageItemList[index]
+                                                        .userAvatarUrl,
                                                     width: 35.sp,
                                                     height: 35.sp,
-                                                    fit: BoxFit.cover,)
-                                                
-                                                /* CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                  ))
+                                            : Image.network(
+                                                imageItemList[index]
+                                                    .userAvatarUrl,
+                                                width: 35.sp,
+                                                height: 35.sp,
+                                                fit: BoxFit.cover,
+                                              )
+*/
+                                                CachedNetworkImage(
                                                     imageUrl:
                                                         imageItemList[index]
                                                             .userAvatarUrl,
+                                                    useOldImageOnUrlChange:
+                                                        true,
                                                     width: 7.h,
                                                     height: 7.h,
                                                     fit: BoxFit.cover,
@@ -744,6 +773,13 @@ class BoneOfPost extends StatelessWidget {
                                                         (context, url, error) =>
                                                             Icon(CupertinoIcons
                                                                 .xmark_square),
+                                                                          cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                                                   )
                                                 : CachedNetworkImage(
                                                     imageUrl:
@@ -756,6 +792,13 @@ class BoneOfPost extends StatelessWidget {
                                                         (context, url, error) =>
                                                             Icon(CupertinoIcons
                                                                 .xmark_square),
+                                                                          cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                                                   ))
                                             : CachedNetworkImage(
                                                 imageUrl: imageItemList[index]
@@ -767,7 +810,14 @@ class BoneOfPost extends StatelessWidget {
                                                     (context, url, error) =>
                                                         Icon(CupertinoIcons
                                                             .xmark_square),
-                                              )*/)),
+                                                                      cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                                              ))),
                               ),
                             ),
                           )),
@@ -784,14 +834,19 @@ class BoneOfPost extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 0.3.h),
                         child: Text(
                           "${imageItemList[index].userName}",
-                          style:100.h>900? StyleConstants.searchFeedNameTabletTextStyle:StyleConstants.searchFeedNameTextStyle,
+                          style: 100.h > 900
+                              ? StyleConstants.searchFeedNameTabletTextStyle
+                              : StyleConstants.searchFeedNameTextStyle,
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 1.5.h),
                         child: Text(
                           "${imageItemList[index].userUniversity}",
-                          style:100.h>900? StyleConstants.searchFeedUniversityTabletTextStyle: StyleConstants.searchFeedUniversityTextStyle,
+                          style: 100.h > 900
+                              ? StyleConstants
+                                  .searchFeedUniversityTabletTextStyle
+                              : StyleConstants.searchFeedUniversityTextStyle,
                         ),
                       ),
                     ],

@@ -119,7 +119,7 @@ class _ChatPageState extends State<ChatPage> {
                           in groupMergeData as List<GroupsModel>) {
                         if (groupData.groupChaosIsActive) {
                           //  print("1 kere döndü");
-
+                          print('chaoslu item çalıştı');
                           final Stream<QuerySnapshot> _chaosStream =
                               FirebaseFirestore.instance
                                   .collection('chaos_groups_chat')
@@ -134,10 +134,10 @@ class _ChatPageState extends State<ChatPage> {
                           var chaosCont = ChaosGroupCont(
                               myUid: widget.groupMergeDataComing.userAll
                                   .isolaUserMeta.userUid,
-                              notiValue: 2,
-                              ref: _chaosStream,
+                           
+                 
                               chatGroupNo: groupData.groupChaosNo,
-                              userAll: widget.groupMergeDataComing.userAll);
+                              userAll: widget.groupMergeDataComing.userAll, groupMergeData: widget.groupMergeDataComing,);
 
                           groupsItem.add(chaosCont);
                         } else {

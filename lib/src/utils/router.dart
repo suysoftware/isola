@@ -7,6 +7,8 @@ import 'package:isola_app/src/page/navigationbar.dart';
 import 'package:isola_app/src/page/settings_page.dart';
 import 'package:isola_app/src/page/splash_page.dart';
 
+import '../page/groupchat/chatpage/chat_chaos/chaos_chatting_page.dart';
+
 class RouterSystem {
   static Route<dynamic> generateRoute(RouteSettings settings, [User? user]) {
     switch (settings.name) {
@@ -16,6 +18,8 @@ class RouterSystem {
         return CupertinoPageRoute(builder: (_) => const NavigationBar());
       case chatInteriorPage:
         return CupertinoPageRoute(builder: (_) => const ChatInteriorPage());
+        case chaosChatInteriorPage:
+        return CupertinoPageRoute(builder: (_) => const ChaosChatInteriorPage());
       case groupSettingsPage:
         return CupertinoPageRoute(builder: (_) => const GroupSettingsPage());
       case settingsPage:
@@ -37,6 +41,7 @@ const String loggingOutRoute = '/LoggingOut';
 //const String homePageRoute = '/HomePage';
 const String navigationBar = '/NavigationBar';
 const String chatInteriorPage = '/ChatInteriorPage';
+const String chaosChatInteriorPage = '/ChaosChatInteriorPage';
 const String groupSettingsPage = '/GroupSettingsPage';
 const String settingsPage = '/SettingsPage';
 const String splashPage = '/';

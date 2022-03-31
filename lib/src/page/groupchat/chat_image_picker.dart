@@ -22,12 +22,21 @@ class ChatImagePicker extends StatefulWidget {
       required this.userAll,
       required this.targetUid1,
       required this.targetUid2,
-      required this.file})
+      required this.file,
+      required this.isChaos,
+      required this.targetUid3,
+      required this.targetUid4,
+      required this.targetUid5})
       : super(key: key);
   final IsolaUserAll userAll;
   final String targetUid1;
   final String targetUid2;
+  final String targetUid3;
+  final String targetUid4;
+  final String targetUid5;
+
   final File file;
+  final bool isChaos;
 
   @override
   State<ChatImagePicker> createState() => _ChatImagePickerState();
@@ -62,9 +71,18 @@ class _ChatImagePickerState extends State<ChatImagePicker>
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+
+ 
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: ColorConstant.themeColor,
+      navigationBar: CupertinoNavigationBar(automaticallyImplyLeading: true),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,8 +92,8 @@ class _ChatImagePickerState extends State<ChatImagePicker>
               extendedImageEditorKey: editorKey,
               mode: ExtendedImageMode.editor,
               fit: BoxFit.contain,
-              height: 500,
-              width: 500,
+              height: 800,
+              width: 800,
               enableLoadState: true,
               cacheRawData: true,
               initEditorConfigHandler: (state) {
@@ -110,9 +128,9 @@ class _ChatImagePickerState extends State<ChatImagePicker>
                     child: GestureDetector(
                       onTap: () async {
                         cropImage().whenComplete(() {
-                            Navigator.pop(context);
                           Navigator.pop(context);
-                            Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                           setState(() {});
                         });
 
@@ -122,9 +140,7 @@ class _ChatImagePickerState extends State<ChatImagePicker>
                         showCupertinoDialog(
                             context: context,
                             builder: (BuildContext context) =>
-                              AnimatedLiquidCircularProgressIndicator());
-
-                     
+                                AnimatedLiquidCircularProgressIndicator());
                       },
                       child: Text(
                         "Send Photo",
@@ -150,9 +166,23 @@ class _ChatImagePickerState extends State<ChatImagePicker>
     print(fileData);
     final String? fileFath = await ImageSaver.save(
         'isola_chat_image-${DateTime.now().toUtc().toString()}.jpg', fileData);
-
-    await uploadAttachment(widget.userAll, fileFath!, refChatInterior, true,
-        false, false, widget.targetUid1, widget.targetUid2);
+    if (widget.isChaos) {
+      await uploadAttachmentToChaos(
+          widget.userAll,
+          fileFath!,
+          refChatInterior,
+          true,
+          false,
+          false,
+          widget.targetUid1,
+          widget.targetUid2,
+          widget.targetUid3,
+          widget.targetUid4,
+          widget.targetUid5);
+    } else {
+      await uploadAttachment(widget.userAll, fileFath!, refChatInterior, true,
+          false, false, widget.targetUid1, widget.targetUid2);
+    }
 
     _cropping = false;
   }

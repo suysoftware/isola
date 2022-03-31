@@ -6,6 +6,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -121,20 +122,16 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(4.0),
             child: GestureDetector(
                 onTap: () {
-                /*  addImageFeedToDatabase(
+                  /*  addImageFeedToDatabase(
                       widget.userAll.isolaUserMeta.userUid,
                       widget.userAll.isolaUserDisplay.avatarUrl,
                       widget.userAll.isolaUserDisplay.userName,
                       "https://en.pimg.jp/054/507/693/1/54507693.jpg");*/
 
+                  //image feed bölümünü eklemeyi unutma
 
-                    //image feed bölümünü eklemeyi unutma
-
-
-
-
-                   Navigator.of(context, rootNavigator: true)
-                   .pushNamed(settingsPage);
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamed(settingsPage);
 
                   //   getTimelineFeeds(widget.userAll,20);
                 },
@@ -186,6 +183,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       (context, url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
+                                                  cacheManager:
+                                                      CacheManager(Config(
+                                                    "cachedImageFiles",
+                                                    stalePeriod:
+                                                        const Duration(days: 3),
+                                                    //one week cache period
+                                                  )),
                                                 )
                                               : CachedNetworkImage(
                                                   imageUrl: widget
@@ -199,6 +203,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       (context, url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
+                                                                        cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                                                 ))
                                           : CachedNetworkImage(
                                               imageUrl: widget.userAll
@@ -210,6 +221,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   (context, url, error) => Icon(
                                                       CupertinoIcons
                                                           .xmark_square),
+                                                                    cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                                             ))),
                             ),
                           ),

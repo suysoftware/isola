@@ -19,8 +19,12 @@ class ColorConstant {
   static const Color groupSettingsButton1 = Color(0xFF485FDB);
   static const Color groupSettingsButton2 = Color(0xFF5973FF);
 
-  static const Color chatNameTextColor1 = Color(0xFFFF0000);
-  static const Color chatNameTextColor2 = Color(0xFF0075FF);
+  static const Color chatNameTextColor1 = Color(0xFF8111FF);
+  static const Color chatNameTextColor2 = Color(0xFF0052eF);
+  static const Color chatNameTextColor3 = Color(0xFF724670);
+  static const Color chatNameTextColor4 = Color(0xFF6992FF);
+  static const Color chatNameTextColor5 = Color(0xFFFF1230);
+
 
   static const Color softPurple = Color(0xFFAF43FD);
   static Color softGrey = CupertinoColors.black.withOpacity(0.7);

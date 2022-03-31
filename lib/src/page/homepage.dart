@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_circular_text/circular_text.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/match_button_cubit.dart';
@@ -924,11 +925,19 @@ class PostAvatarLeft extends StatelessWidget {
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.sp),
-          child:Image.network(avatarUrl)/* CachedNetworkImage(
+          child:/*Image.network(avatarUrl)*/
+           CachedNetworkImage(
             imageUrl: avatarUrl,
             errorWidget: (context, url, error) =>
                 Icon(CupertinoIcons.xmark_square),
-          ),*/
+                          cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+          ),
         ),
       ),
     );
@@ -953,11 +962,19 @@ class PostAvatarRight extends StatelessWidget {
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
-            child:Image.network(avatarUrl) /*CachedNetworkImage(
+            child:/*Image.network(avatarUrl) */
+            CachedNetworkImage(
               imageUrl: avatarUrl,
               errorWidget: (context, url, error) =>
                   Icon(CupertinoIcons.xmark_square),
-            )*/),
+                            cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+            )),
       ),
     );
   }

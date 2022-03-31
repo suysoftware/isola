@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -437,6 +438,13 @@ class _AddPostContainerState extends State<AddPostContainer> {
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
                                     Icon(CupertinoIcons.xmark_square),
+                                              cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                               ),
                             ),
                           ),

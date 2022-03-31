@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:sizer/sizer.dart';
@@ -57,6 +58,13 @@ class ImageChatContRight extends StatelessWidget {
                                   child: CachedNetworkImage(
                                     imageUrl: memberAttachmentUrl,
                                     fit: BoxFit.fill,
+                                              cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                                   ),
                                 )))),
                         child: CachedNetworkImage(
@@ -65,6 +73,13 @@ class ImageChatContRight extends StatelessWidget {
                           width: contWidth,
                           errorWidget: (context, url, error) =>
                               Icon(CupertinoIcons.xmark_square),
+                                        cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                         ))),
               ),
               Align(

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/search_status_cubit.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
@@ -105,6 +106,7 @@ class _NavigationBarState extends State<NavigationBar>
     if (state == AppLifecycleState.detached) {
       print("detached");
 
+      await DefaultCacheManager().removeFile("cachedImageFiles");
       userDisplayRef.doc(user.uid).update({'uOnline': false});
       //_refUserDisplay.child("user_is_online").set(false);
       context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
@@ -199,7 +201,9 @@ class _NavigationBarState extends State<NavigationBar>
                         );
                         */
                         var userAllSnap = snapshot.data as IsolaUserAll;
-                        context.read<UserAllCubit>().userAllChanger(userAllSnap);
+                        context
+                            .read<UserAllCubit>()
+                            .userAllChanger(userAllSnap);
                         print('kakak');
                         print(userAllSnap.isolaUserMeta.userToken);
                         print('kakak');

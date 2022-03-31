@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/blocs/chaos_group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/chat_message_targets_cubit.dart';
@@ -210,19 +211,27 @@ class ChatGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChatGroupCard(
-                      chatPicFirst: Image.network(chatFriendAvatarUrl1),
-                      /*CachedNetworkImage(
+                      chatPicFirst: /*Image.network(chatFriendAvatarUrl1),*/
+                    
+                      CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl1,
-                        fit: BoxFit.cover,
+                      //  fit: BoxFit.cover,
                         errorWidget: (context, url, error) =>
                             Icon(CupertinoIcons.xmark_square),
-                      ),*/
-                      chatPicSecond: Image.network(
-                          chatFriendAvatarUrl2) /* CachedNetworkImage(
+                      ),
+                      chatPicSecond:/* Image.network(
+                          chatFriendAvatarUrl2)*/  CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl2,
-                        fit: BoxFit.cover,
-                      ),*/
-                      ,
+                                  cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                      //  fit: BoxFit.cover,
+                      ),
+                      
                       chatBoxText: chatLastMessage,
                       notiValue: notiValue,
                       chatBoxName:
@@ -507,7 +516,7 @@ class ChatGroupCard extends StatelessWidget {
           String target2 =
               context.read<GroupSettingCubit>().state.groupMemberUid3;
           //buraya if konacak
-          context.read<ChatReferenceCubit>().chatGroupChanger(chatGroupNo);
+          context.read<ChatReferenceCubit>().chatGroupChanger(chatGroupNo,false);
 
           context
               .read<GroupSettingCubit>()

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_chat_container_right.dart';
 import 'package:sizer/sizer.dart';
@@ -76,6 +77,13 @@ class VoiceMessageBalloonRight extends StatelessWidget {
                                                       (context, url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
+                                                                        cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                       ),
                     ),
                   ),

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:isola_app/src/blocs/chaos_chat_message_target.dart';
 import 'package:isola_app/src/blocs/chaos_group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/chat_message_targets_cubit.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
@@ -24,6 +25,7 @@ import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/blocs/user_hive_cubit.dart';
 import 'package:isola_app/src/constants/language_constants.dart';
+import 'package:isola_app/src/model/chaos/chaos_group_setting_model.dart';
 import 'package:isola_app/src/model/group/group_chat_voice.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
@@ -241,6 +243,9 @@ class MyApp extends StatelessWidget {
           }),
           BlocProvider(create: (context) {
             return ChatMessageTargetsCubit();
+          }),
+            BlocProvider(create: (context) {
+            return ChaosChatMessageTargetsCubit();
           }),
           BlocProvider(create: (context) {
             return ChatIsChaosCubit();

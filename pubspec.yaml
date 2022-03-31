@@ -73,6 +73,8 @@ dependencies:
   like_button: ^2.0.4
   swipable_stack: ^1.2.0
   in_app_review: ^2.0.4
+  flutter_cache_manager: ^3.3.0
+  circular_countdown_timer: ^0.2.1
   
 
 

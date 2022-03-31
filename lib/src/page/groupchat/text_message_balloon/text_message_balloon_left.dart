@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
@@ -11,12 +13,15 @@ import 'package:isola_app/src/page/groupchat/chatting_page.dart';
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_chat_container_left.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../blocs/chaos_group_setting_cubit.dart';
+
 class TextMessageBalloonLeft extends StatelessWidget {
   String memberMessage;
   String memberAvatarUrl;
   Timestamp memberMessageTime;
   String memberName;
   String memberUid;
+  TextStyle targetTextStyle;
 
   TextMessageBalloonLeft(
       {Key? key,
@@ -24,7 +29,7 @@ class TextMessageBalloonLeft extends StatelessWidget {
       required this.memberAvatarUrl,
       required this.memberMessageTime,
       required this.memberName,
-      required this.memberUid})
+      required this.memberUid,required this.targetTextStyle })
       : super(key: key);
 
   @override
@@ -35,36 +40,66 @@ class TextMessageBalloonLeft extends StatelessWidget {
         sizedBox,
         Column(
           children: [
-            Container(
-              height: 100.h >= 1100 ? 21.sp : 30.sp,
-              width: 100.h >= 1100 ? 21.sp : 30.sp,
-              decoration: BoxDecoration(
-                  gradient: ColorConstant.isolaMainGradient,
-                  border: Border.all(color: ColorConstant.transparentColor),
-                  borderRadius: BorderRadius.all(Radius.circular(20.sp))),
-              child: Padding(
-                padding: const EdgeInsets.all(0.5),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: ColorConstant.milkColor,
-                      border: Border.all(color: ColorConstant.transparentColor),
-                      borderRadius: BorderRadius.all(Radius.circular(20.sp))),
-                  child: CircleAvatar(
-                    radius: 13.sp,
-                    backgroundColor: ColorConstant.milkColor,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.sp),
-                      child: Image.network(memberAvatarUrl)
-                      /*CachedNetworkImage(
-                      imageUrl:  memberAvatarUrl,
-                        fit: BoxFit.cover,
-                        height: 35.sp,
-                        width: 35.sp,
-                         errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
-                      ),*/
+            GestureDetector(
+              onTap: ()=>showCupertinoDialog(
+                                context: context,
+                                builder: (context) => CupertinoPageScaffold(
+                                    navigationBar: const CupertinoNavigationBar(
+                                      automaticallyImplyLeading: true,
+                                    ),
+                                    child: Center(
+                                        child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: memberAvatarUrl,
+                                        fit: BoxFit.fill,
+                                        errorWidget: (context, url, error) =>
+                                            Icon(CupertinoIcons.xmark_square),
+                                        cacheManager: CacheManager(Config(
+                                          "cachedImageFiles",
+                                          stalePeriod: const Duration(days: 3),
+                                          //one week cache period
+                                        )),
+                                      ),
+                                    )))),
+              child: Container(
+                height: 100.h >= 1100 ? 21.sp : 30.sp,
+                width: 100.h >= 1100 ? 21.sp : 30.sp,
+                decoration: BoxDecoration(
+                    gradient: ColorConstant.isolaMainGradient,
+                    border: Border.all(color: ColorConstant.transparentColor),
+                    borderRadius: BorderRadius.all(Radius.circular(20.sp))),
+                child: Padding(
+                  padding: const EdgeInsets.all(0.5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: ColorConstant.milkColor,
+                        border: Border.all(color: ColorConstant.transparentColor),
+                        borderRadius: BorderRadius.all(Radius.circular(20.sp))),
+                    child: CircleAvatar(
+                      radius: 13.sp,
+                      backgroundColor: ColorConstant.milkColor,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.sp),
+                          child:/* Image.network(memberAvatarUrl)*/
+                          CachedNetworkImage(
+                        imageUrl:  memberAvatarUrl,
+                          //fit: BoxFit.cover,
+                          //height: 35.sp,
+                         // width: 35.sp,
+                           errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(CupertinoIcons
+                                                                .xmark_square),
+                                                                          cacheManager: CacheManager(
+                    Config(
+                      "cachedImageFiles",
+                      stalePeriod: const Duration(days: 3),
+                      //one week cache period
+                    )
+                ),
+                        ),
+                          ),
                     ),
                   ),
                 ),
@@ -85,15 +120,18 @@ class TextMessageBalloonLeft extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 1.w),
                 child: Text(
                   memberName,
-                  style: 100.h <= 1100
+                  style:targetTextStyle
+                  
+                  /* 100.h <= 1100
                       ? StyleConstants.chatNameTextStyle1
-                      : StyleConstants.chatTabletNameTextStyle1,
+                      : StyleConstants.chatTabletNameTextStyle1,*/
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 0.0),
                 child: TextChatContLeft(
-                  targetMesaj: memberMessage,messageTime: memberMessageTime,
+                  targetMesaj: memberMessage,
+                  messageTime: memberMessageTime,
                 ),
               ),
             ],

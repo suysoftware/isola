@@ -6,6 +6,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -344,10 +345,10 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
             }
             //  itemDatas.shuffle();
             // itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
-/*
+
             for (IsolaImageFeedModel item in itemDatas) {
               print(item.feedImageUrl);
-            }*/
+            }
             amountUpdater((itemDatas.length) );
             return itemDatas.isEmpty
                 ? Center(
@@ -465,6 +466,13 @@ class _ImageTileState extends State<ImageTile> {
                   borderRadius: BorderRadius.circular(16),
                   child: CachedNetworkImage(
                     imageUrl: widget.imageUrl,
+                    cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) =>
                         Icon(CupertinoIcons.xmark_square),

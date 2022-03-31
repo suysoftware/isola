@@ -7,21 +7,34 @@ class ChatReferenceCubit extends Cubit<CollectionReference> {
   ChatReferenceCubit()
       : super(FirebaseFirestore.instance.collection('users_display'));
 
-  void chatGroupChanger(String groupNo) {
-    var changingRef = FirebaseFirestore.instance
+  void chatGroupChanger(String groupNo,bool isChaos) {
+
+    if(isChaos){
+
+ var changingRef = FirebaseFirestore.instance
+        .collection('chaos_groups_chat')
+        .doc(groupNo)
+        .collection('chat_data');
+          emit(changingRef);
+    }
+    else{
+ var changingRef = FirebaseFirestore.instance
         .collection('groups_chat')
         .doc(groupNo)
         .collection('chat_data');
+          emit(changingRef);
+    }
+   
     /* var changingRef = refGetter(
         enum2: RefEnum.Groupchatlist,
         targetUid: "",
         userUid: "",
         crypto: groupNo);*/
 
-    emit(changingRef);
+  
   }
 
-  void chatChaosGroupChanger(String groupNo) {
+  void chatChaosGroupChanger(String groupNo,bool isChaos) {
  /*   var changingRef = refGetter(
         enum2: RefEnum.Chaosgroupchatlist,
         targetUid: "",

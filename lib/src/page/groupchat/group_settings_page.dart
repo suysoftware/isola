@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
@@ -72,10 +73,10 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(70.sp),
-                      child: Image.network(
-                          groupSettingModel.groupMemberAvatarUrl2),
+                      child: /*Image.network(
+                          groupSettingModel.groupMemberAvatarUrl2),*/
 
-                      /* CachedNetworkImage(
+                       CachedNetworkImage(
 
                           imageUrl: groupSettingModel.groupMemberAvatarUrl2,
                           fit: BoxFit.cover,
@@ -83,7 +84,14 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
                               Icon(CupertinoIcons.xmark_square),
-                        )*/
+                                        cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                        )
                     ),
                   ))),
               Positioned(
@@ -95,15 +103,23 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(70.sp),
-                      child: Image.network(groupSettingModel
-                          .groupMemberAvatarUrl3), /*CachedNetworkImage(
+                      child:/* Image.network(groupSettingModel
+                          .groupMemberAvatarUrl3),*/ 
+                          CachedNetworkImage(
                           imageUrl: groupSettingModel.groupMemberAvatarUrl3,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
                               Icon(CupertinoIcons.xmark_square),
-                        )*/
+                                        cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                        )
                     ),
                   ))),
               Positioned(
@@ -143,15 +159,22 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.circular(18.sp),
-                                      child: Image.network(
+                                      child:/* Image.network(
                                         groupSettingModel.groupMemberAvatarUrl1,
-                                      )
-                                      /*     CachedNetworkImage(
+                                      )*/
+                                           CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl1,
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
-                                    ),*/
+                                                    cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                                    ),
                                       ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
@@ -196,10 +219,10 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.circular(20.sp),
-                                      child: Image.network(
+                                      child:/* Image.network(
                                         groupSettingModel.groupMemberAvatarUrl2,
-                                      )
-                                      /*CachedNetworkImage(
+                                      )*/
+                                      CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl2,
                                       fit: BoxFit.cover,
@@ -207,7 +230,14 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                       width: 50.sp,
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
-                                    ),*/
+                                                    cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                                    ),
                                       ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
@@ -321,14 +351,21 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.circular(18.sp),
-                                      child: Image.network(
+                                      child: /*Image.network(
                                         groupSettingModel.groupMemberAvatarUrl3,
-                                      ) /*CachedNetworkImage(
+                                      ) */CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl3,
                                       errorWidget: (context, url, error) =>
                                           Icon(CupertinoIcons.xmark_square),
-                                    ),*/
+                                                    cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                                    ),
                                       ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),

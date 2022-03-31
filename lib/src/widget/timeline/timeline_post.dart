@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/blocs/user_hive_cubit.dart';
@@ -34,7 +35,8 @@ class TimelineItem extends StatefulWidget {
       {Key? key,
       required this.feedMeta,
       required this.userUid,
-      required this.isTimeline,required this.isolaUserAll})
+      required this.isTimeline,
+      required this.isolaUserAll})
       : super(key: key);
 
   @override
@@ -101,7 +103,8 @@ class _TimelineItemState extends State<TimelineItem>
                               targetUid: widget.feedMeta.userUid,
                               targetName: widget.feedMeta.userName,
                               targetAvatarUrl: widget.feedMeta.userAvatarUrl,
-                              userUid: widget.userUid, isolaUserAll: widget.isolaUserAll,
+                              userUid: widget.userUid,
+                              isolaUserAll: widget.isolaUserAll,
                             )));
               }
               /*
@@ -171,6 +174,11 @@ class _TimelineItemState extends State<TimelineItem>
                                       width: 100.h >= 1100 ? 26.sp : 40.sp,
                                       height: 100.h >= 1100 ? 26.sp : 40.sp,
                                       fit: BoxFit.cover,
+                                      cacheManager: CacheManager(Config(
+                                        "cachedImageFiles",
+                                        stalePeriod: const Duration(days: 3),
+                                        //one week cache period
+                                      )),
                                     ),
                                   ),
                                 ),
@@ -417,20 +425,22 @@ class _TimelineItemState extends State<TimelineItem>
                                                               widget.feedMeta
                                                                   .feedNo,
                                                               widget.userUid);
-                                                              if(context
-                                                              .read<
-                                                                  TimelineItemListCubit>().state.contains(widget.feedMeta.feedNo)){
-
-context
+                                                          if (context
                                                               .read<
                                                                   TimelineItemListCubit>()
-                                                              .timelineFeedRemover(
-                                                                  widget
-                                                                      .feedMeta
-                                                                      .feedNo);
+                                                              .state
+                                                              .contains(widget
+                                                                  .feedMeta
+                                                                  .feedNo)) {
+                                                            context
+                                                                .read<
+                                                                    TimelineItemListCubit>()
+                                                                .timelineFeedRemover(
+                                                                    widget
+                                                                        .feedMeta
+                                                                        .feedNo);
+                                                          }
 
-                                                                  }
-                                                          
                                                           Navigator.pop(
                                                               context);
 

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
@@ -427,6 +428,13 @@ class ClubImageTile extends StatelessWidget {
             imageUrl: 'https://picsum.photos/$width/$height?random=$index',
             errorWidget: (context, url, error) =>
                 Icon(CupertinoIcons.xmark_square),
+                          cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
             fit: BoxFit.cover),
       ),
     );

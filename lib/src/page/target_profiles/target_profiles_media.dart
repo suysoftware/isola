@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -452,6 +453,13 @@ class _ImageTileState extends State<ImageTile> {
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) =>
                         Icon(CupertinoIcons.xmark_square),
+                                  cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                   ),
                 ),
               ),

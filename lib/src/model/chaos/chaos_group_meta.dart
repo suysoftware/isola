@@ -1,19 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChaosGroupMeta {
-  late int createdTime;
-  late int finishTime;
-  late int finishWithBonusTime;
+  late Timestamp createdTime;
+  late Timestamp finishTime;
+  late Timestamp finishWithBonusTime;
   late bool timeBonus;
   late bool chaosIsComplete;
 
   ChaosGroupMeta(this.createdTime, this.finishTime, this.finishWithBonusTime,
-      this.timeBonus,this.chaosIsComplete);
+      this.timeBonus, this.chaosIsComplete);
 
-  factory ChaosGroupMeta.fromJson(Map<dynamic, dynamic> json) {
-    return ChaosGroupMeta(
-        json["created_time"] as int,
-        json["finish_time"] as int,
-        json["finish_with_bonus_time"] as int,
-        json["time_bonus"] as bool,
-        json["chaos_is_complete" as bool]);
+  ChaosGroupMeta.fromJson(Map<String, dynamic> json)
+      : this(
+            json["created_time"] as Timestamp,
+            json["finish_time"] as Timestamp,
+            json["finish_with_bonus_time"] as Timestamp,
+            json["time_bonus"] as bool,
+            json["chaos_is_complete" as bool]);
+  Map<String, dynamic> toJson() {
+    return {
+      'created_time': createdTime,
+      'finish_time': finishTime,
+      'finish_with_bonus_time': finishWithBonusTime,
+      'time_bonus': timeBonus,
+      'chaos_is_complete': chaosIsComplete
+    };
   }
 }

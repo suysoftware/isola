@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/document_chat_cont_right.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/image_chat_cont_right.dart';
@@ -84,7 +85,16 @@ class AttachmentMessageBalloonRight extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.sp),
                       child:CachedNetworkImage(
                        imageUrl: memberAvatarUrl, fit: BoxFit.cover, height: 35.sp,
-                        width: 35.sp,)
+                        width: 35.sp,
+                        
+                                  cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
+                        )
                     ),
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:sizer/sizer.dart';
@@ -13,12 +14,15 @@ class ImageChatContLeft extends StatelessWidget {
   String memberName;
   Timestamp messageTime;
   ImageChatContLeft(
-      {Key? key, required this.memberAttachmentUrl, required this.memberName,required this.messageTime })
+      {Key? key,
+      required this.memberAttachmentUrl,
+      required this.memberName,
+      required this.messageTime})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     DateFormat dFormat = DateFormat("HH:mm");
+    DateFormat dFormat = DateFormat("HH:mm");
     double contCarpan = 100.h <= 1100 ? 15 : 7.5;
     double contWidth = 45.w;
     double contHeight =
@@ -61,6 +65,11 @@ class ImageChatContLeft extends StatelessWidget {
                                         fit: BoxFit.fill,
                                         errorWidget: (context, url, error) =>
                                             Icon(CupertinoIcons.xmark_square),
+                                        cacheManager: CacheManager(Config(
+                                          "cachedImageFiles",
+                                          stalePeriod: const Duration(days: 3),
+                                          //one week cache period
+                                        )),
                                       ),
                                     )))),
                             child: CachedNetworkImage(
@@ -69,6 +78,11 @@ class ImageChatContLeft extends StatelessWidget {
                               width: contWidth,
                               errorWidget: (context, url, error) =>
                                   Icon(CupertinoIcons.xmark_square),
+                              cacheManager: CacheManager(Config(
+                                "cachedImageFiles",
+                                stalePeriod: const Duration(days: 3),
+                                //one week cache period
+                              )),
                             ))),
                   ),
                   Align(
@@ -76,7 +90,7 @@ class ImageChatContLeft extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 8.0),
                       child: Text(
-                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                        '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
                         style: 100.h <= 1100
                             ? StyleConstants.chatTimeTextStyleLeft
                             : StyleConstants.chatTabletTimeTextStyleLeft,

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
@@ -134,8 +135,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ])*/
 //'dateTime': DateTime.parse('2019-03-13 16:49:42.044'
               //w     FirebaseFirestore.instance.collectionGroup("text_feeds").whereGreaterThan('feed_date',1000).orderBy('feed_date',descending: true)
-            
-            /*  print("dfs");
+
+              /*  print("dfs");
 
               final Timestamp now = Timestamp.fromDate(DateTime.now());
               final Timestamp yesterday = Timestamp.fromDate(
@@ -184,10 +185,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       "https://picsum.photos/400/400?random=1999");
 */
 
-
-
-
-
 /*
               int dnm = 150;
               //1300
@@ -207,11 +204,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 }
               }
 */
-
-
-
-
-
 
 /*
 
@@ -335,8 +327,26 @@ class _SettingsPageState extends State<SettingsPage> {
             buttonGetter(
                 const Icon(CupertinoIcons.info_circle,
                     color: ColorConstant.softBlack),
-                Text("About", style: settingTextStyle), () {
-            /*  getUserAllFromDataBase(user!.uid).then((value) {
+                Text("About", style: settingTextStyle), () async {
+
+
+
+                   imageCache!.clear();
+           /*   var file = await DefaultCacheManager().getSingleFile(
+                  "https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/search_items%2FQ1j0ibLDbhQye11fduuKmjkw3Ry2%2F3373759c-d1d6-42d3-9ab9-8ffbaa0e15b3?alt=media&token=948bc89a-d689-4ee8-a762-4a3be06b43fc");
+              var ss = file.stat();
+              //  var file2 = await DefaultCacheManager().
+              print(file.absolute);
+              print(file.basename);
+              print(file.dirname);
+              print(file.fileSystem.currentDirectory);
+              print(file.uri);
+              print(file.parent);*/
+          
+            
+            //  print(ss);
+
+              /*  getUserAllFromDataBase(user!.uid).then((value) {
                 print(value.isolaUserDisplay.userName);
               });
 */

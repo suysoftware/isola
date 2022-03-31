@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
 import 'package:isola_app/src/page/groupchat/chatting_page.dart';
@@ -77,6 +78,13 @@ class TextMessageBalloonRight extends StatelessWidget {
                                                       (context, url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
+                                                                        cacheManager: CacheManager(
+        Config(
+          "cachedImageFiles",
+          stalePeriod: const Duration(days: 3),
+          //one week cache period
+        )
+    ),
                       ),
                     ),
                   ),

@@ -4,7 +4,9 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -12,13 +14,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
 import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
+import 'package:isola_app/src/constants/style_constants.dart';
+import 'package:isola_app/src/model/chaos/chaos_group_meta.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_chaos.dart';
 import 'package:isola_app/src/model/group/group_chat_message.dart';
@@ -47,26 +50,20 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../constants/style_constants.dart';
+import '../../../../blocs/chaos_group_setting_cubit.dart';
+import '../../../../model/chaos/chaos_chat_message.dart';
+import '../../../../model/chaos/chaos_group_setting_model.dart';
 
-class ChatInteriorPage extends StatefulWidget {
-  const ChatInteriorPage({
+class ChaosChatInteriorPage extends StatefulWidget {
+  const ChaosChatInteriorPage({
     Key? key,
   }) : super(key: key);
 
-/*
-   const ChatInteriorPage(
-      {Key? key, required this.userDisplay, required this.groupNo})
-      : super(key: key);
-  final UserDisplay userDisplay;
-  final String groupNo;
-  */
-
   @override
-  _ChatInteriorPageState createState() => _ChatInteriorPageState();
+  _ChaosChatInteriorPageState createState() => _ChaosChatInteriorPageState();
 }
 
-class _ChatInteriorPageState extends State<ChatInteriorPage>
+class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   TextEditingController t1 = TextEditingController();
 
@@ -74,29 +71,31 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
+  // late Stream<QueryDocumentSnapshot> groupDocumentStream;
+
+  DateFormat dFormat = DateFormat("HH:mm:ss");
   late String target1;
   late String target2;
+  late String target3;
+  late String target4;
+  late String target5;
   late bool isChaosSearching;
+  bool extensionButtonActive = false;
 
   late String _filePath;
   late AudioPlayer _audioPlayer;
 
   late FlutterAudioRecorder2 _audioRecorder;
 
-  late GroupSettingModel groupSettingModelForTrawling;
+  late ChaosGroupSettingModel groupSettingModelForTrawling;
   late int itemCountValue;
   late User user;
   late CollectionReference refChatInterior;
   late IsolaUserAll userAll;
 
-//chaos button
-  late AnimationController _animationControllerChaos;
-  late AnimationController _animationControllerChaosStreaming;
-  late AnimationController _animationControllerChaosSearching;
+  CountDownController chaosTimerController = CountDownController();
 
-  late Animation<double> _chaosRotationAnimationValue;
-  late Animation<double> _chaosRotationAnimationValueStreaming;
-  late Animation<double> _chaosRotationAnimationValueSearching;
+//chaos button
 
 //mic
   late AnimationController _animationController;
@@ -136,6 +135,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
       'member_message_isdocument': false,
       'member_message_target_1_uid': target1,
       'member_message_target_2_uid': target2,
+      'member_message_target_3_uid': target3,
+      'member_message_target_4_uid': target4,
+      'member_message_target_5_uid': target5,
       'member_message_no': messageRef.id,
     });
 
@@ -162,9 +164,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxHeight: 600,
-      maxWidth: 600,
-      imageQuality: 5,
+      maxHeight: 800,
+      maxWidth: 800,
+      imageQuality: 100,
     );
     File file = File(xfile!.path);
     showCupertinoDialog(
@@ -174,10 +176,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
               targetUid1: target1,
               targetUid2: target2,
               file: file,
-              isChaos: false,
-              targetUid3: "",
-              targetUid4: "",
-              targetUid5: "",
+              isChaos: true,
+              targetUid4: target4,
+              targetUid3: target3,
+              targetUid5: target5,
             ));
     //setState(() {});
   }
@@ -191,8 +193,18 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         String fileName = result2.files.first.name;
         print(fileName);
         print(result2.paths);
-        await uploadAttachment(userAll, result2.paths.first.toString(),
-            refChatInterior, false, false, true, target1, target2);
+        await uploadAttachmentToChaos(
+            userAll,
+            result2.paths.first.toString(),
+            refChatInterior,
+            false,
+            false,
+            true,
+            target1,
+            target2,
+            target3,
+            target4,
+            target5);
 
         // Upload file
       }
@@ -206,11 +218,31 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         print(result.paths);
 
         if (fileType == FileType.video) {
-          await uploadAttachment(userAll, result.paths.first.toString(),
-              refChatInterior, false, true, false, target1, target2);
+          await uploadAttachmentToChaos(
+              userAll,
+              result.paths.first.toString(),
+              refChatInterior,
+              false,
+              true,
+              false,
+              target1,
+              target2,
+              target3,
+              target4,
+              target5);
         } else {
-          await uploadAttachment(userAll, result.paths.first.toString(),
-              refChatInterior, true, false, false, target1, target2);
+          await uploadAttachmentToChaos(
+              userAll,
+              result.paths.first.toString(),
+              refChatInterior,
+              true,
+              false,
+              false,
+              target1,
+              target2,
+              target3,
+              target4,
+              target5);
         }
 
         // Upload file
@@ -438,8 +470,16 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                 CupertinoIcons.mic_circle_fill) {
                               await _audioRecorder.stop();
 
-                              uploadVoice(userAll, _filePath, refChatInterior,
-                                  target1, target2,"","","",false);
+                              uploadVoice(
+                                  userAll,
+                                  _filePath,
+                                  refChatInterior,
+                                  target1,
+                                  target2,
+                                  target3,
+                                  target4,
+                                  target5,
+                                  true);
                               //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
                               print(
                                   "kayıt veritabanına yükleniyor ve gönderiliyor");
@@ -532,7 +572,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
     userAll = context.read<UserAllCubit>().state;
 
-    isChaosSearching = false;
+    //isChaosSearching = false;
     itemCountValue = 20;
     _audioPlayer = AudioPlayer();
 
@@ -540,35 +580,26 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
     refChatInterior = context.read<ChatReferenceCubit>().state;
 
-    groupSettingModelForTrawling = context.read<GroupSettingCubit>().state;
+    groupSettingModelForTrawling = context.read<ChaosGroupSettingCubit>().state;
 
+    /* groupDocumentStream = FirebaseFirestore.instance
+        .collection('chaos_groups_chat')
+        .doc(groupSettingModelForTrawling.groupNo);*/
+
+    /*FirebaseFirestore.instance
+        .collection('chaos_groups_chat')
+        .doc(groupSettingModelForTrawling.groupNo);*/
+    //   .snapshots(includeMetadataChanges: true);
     // print(groupSettingModelForTrawling.groupNo);
 
-    target1 = context.read<GroupSettingCubit>().state.groupMemberUid2;
-    target2 = context.read<GroupSettingCubit>().state.groupMemberUid3;
-
-    groupChaosSearchingInfoGetter(
-            context.read<GroupSettingCubit>().state.groupNo)
-        .then((value) => isChaosSearching = value)
-        .whenComplete(() {
-      if (isChaosSearching == true &&
-          _animationControllerChaosSearching.isAnimating == false) {
-        _animationControllerChaosSearching.repeat();
-
-        // listenToChaosActive();
-      }
-    });
+    target1 = context.read<ChaosGroupSettingCubit>().state.groupMemberUid2;
+    target2 = context.read<ChaosGroupSettingCubit>().state.groupMemberUid3;
+    target3 = context.read<ChaosGroupSettingCubit>().state.groupMemberUid4;
+    target4 = context.read<ChaosGroupSettingCubit>().state.groupMemberUid5;
+    target5 = context.read<ChaosGroupSettingCubit>().state.groupMemberUid6;
 
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 1700), vsync: this);
-
-    _animationControllerChaos = AnimationController(
-        duration: const Duration(milliseconds: 4000), vsync: this);
-    _animationControllerChaosStreaming = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
-
-    _animationControllerChaosSearching = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
 
     _micTranslateTopValue =
         Tween(begin: 0.0, end: -150.0).animate(CurvedAnimation(
@@ -696,48 +727,22 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
           ..addListener(() {
             setState(() {});
           });
-
-    _chaosRotationAnimationValue =
-        Tween(begin: 0.0, end: pi * 24).animate(CurvedAnimation(
-      parent: _animationControllerChaos,
-      curve: Curves.easeInOut,
-    ))
-          ..addListener(() {
-            setState(() {});
-          });
-    _chaosRotationAnimationValueStreaming =
-        Tween(begin: 0.0, end: pi * 2).animate(CurvedAnimation(
-      parent: _animationControllerChaosStreaming,
-      curve: Curves.easeInOut,
-    ))
-          ..addListener(() {
-            setState(() {});
-          });
-
-    _chaosRotationAnimationValueSearching =
-        Tween(begin: 0.0, end: pi * 2).animate(CurvedAnimation(
-      parent: _animationControllerChaosSearching,
-      curve: Curves.easeInOut,
-    ))
-          ..addListener(() {
-            setState(() {});
-          });
   }
 
   @override
   void dispose() {
     _audioPlayer.dispose();
     _animationController.dispose();
-    _animationControllerChaos.dispose();
+
     t1.dispose();
-    _animationControllerChaosStreaming.dispose();
-    _animationControllerChaosSearching.dispose();
+
     WidgetsBinding.instance!.removeObserver(this);
     // print("sfafsa");
 
     super.dispose();
   }
 
+/*
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive) {
@@ -760,9 +765,20 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     }
     super.didChangeAppLifecycleState(state);
   }
-
+*/
   @override
   Widget build(BuildContext context) {
+    DateFormat dFormat = DateFormat("HH:mm");
+
+    /*  groupDocumentStream.forEach((element) {
+                print(element);
+                print(element['created_time']);
+              //  print(DateTime.fromMicrosecondsSinceEpoch(
+                //    element['created_time']));
+                print(
+                    '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(element['created_time'].microsecondsSinceEpoch.toInt(), isUtc: false))}');
+              });*/
+
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           automaticallyImplyMiddle: false,
@@ -770,6 +786,213 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
           automaticallyImplyLeading: true,
           //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
 
+          trailing: Stack(children: [
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(left: 4.w),
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('chaos_groups_chat')
+                        .doc(groupSettingModelForTrawling.groupNo)
+                        .withConverter<ChaosGroupMeta>(
+                          fromFirestore: (snapshot, _) =>
+                              ChaosGroupMeta.fromJson(snapshot.data()!),
+                          toFirestore: (message, _) => message.toJson(),
+                        )
+                        .snapshots(includeMetadataChanges: true),
+
+                    /*groupDocumentStream
+                          .withConverter<ChaosChatMessage>(
+                            fromFirestore: (snapshot, _) =>
+                                ChaosChatMessage.fromJson(snapshot.data()!),
+                            toFirestore: (message, _) => message.toJson(),
+                          )
+                          .snapshots(includeMetadataChanges: true),*/
+                    builder: (BuildContext context,
+                            snapshots) // (context, snapshots)
+                        {
+                      if (snapshots.hasData) {
+                        DocumentSnapshot ds =
+                            snapshots.requireData as DocumentSnapshot;
+
+                        /* print(ds['created_time']);
+                          print(ds['created_time']);
+                          print(ds['created_time']);
+                          print(ds['created_time']);
+                          print(ds['created_time']);
+                          
+                          print(DateTime.fromMicrosecondsSinceEpoch(
+                              ds['created_time'].microsecondsSinceEpoch.toInt(),
+                              isUtc: false));
+                          print(DateTime.fromMicrosecondsSinceEpoch(
+                              ds['finish_time'].microsecondsSinceEpoch.toInt(),
+                              isUtc: false));
+                          print(DateTime.fromMicrosecondsSinceEpoch(
+                              ds['finish_with_bonus_time']
+                                  .microsecondsSinceEpoch
+                                  .toInt(),
+                              isUtc: false));*/
+
+                        DateTime dTime = DateTime.now();
+
+                        /*DateTime.fromMicrosecondsSinceEpoch(
+                              ds['created_time'].microsecondsSinceEpoch.toInt(),
+                              isUtc: false);*/
+                        DateTime dTimeFinish =
+                            DateTime.fromMicrosecondsSinceEpoch(
+                                ds['finish_time']
+                                    .microsecondsSinceEpoch
+                                    .toInt(),
+                                isUtc: false);
+                        DateTime dTimeWithBonus =
+                            DateTime.fromMicrosecondsSinceEpoch(
+                                ds['finish_with_bonus_time']
+                                    .microsecondsSinceEpoch
+                                    .toInt(),
+                                isUtc: false);
+
+                        print(dTimeFinish.difference(dTime).inSeconds);
+                        print(dTimeWithBonus.difference(dTime).inSeconds);
+
+                        int chaosTime;
+
+                        chaosTime = ds['time_bonus'] == true
+                            ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
+                            : dTimeFinish.difference(dTime).inSeconds.toInt();
+                        bool isBonus = ds['time_bonus'];
+
+                        if (ds['time_bonus'] &&
+                            extensionButtonActive == false) {
+                          print('SSS');
+                          print('SSS');
+                          print('SSS');
+                          print('SSS');
+                          print('SSS');
+                          print('SSS');
+
+                          extensionButtonActive = true;
+                        }
+                        /* print(dTime);
+                            print(dTime);
+                              print(dTime);
+                                print(dTime);
+                                  print(dTime);
+                                    print(dTime);*/
+                        // print('${dFormat.format()}');
+                        //  print(ss.chaosIsComplete);
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (userAll.isolaUserMeta.userToken > 0 &&
+                                isBonus != true &&
+                                extensionButtonActive == false) {
+                              DocumentReference extenRef = FirebaseFirestore
+                                  .instance
+                                  .collection('chaos_extensions_pool')
+                                  .doc();
+
+                              extenRef.set({
+                                'extension_no': extenRef.id,
+                                'benefactor_uid': userAll.isolaUserMeta.userUid,
+                                'chaos_group_no':
+                                    groupSettingModelForTrawling.groupNo,
+                                'extension_time': DateTime.now().toUtc(),
+                                'benefactor_name':
+                                    userAll.isolaUserDisplay.userName,
+                                'benefactor_avatar_url':
+                                    userAll.isolaUserDisplay.avatarUrl,
+                                'chaos_member_1_uid': target1,
+                                'chaos_member_2_uid': target2,
+                                'chaos_member_3_uid': target3,
+                                'chaos_member_4_uid': target4,
+                                'chaos_member_5_uid': target5,
+                              });
+
+                              extensionButtonActive = true;
+
+                              //uzatma talebi gönder
+
+                            } else {
+                              print('sikintii');
+                              print(isBonus);
+                              print(extensionButtonActive);
+                              print(userAll.isolaUserMeta.userToken);
+                            }
+                          },
+                          child: CircularCountDownTimer(
+                            controller: chaosTimerController,
+                            duration: chaosTime,
+
+                            /*  duration: ds['time_bonus'] == true
+                                  ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
+                                  : dTimeFinish.difference(dTime).inSeconds.toInt(),*/
+                            //   initialDuration: 50,
+                            textFormat: CountdownTextFormat.MM_SS,
+                            width: 30.sp,
+                            height: 30.sp,
+                            ringColor: isBonus == true
+                                ? Colors.yellow[300]!
+                                : Colors.grey[300]!,
+                            //ringGradient: ColorConstant.isolaTriumGradient,
+                            fillColor: isBonus == true
+                                ? Colors.redAccent
+                                : Colors.purpleAccent[100]!,
+                            // fillGradient: ColorConstant.isolaMainGradient,
+                            backgroundColor: isBonus == true
+                                ? Colors.orange[300]!
+                                : Colors.purple[500],
+                            // backgroundGradient: ColorConstant.isolaMainGradient,
+                            strokeWidth: 5.0,
+                            strokeCap: StrokeCap.round,
+                            textStyle: 100.h > 1100
+                                ? StyleConstants.userTabletChatMessageTextStyle
+                                : StyleConstants.userChatMessageTextStyle,
+
+                            isReverse: true,
+
+                            isReverseAnimation: true,
+                            isTimerTextShown: true,
+                            autoStart: true,
+                            onStart: () {
+                              print('Countdown Started');
+                            },
+                            onComplete: () {
+                              print('Countdown Ended');
+                            },
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: CupertinoActivityIndicator(
+                              animating: true, radius: 12.sp),
+                        );
+                      }
+                    }),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Time Bonus',
+                      style: StyleConstants.isolaTokenTextStyle,
+                    ),
+                  ),
+                  SizedBox(
+                      width: 25.sp,
+                      height: 25.sp,
+                      child: Image.asset('asset/img/isola_token.png')),
+                ],
+              ),
+            )
+          ]),
+
+/*
           trailing: GestureDetector(
             onTap: () {
               //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
@@ -779,151 +1002,17 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
             },
             child: Padding(
               padding: EdgeInsets.zero,
-              child: Stack(
-                children: [
-                  /*buraya düşen süre yapılacak açılış tarihi 
+              child: Stack(children: [
+                /*buraya düşen süre yapılacak açılış tarihi 
                       ile datetime karşılaştırarak ama if verilecek
                       if bonus açıksa with bonus ile hesaplayacak
                   */
 
-                  Align(
-                    alignment: Alignment.center,
-                    child: GestureDetector(
 
-                        //groupNo print(context.read<GroupSettingCubit>().state.groupNo.toString());
-
-                        //groupNo gerekli
-                        onTap: () async {
-                          if (isChaosSearching == true) {
-                            print('hala search ediyor');
-
-                            DocumentReference pool2Ref = FirebaseFirestore
-                                .instance
-                                .collection('chaos_apply_pool_2')
-                                .doc(groupSettingModelForTrawling.groupNo);
-
-                            var pool2Doc;
-
-                            await pool2Ref.get().then(
-                                (value) => pool2Doc = value['groupMemberList']);
-                            print(pool2Doc);
-
-                            var listDoc = pool2Doc as List<dynamic>;
-
-                            if (listDoc
-                                .contains(userAll.isolaUserMeta.userUid)) {
-                              print('içeriyor');
-                            } else {
-                              print('atiş serbset');
-                              await groupChaosApply(
-                                  userAll.isolaUserMeta.userUid,
-                                  groupSettingModelForTrawling.groupNo);
-                            }
-                          } else {
-                            if (_animationControllerChaosStreaming
-                                .isAnimating) {
-                              print('islem yapamazsın');
-                            } else {
-                              if (userAll.isolaUserMeta.userToken == 0) {
-                                //uyarı göster token yetersiz
-                              } else {
-                                if (_animationControllerChaos.isAnimating) {
-                                  _animationControllerChaos.stop();
-                                  _animationControllerChaos.reset();
-                                } else {
-                                  await _animationControllerChaos.forward();
-                                }
-
-                                if (_animationControllerChaos.isCompleted) {
-                                  groupChaosApply(userAll.isolaUserMeta.userUid,
-                                          groupSettingModelForTrawling.groupNo)
-                                      .whenComplete(() {
-                                    _animationControllerChaosStreaming.repeat();
-                                  });
-                                }
-                              }
-                            }
-                          }
-                        },
-                        child: Transform.rotate(
-                          angle: isChaosSearching == false
-                              ? (_animationControllerChaos.isCompleted
-                                  ? _chaosRotationAnimationValueStreaming.value
-                                  : _chaosRotationAnimationValue.value)
-                              : _chaosRotationAnimationValueSearching.value,
-                          child: Image.asset("asset/img/chaos_button.png",
-                              scale: 1.2),
-                        )),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                        padding: EdgeInsets.only(bottom: 0.w),
-                        child: CircleImageContainer(
-                          circleImage: CircleAvatar(
-                            radius: 13.sp,
-                            backgroundColor: ColorConstant.milkColor,
-                            child: ClipRRect(
-                                borderRadius: 100.h <= 1100
-                                    ? BorderRadius.circular(20.sp)
-                                    : BorderRadius.circular(30.sp),
-                                child: /*Image.network(groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl2)*/  CachedNetworkImage(
-                                imageUrl: groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl2,
-                                errorWidget: (context, url, error) =>
-                                    Icon(CupertinoIcons.xmark_square),
-                                              cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-                              ),
-
-                                ),
-                          ),
-                        )),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                        padding: 100.h >= 1100
-                            ? EdgeInsets.only(right: 4.w)
-                            : EdgeInsets.only(right: 6.w),
-                        child: CircleImageContainer(
-                          circleImage: CircleAvatar(
-                            radius: 13.sp,
-                            backgroundColor: CupertinoColors.black,
-                            child: ClipRRect(
-                                borderRadius: 100.h <= 1100
-                                    ? BorderRadius.circular(20.sp)
-                                    : BorderRadius.circular(30.sp),
-                                child: /*Image.network(groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl3)*/ 
-                                    CachedNetworkImage(
-                                imageUrl: groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl3,
-                                fit: BoxFit.fitWidth,
-                                errorWidget: (context, url, error) =>
-                                    Icon(CupertinoIcons.xmark_square),
-                                              cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-                              ),
-                                ),
-                          ),
-                        )),
-                  ),
-                ],
-              ),
+              ]),
             ),
           ),
+      */
         ),
         child: GestureDetector(
           onTap: () {
@@ -934,13 +1023,13 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
               child: Column(
                 children: [
                   Flexible(
-                    child: StreamBuilder<QuerySnapshot<GroupChatMessage>>(
+                    child: StreamBuilder<QuerySnapshot<ChaosChatMessage>>(
                         stream: refChatInterior
                             .orderBy("member_message_time", descending: true)
                             .limit(itemCountValue)
-                            .withConverter<GroupChatMessage>(
+                            .withConverter<ChaosChatMessage>(
                               fromFirestore: (snapshot, _) =>
-                                  GroupChatMessage.fromJson(snapshot.data()!),
+                                  ChaosChatMessage.fromJson(snapshot.data()!),
                               toFirestore: (message, _) => message.toJson(),
                             )
                             .snapshots(),
@@ -1046,7 +1135,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                     .data()
                                                     .member_message_attachment_url,
                                                 userMeAvatarUrl: userAll
-                                                    .isolaUserDisplay.avatarUrl, targetNumber:  data.docs[
+                                                    .isolaUserDisplay.avatarUrl,
+                                                targetNumber: data.docs[
                                                                 indeksNumarasi]
                                                             .data()
                                                             .member_uid ==
@@ -1058,7 +1148,22 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                                 .member_uid ==
                                                             target1
                                                         ? 1
-                                                        :  2,
+                                                        : data.docs[indeksNumarasi]
+                                                                    .data()
+                                                                    .member_uid ==
+                                                                target2
+                                                            ? 2
+                                                            : data.docs[indeksNumarasi]
+                                                                        .data()
+                                                                        .member_uid ==
+                                                                    target3
+                                                                ? 3
+                                                                : data.docs[indeksNumarasi]
+                                                                            .data()
+                                                                            .member_uid ==
+                                                                        target4
+                                                                    ? 4
+                                                                    : 5,
                                               ))),
                                 );
                         }),
@@ -1114,7 +1219,8 @@ class AllMessageBalloon extends StatelessWidget {
       required this.memberIsVideo,
       required this.memberIsDocument,
       required this.memberAttachmentUrl,
-      required this.userMeAvatarUrl,required this.targetNumber })
+      required this.userMeAvatarUrl,
+      required this.targetNumber})
       : super(key: key);
 
   final bool isMe;
@@ -1135,9 +1241,7 @@ class AllMessageBalloon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
- late TextStyle targetTextStyle;
-
+    late TextStyle targetTextStyle;
 
     switch (targetNumber) {
       case 0:
@@ -1146,20 +1250,33 @@ class AllMessageBalloon extends StatelessWidget {
             : targetTextStyle = StyleConstants.chatTabletNameTextStyle1;
         break;
       case 1:
-             100.h <= 1100
+        100.h <= 1100
             ? targetTextStyle = StyleConstants.chatNameTextStyle1
             : targetTextStyle = StyleConstants.chatTabletNameTextStyle1;
         break;
       case 2:
-             100.h <= 1100
+        100.h <= 1100
             ? targetTextStyle = StyleConstants.chatNameTextStyle2
             : targetTextStyle = StyleConstants.chatTabletNameTextStyle2;
         break;
- 
+      case 3:
+        100.h <= 1100
+            ? targetTextStyle = StyleConstants.chatNameTextStyle3
+            : targetTextStyle = StyleConstants.chatTabletNameTextStyle3;
+        break;
+      case 4:
+        100.h <= 1100
+            ? targetTextStyle = StyleConstants.chatNameTextStyle4
+            : targetTextStyle = StyleConstants.chatTabletNameTextStyle4;
+        break;
+      case 5:
+        100.h <= 1100
+            ? targetTextStyle = StyleConstants.chatNameTextStyle5
+            : targetTextStyle = StyleConstants.chatTabletNameTextStyle5;
+        break;
 
       default:
     }
-
 
     if (memberAttachmentUrl == "isola_system_message" &&
         memberName == "System Message") {
@@ -1178,8 +1295,8 @@ class AllMessageBalloon extends StatelessWidget {
                   memberMessageTime: memberMessageTime,
                   memberName: memberName,
                   memberUid: memberUid,
-                  memberVoiceUrl: memberMessageVoiceUrl, targetTextStyle: targetTextStyle,
-                )
+                  memberVoiceUrl: memberMessageVoiceUrl,
+                  targetTextStyle: targetTextStyle)
               : memberIsAttachment == true
                   ? AttachmentMessageBalloonLeft(
                       memberAttachmentUrl: memberAttachmentUrl,
@@ -1189,15 +1306,15 @@ class AllMessageBalloon extends StatelessWidget {
                       memberUid: memberUid,
                       memberMessageIsImage: memberIsImage,
                       memberMessageIsVideo: memberIsVideo,
-                      memberMessageIsDocument: memberIsDocument, targetTextStyle: targetTextStyle,
-                    )
+                      memberMessageIsDocument: memberIsDocument,
+                      targetTextStyle: targetTextStyle)
                   : TextMessageBalloonLeft(
                       memberMessage: memberMessage,
                       memberMessageTime: memberMessageTime,
                       memberAvatarUrl: memberAvatarUrl,
                       memberName: memberName,
-                      memberUid: memberUid, targetTextStyle: targetTextStyle,
-                    ))
+                      memberUid: memberUid,
+                      targetTextStyle: targetTextStyle))
           : (memberMessageIsVoice == true
               //
               ? VoiceMessageBalloonRight(
@@ -1227,6 +1344,7 @@ class AllMessageBalloon extends StatelessWidget {
     }
   }
 }
+/*
 
 class CircleImageContainer extends StatelessWidget {
   Widget circleImage;
@@ -1235,26 +1353,49 @@ class CircleImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100.h >= 1100 ? 13.sp : 30.sp,
-      width: 100.h >= 1100 ? 13.sp : 30.sp,
-      decoration: BoxDecoration(
-          gradient: ColorConstant.isolaMainGradient,
-          border: Border.all(color: ColorConstant.transparentColor),
-          borderRadius: BorderRadius.all(Radius.circular(20.sp))),
-      child: Padding(
-        padding: const EdgeInsets.all(0.5),
-        child: Container(
-          decoration: BoxDecoration(
-              color: ColorConstant.milkColor,
-              border: Border.all(color: ColorConstant.transparentColor),
-              borderRadius: BorderRadius.all(Radius.circular(20.sp))),
-          child: circleImage,
+    return GestureDetector(
+      onTap:()=>showCupertinoDialog(
+                                context: context,
+                                builder: (context) => CupertinoPageScaffold(
+                                    navigationBar: const CupertinoNavigationBar(
+                                      automaticallyImplyLeading: true,
+                                    ),
+                                    child: Center(
+                                        child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: memberAttachmentUrl,
+                                        fit: BoxFit.fill,
+                                        errorWidget: (context, url, error) =>
+                                            Icon(CupertinoIcons.xmark_square),
+                                        cacheManager: CacheManager(Config(
+                                          "cachedImageFiles",
+                                          stalePeriod: const Duration(days: 3),
+                                          //one week cache period
+                                        )),
+                                      ),
+                                    )))),
+      child: Container(
+        height: 100.h >= 1100 ? 13.sp : 30.sp,
+        width: 100.h >= 1100 ? 13.sp : 30.sp,
+        decoration: BoxDecoration(
+            gradient: ColorConstant.isolaMainGradient,
+            border: Border.all(color: ColorConstant.transparentColor),
+            borderRadius: BorderRadius.all(Radius.circular(20.sp))),
+        child: Padding(
+          padding: const EdgeInsets.all(0.5),
+          child: Container(
+            decoration: BoxDecoration(
+                color: ColorConstant.milkColor,
+                border: Border.all(color: ColorConstant.transparentColor),
+                borderRadius: BorderRadius.all(Radius.circular(20.sp))),
+            child: circleImage,
+          ),
         ),
       ),
     );
   }
-}
+}*/
 
 class SayacModel extends ChangeNotifier {
   Icon sendIcon = Icon(
