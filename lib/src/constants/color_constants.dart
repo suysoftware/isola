@@ -6,7 +6,7 @@ class ColorConstant {
   static const Color themeColor = Color(0xFFF2F3F5);
   static const Color textColor = CupertinoColors.white;
   static const Color softBlack = CupertinoColors.black;
-    static const Color redAlert = CupertinoColors.destructiveRed;
+  static const Color redAlert = CupertinoColors.destructiveRed;
   static const Color doubleSoftBlack = CupertinoColors.darkBackgroundGray;
   static const Color themeGrey = Color(0xFFF2F3F5);
   static const Color messageBoxGrey = Color(0xFFE1E1E1);
@@ -19,11 +19,11 @@ class ColorConstant {
   static const Color groupSettingsButton1 = Color(0xFF485FDB);
   static const Color groupSettingsButton2 = Color(0xFF5973FF);
 
-  static const Color chatNameTextColor1 = Color(0xFF8111FF);
-  static const Color chatNameTextColor2 = Color(0xFF0052eF);
-  static const Color chatNameTextColor3 = Color(0xFF724670);
-  static const Color chatNameTextColor4 = Color(0xFF6992FF);
-  static const Color chatNameTextColor5 = Color(0xFFFF1230);
+  static const Color chatNameTextColor1 = Color(0xFF00C2FF);
+  static const Color chatNameTextColor2 = Color(0xFFE167FF);
+  static const Color chatNameTextColor3 = Color(0xFFFFB800);
+  static const Color chatNameTextColor4 = Color(0xFFFF3666);
+  static const Color chatNameTextColor5 = Color(0xFF00E35B);
 
 
   static const Color softPurple = Color(0xFFAF43FD);

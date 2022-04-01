@@ -23,6 +23,7 @@ import '../../../../blocs/chaos_chat_message_target.dart';
 import '../../../../model/chaos/chaos_chat_message.dart';
 import '../../../../model/chaos/chaos_group_setting_model.dart';
 import '../../../../model/group/group_preview_data.dart';
+import '../../../../widget/text_widgets.dart';
 
 class ChaosGroupCont extends StatelessWidget {
   const ChaosGroupCont(
@@ -232,7 +233,7 @@ class ChaosGroupCont extends StatelessWidget {
                   groupDatasFriend2.add(groupFriend2);
                 }
 
-                  if (comingInfo["member_uid"] == chatFriendUid3 &&
+                if (comingInfo["member_uid"] == chatFriendUid3 &&
                     groupDatasFriend3.isNotEmpty) {
                   var groupFriend3 = ChaosChatMessage(
                     comingInfo["member_avatar_url"],
@@ -257,7 +258,8 @@ class ChaosGroupCont extends StatelessWidget {
                   groupDatasFriend3.add(groupFriend3);
                 }
                 if (groupDatasFriend3.isEmpty &&
-                    comingInfo["member_uid"] != chatFriendUid1&&comingInfo["member_uid"] != chatFriendUid2) {
+                    comingInfo["member_uid"] != chatFriendUid1 &&
+                    comingInfo["member_uid"] != chatFriendUid2) {
                   chatFriendUid3 = comingInfo["member_uid"];
                   chatFriendName3 = comingInfo["member_name"];
                   chatFriendAvatarUrl3 = comingInfo["member_avatar_url"];
@@ -284,7 +286,7 @@ class ChaosGroupCont extends StatelessWidget {
                   groupDatasFriend3.add(groupFriend3);
                 }
 
-                        if (comingInfo["member_uid"] == chatFriendUid4 &&
+                if (comingInfo["member_uid"] == chatFriendUid4 &&
                     groupDatasFriend4.isNotEmpty) {
                   var groupFriend4 = ChaosChatMessage(
                     comingInfo["member_avatar_url"],
@@ -309,7 +311,9 @@ class ChaosGroupCont extends StatelessWidget {
                   groupDatasFriend4.add(groupFriend4);
                 }
                 if (groupDatasFriend4.isEmpty &&
-                    comingInfo["member_uid"] != chatFriendUid1&&comingInfo["member_uid"] != chatFriendUid2&&comingInfo["member_uid"] != chatFriendUid3) {
+                    comingInfo["member_uid"] != chatFriendUid1 &&
+                    comingInfo["member_uid"] != chatFriendUid2 &&
+                    comingInfo["member_uid"] != chatFriendUid3) {
                   chatFriendUid4 = comingInfo["member_uid"];
                   chatFriendName4 = comingInfo["member_name"];
                   chatFriendAvatarUrl4 = comingInfo["member_avatar_url"];
@@ -336,7 +340,7 @@ class ChaosGroupCont extends StatelessWidget {
                   groupDatasFriend4.add(groupFriend4);
                 }
 
-                        if (comingInfo["member_uid"] == chatFriendUid5 &&
+                if (comingInfo["member_uid"] == chatFriendUid5 &&
                     groupDatasFriend5.isNotEmpty) {
                   var groupFriend5 = ChaosChatMessage(
                     comingInfo["member_avatar_url"],
@@ -361,7 +365,10 @@ class ChaosGroupCont extends StatelessWidget {
                   groupDatasFriend5.add(groupFriend5);
                 }
                 if (groupDatasFriend5.isEmpty &&
-                    comingInfo["member_uid"] != chatFriendUid1&&comingInfo["member_uid"] != chatFriendUid2&&comingInfo["member_uid"] != chatFriendUid3&&comingInfo["member_uid"] != chatFriendUid4) {
+                    comingInfo["member_uid"] != chatFriendUid1 &&
+                    comingInfo["member_uid"] != chatFriendUid2 &&
+                    comingInfo["member_uid"] != chatFriendUid3 &&
+                    comingInfo["member_uid"] != chatFriendUid4) {
                   chatFriendUid5 = comingInfo["member_uid"];
                   chatFriendName5 = comingInfo["member_name"];
                   chatFriendAvatarUrl5 = comingInfo["member_avatar_url"];
@@ -387,7 +394,6 @@ class ChaosGroupCont extends StatelessWidget {
                   );
                   groupDatasFriend5.add(groupFriend5);
                 }
-
               }
             }
             groupDatasFriend1.sort((b, a) =>
@@ -473,27 +479,31 @@ class ChaosGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChaosChatGroupCard(
-                      chatPicFirst:/* Image.network(chatFriendAvatarUrl1),*/
-                      CachedNetworkImage(
-                        imageUrl: chatFriendAvatarUrl1,
-                
+                    
+                      chatPicMe:     CachedNetworkImage(
+                        imageUrl: userAll.isolaUserDisplay.avatarUrl,
                         errorWidget: (context, url, error) =>
                             Icon(CupertinoIcons.xmark_square),
                       ),
-                      chatPicSecond:/* Image.network(
+                    
+                      chatPicFirst: /* Image.network(chatFriendAvatarUrl1),*/
+                          CachedNetworkImage(
+                        imageUrl: chatFriendAvatarUrl1,
+                        errorWidget: (context, url, error) =>
+                            Icon(CupertinoIcons.xmark_square),
+                      ),
+                      chatPicSecond: /* Image.network(
                           chatFriendAvatarUrl2) */
-                           CachedNetworkImage(
+                          CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl2,
-                                  cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                        cacheManager: CacheManager(Config(
+                          "cachedImageFiles",
+                          stalePeriod: const Duration(days: 3),
+                          //one week cache period
+                        )),
                         //fit: BoxFit.cover,
                       ),
-                      
+
                       chatBoxText: chatLastMessage,
                       notiValue: notiValue,
                       chatBoxName:
@@ -505,27 +515,30 @@ class ChaosGroupCont extends StatelessWidget {
                       isDoc: isDoc,
                       isVoice: isVoice,
                       groupSettingModel: groupSetting,
-                      chatPicThird:CachedNetworkImage(imageUrl: chatFriendAvatarUrl3,          cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),), //Image.network(chatFriendAvatarUrl3),
-                      chatPicForth:CachedNetworkImage(imageUrl: chatFriendAvatarUrl4,          cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),),// Image.network(chatFriendAvatarUrl4),
-                      chatPicFifth:CachedNetworkImage(imageUrl: chatFriendAvatarUrl5,          cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),), //Image.network(chatFriendAvatarUrl5),
+                      chatPicThird: CachedNetworkImage(
+                        imageUrl: chatFriendAvatarUrl3,
+                        cacheManager: CacheManager(Config(
+                          "cachedImageFiles",
+                          stalePeriod: const Duration(days: 3),
+                          //one week cache period
+                        )),
+                      ), //Image.network(chatFriendAvatarUrl3),
+                      chatPicForth: CachedNetworkImage(
+                        imageUrl: chatFriendAvatarUrl4,
+                        cacheManager: CacheManager(Config(
+                          "cachedImageFiles",
+                          stalePeriod: const Duration(days: 3),
+                          //one week cache period
+                        )),
+                      ), // Image.network(chatFriendAvatarUrl4),
+                      chatPicFifth: CachedNetworkImage(
+                        imageUrl: chatFriendAvatarUrl5,
+                        cacheManager: CacheManager(Config(
+                          "cachedImageFiles",
+                          stalePeriod: const Duration(days: 3),
+                          //one week cache period
+                        )),
+                      ), //Image.network(chatFriendAvatarUrl5),
                     ),
                   ),
                 ),
@@ -557,9 +570,10 @@ class ChaosChatGroupCard extends StatelessWidget {
       required this.isVideo,
       required this.isVoice,
       required this.isDoc,
-      required this.groupSettingModel})
+      required this.groupSettingModel,
+      required this.chatPicMe})
       : super(key: key);
-
+  final Widget chatPicMe;
   final Widget chatPicFirst;
   final Widget chatPicSecond;
   final Widget chatPicThird;
@@ -597,34 +611,137 @@ class ChaosChatGroupCard extends StatelessWidget {
                   ));
         } else {
           //buraya if konacak
-        
 
-          context.read<ChatReferenceCubit>().chatChaosGroupChanger(chatGroupNo,true);
+          context
+              .read<ChatReferenceCubit>()
+              .chatChaosGroupChanger(chatGroupNo, true);
 
           context.read<ChatIsChaosCubit>().chatIsChaosTrue();
 
-           context
+          context
               .read<ChaosGroupSettingCubit>()
               .chaosGroupSettingChanger(groupSettingModel);
 
-            String target1=groupSettingModel.groupMemberUid2;
-             String target2=groupSettingModel.groupMemberUid3;
-              String target3=groupSettingModel.groupMemberUid4;
-               String target4=groupSettingModel.groupMemberUid5;
-                String target5=groupSettingModel.groupMemberUid6;
-                String myUid=groupSettingModel.userUid;
+          String target1 = groupSettingModel.groupMemberUid2;
+          String target2 = groupSettingModel.groupMemberUid3;
+          String target3 = groupSettingModel.groupMemberUid4;
+          String target4 = groupSettingModel.groupMemberUid5;
+          String target5 = groupSettingModel.groupMemberUid6;
+          String myUid = groupSettingModel.userUid;
 
-          context.read<ChaosChatMessageTargetsCubit>().chatMessageTargetsChanger(
-              meUid: myUid, target1: target1, target2: target2,target3:target3 ,target4: target4,target5:target5 );
-
+          context
+              .read<ChaosChatMessageTargetsCubit>()
+              .chatMessageTargetsChanger(
+                  meUid: myUid,
+                  target1: target1,
+                  target2: target2,
+                  target3: target3,
+                  target4: target4,
+                  target5: target5);
 
           Navigator.of(context, rootNavigator: true)
               .pushNamed(chaosChatInteriorPage);
-
-
         }
       },
       child: Card(
+        elevation: 0.0,
+        color: ColorConstant.transparentColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            
+
+            ImageChatClip(imageItem: chatPicMe, leftPadding: 0),
+            ImageChatClip(
+              imageItem: chatPicFirst,
+              leftPadding: 0,
+            ),
+            ImageChatClip(
+              imageItem: chatPicSecond,
+              leftPadding: 0,
+            ),
+             ChatTextsChaos(
+                 targetName: 'CHAOS',
+                 context: context,
+                 targetText:"X",
+                 rowLetterValue: 50,
+                 letterTextStyle: 100.h >= 1100
+                     ? StyleConstants.groupTabletCardTextStyle
+                     : StyleConstants.groupCardTextStyle,
+                 heightValue: 100.h <= 1100 ? 1.5 : 1),
+            ImageChatClip(
+              imageItem: chatPicThird,
+              leftPadding: 14,
+            ),
+            ImageChatClip(
+              imageItem: chatPicForth,
+              leftPadding: 8,
+            ),
+            ImageChatClip(
+              imageItem: chatPicFifth,
+              leftPadding: 8,
+            ),
+           /* notiValue == 19999
+                ? const SizedBox()
+                : (notiValue == 0
+                    ? SizedBox()
+                    : notiValue > 99
+                        ? MessageNotificationMini(
+                            notiValue: 99, leftPadding: 17)
+                        : (MessageNotificationMini(
+                            notiValue: notiValue, leftPadding: 17))),*/
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ChatTextsChaos extends StatelessWidget {
+  String targetName;
+  String targetText;
+  int rowLetterValue;
+  TextStyle letterTextStyle;
+  double heightValue;
+  ChatTextsChaos(
+      {Key? key,
+      required this.targetName,
+      required context,
+      required this.targetText,
+      required this.rowLetterValue,
+      required this.letterTextStyle,
+      required this.heightValue})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+     
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 2.0, 0.0),
+          child: Text(
+            targetName,
+            style: 100.h >= 1100
+                ? StyleConstants.softDarkTabletTextStyle
+                : StyleConstants.softDarkTextStyle,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(24.0, 2.h, 0, 2.5.h),
+          child:Center(child: Text('X',style: TextStyle(fontSize: 15.sp),)) /* textWidgetGetter(context,
+              targetMessage: targetText,
+              targetName: targetName,
+              rowLetterValue: rowLetterValue,
+              letterTextStyle: letterTextStyle),*/
+        ),
+      ],
+    );
+  }
+}
+/*
+Card(
         elevation: 0.0,
         color: ColorConstant.transparentColor,
         child: Row(
@@ -641,7 +758,7 @@ class ChaosChatGroupCard extends StatelessWidget {
                 ),
                 ImageChatClip(
                   imageItem: chatPicThird,
-                  leftPadding: 8,
+                  leftPadding: 14,
                 ),
                 ImageChatClip(
                   imageItem: chatPicForth,
@@ -688,6 +805,4 @@ class ChaosChatGroupCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
+*/

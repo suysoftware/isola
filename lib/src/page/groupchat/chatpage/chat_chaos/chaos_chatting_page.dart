@@ -70,7 +70,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   FirebaseAuth auth = FirebaseAuth.instance;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
-
+                   CountDownController chaosTimerController =
+                            CountDownController();
   // late Stream<QueryDocumentSnapshot> groupDocumentStream;
 
   DateFormat dFormat = DateFormat("HH:mm:ss");
@@ -92,8 +93,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   late User user;
   late CollectionReference refChatInterior;
   late IsolaUserAll userAll;
-
-  CountDownController chaosTimerController = CountDownController();
 
 //chaos button
 
@@ -565,6 +564,125 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     );
   }
 
+  Widget timeCircle(
+      bool isBonus,
+      int chaosTime,
+      DateTime dTime,
+      DateTime dTimeWithBonus,
+      DocumentSnapshot ds,
+      CountDownController chaosTimerController) {
+    return GestureDetector(
+      onTap: () {
+        if (userAll.isolaUserMeta.userToken > 0 &&
+            isBonus != true &&
+            extensionButtonActive == false) {
+          DocumentReference extenRef = FirebaseFirestore.instance
+              .collection('chaos_extensions_pool')
+              .doc();
+
+          extenRef.set({
+            'extension_no': extenRef.id,
+            'benefactor_uid': userAll.isolaUserMeta.userUid,
+            'chaos_group_no': groupSettingModelForTrawling.groupNo,
+            'extension_time': DateTime.now().toUtc(),
+            'benefactor_name': userAll.isolaUserDisplay.userName,
+            'benefactor_avatar_url': userAll.isolaUserDisplay.avatarUrl,
+            'chaos_member_1_uid': target1,
+            'chaos_member_2_uid': target2,
+            'chaos_member_3_uid': target3,
+            'chaos_member_4_uid': target4,
+            'chaos_member_5_uid': target5,
+          });
+
+          extensionButtonActive = true;
+
+          //uzatma talebi gönder
+
+        } else {
+          print('sikintii');
+          print(isBonus);
+          print(extensionButtonActive);
+          print(userAll.isolaUserMeta.userToken);
+        }
+      },
+      child: CircularCountDownTimer(
+        controller: chaosTimerController,
+        duration: chaosTime <= 0 ? 0 : chaosTime,
+
+        /*  duration: ds['time_bonus'] == true
+                                  ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
+                                  : dTimeFinish.difference(dTime).inSeconds.toInt(),*/
+        //   initialDuration: 50,
+        textFormat: CountdownTextFormat.MM_SS,
+        width: 30.sp,
+        height: 30.sp,
+        ringColor: isBonus == true ? Color(0xFFA88300) : Color(0xFF80E8FF),
+        //ringGradient: ColorConstant.isolaTriumGradient,
+        fillColor:
+            isBonus == true ? Color(0xFFFF4D00) : Color(0xFFE13D96),
+        // fillGradient: ColorConstant.isolaMainGradient,
+        backgroundColor:
+            isBonus == true ? Color(0xFFFFC700) : Color(0xFF5873FF),
+        // backgroundGradient: ColorConstant.isolaMainGradient,
+        strokeWidth: 4.0,
+        strokeCap: StrokeCap.round,
+        textStyle: 100.h > 1100
+            ? StyleConstants.chaosTimerTabletTextStyle
+            : StyleConstants.chaosTimerTextStyle,
+
+        isReverse: true,
+
+        isReverseAnimation: false,
+        isTimerTextShown: true,
+        autoStart: true,
+
+        onStart: () {
+          print('Countdown Started');
+        },
+
+        onComplete: () async {
+          print('Countdown Ended');
+
+          if (ds['time_bonus'] == true &&
+              dTimeWithBonus.difference(dTime).inSeconds.toInt() > 0) {
+            await showCupertinoDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                      actions: [
+                        CupertinoButton(
+                            child: Text('You have more time :)'),
+                            onPressed: () {})
+                      ],
+                    ));
+          } else {
+            var chaosCompleteRef = FirebaseFirestore.instance
+                .collection('chaos_complete_pool')
+                .doc(groupSettingModelForTrawling.groupNo);
+
+            await chaosCompleteRef.set({
+              'complete_chaos_no': groupSettingModelForTrawling.groupNo,
+            });
+          }
+
+          /*  await showCupertinoDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                    actions: [
+                      CupertinoButton(
+                          child: Text('Chaos Finished'),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, navigationBar);
+                          })
+                    ],
+                  ));*/
+        },
+      ),
+    );
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -809,7 +927,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                             toFirestore: (message, _) => message.toJson(),
                           )
                           .snapshots(includeMetadataChanges: true),*/
-                    builder: (BuildContext context,
+                    builder: ( context,
                             snapshots) // (context, snapshots)
                         {
                       if (snapshots.hasData) {
@@ -834,11 +952,28 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                   .toInt(),
                               isUtc: false));*/
 
-                        DateTime dTime = DateTime.now();
-
                         /*DateTime.fromMicrosecondsSinceEpoch(
                               ds['created_time'].microsecondsSinceEpoch.toInt(),
                               isUtc: false);*/
+                        /* DateTime dTimeFinish =
+                            DateTime.fromMicrosecondsSinceEpoch(
+                                ds['finish_time']
+                                    .microsecondsSinceEpoch
+                                    .toInt(),
+                                isUtc: false);
+                        DateTime dTimeWithBonus =
+                            DateTime.fromMicrosecondsSinceEpoch(
+                                ds['finish_with_bonus_time']
+                                    .microsecondsSinceEpoch
+                                    .toInt(),
+                                isUtc: false);
+                        DateTime dTime = DateTime.now();
+
+                        var ssd = dFormat.format(dTime);
+                        print('ssd $ssd');
+                        */
+                        int chaosTime;
+                        bool isBonus = ds['time_bonus'];
                         DateTime dTimeFinish =
                             DateTime.fromMicrosecondsSinceEpoch(
                                 ds['finish_time']
@@ -851,16 +986,27 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                     .microsecondsSinceEpoch
                                     .toInt(),
                                 isUtc: false);
+                        DateTime dTime = DateTime.now();
 
-                        print(dTimeFinish.difference(dTime).inSeconds);
-                        print(dTimeWithBonus.difference(dTime).inSeconds);
+                        //Timestamp dTimeWithBonus = ds['finish_time'];
 
-                        int chaosTime;
+                        // Timestamp dTimeFinish = ds['finish_with_bonus_time'];
 
                         chaosTime = ds['time_bonus'] == true
                             ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
                             : dTimeFinish.difference(dTime).inSeconds.toInt();
-                        bool isBonus = ds['time_bonus'];
+                        print('??????');
+                        print(chaosTime);
+                        print('???????');
+                        /*    chaosTime = ds['time_bonus'] == true
+                            ? (dTimeWithBonus.toDate())
+                                .difference(dTime)
+                                .inSeconds
+                                .toInt()
+                            : (dTimeFinish.toDate())
+                                .difference(dTime)
+                                .inSeconds
+                                .toInt();*/
 
                         if (ds['time_bonus'] &&
                             extensionButtonActive == false) {
@@ -873,6 +1019,22 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
 
                           extensionButtonActive = true;
                         }
+                        //   dTime.microsecond.toInt;
+                        // print('dTime: ${dTime.millisecond}');
+                        //print(
+                        //  'dTimeFinish:  ${dTimeFinish.}');
+                        //  print(
+                        //    'dTimeWithBonus: ${dTimeWithBonus.millisecondsSinceEpoch}');
+
+                        print('////////////////');
+                        //   print((dTime.millisecond) - (dTimeFinish.millisecond));
+                        // print(
+                        //   (dTime.millisecond) - (dTimeWithBonus.millisecond));
+
+                        //print('________________');
+                        //  print(chaosTime);
+                        //   print(dTimeFinish.difference(dTime));
+
                         /* print(dTime);
                             print(dTime);
                               print(dTime);
@@ -881,8 +1043,49 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                     print(dTime);*/
                         // print('${dFormat.format()}');
                         //  print(ss.chaosIsComplete);
+                        /*   if (isBonus) {
+                          print('girdiiiii');
+                          if ((dTimeWithBonus.difference(dTime).inSeconds.toInt() ==
+                              0)) {
+                            var chaosCompleteRef = FirebaseFirestore.instance
+                                .collection('chaos_complete_pool')
+                                .doc();
 
-                        return GestureDetector(
+                            chaosCompleteRef.set({
+                              'complete_chaos_no':
+                                  groupSettingModelForTrawling.groupNo,
+                              'complete_no': chaosCompleteRef.id,
+                            });
+                          }
+                        } else {
+                          if ((dTimeFinish.difference(dTime).inSeconds.toInt()) == 0) {
+                            var chaosCompleteRef = FirebaseFirestore.instance
+                                .collection('chaos_complete_pool')
+                                .doc();
+
+                            chaosCompleteRef.set({
+                              'complete_chaos_no':
+                                  groupSettingModelForTrawling.groupNo,
+                              'complete_no': chaosCompleteRef.id,
+                            });
+                          }
+                        }*/
+                        // print('chaostime $chaosTime');
+                        //var sfss = chaosTimerController.getTime();
+
+                        //print(sfss);
+     
+
+                        print(
+                            'with bonus ${dTimeWithBonus.difference(dTime).inSeconds.toInt() > 0}');
+
+
+
+                        
+                        return timeCircle(isBonus, chaosTime, dTime,
+                            dTimeWithBonus, ds, chaosTimerController);
+
+                        /*          return GestureDetector(
                           onTap: () {
                             if (userAll.isolaUserMeta.userToken > 0 &&
                                 isBonus != true &&
@@ -922,7 +1125,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                           },
                           child: CircularCountDownTimer(
                             controller: chaosTimerController,
-                            duration: chaosTime,
+                            duration: chaosTime <= 0 ? 0 : chaosTime,
 
                             /*  duration: ds['time_bonus'] == true
                                   ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
@@ -954,14 +1157,49 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                             isReverseAnimation: true,
                             isTimerTextShown: true,
                             autoStart: true,
+
                             onStart: () {
                               print('Countdown Started');
                             },
+
                             onComplete: () {
                               print('Countdown Ended');
+
+                              if (ds['time_bonus'] == true &&
+                                  dTimeWithBonus
+                                          .difference(dTime)
+                                          .inSeconds
+                                          .toInt() >
+                                      0) {
+                                        
+                               
+                              } else {
+                                var chaosCompleteRef = FirebaseFirestore
+                                    .instance
+                                    .collection('chaos_complete_pool')
+                                    .doc(groupSettingModelForTrawling.groupNo);
+
+                                chaosCompleteRef.set({
+                                  'complete_chaos_no':
+                                      groupSettingModelForTrawling.groupNo,
+                                });
+                              }
+
+                              showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) => CupertinoAlertDialog(
+                                        actions: [
+                                          CupertinoButton(
+                                              child: Text('sda'),
+                                              onPressed: () {
+                                                Navigator.pushReplacementNamed(
+                                                    context, navigationBar);
+                                              })
+                                        ],
+                                      ));
                             },
                           ),
-                        );
+                        ); */
                       } else {
                         return Center(
                           child: CupertinoActivityIndicator(
@@ -971,48 +1209,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                     }),
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Time Bonus',
-                      style: StyleConstants.isolaTokenTextStyle,
-                    ),
-                  ),
-                  SizedBox(
-                      width: 25.sp,
-                      height: 25.sp,
-                      child: Image.asset('asset/img/isola_token.png')),
-                ],
-              ),
-            )
-          ]),
+           ]),
 
-/*
-          trailing: GestureDetector(
-            onTap: () {
-              //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(groupSettingsPage);
-              //  Navigator.pop(context);
-            },
-            child: Padding(
-              padding: EdgeInsets.zero,
-              child: Stack(children: [
-                /*buraya düşen süre yapılacak açılış tarihi 
-                      ile datetime karşılaştırarak ama if verilecek
-                      if bonus açıksa with bonus ile hesaplayacak
-                  */
-
-
-              ]),
-            ),
-          ),
-      */
         ),
         child: GestureDetector(
           onTap: () {

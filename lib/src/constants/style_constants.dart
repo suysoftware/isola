@@ -312,6 +312,16 @@ class StyleConstants {
     color: ColorConstant.milkColor,
     fontSize: 8.sp,
   );
+    static TextStyle chaosTimerTextStyle = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.milkColor,
+    fontSize: 9.sp,
+  );
+  static TextStyle chaosTimerTabletTextStyle = TextStyle(
+    fontFamily: "Roboto-Bold",
+    color: ColorConstant.milkColor,
+    fontSize: 6.sp,
+  );
   static TextStyle postAddTextStyle = TextStyle(
       fontFamily: "Roboto",
       color: ColorConstant.softBlack,
@@ -329,65 +339,65 @@ class StyleConstants {
   );
   static TextStyle chatNameTextStyle1 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor1.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor1.withOpacity(0.8),
     fontSize: 12,
     overflow: TextOverflow.fade,
   );
   static TextStyle chatTabletNameTextStyle1 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor1.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor1.withOpacity(0.8),
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
 
   static TextStyle chatNameTextStyle2 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor2.withOpacity(0.7),
+    color:  ColorConstant.chatNameTextColor2.withOpacity(0.8),
     fontSize: 12,
     overflow: TextOverflow.fade,
   );
   static TextStyle chatTabletNameTextStyle2 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor2.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor2.withOpacity(0.8),
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
   
     static TextStyle chatNameTextStyle3 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor3.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor3.withOpacity(0.8),
     fontSize: 12,
     overflow: TextOverflow.fade,
   );
   static TextStyle chatTabletNameTextStyle3 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor3.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor3.withOpacity(0.8),
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
   
   static TextStyle chatNameTextStyle4 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor4.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor4.withOpacity(0.8),
     fontSize: 12,
     overflow: TextOverflow.fade,
   );
   static TextStyle chatTabletNameTextStyle4 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor4.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor4.withOpacity(0.8),
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
   
     static TextStyle chatNameTextStyle5 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor5.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor5.withOpacity(0.8),
     fontSize: 12,
     overflow: TextOverflow.fade,
   );
   static TextStyle chatTabletNameTextStyle5 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color: ColorConstant.chatNameTextColor5.withOpacity(0.7),
+    color: ColorConstant.chatNameTextColor5.withOpacity(0.8),
     fontSize: 24,
     overflow: TextOverflow.fade,
   );

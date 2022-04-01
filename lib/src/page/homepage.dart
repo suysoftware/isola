@@ -925,8 +925,8 @@ class PostAvatarLeft extends StatelessWidget {
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.sp),
-          child:/*Image.network(avatarUrl)*/
-           CachedNetworkImage(
+          child:Image.network(avatarUrl)
+          /* CachedNetworkImage(
             imageUrl: avatarUrl,
             errorWidget: (context, url, error) =>
                 Icon(CupertinoIcons.xmark_square),
@@ -937,7 +937,7 @@ class PostAvatarLeft extends StatelessWidget {
           //one week cache period
         )
     ),
-          ),
+          ),*/
         ),
       ),
     );
@@ -962,8 +962,8 @@ class PostAvatarRight extends StatelessWidget {
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
-            child:/*Image.network(avatarUrl) */
-            CachedNetworkImage(
+            child:Image.network(avatarUrl) 
+           /* CachedNetworkImage(
               imageUrl: avatarUrl,
               errorWidget: (context, url, error) =>
                   Icon(CupertinoIcons.xmark_square),
@@ -974,7 +974,8 @@ class PostAvatarRight extends StatelessWidget {
           //one week cache period
         )
     ),
-            )),
+            )*/
+            ),
       ),
     );
   }
