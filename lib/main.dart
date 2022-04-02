@@ -37,17 +37,20 @@ import 'package:isola_app/src/page/profile/profile_interest_edit.dart';
 import 'package:isola_app/src/page/splash_page.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:sizer/sizer.dart';
 
 late Box box;
 late UserHive _userHive;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+/*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();*/
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
+  //mesaj kategori ve tiplerini ayarla
+
   await Firebase.initializeApp();
 
   print('Handling a background message ${message.messageId}');
@@ -72,6 +75,10 @@ Future<void> _firebaseMessagingOpenedAppHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   await init();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  //FirebaseMessaging.onMessage;
+
   runApp(EasyLocalization(
       supportedLocales: AppConstant.SUPPORTED_LOCALE,
       path: AppConstant.LANG_PATH,
@@ -83,17 +90,10 @@ Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
   EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
+
   await Hive.initFlutter();
   box = await Hive.openBox('HiveDatabase2');
   Hive.registerAdapter(UserHiveAdapter());
-
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  await messaging.setForegroundNotificationPresentationOptions(
-    alert: true, // Required to display a heads up notification
-    badge: true,
-    sound: true,
-  );
 
   var history = <String>[];
   history.add("11");
@@ -244,7 +244,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) {
             return ChatMessageTargetsCubit();
           }),
-            BlocProvider(create: (context) {
+          BlocProvider(create: (context) {
             return ChaosChatMessageTargetsCubit();
           }),
           BlocProvider(create: (context) {

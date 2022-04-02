@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   FirebaseAuth auth = FirebaseAuth.instance;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
-
+  
   late String target1;
   late String target2;
   late bool isChaosSearching;
@@ -530,6 +531,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
 
+  
     userAll = context.read<UserAllCubit>().state;
 
     isChaosSearching = false;

@@ -25,6 +25,8 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
 
+import '../service/notification/notification_helper.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
@@ -42,7 +44,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late bool isTablet;
   int popularItemAmount = 0;
-
+  int notificationCount = 0;
+  //FirebaseMessaging messaging = FirebaseMessaging.instance;
   late AnimationController animationController;
   late AnimationController animationController2;
   late AnimationController animationController3;
@@ -57,8 +60,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 //searching animations
   late AnimationController animationController4;
   late Animation<double> rotateAnimationValue3;
-
+/*
   Future<void> setupInteractedMessage() async {
+    print('setupInteractedMessage');
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage? initialMessage =
@@ -74,17 +78,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
-
-  void _handleMessage(RemoteMessage message) {
+*/
+  
+ /* void _handleMessage(RemoteMessage message) {
     print(message.data);
-    /* if (message.data['type'] == 'chat') {
+     if (message.data['type'] == 'chat') {
       Navigator.pushNamed(
         context,
         '/chat',
         arguments: ChatArguments(message),
       );
-    }*/
-  }
+    }
+  }*/
 
   void addGroupToJoinedList(String comingValue) {
     context.read<JoinedListCubit>().joinedListAdd(comingValue);
@@ -97,7 +102,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    setupInteractedMessage();
+    //setupInteractedMessage();
+   /* FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+
+
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+      //  print('Message also contained a notification: ${message.notification}');
+        //  await notificationHelper.showNotification();
+      }
+    });*/
+    /*onNotificationInLowerVersions(ReceivedNotification receivedNotification) {
+      print(
+          'onNotificationInLowerVersions Received ${receivedNotification.id}');
+    }
+
+    onNotificationClick(String payload) {
+      print('onNotificationClick, Payload $payload');
+
+      //notificationHelper.showNotification();
+    }
+
+    notificationHelper
+        .setListenerForLowerVersions(onNotificationInLowerVersions);
+    notificationHelper.setOnNotificationClick(onNotificationClick);
+*/
+ /* messaging.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );*/
+
 /*
      FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
   FirebaseMessaging.onMessageOpenedApp
@@ -304,6 +341,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     animationController.dispose();
     animationController2.dispose();
     animationController3.dispose();
+  
     if (mounted) {
       animationController4.dispose();
     }
@@ -312,6 +350,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     print(100.h);
     print(100.w);
     if (widget.userAll.isolaUserMeta.userIsSearching) {
@@ -335,14 +374,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   trailing: Padding(
                     padding: EdgeInsets.zero,
                     child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           print(widget.userAll.isolaUserDisplay.avatarUrl);
                           print(widget.userAll.isolaUserDisplay.userName);
 
+                          await notificationHelper.showNotificationTest();
+                          //   await notificationHelper.showWeeklyAtDayAndTime();
+
+                          //   await notificationHelper.showPeriodicly();
+/*
+
+
+                      !!!!!!
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => TokenGainPage()));
+                                  builder: (context) => TokenGainPage()));*/
+
                           /*
                       Navigator.push(
                           context,
@@ -896,11 +944,13 @@ class CardInline extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   HomeTextsRight(
-                      targetName: targetName,
-                      context: context,
-                      targetText: targetText,
-                      rowLetterValue: 100.h >= 1100 ? 60 : 45,
-                      letterTextStyle: letterTextStyle, heightValue: 1,),
+                    targetName: targetName,
+                    context: context,
+                    targetText: targetText,
+                    rowLetterValue: 100.h >= 1100 ? 60 : 45,
+                    letterTextStyle: letterTextStyle,
+                    heightValue: 1,
+                  ),
                   PostAvatarRight(
                       avatarRadius: avatarRadius, avatarUrl: targetAvatar),
                 ],
@@ -921,12 +971,12 @@ class PostAvatarLeft extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 0.0, 4.0, 10.0),
       child: CircleAvatar(
-        radius:100.h<=740?((avatarRadius+2).h) :avatarRadius.h,
+        radius: 100.h <= 740 ? ((avatarRadius + 2).h) : avatarRadius.h,
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20.sp),
-          child:Image.network(avatarUrl)
-          /* CachedNetworkImage(
+            borderRadius: BorderRadius.circular(20.sp),
+            child: Image.network(avatarUrl)
+            /* CachedNetworkImage(
             imageUrl: avatarUrl,
             errorWidget: (context, url, error) =>
                 Icon(CupertinoIcons.xmark_square),
@@ -938,7 +988,7 @@ class PostAvatarLeft extends StatelessWidget {
         )
     ),
           ),*/
-        ),
+            ),
       ),
     );
   }
@@ -958,12 +1008,12 @@ class PostAvatarRight extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(4.0, 0.0, 10.0, 2.0),
       child: CircleAvatar(
-        radius:100.h<=740?((avatarRadius+2).h) :avatarRadius.h,
+        radius: 100.h <= 740 ? ((avatarRadius + 2).h) : avatarRadius.h,
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
-            child:Image.network(avatarUrl) 
-           /* CachedNetworkImage(
+            child: Image.network(avatarUrl)
+            /* CachedNetworkImage(
               imageUrl: avatarUrl,
               errorWidget: (context, url, error) =>
                   Icon(CupertinoIcons.xmark_square),
@@ -988,14 +1038,15 @@ class HomeTextsRight extends StatelessWidget {
   String targetText;
   int rowLetterValue;
   TextStyle letterTextStyle;
-    double heightValue;
+  double heightValue;
   HomeTextsRight(
       {Key? key,
       required this.targetName,
       required context,
       required this.targetText,
       required this.rowLetterValue,
-      required this.letterTextStyle,required this.heightValue})
+      required this.letterTextStyle,
+      required this.heightValue})
       : super(key: key);
 
   @override
@@ -1017,8 +1068,7 @@ class HomeTextsRight extends StatelessWidget {
           ),
         ),
         Container(
-
-               padding: 100.h >= 800
+          padding: 100.h >= 800
               ? EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue + 0.7).h)
               : EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue - 1).h),
           //padding: EdgeInsets.fromLTRB(2.0, 4.0, 5.w, 2.0),

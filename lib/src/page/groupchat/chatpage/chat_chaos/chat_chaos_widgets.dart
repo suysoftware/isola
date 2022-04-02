@@ -479,13 +479,12 @@ class ChaosGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChaosChatGroupCard(
-                    
-                      chatPicMe:     CachedNetworkImage(
+                      chatPicMe: CachedNetworkImage(
                         imageUrl: userAll.isolaUserDisplay.avatarUrl,
                         errorWidget: (context, url, error) =>
                             Icon(CupertinoIcons.xmark_square),
                       ),
-                    
+
                       chatPicFirst: /* Image.network(chatFriendAvatarUrl1),*/
                           CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl1,
@@ -647,53 +646,40 @@ class ChaosChatGroupCard extends StatelessWidget {
         elevation: 0.0,
         color: ColorConstant.transparentColor,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            
+           mainAxisAlignment: MainAxisAlignment.center,
 
-            ImageChatClip(imageItem: chatPicMe, leftPadding: 0),
-            ImageChatClip(
-              imageItem: chatPicFirst,
-              leftPadding: 0,
-            ),
-            ImageChatClip(
-              imageItem: chatPicSecond,
-              leftPadding: 0,
-            ),
-             ChatTextsChaos(
-                 targetName: 'CHAOS',
-                 context: context,
-                 targetText:"X",
-                 rowLetterValue: 50,
-                 letterTextStyle: 100.h >= 1100
-                     ? StyleConstants.groupTabletCardTextStyle
-                     : StyleConstants.groupCardTextStyle,
-                 heightValue: 100.h <= 1100 ? 1.5 : 1),
-            ImageChatClip(
-              imageItem: chatPicThird,
-              leftPadding: 14,
-            ),
-            ImageChatClip(
-              imageItem: chatPicForth,
-              leftPadding: 8,
-            ),
-            ImageChatClip(
-              imageItem: chatPicFifth,
-              leftPadding: 8,
-            ),
-           /* notiValue == 19999
-                ? const SizedBox()
-                : (notiValue == 0
-                    ? SizedBox()
-                    : notiValue > 99
-                        ? MessageNotificationMini(
-                            notiValue: 99, leftPadding: 17)
-                        : (MessageNotificationMini(
-                            notiValue: notiValue, leftPadding: 17))),*/
+          children: [
+            ImageChatChaosClip(imageItem: chatPicMe, leftPadding: 0),
+               ImageChatChaosClip(
+                  imageItem: chatPicFirst,
+                  leftPadding: 0,
+                ),
+                ImageChatChaosClip(
+                  imageItem: chatPicSecond,
+                  leftPadding: 0,
+                ),
+
+                ChatTextsChaos(targetName: 'CHAOS', context: context, targetText: 'X', rowLetterValue: 50,                   letterTextStyle: 100.h >= 1100
+                            ? StyleConstants.groupTabletCardTextStyle
+                            : StyleConstants.groupCardTextStyle,
+                        heightValue: 100.h <= 1100 ? 1.5 : 1),
+                ImageChatChaosClip(
+                  imageItem: chatPicThird,
+                  leftPadding: 0,
+                ),
+                ImageChatChaosClip(
+                  imageItem: chatPicForth,
+                  leftPadding: 0,
+                ),
+                ImageChatChaosClip(
+                  imageItem: chatPicFifth,
+                  leftPadding: 0,
+                ),
           ],
         ),
       ),
+    
+    
     );
   }
 }
@@ -717,7 +703,6 @@ class ChatTextsChaos extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-     
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 0.0, 2.0, 0.0),
@@ -729,14 +714,53 @@ class ChatTextsChaos extends StatelessWidget {
           ),
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(24.0, 2.h, 0, 2.5.h),
-          child:Center(child: Text('X',style: TextStyle(fontSize: 15.sp),)) /* textWidgetGetter(context,
+            padding: EdgeInsets.fromLTRB(24.0, 2.h, 0, 3.5.h),
+            child: Center(
+                child: Text(
+              'X',
+              style: TextStyle(fontSize: 15.sp),
+            )) /* textWidgetGetter(context,
               targetMessage: targetText,
               targetName: targetName,
               rowLetterValue: rowLetterValue,
               letterTextStyle: letterTextStyle),*/
-        ),
+            ),
       ],
+    );
+  }
+}
+
+
+class ImageChatChaosClip extends StatelessWidget {
+  final Widget imageItem;
+  final int leftPadding;
+
+  const ImageChatChaosClip(
+      {Key? key, required this.imageItem, required this.leftPadding})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: ColorConstant.milkColor.withOpacity(0.03), width: 2.0),
+          /*
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 10.0,
+                spreadRadius: 1.0,
+                offset: Offset.zero,
+                color: ColorConstant.softBlack.withOpacity(0.15))
+          ],*/
+          color: ColorConstant.milkColor.withOpacity(0.05),
+          borderRadius: BorderRadius.all(Radius.circular(35.sp))),
+      child: CircleAvatar(
+        radius: 15.sp,
+        backgroundColor: ColorConstant.milkColor,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(35.sp), child: imageItem),
+      ),
     );
   }
 }
@@ -806,3 +830,5 @@ Card(
         ),
       ),
 */
+
+
