@@ -72,11 +72,15 @@ class ChatGroupCont extends StatelessWidget {
             var chatFriendUid2;
 
             int notiValue = 0;
+            int notiTargetValue = 0;
 
             for (var comingInfo in snapshots.data!.docs) {
               if (groupMergeData.exploreData
                       .contains(comingInfo["member_message_no"]) ==
                   false) {
+                if (notiValue > 19) {
+                  notiTargetValue = notiTargetValue + 1;
+                }
                 notiValue = notiValue + 1;
               }
 
@@ -156,7 +160,7 @@ class ChatGroupCont extends StatelessWidget {
                 a.member_message_time.compareTo(b.member_message_time));
             groupDatasFriend2.sort((b, a) =>
                 a.member_message_time.compareTo(b.member_message_time));
-
+            print('notiTargetValue ${notiTargetValue}');
             var groupSetting = GroupSettingModel(
                 groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
                 groupMemberAvatarUrl2:
@@ -169,7 +173,8 @@ class ChatGroupCont extends StatelessWidget {
                 groupMemberUid2: groupDatasFriend1.first.member_uid,
                 groupMemberUid3: groupDatasFriend2.first.member_uid,
                 groupNo: chatGroupNo,
-                userUid: userAll.isolaUserMeta.userUid);
+                userUid: userAll.isolaUserMeta.userUid,
+                newNotiValueAmount: notiTargetValue);
 
             DocumentSnapshot ds = snapshots.data!.docs[0];
             var chatLastMessage = ds["member_message"];
@@ -212,26 +217,24 @@ class ChatGroupCont extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChatGroupCard(
                       chatPicFirst: /*Image.network(chatFriendAvatarUrl1),*/
-                    
-                      CachedNetworkImage(
+
+                          CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl1,
-                      //  fit: BoxFit.cover,
+                        //  fit: BoxFit.cover,
                         errorWidget: (context, url, error) =>
                             Icon(CupertinoIcons.xmark_square),
                       ),
-                      chatPicSecond:/* Image.network(
-                          chatFriendAvatarUrl2)*/  CachedNetworkImage(
+                      chatPicSecond: /* Image.network(
+                          chatFriendAvatarUrl2)*/
+                          CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl2,
-                                  cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-                      //  fit: BoxFit.cover,
+                        cacheManager: CacheManager(Config(
+                          "cachedImageFiles",
+                          stalePeriod: const Duration(days: 3),
+                          //one week cache period
+                        )),
+                        //  fit: BoxFit.cover,
                       ),
-                      
                       chatBoxText: chatLastMessage,
                       notiValue: notiValue,
                       chatBoxName:
@@ -516,7 +519,9 @@ class ChatGroupCard extends StatelessWidget {
           String target2 =
               context.read<GroupSettingCubit>().state.groupMemberUid3;
           //buraya if konacak
-          context.read<ChatReferenceCubit>().chatGroupChanger(chatGroupNo,false);
+          context
+              .read<ChatReferenceCubit>()
+              .chatGroupChanger(chatGroupNo, false);
 
           context
               .read<GroupSettingCubit>()

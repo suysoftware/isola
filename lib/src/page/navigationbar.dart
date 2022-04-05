@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
@@ -18,12 +19,16 @@ import 'package:isola_app/src/page/profilepage.dart';
 import 'package:isola_app/src/page/searchpage.dart';
 import 'package:isola_app/src/page/timelinepage.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
+import 'package:isola_app/src/utils/router.dart';
 import 'package:provider/src/provider.dart';
 
 class NavigationBar extends StatefulWidget {
   const NavigationBar({
     Key? key,
+    this.currentState,
   }) : super(key: key);
+
+  final int? currentState;
 
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -39,6 +44,27 @@ class _NavigationBarState extends State<NavigationBar>
   late var userLikeHistory;
   CollectionReference userDisplayRef =
       FirebaseFirestore.instance.collection('users_display');
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
+    RemoteNotification? notification = message.notification;
+
+    print(message.notification!.body);
+    print(
+        'Handling aOnMessage message ${message.messageId} / ${message.sentTime} / ${message.data} / ${message.messageId} /  ${message.notification}');
+  }
+
+  Future<void> _firebaseMessagingOpenedAppHandler(RemoteMessage message) async {
+/*  if (message.data['type'] == 'chat') {
+      Navigator.pushNamed(context, '/chat', 
+        arguments: ChatArguments(message),
+      );
+    }*/
+
+    print('Handling a OpenedApp message ${message.messageId}');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +84,16 @@ class _NavigationBarState extends State<NavigationBar>
     context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
 
     userDisplayRef.doc(user.uid).update({'uOnline': true});
+
+    messaging.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+
+    FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
+    FirebaseMessaging.onMessageOpenedApp
+        .listen(_firebaseMessagingOpenedAppHandler);
 
     // _refUserDisplay.child("user_is_online").set(true);
     //  getDisplayData(user.uid).then((value) => userDisplay = value);
@@ -120,7 +156,7 @@ class _NavigationBarState extends State<NavigationBar>
       //  backgroundColor: ColorConstant.milkColor,
       tabBar: CupertinoTabBar(
         backgroundColor: ColorConstant.milkColor,
-        currentIndex: 2,
+        currentIndex: widget.currentState ?? 2,
         items: [
           BottomNavigationBarItem(
             icon: Image.asset("asset/img/bottom_timeline.png"),

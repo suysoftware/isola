@@ -57,7 +57,6 @@ class NotificationHelper {
       styleInformation: DefaultStyleInformation(true, true),
     );
 
-
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidChannelSpecifics, iOS: iosChannelSpecifics);
@@ -70,7 +69,7 @@ class NotificationHelper {
     );
   }
 
-    Future<void> showNotificationTest() async {
+  Future<void> showNotificationTest() async {
     init();
     var androidChannelSpecifics = AndroidNotificationDetails(
       'CHANNEL_ID',
@@ -82,21 +81,15 @@ class NotificationHelper {
       styleInformation: DefaultStyleInformation(true, true),
     );
 
-    
     var iosChannelSpecifics = IOSNotificationDetails(
-
-      presentAlert: true,
-      presentBadge: true,
-      badgeNumber: 10,
-      subtitle: 'agaa',
-      threadIdentifier: 'tındenf',
-  sound: 'asset/sound/isola_alert_sound.mp3'
-    );
+        presentAlert: true,
+        presentBadge: true,
+        badgeNumber: 10,
+        subtitle: 'agaa',
+        threadIdentifier: 'tındenf',
+        sound: 'asset/sound/isola_alert_sound.mp3');
     var platformChannelSpecifics = NotificationDetails(
         android: androidChannelSpecifics, iOS: iosChannelSpecifics);
-
-
-
 
     await flutterLocalNotificationsPlugin.show(
       0,
@@ -108,6 +101,8 @@ class NotificationHelper {
   }
 
   setOnNotificationClick(Function onNotificationClick) async {
+        print('setOnNotificiClick');
+
     init();
 
     var initializationSettingsIOS = IOSInitializationSettings(
@@ -128,6 +123,9 @@ class NotificationHelper {
   }
 
   setListenerForLowerVersions(Function onNotificationInLowerVersions) {
+
+        print('setListenerForLow');
+
     didReceivedLocalNotificationSubject.listen((receivedNotification) {
       onNotificationInLowerVersions(receivedNotification);
     });
@@ -141,16 +139,12 @@ class NotificationHelper {
       priority: Priority.high,
     );
 
-    var iosChannelSpecifics = IOSNotificationDetails(
-
-
-
-    );
+    var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidChannelSpecifics, iOS: iosChannelSpecifics);
 
-  await  flutterLocalNotificationsPlugin.periodicallyShow(0, 'titless', 'bodies',
-        RepeatInterval.everyMinute, platformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.periodicallyShow(0, 'titless',
+        'bodies', RepeatInterval.everyMinute, platformChannelSpecifics);
   }
 
   Future<void> showWeeklyAtDayAndTime() async {
@@ -184,6 +178,7 @@ class NotificationHelper {
   }
 
   Future<int> getPendingNotificationCount() async {
+    print('getPendingNoti');
     List<PendingNotificationRequest> pendingNotifications =
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
     return pendingNotifications.length;

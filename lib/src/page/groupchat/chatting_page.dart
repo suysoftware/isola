@@ -74,7 +74,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   FirebaseAuth auth = FirebaseAuth.instance;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
-  
+
   late String target1;
   late String target2;
   late bool isChaosSearching;
@@ -440,7 +440,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               await _audioRecorder.stop();
 
                               uploadVoice(userAll, _filePath, refChatInterior,
-                                  target1, target2,"","","",false);
+                                  target1, target2, "", "", "", false);
                               //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
                               print(
                                   "kayıt veritabanına yükleniyor ve gönderiliyor");
@@ -531,7 +531,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
 
-  
     userAll = context.read<UserAllCubit>().state;
 
     isChaosSearching = false;
@@ -543,6 +542,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     refChatInterior = context.read<ChatReferenceCubit>().state;
 
     groupSettingModelForTrawling = context.read<GroupSettingCubit>().state;
+
+    itemCountValue=itemCountValue + groupSettingModelForTrawling.newNotiValueAmount;
 
     // print(groupSettingModelForTrawling.groupNo);
 
@@ -866,25 +867,23 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             radius: 13.sp,
                             backgroundColor: ColorConstant.milkColor,
                             child: ClipRRect(
-                                borderRadius: 100.h <= 1100
-                                    ? BorderRadius.circular(20.sp)
-                                    : BorderRadius.circular(30.sp),
-                                child: /*Image.network(groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl2)*/  CachedNetworkImage(
+                              borderRadius: 100.h <= 1100
+                                  ? BorderRadius.circular(20.sp)
+                                  : BorderRadius.circular(30.sp),
+                              child: /*Image.network(groupSettingModelForTrawling
+                                    .groupMemberAvatarUrl2)*/
+                                  CachedNetworkImage(
                                 imageUrl: groupSettingModelForTrawling
                                     .groupMemberAvatarUrl2,
                                 errorWidget: (context, url, error) =>
                                     Icon(CupertinoIcons.xmark_square),
-                                              cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                cacheManager: CacheManager(Config(
+                                  "cachedImageFiles",
+                                  stalePeriod: const Duration(days: 3),
+                                  //one week cache period
+                                )),
                               ),
-
-                                ),
+                            ),
                           ),
                         )),
                   ),
@@ -899,26 +898,24 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             radius: 13.sp,
                             backgroundColor: CupertinoColors.black,
                             child: ClipRRect(
-                                borderRadius: 100.h <= 1100
-                                    ? BorderRadius.circular(20.sp)
-                                    : BorderRadius.circular(30.sp),
-                                child: /*Image.network(groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl3)*/ 
-                                    CachedNetworkImage(
+                              borderRadius: 100.h <= 1100
+                                  ? BorderRadius.circular(20.sp)
+                                  : BorderRadius.circular(30.sp),
+                              child: /*Image.network(groupSettingModelForTrawling
+                                    .groupMemberAvatarUrl3)*/
+                                  CachedNetworkImage(
                                 imageUrl: groupSettingModelForTrawling
                                     .groupMemberAvatarUrl3,
                                 fit: BoxFit.fitWidth,
                                 errorWidget: (context, url, error) =>
                                     Icon(CupertinoIcons.xmark_square),
-                                              cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                cacheManager: CacheManager(Config(
+                                  "cachedImageFiles",
+                                  stalePeriod: const Duration(days: 3),
+                                  //one week cache period
+                                )),
                               ),
-                                ),
+                            ),
                           ),
                         )),
                   ),
@@ -1048,7 +1045,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                     .data()
                                                     .member_message_attachment_url,
                                                 userMeAvatarUrl: userAll
-                                                    .isolaUserDisplay.avatarUrl, targetNumber:  data.docs[
+                                                    .isolaUserDisplay.avatarUrl,
+                                                targetNumber: data.docs[
                                                                 indeksNumarasi]
                                                             .data()
                                                             .member_uid ==
@@ -1060,7 +1058,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                                 .member_uid ==
                                                             target1
                                                         ? 1
-                                                        :  2,
+                                                        : 2,
                                               ))),
                                 );
                         }),
@@ -1116,7 +1114,8 @@ class AllMessageBalloon extends StatelessWidget {
       required this.memberIsVideo,
       required this.memberIsDocument,
       required this.memberAttachmentUrl,
-      required this.userMeAvatarUrl,required this.targetNumber })
+      required this.userMeAvatarUrl,
+      required this.targetNumber})
       : super(key: key);
 
   final bool isMe;
@@ -1137,9 +1136,7 @@ class AllMessageBalloon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
- late TextStyle targetTextStyle;
-
+    late TextStyle targetTextStyle;
 
     switch (targetNumber) {
       case 0:
@@ -1148,20 +1145,18 @@ class AllMessageBalloon extends StatelessWidget {
             : targetTextStyle = StyleConstants.chatTabletNameTextStyle1;
         break;
       case 1:
-             100.h <= 1100
+        100.h <= 1100
             ? targetTextStyle = StyleConstants.chatNameTextStyle1
             : targetTextStyle = StyleConstants.chatTabletNameTextStyle1;
         break;
       case 2:
-             100.h <= 1100
+        100.h <= 1100
             ? targetTextStyle = StyleConstants.chatNameTextStyle2
             : targetTextStyle = StyleConstants.chatTabletNameTextStyle2;
         break;
- 
 
       default:
     }
-
 
     if (memberAttachmentUrl == "isola_system_message" &&
         memberName == "System Message") {
@@ -1180,7 +1175,8 @@ class AllMessageBalloon extends StatelessWidget {
                   memberMessageTime: memberMessageTime,
                   memberName: memberName,
                   memberUid: memberUid,
-                  memberVoiceUrl: memberMessageVoiceUrl, targetTextStyle: targetTextStyle,
+                  memberVoiceUrl: memberMessageVoiceUrl,
+                  targetTextStyle: targetTextStyle,
                 )
               : memberIsAttachment == true
                   ? AttachmentMessageBalloonLeft(
@@ -1191,14 +1187,16 @@ class AllMessageBalloon extends StatelessWidget {
                       memberUid: memberUid,
                       memberMessageIsImage: memberIsImage,
                       memberMessageIsVideo: memberIsVideo,
-                      memberMessageIsDocument: memberIsDocument, targetTextStyle: targetTextStyle,
+                      memberMessageIsDocument: memberIsDocument,
+                      targetTextStyle: targetTextStyle,
                     )
                   : TextMessageBalloonLeft(
                       memberMessage: memberMessage,
                       memberMessageTime: memberMessageTime,
                       memberAvatarUrl: memberAvatarUrl,
                       memberName: memberName,
-                      memberUid: memberUid, targetTextStyle: targetTextStyle,
+                      memberUid: memberUid,
+                      targetTextStyle: targetTextStyle,
                     ))
           : (memberMessageIsVoice == true
               //

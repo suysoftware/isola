@@ -17,7 +17,9 @@ class TargetProfilePage extends StatefulWidget {
       {Key? key,
       required this.targetUid,
       required this.targetAvatarUrl,
-      required this.targetName,required this.userUid,required this.isolaUserAll})
+      required this.targetName,
+      required this.userUid,
+      required this.isolaUserAll})
       : super(key: key);
 
   final String targetUid;
@@ -73,19 +75,28 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   StatefulWidget buildProfileWidget() {
     switch (_profileSegmentedValue) {
       case 0:
-        return TargetProfileTimelinePage(targetUid: widget.targetUid, userUid: widget.userUid, isolaUserAll:widget.isolaUserAll,
-         
+        return TargetProfileTimelinePage(
+          targetUid: widget.targetUid,
+          userUid: widget.userUid,
+          isolaUserAll: widget.isolaUserAll,
         );
 
       case 1:
-        return TargetProfileMediaPage( userAll: widget.isolaUserAll, targetUid: widget.targetUid,);
+        return TargetProfileMediaPage(
+          userAll: widget.isolaUserAll,
+          targetUid: widget.targetUid,
+        );
 
       case 2:
         return TargetProfileBiographPage(
-        targetUid: widget.targetUid,
+          targetUid: widget.targetUid,
         );
       default:
-        return TargetProfileTimelinePage(targetUid: widget.targetUid,userUid: widget.userUid, isolaUserAll: widget.isolaUserAll,);
+        return TargetProfileTimelinePage(
+          targetUid: widget.targetUid,
+          userUid: widget.userUid,
+          isolaUserAll: widget.isolaUserAll,
+        );
     }
   }
 
@@ -166,13 +177,15 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                                   url, error) =>
                                                               Icon(CupertinoIcons
                                                                   .xmark_square),
-                                                                            cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                          cacheManager:
+                                                              CacheManager(
+                                                                  Config(
+                                                            "cachedImageFiles",
+                                                            stalePeriod:
+                                                                const Duration(
+                                                                    days: 3),
+                                                            //one week cache period
+                                                          )),
                                                         )
                                                       : CachedNetworkImage(
                                                           imageUrl: widget
@@ -184,13 +197,15 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                                   url, error) =>
                                                               Icon(CupertinoIcons
                                                                   .xmark_square),
-                                                                            cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                          cacheManager:
+                                                              CacheManager(
+                                                                  Config(
+                                                            "cachedImageFiles",
+                                                            stalePeriod:
+                                                                const Duration(
+                                                                    days: 3),
+                                                            //one week cache period
+                                                          )),
                                                         ))
                                                   : CachedNetworkImage(
                                                       imageUrl: widget
@@ -202,13 +217,14 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                               url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
-                                                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                      cacheManager:
+                                                          CacheManager(Config(
+                                                        "cachedImageFiles",
+                                                        stalePeriod:
+                                                            const Duration(
+                                                                days: 3),
+                                                        //one week cache period
+                                                      )),
                                                     ))),
                                     ),
                                   ),
@@ -335,13 +351,15 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                                   url, error) =>
                                                               Icon(CupertinoIcons
                                                                   .xmark_square),
-                                                                            cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                          cacheManager:
+                                                              CacheManager(
+                                                                  Config(
+                                                            "cachedImageFiles",
+                                                            stalePeriod:
+                                                                const Duration(
+                                                                    days: 3),
+                                                            //one week cache period
+                                                          )),
                                                         )
                                                       : CachedNetworkImage(
                                                           imageUrl:
@@ -354,13 +372,15 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                                   url, error) =>
                                                               Icon(CupertinoIcons
                                                                   .xmark_square),
-                                                                            cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                          cacheManager:
+                                                              CacheManager(
+                                                                  Config(
+                                                            "cachedImageFiles",
+                                                            stalePeriod:
+                                                                const Duration(
+                                                                    days: 3),
+                                                            //one week cache period
+                                                          )),
                                                         ))
                                                   : CachedNetworkImage(
                                                       imageUrl: targetDisplay
@@ -372,13 +392,14 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                               url, error) =>
                                                           Icon(CupertinoIcons
                                                               .xmark_square),
-                                                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                      cacheManager:
+                                                          CacheManager(Config(
+                                                        "cachedImageFiles",
+                                                        stalePeriod:
+                                                            const Duration(
+                                                                days: 3),
+                                                        //one week cache period
+                                                      )),
                                                     ))),
                                     ),
                                   ),

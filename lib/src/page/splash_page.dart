@@ -25,8 +25,8 @@ class _SplashPageState extends State<SplashPage> {
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       String? token = await messaging.getToken();
 
-      FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
-
+      saveTokenToDatabase(token!);
+      //FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
 
       print(token);
 

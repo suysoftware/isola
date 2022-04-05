@@ -10,12 +10,12 @@ import 'package:isola_app/src/page/splash_page.dart';
 import '../page/groupchat/chatpage/chat_chaos/chaos_chatting_page.dart';
 
 class RouterSystem {
-  static Route<dynamic> generateRoute(RouteSettings settings, [User? user]) {
+  static Route<dynamic> generateRoute(RouteSettings settings, [User? user,]) {
     switch (settings.name) {
       case loggingOutRoute:
         return CupertinoPageRoute(builder: (_) => const LoggingOut());
       case navigationBar:
-        return CupertinoPageRoute(builder: (_) => const NavigationBar());
+        return CupertinoPageRoute(builder: (_) =>  const NavigationBar());
       case chatInteriorPage:
         return CupertinoPageRoute(builder: (_) => const ChatInteriorPage());
         case chaosChatInteriorPage:

@@ -25,10 +25,11 @@ exploreHistoryItemsSave(
   box.put('datetoday', userHive);
 }
 
-exploreHistoryGetter(String whichGroup) async {
+Future<List<dynamic>> exploreHistoryGetter(String whichGroup) async {
   var box = await Hive.openBox('userHive');
   UserHive userHive = box.get('datetoday');
 
+  return userHive.exloreData;
   //print(userHive.exloreData);
 }
 

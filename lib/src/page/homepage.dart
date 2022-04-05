@@ -18,6 +18,7 @@ import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/popular_timeline.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
+import 'package:isola_app/src/page/navigationbar.dart';
 import 'package:isola_app/src/page/token_gain_page.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_finder.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late bool isTablet;
   int popularItemAmount = 0;
   int notificationCount = 0;
-  //FirebaseMessaging messaging = FirebaseMessaging.instance;
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
   late AnimationController animationController;
   late AnimationController animationController2;
   late AnimationController animationController3;
@@ -79,17 +80,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 */
-  
- /* void _handleMessage(RemoteMessage message) {
-    print(message.data);
-     if (message.data['type'] == 'chat') {
-      Navigator.pushNamed(
-        context,
-        '/chat',
-        arguments: ChatArguments(message),
-      );
-    }
+/*
+  onNotificationInLowerVersions(ReceivedNotification receivedNotification) {
+    print('onNotificationInLowerVersions Received ${receivedNotification.id}');
+  }
+
+  onNotificationClick(String payload) {
+    print('onNotificationClick, Payload $payload');
   }*/
+
+
+
+  // void _handleMessage(RemoteMessage message) {
+  //  print(message.data);
+
+//  }
 
   void addGroupToJoinedList(String comingValue) {
     context.read<JoinedListCubit>().joinedListAdd(comingValue);
@@ -103,7 +108,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     //setupInteractedMessage();
-   /* FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    /* FirebaseMessaging.onMessage
+    
+    .listen((RemoteMessage message) async {
 
 
       print('Got a message whilst in the foreground!');
@@ -114,32 +121,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         //  await notificationHelper.showNotification();
       }
     });*/
-    /*onNotificationInLowerVersions(ReceivedNotification receivedNotification) {
-      print(
-          'onNotificationInLowerVersions Received ${receivedNotification.id}');
-    }
 
-    onNotificationClick(String payload) {
-      print('onNotificationClick, Payload $payload');
+    //   notificationHelper
+    //     .setListenerForLowerVersions(onNotificationInLowerVersions);
+    // notificationHelper.setOnNotificationClick(onNotificationClick);
 
-      //notificationHelper.showNotification();
-    }
+   
 
-    notificationHelper
-        .setListenerForLowerVersions(onNotificationInLowerVersions);
-    notificationHelper.setOnNotificationClick(onNotificationClick);
-*/
- /* messaging.setForegroundNotificationPresentationOptions(
-      alert: true, // Required to display a heads up notification
-      badge: true,
-      sound: true,
-    );*/
-
-/*
-     FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
-  FirebaseMessaging.onMessageOpenedApp
-      .listen(_firebaseMessagingOpenedAppHandler);
-*/
 /*
     print(widget.userAll.isolaUserMeta.userIsSearching);
     print(widget.userAll.isolaUserMeta.userIsSearching);
@@ -341,7 +329,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     animationController.dispose();
     animationController2.dispose();
     animationController3.dispose();
-  
+
     if (mounted) {
       animationController4.dispose();
     }
@@ -350,7 +338,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
     print(100.h);
     print(100.w);
     if (widget.userAll.isolaUserMeta.userIsSearching) {

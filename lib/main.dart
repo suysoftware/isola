@@ -43,20 +43,18 @@ import 'package:sizer/sizer.dart';
 late Box box;
 late UserHive _userHive;
 
-/*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();*/
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   //mesaj kategori ve tiplerini ayarla
-
-  await Firebase.initializeApp();
-
   print('Handling a background message ${message.messageId}');
+  await Firebase.initializeApp();
 }
 
-Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
+/*Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
   RemoteNotification? notification = message.notification;
 
   print(
@@ -71,10 +69,11 @@ Future<void> _firebaseMessagingOpenedAppHandler(RemoteMessage message) async {
     }*/
 
   print('Handling a OpenedApp message ${message.messageId}');
-}
+}*/
 
 Future<void> main() async {
   await init();
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   //FirebaseMessaging.onMessage;
@@ -104,13 +103,16 @@ Future<void> init() async {
       .onError((error, stackTrace) =>
           _userHive = UserHive(likesData: likeList, exloreData: history));
 
-  /*
+
+
+/*
+var messaging= FirebaseMessaging.instance;
   NotificationSettings settings = await messaging.getNotificationSettings();
 
   FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
   FirebaseMessaging.onMessageOpenedApp
-      .listen(_firebaseMessagingOpenedAppHandler);
-
+      .listen(_firebaseMessagingOpenedAppHandler);*/
+  /*
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 */
 }
@@ -156,7 +158,7 @@ class MyApp extends StatelessWidget {
         groupMemberUid3: '',
         groupMemberUid2: '',
         groupNo: '',
-        userUid: '');
+        userUid: '',newNotiValueAmount: 0);
 
     var chaosGroupSetting = ChaosGroupSettingModel(
       groupMemberAvatarUrl2: '',
