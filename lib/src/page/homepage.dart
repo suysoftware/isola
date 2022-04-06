@@ -26,6 +26,7 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
 
+import '../blocs/current_chat_cubit.dart';
 import '../service/notification/notification_helper.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late bool isTablet;
   int popularItemAmount = 0;
   int notificationCount = 0;
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
   late AnimationController animationController;
   late AnimationController animationController2;
   late AnimationController animationController3;
@@ -89,8 +90,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     print('onNotificationClick, Payload $payload');
   }*/
 
-
-
   // void _handleMessage(RemoteMessage message) {
   //  print(message.data);
 
@@ -107,6 +106,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    // context.read<CurrentChatCubit>().currentChatReset();
+ 
     //setupInteractedMessage();
     /* FirebaseMessaging.onMessage
     
@@ -125,8 +126,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     //   notificationHelper
     //     .setListenerForLowerVersions(onNotificationInLowerVersions);
     // notificationHelper.setOnNotificationClick(onNotificationClick);
-
-   
 
 /*
     print(widget.userAll.isolaUserMeta.userIsSearching);
@@ -338,8 +337,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(100.h);
-    print(100.w);
     if (widget.userAll.isolaUserMeta.userIsSearching) {
       animationController4.repeat(period: const Duration(milliseconds: 1800));
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);

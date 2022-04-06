@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/search_status_cubit.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
@@ -21,6 +22,9 @@ import 'package:isola_app/src/page/timelinepage.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:provider/src/provider.dart';
+
+import '../blocs/current_chat_cubit.dart';
+import '../blocs/group_setting_cubit.dart';
 
 class NavigationBar extends StatefulWidget {
   const NavigationBar({
@@ -42,13 +46,68 @@ class _NavigationBarState extends State<NavigationBar>
 // late UserDisplay userDisplay;
   late IsolaUserAll userAll;
   late var userLikeHistory;
-  CollectionReference userDisplayRef =
-      FirebaseFirestore.instance.collection('users_display');
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
+  CollectionReference userDisplayRef =
+      FirebaseFirestore.instance.collection('users_display');
+
   Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
+    print(message.data['notiGroupNo']);
+
+    print(context.read<CurrentChatCubit>().state);
+    print('=');
+    print(context.read<GroupSettingCubit>().state.groupNo);
+
+if(message.data['notiCategory']=='chat_message'){
+if (message.data['notiGroupNo'] == context.read<CurrentChatCubit>().state) {
+      messaging.setForegroundNotificationPresentationOptions(
+          alert: false, badge: false, sound: false);
+    } else {
+      messaging.setForegroundNotificationPresentationOptions(
+          alert: true, badge: true, sound: true);
+    }
+
+
+}
+else{
+
+      messaging.setForegroundNotificationPresentationOptions(
+          alert: true, badge: true, sound: true);
+}
+    
+    /* if (context.read<GroupSettingCubit>().state != null) {
+      if (message.notification!.body!.contains(
+              context.read<GroupSettingCubit>().state.groupMemberName2) ==
+          true) {
+        messaging.setForegroundNotificationPresentationOptions(
+            alert: false, badge: false, sound: false);
+        print('/////////////////////////');
+        print('2numaralı adam mesaj attı');
+        print('-------------------------');
+     
+      } else if (message.notification!.body!.contains(
+              context.read<GroupSettingCubit>().state.groupMemberName3) ==
+          true) {
+        print('/////////////////////////');
+        print('3numaralı adam mesaj attı');
+        print('-------------------------');
+        messaging.setForegroundNotificationPresentationOptions(
+            alert: false, badge: false, sound: false);
+      } else {
+        messaging.setForegroundNotificationPresentationOptions(
+            alert: true, badge: true, sound: true);
+      }
+    }*/
+
+    if (message.notification!.body == 'The group member left the group ') {
+      print('çalisti');
+      try {
+        Navigator.maybePop(context);
+        // Navigator.pushReplacementNamed(context, navigationBar);
+      } catch (e) {}
+    }
 
     print(message.notification!.body);
     print(
@@ -81,19 +140,18 @@ class _NavigationBarState extends State<NavigationBar>
         crypto: "");
         */
 
+    FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
+    FirebaseMessaging.onMessageOpenedApp
+        .listen(_firebaseMessagingOpenedAppHandler);
     context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
 
     userDisplayRef.doc(user.uid).update({'uOnline': true});
 
     messaging.setForegroundNotificationPresentationOptions(
-      alert: true, // Required to display a heads up notification
+      alert: true,
       badge: true,
       sound: true,
     );
-
-    FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
-    FirebaseMessaging.onMessageOpenedApp
-        .listen(_firebaseMessagingOpenedAppHandler);
 
     // _refUserDisplay.child("user_is_online").set(true);
     //  getDisplayData(user.uid).then((value) => userDisplay = value);
@@ -117,6 +175,7 @@ class _NavigationBarState extends State<NavigationBar>
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
+
     super.dispose();
   }
 
@@ -125,22 +184,43 @@ class _NavigationBarState extends State<NavigationBar>
     if (state == AppLifecycleState.inactive) {
       print(
           "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
+
+      messaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
     }
 
     if (state == AppLifecycleState.paused) {
       print(" altta atıldı");
+      messaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
       // await _refUserDisplay.child("user_is_online").set(false);
       //context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
 
     if (state == AppLifecycleState.resumed) {
       print("alta atıp geri gelince");
+      messaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
       // await _refUserDisplay.child("user_is_online").set(true);
       //context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
     }
 
     if (state == AppLifecycleState.detached) {
       print("detached");
+      messaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
 
       await DefaultCacheManager().removeFile("cachedImageFiles");
       userDisplayRef.doc(user.uid).update({'uOnline': false});
@@ -203,6 +283,12 @@ class _NavigationBarState extends State<NavigationBar>
                           userDisplay: userDisplay,
                         );
                         */
+                        /*messaging.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: false,
+    );*/
+
                         var userAllSnap = snapshot.data as IsolaUserAll;
 
                         context
@@ -229,6 +315,10 @@ class _NavigationBarState extends State<NavigationBar>
                       if (snapshot.hasError) {
                         return const Text("Error");
                       } else {
+
+
+                       
+
                         /*
                         var userDisplaySnap = snapshot.data as UserDisplay;
                         return SearchPage(
@@ -236,14 +326,16 @@ class _NavigationBarState extends State<NavigationBar>
                           userDisplay: userDisplay,
                         );
                         */
+                        
                         var userAllSnap = snapshot.data as IsolaUserAll;
-                        context
-                            .read<UserAllCubit>()
-                            .userAllChanger(userAllSnap);
+                      
                         print('kakak');
                         print(userAllSnap.isolaUserMeta.userToken);
                         print('kakak');
-                        return SearchPage(user: user, userAll: userAllSnap);
+                        return SearchPage(
+                          user: user,
+                          userAll: userAllSnap,
+                        );
                       }
                   }
                 },
@@ -269,6 +361,7 @@ class _NavigationBarState extends State<NavigationBar>
                         //    return HomePage(
                         //    userDisplay: userDisplaySnap,
                         //);
+
                         context
                             .read<UserAllCubit>()
                             .userAllChanger(userAllInfo);
@@ -323,6 +416,7 @@ class _NavigationBarState extends State<NavigationBar>
                           return ChatPage(
                             user: user,
                             groupMergeDataComing: refChatPageItems,
+                            messaging: messaging,
                           );
                         }
 
@@ -348,6 +442,7 @@ class _NavigationBarState extends State<NavigationBar>
                           return ChatPage(
                             user: user,
                             groupMergeDataComing: refChatPageItems,
+                            messaging: messaging,
                           );
                         }
                     }
@@ -375,6 +470,7 @@ class _NavigationBarState extends State<NavigationBar>
                           userDisplay: userDisplay,
                         );
                         */
+
                         var userAllSnap = snapshot.data as IsolaUserAll;
 
                         context

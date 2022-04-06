@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -39,6 +40,7 @@ TextStyle groupSettingsNameStyle = 100.h >= 1100
 class _GroupSettingsPageState extends State<GroupSettingsPage> {
   late GroupSettingModel groupSettingModel;
   late List<dynamic> joinedList;
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
   late IsolaUserAll userAll;
   late var refChatInterior;
   @override
@@ -51,6 +53,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
     joinedList = context.read<JoinedListCubit>().state;
 
     refChatInterior = context.read<ChatReferenceCubit>().state;
+    
   }
 
   @override

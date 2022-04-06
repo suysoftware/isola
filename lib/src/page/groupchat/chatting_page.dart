@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
@@ -13,9 +14,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
+import 'package:isola_app/src/blocs/current_chat_cubit.dart';
 import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
 import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
@@ -30,23 +33,26 @@ import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_baloon_right.dart';
 import 'package:isola_app/src/page/groupchat/chat_image_picker.dart';
+import 'package:isola_app/src/page/groupchat/chatpage/chatpage.dart';
 import 'package:isola_app/src/page/groupchat/system_message_balloon/system_message_balloon.dart';
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_message_balloon_right.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_right.dart';
+import 'package:isola_app/src/page/navigationbar.dart';
 import 'package:isola_app/src/service/firebase/storage/chaos/chaos_group_finder.dart';
 import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_attachment_message.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_chaos_apply.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_voice_message.dart';
+import 'package:isola_app/src/service/notification/notification_helper.dart';
 import 'package:isola_app/src/utils/router.dart';
+import 'package:isola_app/src/widget/message_noti_mini.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../constants/style_constants.dart';
 
@@ -78,7 +84,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   late String target1;
   late String target2;
   late bool isChaosSearching;
-
+  //int backNotiValue = 0;
   late String _filePath;
   late AudioPlayer _audioPlayer;
 
@@ -543,7 +549,15 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
     groupSettingModelForTrawling = context.read<GroupSettingCubit>().state;
 
-    itemCountValue=itemCountValue + groupSettingModelForTrawling.newNotiValueAmount;
+    context
+        .read<CurrentChatCubit>()
+        .currentChatChanger(groupSettingModelForTrawling.groupNo);
+
+    print(context.read<CurrentChatCubit>().state);
+    print('sds');
+
+    itemCountValue =
+        itemCountValue + groupSettingModelForTrawling.newNotiValueAmount;
 
     // print(groupSettingModelForTrawling.groupNo);
 
@@ -736,7 +750,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     _animationControllerChaosStreaming.dispose();
     _animationControllerChaosSearching.dispose();
     WidgetsBinding.instance!.removeObserver(this);
+
+   
     // print("sfafsa");
+    print('chatting dispose çalıştı');
 
     super.dispose();
   }
@@ -746,17 +763,22 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     if (state == AppLifecycleState.inactive) {
       print(
           "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
+       
     }
 
     if (state == AppLifecycleState.paused) {
+      
       print(" altta atıldı");
     }
 
     if (state == AppLifecycleState.resumed) {
+       
       print("alta atıp geri gelince");
     }
 
     if (state == AppLifecycleState.detached) {
+     
+    
       print("detached");
 
       //işlemi cancel et !!!/// streamchanges
@@ -766,18 +788,23 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
   @override
   Widget build(BuildContext context) {
+    //  messaging.unsubscribeFromTopic('chat_items');
+
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           automaticallyImplyMiddle: false,
           backgroundColor: ColorConstant.milkColor,
           automaticallyImplyLeading: true,
+      
           //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
 
           trailing: GestureDetector(
             onTap: () {
               //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
+
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(groupSettingsPage);
+
               //  Navigator.pop(context);
             },
             child: Padding(
@@ -954,6 +981,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                           //   var chatMessageDatas = <AllMessageBalloon>[];
 
                           var seemingMessage = <String>[];
+
                           final data = snapshot.requireData;
 
                           for (var item in data.docs) {

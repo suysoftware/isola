@@ -160,7 +160,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                    child: Text("Club & Activities (coming soon)", style: biographyStyle),
+                    child: Text("Club & Activities (coming soon)",
+                        style: biographyStyle),
                   ),
                 ],
               ),
@@ -428,13 +429,11 @@ class ClubImageTile extends StatelessWidget {
             imageUrl: 'https://picsum.photos/$width/$height?random=$index',
             errorWidget: (context, url, error) =>
                 Icon(CupertinoIcons.xmark_square),
-                          cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+            cacheManager: CacheManager(Config(
+              "cachedImageFiles",
+              stalePeriod: const Duration(days: 3),
+              //one week cache period
+            )),
             fit: BoxFit.cover),
       ),
     );
@@ -560,8 +559,8 @@ class _BioEditContainerState extends State<BioEditContainer> {
                         userDisplayRef
                             .doc(widget.userAll.isolaUserMeta.userUid)
                             .update({
-                              'uBio':t1.text,
-                            });
+                          'uBio': t1.text,
+                        });
                         /*
                         var refUserBio = refGetter(
                             enum2: RefEnum.Userdisplay,

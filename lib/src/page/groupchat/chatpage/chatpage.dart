@@ -2,8 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -16,14 +18,19 @@ import 'package:isola_app/src/page/groupchat/chatpage/chat_waiting/chat_waiting_
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../blocs/current_chat_cubit.dart';
 import '../../../model/hive_models/user_hive.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage(
-      {Key? key, required this.user, required this.groupMergeDataComing})
+  ChatPage(
+      {Key? key,
+      required this.user,
+      required this.groupMergeDataComing,
+      required this.messaging})
       : super(key: key);
   final User? user;
   final GroupMergeData groupMergeDataComing;
+  FirebaseMessaging messaging;
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -37,7 +44,8 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-
+    //context.read<CurrentChatCubit>().currentChatReset();
+ //context.read<CurrentChatCubit>().currentChatReset();
     groupMergeData = widget.groupMergeDataComing.groupsModel;
 
     if (widget.groupMergeDataComing.userAll.isolaUserMeta.joinedGroupList[0] ==
@@ -132,12 +140,12 @@ class _ChatPageState extends State<ChatPage> {
                         .doc(groupData.groupChaosNo)
                         .collection('chat_data');*/
                           var chaosCont = ChaosGroupCont(
-                              myUid: widget.groupMergeDataComing.userAll
-                                  .isolaUserMeta.userUid,
-                           
-                 
-                              chatGroupNo: groupData.groupChaosNo,
-                              userAll: widget.groupMergeDataComing.userAll, groupMergeData: widget.groupMergeDataComing,);
+                            myUid: widget.groupMergeDataComing.userAll
+                                .isolaUserMeta.userUid,
+                            chatGroupNo: groupData.groupChaosNo,
+                            userAll: widget.groupMergeDataComing.userAll,
+                            groupMergeData: widget.groupMergeDataComing,
+                          );
 
                           groupsItem.add(chaosCont);
                         } else {

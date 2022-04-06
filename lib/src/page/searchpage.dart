@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -25,6 +26,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
+import '../blocs/current_chat_cubit.dart';
 import '../service/firebase/storage/feedshare/add_image_feeds.dart';
 import '../widget/hero_preview.dart';
 import '../widget/search_detail.dart';
@@ -35,10 +37,11 @@ void amountUpdater(int updateValue) async {
 }
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, required this.user, required this.userAll})
+   SearchPage({Key? key, required this.user, required this.userAll})
       : super(key: key);
   final User user;
   final IsolaUserAll userAll;
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -117,6 +120,13 @@ class _SearchPageState extends State<SearchPage> {
     print('////////');
     print(widget.userAll.isolaUserMeta.userToken);
     print('////////');
+
+
+
+
+        
+
+
   }
 
   @override
@@ -128,6 +138,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     print(widget.userAll.isolaUserDisplay.avatarUrl);
     print(widget.userAll.isolaUserDisplay.userName);
+
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           trailing: Padding(
@@ -194,12 +205,13 @@ class _SearchPageState extends State<SearchPage> {
 int downloadedItem = 0;
 
 class BasicGridWidget extends StatefulWidget {
-  const BasicGridWidget(
-      {Key? key, required this.userUid, required this.userMeta})
+   BasicGridWidget(
+      {Key? key, required this.userUid, required this.userMeta, })
       : super(key: key);
 
   final String userUid;
   final IsolaUserMeta userMeta;
+ 
   static void gtGetter() {
     feedValue.addAll(tiles2);
 
@@ -401,7 +413,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
 }
 
 _openDetail(context, index, List<dynamic> imageItemList, String userUid,
-    IsolaUserMeta userMeta, int sira) {
+    IsolaUserMeta userMeta, int sira,) {
   print(userMeta.userToken);
   print(sira);
   //imageItemList.sort((a, b) => a.feedDate.compareTo(b.feedDate));
@@ -415,7 +427,7 @@ _openDetail(context, index, List<dynamic> imageItemList, String userUid,
       userUid: userUid,
       userMeta: userMeta,
       itemLoc: sira,
-      isProfile: false,
+      isProfile: false ,
     ),
   );
   Navigator.push(context, route);

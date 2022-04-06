@@ -14,6 +14,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
@@ -49,10 +50,11 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../../../blocs/chaos_group_setting_cubit.dart';
+import '../../../../blocs/current_chat_cubit.dart';
 import '../../../../model/chaos/chaos_chat_message.dart';
 import '../../../../model/chaos/chaos_group_setting_model.dart';
+import '../../../../widget/message_noti_mini.dart';
 
 class ChaosChatInteriorPage extends StatefulWidget {
   const ChaosChatInteriorPage({
@@ -70,8 +72,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   FirebaseAuth auth = FirebaseAuth.instance;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
-                   CountDownController chaosTimerController =
-                            CountDownController();
+  CountDownController chaosTimerController = CountDownController();
   // late Stream<QueryDocumentSnapshot> groupDocumentStream;
 
   DateFormat dFormat = DateFormat("HH:mm:ss");
@@ -618,8 +619,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
         height: 30.sp,
         ringColor: isBonus == true ? Color(0xFFA88300) : Color(0xFF80E8FF),
         //ringGradient: ColorConstant.isolaTriumGradient,
-        fillColor:
-            isBonus == true ? Color(0xFFFF4D00) : Color(0xFFE13D96),
+        fillColor: isBonus == true ? Color(0xFFFF4D00) : Color(0xFFE13D96),
         // fillGradient: ColorConstant.isolaMainGradient,
         backgroundColor:
             isBonus == true ? Color(0xFFFFC700) : Color(0xFF5873FF),
@@ -682,7 +682,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     );
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -700,6 +699,11 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
 
     groupSettingModelForTrawling = context.read<ChaosGroupSettingCubit>().state;
 
+
+
+    context
+        .read<CurrentChatCubit>()
+        .currentChatChanger(groupSettingModelForTrawling.groupNo);
     /* groupDocumentStream = FirebaseFirestore.instance
         .collection('chaos_groups_chat')
         .doc(groupSettingModelForTrawling.groupNo);*/
@@ -857,6 +861,10 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     WidgetsBinding.instance!.removeObserver(this);
     // print("sfafsa");
 
+    
+    // print("sfafsa");
+    print('chattingchaos dispose çalıştı');
+
     super.dispose();
   }
 
@@ -927,8 +935,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                             toFirestore: (message, _) => message.toJson(),
                           )
                           .snapshots(includeMetadataChanges: true),*/
-                    builder: ( context,
-                            snapshots) // (context, snapshots)
+                    builder: (context, snapshots) // (context, snapshots)
                         {
                       if (snapshots.hasData) {
                         DocumentSnapshot ds =
@@ -1074,14 +1081,10 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                         //var sfss = chaosTimerController.getTime();
 
                         //print(sfss);
-     
 
                         print(
                             'with bonus ${dTimeWithBonus.difference(dTime).inSeconds.toInt() > 0}');
 
-
-
-                        
                         return timeCircle(isBonus, chaosTime, dTime,
                             dTimeWithBonus, ds, chaosTimerController);
 
@@ -1209,8 +1212,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                     }),
               ),
             ),
-           ]),
-
+          ]),
         ),
         child: GestureDetector(
           onTap: () {

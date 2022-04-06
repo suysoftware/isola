@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -43,6 +44,7 @@ class _TimelinePageState extends State<TimelinePage> {
   var t1 = TextEditingController();
   int kullanilmayanData = 0;
   int islemMiktar = 0;
+
 
   FirebaseAuth auth = FirebaseAuth.instance;
   late var _refTimeline;
@@ -145,6 +147,10 @@ class _TimelinePageState extends State<TimelinePage> {
         targetUid: "",
         userUid: "",
         crypto: "");
+
+
+
+  
   }
 
   @override
