@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class JoinedListCubit extends Cubit<List<dynamic>> {
@@ -10,7 +9,6 @@ class JoinedListCubit extends Cubit<List<dynamic>> {
     emitingList.addAll(state);
     emitingList.add(addingValue);
 
-  // print("searhingbastıcubit");
     emit(emitingList);
   }
 
@@ -27,7 +25,6 @@ class JoinedListCubit extends Cubit<List<dynamic>> {
 
     emitingList.addAll(comingJoinedList);
 
-    //print("searhingbastıcubit");
     emit(emitingList);
   }
 

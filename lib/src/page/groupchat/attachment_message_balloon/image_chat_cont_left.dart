@@ -64,7 +64,8 @@ class ImageChatContLeft extends StatelessWidget {
                                         imageUrl: memberAttachmentUrl,
                                         fit: BoxFit.fill,
                                         errorWidget: (context, url, error) =>
-                                            Icon(CupertinoIcons.xmark_square),
+                                            const Icon(
+                                                CupertinoIcons.xmark_square),
                                         cacheManager: CacheManager(Config(
                                           "cachedImageFiles",
                                           stalePeriod: const Duration(days: 3),
@@ -77,7 +78,7 @@ class ImageChatContLeft extends StatelessWidget {
                               height: contHeight,
                               width: contWidth,
                               errorWidget: (context, url, error) =>
-                                  Icon(CupertinoIcons.xmark_square),
+                                  const Icon(CupertinoIcons.xmark_square),
                               cacheManager: CacheManager(Config(
                                 "cachedImageFiles",
                                 stalePeriod: const Duration(days: 3),
@@ -90,7 +91,9 @@ class ImageChatContLeft extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 8.0),
                       child: Text(
-                        '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                        dFormat.format(DateTime.fromMicrosecondsSinceEpoch(
+                            messageTime.microsecondsSinceEpoch.toInt(),
+                            isUtc: false)),
                         style: 100.h <= 1100
                             ? StyleConstants.chatTimeTextStyleLeft
                             : StyleConstants.chatTabletTimeTextStyleLeft,

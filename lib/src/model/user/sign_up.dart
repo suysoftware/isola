@@ -1,4 +1,3 @@
-
 class SignUp {
   late String signUpPicturePath;
   late String signUpName;

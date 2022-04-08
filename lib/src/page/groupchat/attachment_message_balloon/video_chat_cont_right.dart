@@ -46,7 +46,9 @@ class VideoChatContRight extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 5.w, 0.3.h),
                   child: Text(
-                    '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                    dFormat.format(DateTime.fromMicrosecondsSinceEpoch(
+                        messageTime.microsecondsSinceEpoch.toInt(),
+                        isUtc: false)),
                     style: 100.h <= 1100
                         ? StyleConstants.chatTimeTextStyleRight
                         : StyleConstants.chatTabletTimeTextStyleRight,

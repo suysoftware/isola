@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -113,8 +112,6 @@ class _AccountSettingPageState extends State<AccountSettingPage>
               children: [
                 sizedBox3xH,
 
-                //add picture circle
-
                 sizedBox3xH,
                 sizedBoxH,
                 //add Name
@@ -220,16 +217,6 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                     width: 70.w,
                     height: 4.h,
                     child: CupertinoTextField(
-                      /*
-                      onChanged: (w) {
-                        if (t3.text.length < 2) {
-                          universityFilled = false;
-                          setState(() {});
-                        } else {
-                          universityFilled = true;
-                          setState(() {});
-                        }
-                      },*/
                       readOnly: true,
                       decoration: BoxDecoration(
                           border: Border(
@@ -268,17 +255,10 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       height: 3.5.h,
                       decoration: isOther == true
                           ? BoxDecoration(
-                              // gradient: ColorConstant.isolaMainGradient,
                               color: ColorConstant.accountEditButtonColor,
                               border: Border.all(width: 0.1),
-                              borderRadius: BorderRadius.all(Radius.circular(7
-                                  .sp)), /*
-                              boxShadow: const [
-                                  BoxShadow(
-                                      spreadRadius: 0.1,
-                                      blurRadius: 1.0,
-                                      blurStyle: BlurStyle.outer)
-                                ]*/
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(7.sp)),
                             )
                           : BoxDecoration(
                               color: ColorConstant.messageBoxGrey,
@@ -430,12 +410,6 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                         color: ColorConstant.accountEditButtonColor,
                         border: Border.all(width: 0.1),
                         borderRadius: BorderRadius.all(Radius.circular(7.sp)),
-                        /* boxShadow: const [
-                            BoxShadow(
-                                spreadRadius: 0.1,
-                                blurRadius: 1.0,
-                                blurStyle: BlurStyle.outer)
-                          ]*/
                       ),
                       child: FittedBox(
                         fit: BoxFit.contain,
@@ -454,18 +428,16 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                                   FirebaseFirestore.instance
                                       .collection("users_display");
 
-                             accountUpdateRef.doc(widget.userUid).update({
-                                'uName':"${t1.text} ${t2.text}",
-                                'uSex':isMale == true
-                                      ? true
-                                      : isFemale == true
-                                          ? false
-                                          : true,
-                                'uNonBinary':isOther,
-
+                              accountUpdateRef.doc(widget.userUid).update({
+                                'uName': "${t1.text} ${t2.text}",
+                                'uSex': isMale == true
+                                    ? true
+                                    : isFemale == true
+                                        ? false
+                                        : true,
+                                'uNonBinary': isOther,
                               });
 
-                         
                               FocusScope.of(context).requestFocus(FocusNode());
                               //resim yok
                               Navigator.pop(context);

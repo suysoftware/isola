@@ -23,7 +23,6 @@ class PolicyDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // IconData icon=Icons.check_box_outline_blank_sharp;
     return CupertinoPageScaffold(
       backgroundColor: ColorConstant.themeGrey,
       child: FutureBuilder(

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 
-
 Future<void> addFriend(String targetUid, IsolaUserAll userAll) async {
   var myFriends = <dynamic>[];
   var myBlocked = <dynamic>[];

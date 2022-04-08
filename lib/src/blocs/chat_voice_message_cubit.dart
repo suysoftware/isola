@@ -8,7 +8,7 @@ class ChatVoiceMessageCubit extends Cubit<GroupChatVoice> {
   var groupChatVoice;
   ChatVoiceMessageCubit({required this.groupChatVoice}) : super(groupChatVoice);
 
-  double iconSize =100.h>=700?(100.h <= 1100 ? 18.sp : 11.sp):14.sp;
+  double iconSize = 100.h >= 700 ? (100.h <= 1100 ? 18.sp : 11.sp) : 14.sp;
 
   Icon voiceIconReader(String itemUrl) {
     if (itemUrl == state.itemUrl) {

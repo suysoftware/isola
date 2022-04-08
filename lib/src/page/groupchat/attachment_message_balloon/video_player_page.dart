@@ -3,7 +3,9 @@ import 'package:sizer/sizer.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoApp extends StatefulWidget {
-  const VideoApp({Key? key, required this.memberName, required this.memberAttachmentUrl}) : super(key: key);
+  const VideoApp(
+      {Key? key, required this.memberName, required this.memberAttachmentUrl})
+      : super(key: key);
   final String memberName;
   final String memberAttachmentUrl;
   @override

@@ -8,7 +8,6 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/page/sign_up_page.dart';
 import 'package:isola_app/src/service/firebase/authentication.dart';
-import 'package:isola_app/src/service/firebase/storage/add_user.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/button_widgets.dart';
@@ -22,13 +21,10 @@ class LoggingOut extends StatefulWidget {
 }
 
 class _LoggingOutState extends State<LoggingOut> {
-  // GoogleSignIn _googleSignIn = GoogleSignIn();
-
   authenticationButtonFunc() async {
     User? user = await Authentication.signInWithGoogle(context: context);
 
     if (user != null) {
-      // print("girdi");
       try {
         await getUserAllFromDataBase(user.uid).then((value) {
           if (value.isolaUserDisplay.userInterest.first == "interest1") {
@@ -41,18 +37,13 @@ class _LoggingOutState extends State<LoggingOut> {
           }
         });
       } catch (e) {
-        // print(e);
         Navigator.pushReplacementNamed(context, loggingOutRoute);
       }
-    } else {
-      //  print("nulmuş");
-    }
+    } else {}
   }
 
   @override
   Widget build(BuildContext context) {
-    print("H: ${100.h}");
-    print("W: ${100.w}");
     return CupertinoPageScaffold(
         child: Stack(
       children: [
@@ -78,7 +69,9 @@ class _LoggingOutState extends State<LoggingOut> {
           ),
         ),
         Padding(
-          padding:100.h>1150?EdgeInsets.fromLTRB(0, 0, 4.w, 2.h) : EdgeInsets.fromLTRB(0, 0, 1.w, 2.h),
+          padding: 100.h > 1150
+              ? EdgeInsets.fromLTRB(0, 0, 4.w, 2.h)
+              : EdgeInsets.fromLTRB(0, 0, 1.w, 2.h),
           child: Align(
             alignment: Alignment.bottomRight,
             child: oblongTextIconButton(
@@ -90,7 +83,7 @@ class _LoggingOutState extends State<LoggingOut> {
                 isGradient: true,
                 textStyle: StyleConstants.softMilkTextStyle,
                 buttonHeight: 6,
-                buttonWidth:100.h>1150? 32:52,
+                buttonWidth: 100.h > 1150 ? 32 : 52,
                 buttonPadding: 2.0,
                 borderWidth: 0.25,
                 borderColor: ColorConstant.softBlack),

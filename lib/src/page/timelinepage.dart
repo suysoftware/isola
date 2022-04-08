@@ -2,21 +2,18 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_feeds.dart';
-import 'package:isola_app/src/service/firebase/storage/feedshare/feed_timestamp.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
+// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
@@ -45,10 +42,8 @@ class _TimelinePageState extends State<TimelinePage> {
   int kullanilmayanData = 0;
   int islemMiktar = 0;
 
-
   FirebaseAuth auth = FirebaseAuth.instance;
-  late var _refTimeline;
-  late var _refTimelineToText;
+
   late var _refTimelineExample;
   late var _refTimelineExample2;
 
@@ -58,19 +53,17 @@ class _TimelinePageState extends State<TimelinePage> {
     var timeItem = TimelineItem(
       feedMeta: feedMeta,
       userUid: widget.user!.uid,
-      isTimeline: true, isolaUserAll: widget.userAll,
+      isTimeline: true,
+      isolaUserAll: widget.userAll,
     );
 
     return timeItem;
   }
 
   void _onRefresh() async {
-    // monitor network fetch
-    //print("onrefresh");
     await Future.delayed(const Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
+
     setState(() {
-     // print("111");
       isRefresh = true;
       itemCountValue = 20;
     });
@@ -79,16 +72,12 @@ class _TimelinePageState extends State<TimelinePage> {
   }
 
   void _onLoading() async {
-   // print("onloading");
-    // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
 
     if (mounted) {
       setState(() {
         itemCountValue = itemCountValue + 20;
         isRefresh = false;
-        //_onRefresh();
       });
       refreshController.loadComplete();
     }
@@ -96,11 +85,11 @@ class _TimelinePageState extends State<TimelinePage> {
 
   void _onRefresh2() async {
     // monitor network fetch
-   // print("onrefresh");
+    // print("onrefresh");
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     setState(() {
-    //  print("111");
+      //  print("111");
       isRefresh = true;
       itemCountValue = 20;
     });
@@ -109,7 +98,7 @@ class _TimelinePageState extends State<TimelinePage> {
   }
 
   void _onLoading2() async {
-   // print("onloading");
+    // print("onloading");
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
@@ -127,36 +116,17 @@ class _TimelinePageState extends State<TimelinePage> {
   @override
   void initState() {
     super.initState();
-   // print("GENE INITLEDİ");
+
     itemCountValue = 20;
     if (context.read<TimelineItemListCubit>().state.isEmpty) {
       isRefresh = true;
     } else {
       isRefresh = false;
     }
-
-    User? user = auth.currentUser;
-    _refTimeline = refGetter(
-        enum2: RefEnum.Timelinereadfeeds,
-        userUid: user!.uid,
-        crypto: '',
-        targetUid: '');
-
-    _refTimelineToText = refGetter(
-        enum2: RefEnum.Feedcomesfromfeedtext,
-        targetUid: "",
-        userUid: "",
-        crypto: "");
-
-
-
-  
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     super.dispose();
   }
 
@@ -174,7 +144,7 @@ class _TimelinePageState extends State<TimelinePage> {
               )),
           trailing: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Container(
+            child: SizedBox(
               height: 50,
               width: 50,
               child: Padding(
@@ -182,20 +152,6 @@ class _TimelinePageState extends State<TimelinePage> {
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(1.0),
                   onPressed: () async => addPostDialogContent(context),
-                  /*  onPressed: () async {
-                    var ref = await refGetter(
-                        enum2: RefEnum.Feedtofeedtext,
-                        targetUid: "",
-                        userUid: "",
-                        crypto: "");
-
-                    ref.remove();
-
-
-                    ref
-                        .child(widget.userDisplay.userUid)
-                        .child("-Mx_oVl5PTbwt7-1zwVf").remove();
-                  },*/
                   child: Container(
                     padding: const EdgeInsets.all(1.0),
                     child: Center(
@@ -217,8 +173,6 @@ class _TimelinePageState extends State<TimelinePage> {
                 onRefresh: _onRefresh2,
                 onLoading: _onLoading2,
                 child: ListView.builder(
-                    //   itemCount: timelineItem.length,
-
                     itemCount: itemCountValue >=
                             context.read<TimelineItemListCubit>().state.length
                         ? context.read<TimelineItemListCubit>().state.length
@@ -259,14 +213,7 @@ class _TimelinePageState extends State<TimelinePage> {
                           .timelineAdder(snapshot.data as List<dynamic>);
 
                       context.read<TimelineItemListCubit>().timelineItemsSort();
-                      // var userAllSnap = snapshot.data as UserAll;
-                     // print("fdsfs");
-                      for (var item
-                          in context.read<TimelineItemListCubit>().state) {
-                        //print(item.feedMeta.feedText);
-                      }
-                   //   print("fdsfs2");
-                     // print(context.read<TimelineItemListCubit>().state.length);
+
                       return SmartRefresher(
                         enablePullDown: true,
                         enablePullUp: true,
@@ -276,8 +223,6 @@ class _TimelinePageState extends State<TimelinePage> {
                         onRefresh: _onRefresh,
                         onLoading: _onLoading,
                         child: ListView.builder(
-                            //   itemCount: timelineItem.length,
-
                             itemCount: itemCountValue >=
                                     context
                                         .read<TimelineItemListCubit>()
@@ -306,17 +251,8 @@ class _TimelinePageState extends State<TimelinePage> {
 
                     default:
                       if (snapshot.hasError) {
-                        return Center(child: const Text("Error"));
-                        
+                        return const Center(child: Text("Error"));
                       } else {
-                        /*
-                        var userDisplaySnap = snapshot.data as UserDisplay;
-                        return TimelinePage(
-                          user: user,
-                          userDisplay: userDisplay,
-                        );
-                        */
-
                         context
                             .read<TimelineItemListCubit>()
                             .timelineAdder(snapshot.data as List<dynamic>);
@@ -324,11 +260,6 @@ class _TimelinePageState extends State<TimelinePage> {
                         context
                             .read<TimelineItemListCubit>()
                             .timelineItemsSort();
-                        // var userAllSnap = snapshot.data as UserAll;
-                        for (var item
-                            in context.read<TimelineItemListCubit>().state) {
-                         // print(item.feedMeta.feedText);
-                        }
 
                         return SmartRefresher(
                           enablePullDown: true,
@@ -339,8 +270,6 @@ class _TimelinePageState extends State<TimelinePage> {
                           onRefresh: _onRefresh,
                           onLoading: _onLoading,
                           child: ListView.builder(
-                              //   itemCount: timelineItem.length,
-
                               itemCount: itemCountValue >=
                                       context
                                           .read<TimelineItemListCubit>()
@@ -358,9 +287,6 @@ class _TimelinePageState extends State<TimelinePage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-   
-
-                                          
                                       context
                                           .read<TimelineItemListCubit>()
                                           .state[indeks]
@@ -402,8 +328,7 @@ class _AddPostContainerState extends State<AddPostContainer> {
   var t1 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
-     print(100.h);
+    print(100.h);
     print(100.w);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -433,26 +358,23 @@ class _AddPostContainerState extends State<AddPostContainer> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(3.w, 1.h, 0.0, 0.0),
                           child: CircleAvatar(
-                             radius: 20.sp,
-                             backgroundColor: ColorConstant.themeGrey,
+                            radius: 20.sp,
+                            backgroundColor: ColorConstant.themeGrey,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(21.sp),
                               child: CachedNetworkImage(
-                             
                                 imageUrl:
                                     widget.userAll.isolaUserDisplay.avatarUrl,
                                 width: 40.sp,
                                 height: 40.sp,
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
-                                    Icon(CupertinoIcons.xmark_square),
-                                              cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                    const Icon(CupertinoIcons.xmark_square),
+                                cacheManager: CacheManager(Config(
+                                  "cachedImageFiles",
+                                  stalePeriod: const Duration(days: 3),
+                                  //one week cache period
+                                )),
                               ),
                             ),
                           ),
@@ -517,7 +439,9 @@ class _AddPostContainerState extends State<AddPostContainer> {
                                 onPressed: () {
                                   addTextFeedToDatabase(
                                       widget.userAll.isolaUserMeta.userUid,
-                                      t1.text,widget.userAll.isolaUserDisplay.avatarUrl,widget.userAll.isolaUserDisplay.userName);
+                                      t1.text,
+                                      widget.userAll.isolaUserDisplay.avatarUrl,
+                                      widget.userAll.isolaUserDisplay.userName);
 
                                   t1.clear();
                                   Navigator.pop(context);

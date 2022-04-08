@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,33 +47,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   //mesaj kategori ve tiplerini ayarla
+  // ignore: avoid_print
   print('Handling a background message ${message.messageId}');
   await Firebase.initializeApp();
 }
-
-/*Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
-  RemoteNotification? notification = message.notification;
-
-  print(
-      'Handling aOnMessage message ${message.messageId} / ${message.sentTime} / ${message.data} / ${message.messageId} /  ${message.notification}');
-}
-
-Future<void> _firebaseMessagingOpenedAppHandler(RemoteMessage message) async {
-/*  if (message.data['type'] == 'chat') {
-      Navigator.pushNamed(context, '/chat', 
-        arguments: ChatArguments(message),
-      );
-    }*/
-
-  print('Handling a OpenedApp message ${message.messageId}');
-}*/
 
 Future<void> main() async {
   await init();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  //FirebaseMessaging.onMessage;
 
   runApp(EasyLocalization(
       supportedLocales: AppConstant.SUPPORTED_LOCALE,
@@ -102,17 +81,6 @@ Future<void> init() async {
       .then((value) => _userHive = value.get('datetoday'))
       .onError((error, stackTrace) =>
           _userHive = UserHive(likesData: likeList, exloreData: history));
-
-/*
-var messaging= FirebaseMessaging.instance;
-  NotificationSettings settings = await messaging.getNotificationSettings();
-
-  FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
-  FirebaseMessaging.onMessageOpenedApp
-      .listen(_firebaseMessagingOpenedAppHandler);*/
-  /*
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-*/
 }
 
 class MyApp extends StatelessWidget {

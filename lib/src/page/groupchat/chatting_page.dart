@@ -1,5 +1,6 @@
+// ignore_for_file: unused_local_variable, avoid_init_to_null, avoid_types_as_parameter_names, non_constant_identifier_names
+
 import 'dart:async';
-import 'dart:collection';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
@@ -8,66 +9,43 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/current_chat_cubit.dart';
-import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
 import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
-import 'package:isola_app/src/model/group/group_chaos.dart';
 import 'package:isola_app/src/model/group/group_chat_message.dart';
-import 'package:isola_app/src/model/group/group_preview_data.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_baloon_right.dart';
 import 'package:isola_app/src/page/groupchat/chat_image_picker.dart';
-import 'package:isola_app/src/page/groupchat/chatpage/chatpage.dart';
 import 'package:isola_app/src/page/groupchat/system_message_balloon/system_message_balloon.dart';
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_message_balloon_right.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_right.dart';
-import 'package:isola_app/src/page/navigationbar.dart';
-import 'package:isola_app/src/service/firebase/storage/chaos/chaos_group_finder.dart';
 import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_attachment_message.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_chaos_apply.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_voice_message.dart';
-import 'package:isola_app/src/service/notification/notification_helper.dart';
 import 'package:isola_app/src/utils/router.dart';
-import 'package:isola_app/src/widget/message_noti_mini.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../constants/style_constants.dart';
 
 class ChatInteriorPage extends StatefulWidget {
   const ChatInteriorPage({
     Key? key,
   }) : super(key: key);
-
-/*
-   const ChatInteriorPage(
-      {Key? key, required this.userDisplay, required this.groupNo})
-      : super(key: key);
-  final UserDisplay userDisplay;
-  final String groupNo;
-  */
 
   @override
   _ChatInteriorPageState createState() => _ChatInteriorPageState();
@@ -84,7 +62,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   late String target1;
   late String target2;
   late bool isChaosSearching;
-  //int backNotiValue = 0;
+
   late String _filePath;
   late AudioPlayer _audioPlayer;
 
@@ -150,7 +128,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   }
 
   void _onLoading() async {
-   // print("onloading");
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
@@ -158,8 +135,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     if (mounted) {
       setState(() {
         itemCountValue = itemCountValue + 20;
-
-        //_onRefresh();
       });
       refreshController.loadComplete();
     }
@@ -186,7 +161,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
               targetUid4: "",
               targetUid5: "",
             ));
-    //setState(() {});
   }
 
   showFilePicker(FileType fileType) async {
@@ -196,8 +170,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
       if (result2 != null) {
         String fileName = result2.files.first.name;
-       // print(fileName);
-       // print(result2.paths);
+
         await uploadAttachment(userAll, result2.paths.first.toString(),
             refChatInterior, false, false, true, target1, target2);
 
@@ -208,10 +181,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
           .pickFiles(type: fileType, allowMultiple: false);
 
       if (result != null) {
-        String fileName = result.files.first.name;
-        //print(fileName);
-       // print(result.paths);
-
         if (fileType == FileType.video) {
           await uploadAttachment(userAll, result.paths.first.toString(),
               refChatInterior, false, true, false, target1, target2);
@@ -224,7 +193,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
       }
     }
 
-    // chatBloc.dispatch(SendAttachmentEvent(chat.chatId, file, fileType));
     Navigator.pop(context);
   }
 
@@ -245,8 +213,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                         child: Icon(CupertinoIcons.paperclip,
                             size: 100.h >= 1100 ? 10.sp : 15.sp),
                         onPressed: () {
-                        //  print("ATTACHMENT");
-
                           showCupertinoModalPopup<void>(
                             barrierDismissible: true,
                             context: context,
@@ -285,17 +251,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                   ),
                                   onPressed: () {
                                     chooseImage();
-                                    /*
-                                    showCupertinoDialog(
-                                        context: context,
-                                        builder: (context) => ChatImagePicker(
-                                            userDisplay: userDisplay,
-                                            targetUid1: target1,
-                                            targetUid2: target2));*/
-                                    /*
-                                    showFilePicker(
-                                      FileType.image,
-                                    );*/
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -308,13 +263,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                       const Text('Video (Coming Soon)')
                                     ],
                                   ),
-                                  onPressed: () {
-                                    /*
-                                    showFilePicker(
-                                      FileType.video,
-                                      
-                                    );*/
-                                  },
+                                  onPressed: () {},
                                 ),
                               ],
                             ),
@@ -381,8 +330,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                         onLongPressStart: (LongPressStartDetails) async {
                           if (sayacModelNesne.sendIcon.icon ==
                               CupertinoIcons.mic) {
-                         //   print("mic basıldı");
-                           // print("kayıt alınıyor");
+                            //  mic starting
+                            // mic recording
 
                             sayacModelNesne.micCancelVisOn();
                             xPosition = LongPressStartDetails.localPosition.dx;
@@ -403,26 +352,17 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                           if (yPosition - 70 >=
                               LongPressMoveUpdateDetails.localPosition.dy) {
                             sayacModelNesne.trashOnline();
-
-                            //sayac model nesneyi çöplük büyüme animasyonunda kullan
-                            //burada animasyon oynat visibitliy animasyonda
-
                           } else {
                             sayacModelNesne.trashOffline();
                           }
-
-                          //    print(LongPressMoveUpdateDetails.localPosition.dx);
-                          //  print(LongPressMoveUpdateDetails.localPosition.dy);
 
                           if (movingy == yPosition) {}
                         },
                         onLongPressEnd: (LongPressEndDetails) async {
                           if (yPosition - 70 >=
                               LongPressEndDetails.localPosition.dy) {
-                          //  print("agabuyuk");
-                            //dikkat
                             await _audioRecorder.stop();
-                          //  print("ses kaydı çöpe atıldı");
+
                             sayacModelNesne.micCancelVisOff();
                             sayacModelNesne.micRecordingToWaste();
 
@@ -430,16 +370,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             _animationController
                                 .forward()
                                 .whenComplete(() async {
-                              //dikkat
-
                               sayacModelNesne.trashingEnd();
                               sayacModelNesne.micOnline();
                               _animationController.reset();
                             });
-
-                            //sayac model nesneyi çöplük büyüme animasyonunda kullan
-                            //burada animasyon oynat visibitliy animasyonda
-
                           } else {
                             if (sayacModelNesne.sendIcon.icon ==
                                 CupertinoIcons.mic_circle_fill) {
@@ -447,18 +381,15 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
                               uploadVoice(userAll, _filePath, refChatInterior,
                                   target1, target2, "", "", "", false);
-                              //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
-                            //  print(
-                              //    "kayıt veritabanına yükleniyor ve gönderiliyor");
+
                               sayacModelNesne.micCancelVisOff();
                               sayacModelNesne.micOnline();
                             }
                           }
-                         // print("end oldumu");
                         },
                         child: CupertinoButton(
                           onPressed: () {
-                         //   print("basti");
+                            //tapping
 
                             if (sayacModelNesne.sendIcon.icon ==
                                 CupertinoIcons.add) {
@@ -466,7 +397,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               userMessageAdd(t1.text, false, "nothing", docRef);
                               sayacModelNesne.micOnline();
                             } else {
-                            //  print("mikrofonbaşladı");
+                              //mic starting
                             }
                           },
                           child: sayacModelNesne.iconReader(),
@@ -553,13 +484,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         .read<CurrentChatCubit>()
         .currentChatChanger(groupSettingModelForTrawling.groupNo);
 
-   // print(context.read<CurrentChatCubit>().state);
-   // print('sds');
-
     itemCountValue =
         itemCountValue + groupSettingModelForTrawling.newNotiValueAmount;
-
-    // print(groupSettingModelForTrawling.groupNo);
 
     target1 = context.read<GroupSettingCubit>().state.groupMemberUid2;
     target2 = context.read<GroupSettingCubit>().state.groupMemberUid3;
@@ -571,8 +497,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
       if (isChaosSearching == true &&
           _animationControllerChaosSearching.isAnimating == false) {
         _animationControllerChaosSearching.repeat();
-
-        // listenToChaosActive();
       }
     });
 
@@ -751,9 +675,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
     _animationControllerChaosSearching.dispose();
     WidgetsBinding.instance!.removeObserver(this);
 
-   
-    // print("sfafsa");
-   //'chatting dispose çalıştı');
+    //'chatting dispose çalıştı');
 
     super.dispose();
   }
@@ -761,25 +683,20 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive) {
-    //  print(
       //    "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
-       
+
     }
 
     if (state == AppLifecycleState.paused) {
-      
-    // /7 print(" altta atıldı");
+      // /7 print(" altta atıldı");
     }
 
     if (state == AppLifecycleState.resumed) {
-       
-   //   print("alta atıp geri gelince");
+      //   print("alta atıp geri gelince");
     }
 
     if (state == AppLifecycleState.detached) {
-     
-    
-    //  print("detached");
+      //  print("detached");
 
       //işlemi cancel et !!!/// streamchanges
     }
@@ -788,63 +705,41 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
   @override
   Widget build(BuildContext context) {
-    //  messaging.unsubscribeFromTopic('chat_items');
-
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           automaticallyImplyMiddle: false,
           backgroundColor: ColorConstant.milkColor,
           automaticallyImplyLeading: true,
-      
-          //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
-
           trailing: GestureDetector(
             onTap: () {
-              //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
-
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(groupSettingsPage);
-
-              //  Navigator.pop(context);
             },
             child: Padding(
               padding: EdgeInsets.zero,
               child: Stack(
                 children: [
-                  /*buraya düşen süre yapılacak açılış tarihi 
-                      ile datetime karşılaştırarak ama if verilecek
-                      if bonus açıksa with bonus ile hesaplayacak
-                  */
-
                   Align(
                     alignment: Alignment.center,
                     child: GestureDetector(
-
-                        //groupNo print(context.read<GroupSettingCubit>().state.groupNo.toString());
-
-                        //groupNo gerekli
                         onTap: () async {
                           if (isChaosSearching == true) {
-                          //  print('hala search ediyor');
-
                             DocumentReference pool2Ref = FirebaseFirestore
                                 .instance
                                 .collection('chaos_apply_pool_2')
                                 .doc(groupSettingModelForTrawling.groupNo);
 
+                            // ignore: prefer_typing_uninitialized_variables
                             var pool2Doc;
 
                             await pool2Ref.get().then(
                                 (value) => pool2Doc = value['groupMemberList']);
-                           // print(pool2Doc);
 
                             var listDoc = pool2Doc as List<dynamic>;
 
                             if (listDoc
                                 .contains(userAll.isolaUserMeta.userUid)) {
-                           //   print('içeriyor');
                             } else {
-                            //  print('atiş serbset');
                               await groupChaosApply(
                                   userAll.isolaUserMeta.userUid,
                                   groupSettingModelForTrawling.groupNo);
@@ -852,7 +747,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                           } else {
                             if (_animationControllerChaosStreaming
                                 .isAnimating) {
-                            //  print('islem yapamazsın');
+                              //  print('islem yapamazsın');
                             } else {
                               if (userAll.isolaUserMeta.userToken == 0) {
                                 //uyarı göster token yetersiz
@@ -897,13 +792,11 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               borderRadius: 100.h <= 1100
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
-                              child: /*Image.network(groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl2)*/
-                                  CachedNetworkImage(
+                              child: CachedNetworkImage(
                                 imageUrl: groupSettingModelForTrawling
                                     .groupMemberAvatarUrl2,
                                 errorWidget: (context, url, error) =>
-                                    Icon(CupertinoIcons.xmark_square),
+                                    const Icon(CupertinoIcons.xmark_square),
                                 cacheManager: CacheManager(Config(
                                   "cachedImageFiles",
                                   stalePeriod: const Duration(days: 3),
@@ -928,14 +821,12 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               borderRadius: 100.h <= 1100
                                   ? BorderRadius.circular(20.sp)
                                   : BorderRadius.circular(30.sp),
-                              child: /*Image.network(groupSettingModelForTrawling
-                                    .groupMemberAvatarUrl3)*/
-                                  CachedNetworkImage(
+                              child: CachedNetworkImage(
                                 imageUrl: groupSettingModelForTrawling
                                     .groupMemberAvatarUrl3,
                                 fit: BoxFit.fitWidth,
                                 errorWidget: (context, url, error) =>
-                                    Icon(CupertinoIcons.xmark_square),
+                                    const Icon(CupertinoIcons.xmark_square),
                                 cacheManager: CacheManager(Config(
                                   "cachedImageFiles",
                                   stalePeriod: const Duration(days: 3),
@@ -972,13 +863,12 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             .snapshots(),
                         //    refChatInterior.limitToLast(itemCountValue).onValue,
                         builder: (context, snapshot) {
-                          if (!snapshot.hasData)
+                          if (!snapshot.hasData) {
                             return Center(
                               child: CupertinoActivityIndicator(
                                   animating: true, radius: 12.sp),
                             );
-
-                          //   var chatMessageDatas = <AllMessageBalloon>[];
+                          }
 
                           var seemingMessage = <String>[];
 
@@ -1003,19 +893,14 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                   enablePullUp: true,
                                   header: const ClassicHeader(),
                                   controller: refreshController,
-                                  // onRefresh: _onLoading,
                                   onLoading: _onLoading,
                                   child: ListView.builder(
                                       reverse: true,
-                                      //itemCount: chatMessageDatas.length,
-                                      //   itemCount: data.size<itemCountValue?data.size:itemCountValue,
                                       itemCount: data.size,
                                       itemBuilder: (context, indeksNumarasi) =>
                                           Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              // child: chatMessageDatas[
-                                              //   indeksNumarasi],
                                               child: AllMessageBalloon(
                                                 isMe: data.docs[indeksNumarasi]
                                                             .data()
@@ -1098,6 +983,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   }
 
   Future<void> _startRecording() async {
+    // ignore: prefer_typing_uninitialized_variables
     late var hasRecordingPermission;
     await FlutterAudioRecorder2.hasPermissions
         .then((value) => hasRecordingPermission = value);
@@ -1115,7 +1001,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
       _audioRecorder.start();
       _filePath = filepath;
     } else {
-  //    print("lütfen ses kayit icin izinleri acin");
+      //    print("lütfen ses kayit icin izinleri acin");
     }
   }
 }
@@ -1256,6 +1142,7 @@ class AllMessageBalloon extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CircleImageContainer extends StatelessWidget {
   Widget circleImage;
 

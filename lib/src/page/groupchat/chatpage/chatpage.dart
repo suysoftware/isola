@@ -5,11 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_preview_data.dart';
 import 'package:isola_app/src/model/group/groups_model.dart';
 import 'package:isola_app/src/page/groupchat/chatpage/chat_chaos/chat_chaos_widgets.dart';
@@ -17,9 +14,6 @@ import 'package:isola_app/src/page/groupchat/chatpage/chat_normal/chat_normal_wi
 import 'package:isola_app/src/page/groupchat/chatpage/chat_waiting/chat_waiting_widgets.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../blocs/current_chat_cubit.dart';
-import '../../../model/hive_models/user_hive.dart';
 
 class ChatPage extends StatefulWidget {
   ChatPage(
@@ -44,8 +38,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    //context.read<CurrentChatCubit>().currentChatReset();
- //context.read<CurrentChatCubit>().currentChatReset();
+
     groupMergeData = widget.groupMergeDataComing.groupsModel;
 
     if (widget.groupMergeDataComing.userAll.isolaUserMeta.joinedGroupList[0] ==
@@ -69,16 +62,6 @@ class _ChatPageState extends State<ChatPage> {
             .groupMergeDataComing.userAll.isolaUserMeta.joinedGroupList.length;
       }
     }
-
-    /*
-
-    widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[0] ==
-            "nothing"
-        ? chatContValue = 0
-        : (chatContValue = widget
-            .groupPreviewData.userAll.isolaUserMeta.joinedGroupList.length);
-
-    initTraw.add("asset/img/settings_button.png");*/
   }
 
   @override
@@ -88,8 +71,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-  print(100.h);
-    print(100.w);
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
@@ -125,8 +106,6 @@ class _ChatPageState extends State<ChatPage> {
                       for (var groupData
                           in groupMergeData as List<GroupsModel>) {
                         if (groupData.groupChaosIsActive) {
-                          //  print("1 kere döndü");
-                        //  print('chaoslu item çalıştı');
                           final Stream<QuerySnapshot> _chaosStream =
                               FirebaseFirestore.instance
                                   .collection('chaos_groups_chat')
@@ -134,10 +113,6 @@ class _ChatPageState extends State<ChatPage> {
                                   .collection('chat_data')
                                   .snapshots();
 
-                          /*  CollectionReference chaosRef = FirebaseFirestore.instance
-                        .collection('chaos_groups_chat')
-                        .doc(groupData.groupChaosNo)
-                        .collection('chat_data');*/
                           var chaosCont = ChaosGroupCont(
                             myUid: widget.groupMergeDataComing.userAll
                                 .isolaUserMeta.userUid,
@@ -148,10 +123,6 @@ class _ChatPageState extends State<ChatPage> {
 
                           groupsItem.add(chaosCont);
                         } else {
-                          /* CollectionReference chatRef = FirebaseFirestore.instance
-                        .collection('groups_chat')
-                        .doc(groupData.groupNo)
-                        .collection('chat_data');*/
                           var groupCont = ChatGroupCont(
                             myUid: widget.groupMergeDataComing.userAll
                                 .isolaUserMeta.userUid,
@@ -164,186 +135,10 @@ class _ChatPageState extends State<ChatPage> {
                         }
                       }
 
-/*
-                widget.groupPreviewData.groupAlives.group1Alive == true;
-                var item1 = widget
-                                .groupPreviewData.groupAlives.group1Searching !=
-                            true &&
-                        widget.groupPreviewData.groupAlives.group1Alive == true
-                    ? (widget.groupPreviewData.groupAlives.is1ChaosAlive == true
-                        ? ChaosGroupCont(
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            notiValue: 2,
-                            ref:
-                                refGetter(
-                                    enum2: RefEnum.Chaosgroupchatlist,
-                                    targetUid: "",
-                                    userUid: "",
-                                    crypto:
-                                        widget.groupPreviewData.groupAlives
-                                            .chaos1GroupNo),
-                            chatGroupNo: widget
-                                .groupPreviewData.groupAlives.chaos1GroupNo,
-                            userAll: widget.groupPreviewData.userAll)
-                        : ChatGroupCont(
-                            notiValue: 2,
-                            ref: refGetter(
-                                enum2: RefEnum.Groupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.userAll
-                                    .isolaUserMeta.joinedGroupList[0]),
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo: widget.groupPreviewData.userAll
-                                .isolaUserMeta.joinedGroupList[0],
-                            userAll: widget.groupPreviewData.userAll,
-                          ))
-                    : const ChatGroupContWaiting();
-
-                var item2 = widget.groupPreviewData.groupAlives.group2Searching != true &&
-                        widget.groupPreviewData.groupAlives.group2Alive == true
-                    ? (widget.groupPreviewData.groupAlives.is2ChaosAlive == true
-                        ? ChaosGroupCont(
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            notiValue: 2,
-                            ref: refGetter(
-                                enum2: RefEnum.Chaosgroupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.groupAlives
-                                    .chaos2GroupNo),
-                            chatGroupNo: widget
-                                .groupPreviewData.groupAlives.chaos2GroupNo,
-                            userAll: widget.groupPreviewData.userAll)
-                        : ChatGroupCont(
-                            notiValue: 1,
-                            ref: refGetter(
-                                enum2: RefEnum.Groupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.userAll
-                                    .isolaUserMeta.joinedGroupList[1]),
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo:
-                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[1],
-                            userAll: widget.groupPreviewData.userAll))
-                    : const ChatGroupContWaiting();
-                var item3 = widget.groupPreviewData.groupAlives.group3Searching != true &&
-                        widget.groupPreviewData.groupAlives.group3Alive == true
-                    ? (widget.groupPreviewData.groupAlives.is3ChaosAlive == true
-                        ? ChaosGroupCont(
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            notiValue: 2,
-                            ref: refGetter(
-                                enum2: RefEnum.Chaosgroupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.groupAlives
-                                    .chaos3GroupNo),
-                            chatGroupNo: widget
-                                .groupPreviewData.groupAlives.chaos3GroupNo,
-                            userAll: widget.groupPreviewData.userAll)
-                        : ChatGroupCont(
-                            notiValue: 4,
-                            ref: refGetter(
-                                enum2: RefEnum.Groupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.userAll
-                                    .isolaUserMeta.joinedGroupList[2]),
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo:
-                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[2],
-                            userAll: widget.groupPreviewData.userAll))
-                    : const ChatGroupContWaiting();
-                var item4 = widget.groupPreviewData.groupAlives.group4Searching != true &&
-                        widget.groupPreviewData.groupAlives.group4Alive == true
-                    ? (widget.groupPreviewData.groupAlives.is4ChaosAlive == true
-                        ? ChaosGroupCont(
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            notiValue: 2,
-                            ref: refGetter(
-                                enum2: RefEnum.Chaosgroupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.groupAlives
-                                    .chaos4GroupNo),
-                            chatGroupNo: widget
-                                .groupPreviewData.groupAlives.chaos4GroupNo,
-                            userAll: widget.groupPreviewData.userAll)
-                        : ChatGroupCont(
-                            notiValue: 4,
-                            ref: refGetter(
-                                enum2: RefEnum.Groupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.userAll
-                                    .isolaUserMeta.joinedGroupList[3]),
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo:
-                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[3],
-                            userAll: widget.groupPreviewData.userAll))
-                    : const ChatGroupContWaiting();
-
-                var item5 = widget.groupPreviewData.groupAlives.group5Searching != true &&
-                        widget.groupPreviewData.groupAlives.group5Alive == true
-                    ? (widget.groupPreviewData.groupAlives.is5ChaosAlive == true
-                        ? ChaosGroupCont(
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            notiValue: 2,
-                            ref: refGetter(
-                                enum2: RefEnum.Chaosgroupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.groupAlives
-                                    .chaos5GroupNo),
-                            chatGroupNo: widget
-                                .groupPreviewData.groupAlives.chaos5GroupNo,
-                            userAll: widget.groupPreviewData.userAll)
-                        : ChatGroupCont(
-                            notiValue: 4,
-                            ref: refGetter(
-                                enum2: RefEnum.Groupchatlist,
-                                targetUid: "",
-                                userUid: "",
-                                crypto: widget.groupPreviewData.userAll
-                                    .isolaUserMeta.joinedGroupList[4]),
-                            myUid: widget
-                                .groupPreviewData.userAll.isolaUserMeta.userUid,
-                            chatGroupNo:
-                                widget.groupPreviewData.userAll.isolaUserMeta.joinedGroupList[4],
-                            userAll: widget.groupPreviewData.userAll))
-                    : const ChatGroupContWaiting();
-
-                if (widget.groupPreviewData.groupAlives.group1Alive == true) {
-                  groupsItem.add(item1);
-                }
-                if (widget.groupPreviewData.groupAlives.group2Alive == true) {
-                  groupsItem.add(item2);
-                }
-                if (widget.groupPreviewData.groupAlives.group3Alive == true) {
-                  groupsItem.add(item3);
-                }
-                if (widget.groupPreviewData.groupAlives.group4Alive == true) {
-                  groupsItem.add(item4);
-                }
-                if (widget.groupPreviewData.groupAlives.group5Alive == true) {
-                  groupsItem.add(item5);
-                }
-*/
                       if (needSearchingContainer == true) {
                         groupsItem.add(itemWaiting);
                       }
-                      // print("fashjjhbfsa");
+
                       return Padding(
                         padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 1.h),
                         child: Column(
@@ -373,14 +168,6 @@ class ImageChatClip extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(
                 color: ColorConstant.milkColor.withOpacity(0.03), width: 2.0),
-            /*
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 10.0,
-                  spreadRadius: 1.0,
-                  offset: Offset.zero,
-                  color: ColorConstant.softBlack.withOpacity(0.15))
-            ],*/
             color: ColorConstant.milkColor.withOpacity(0.05),
             borderRadius: BorderRadius.all(Radius.circular(35.sp))),
         child: CircleAvatar(
@@ -410,15 +197,6 @@ class MessageNotificationMini extends StatelessWidget {
         decoration: BoxDecoration(
             gradient: ColorConstant.isolaMainGradient,
             border: Border.all(color: ColorConstant.milkColor, width: 1.0),
-            /*
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 10.0,
-                  spreadRadius: 1.0,
-                  offset: Offset.zero,
-                  color: ColorConstant.softBlack.withOpacity(0.25))
-            ],*/
-
             color: ColorConstant.milkColor,
             borderRadius: BorderRadius.all(Radius.circular(20.h))),
         child: ClipRRect(

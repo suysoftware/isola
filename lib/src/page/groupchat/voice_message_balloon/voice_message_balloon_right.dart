@@ -41,7 +41,8 @@ class VoiceMessageBalloonRight extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0.0, 0.0, 2.w, 0.0),
                 child: VoiceChatContRight(
                   memberVoiceUrl: memberVoiceUrl,
-                  memberName: memberName, messageTime: memberMessageTime,
+                  memberName: memberName,
+                  messageTime: memberMessageTime,
                 ),
               ),
             ],
@@ -64,26 +65,21 @@ class VoiceMessageBalloonRight extends StatelessWidget {
                       border: Border.all(color: ColorConstant.transparentColor),
                       borderRadius: BorderRadius.all(Radius.circular(20.sp))),
                   child: CircleAvatar(
-                              backgroundColor: ColorConstant.milkColor,
+                    backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.sp),
                       child: CachedNetworkImage(
-                        imageUrl:
-                        memberAvatarUrl,
+                        imageUrl: memberAvatarUrl,
                         height: 35.sp,
                         width: 35.sp,
                         fit: BoxFit.cover,
-                         errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
-                                                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(CupertinoIcons.xmark_square),
+                        cacheManager: CacheManager(Config(
+                          "cachedImageFiles",
+                          stalePeriod: const Duration(days: 3),
+                          //one week cache period
+                        )),
                       ),
                     ),
                   ),

@@ -2,14 +2,11 @@
 
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 
 Future<void> uploadAttachment(
     IsolaUserAll userAll,
-    //bu değişebilir
-
     String _filePath,
     CollectionReference chatMessageRef,
     bool isImage,
@@ -36,8 +33,6 @@ Future<void> uploadAttachment(
           isVideo, isDoc, targetUid1, targetUid2);
     }
   }
-
-  //return urlImage;
 }
 
 attachmentMessageAdd(
@@ -49,8 +44,7 @@ attachmentMessageAdd(
     bool isDoc,
     String targetUid1,
     String targetUid2) {
- 
-   var docRef = ref.doc();
+  var docRef = ref.doc();
   docRef.set({
     'member_avatar_url': userAll.isolaUserDisplay.avatarUrl,
     'member_message': "",
@@ -72,8 +66,6 @@ attachmentMessageAdd(
 
 Future<void> uploadAttachmentToChaos(
     IsolaUserAll userAll,
-    //bu değişebilir
-
     String _filePath,
     CollectionReference chatMessageRef,
     bool isImage,

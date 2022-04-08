@@ -3,21 +3,18 @@ import 'dart:typed_data';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_attachment_message.dart';
 import 'package:isola_app/src/utils/image_cropper.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ChatImagePicker extends StatefulWidget {
-  ChatImagePicker(
+  const ChatImagePicker(
       {Key? key,
       required this.userAll,
       required this.targetUid1,
@@ -45,21 +42,8 @@ class ChatImagePicker extends StatefulWidget {
 class _ChatImagePickerState extends State<ChatImagePicker>
     with TickerProviderStateMixin {
   bool _cropping = false;
+  // ignore: prefer_typing_uninitialized_variables
   late var refChatInterior;
-/*
-  File? file = null;
-
-  chooseImage() async {
-    XFile? xfile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 600,
-      maxWidth: 600,
-      imageQuality: 5,
-    );
-    file = File(xfile!.path);
-    setState(() {});
-  }*/
-
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
 
@@ -67,14 +51,10 @@ class _ChatImagePickerState extends State<ChatImagePicker>
   void initState() {
     super.initState();
     refChatInterior = context.read<ChatReferenceCubit>().state;
-    //  chooseImage();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
- 
     super.dispose();
   }
 
@@ -82,7 +62,8 @@ class _ChatImagePickerState extends State<ChatImagePicker>
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: ColorConstant.themeColor,
-      navigationBar: CupertinoNavigationBar(automaticallyImplyLeading: true),
+      navigationBar:
+          const CupertinoNavigationBar(automaticallyImplyLeading: true),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -134,13 +115,10 @@ class _ChatImagePickerState extends State<ChatImagePicker>
                           setState(() {});
                         });
 
-                        // unawaited(cropImage());
-                        //  cropImage();
-
                         showCupertinoDialog(
                             context: context,
                             builder: (BuildContext context) =>
-                                AnimatedLiquidCircularProgressIndicator());
+                                const AnimatedLiquidCircularProgressIndicator());
                       },
                       child: Text(
                         "Send Photo",
@@ -163,7 +141,7 @@ class _ChatImagePickerState extends State<ChatImagePicker>
         ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
         : (await cropImageDataWithNativeLibrary(
             state: editorKey.currentState!))!);
-  //  print(fileData);
+
     final String? fileFath = await ImageSaver.save(
         'isola_chat_image-${DateTime.now().toUtc().toString()}.jpg', fileData);
     if (widget.isChaos) {

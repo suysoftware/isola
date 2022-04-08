@@ -43,7 +43,7 @@ class VoiceChatContRight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-         DateFormat dFormat = DateFormat("HH:mm");
+    DateFormat dFormat = DateFormat("HH:mm");
 
     double contHeight = 100.h <= 1100 ? 2 : 1;
     double topLeft = (contHeight * 2 + 6.5) * 3;
@@ -82,9 +82,6 @@ class VoiceChatContRight extends StatelessWidget {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: CupertinoButton(
-                                  /*  child: voiceStatus.state.itemUrl == memberVoiceUrl
-                              ? voiceStatus.state.icon
-                              : Icon(CupertinoIcons.play),*/
                                   child: voiceStatus
                                       .voiceIconReader(memberVoiceUrl),
                                   onPressed: () async {
@@ -94,7 +91,6 @@ class VoiceChatContRight extends StatelessWidget {
                                             .voiceIconReader(memberVoiceUrl)
                                             .icon ==
                                         playIcon.icon) {
-                                      //  await _audioPlayer.resume();
                                       voiceStatus.playing(
                                           duration, memberVoiceUrl);
 
@@ -118,7 +114,6 @@ class VoiceChatContRight extends StatelessWidget {
                                     } else {
                                       voiceStatus.loading(
                                           duration, memberVoiceUrl);
-                                      //animasyonu başlat
 
                                       await _audioPlayer.play(url);
                                       voiceStatus.playing(
@@ -127,15 +122,10 @@ class VoiceChatContRight extends StatelessWidget {
 
                                     _audioPlayer.onDurationChanged
                                         .listen((Duration d) {
-                                      //    voiceStatus
-                                      //    .playing(d, memberVoiceUrl);
-
                                       duration = duration;
                                     });
                                     _audioPlayer.onAudioPositionChanged
                                         .listen((Duration p) {
-                                      //  voiceStatus
-                                      //      .playing(p, memberVoiceUrl);
                                       voiceStatus.durationUpper(memberVoiceUrl);
                                       position = p;
                                     });
@@ -157,7 +147,11 @@ class VoiceChatContRight extends StatelessWidget {
                                   padding:
                                       EdgeInsets.fromLTRB(0.0, 0.0, 5.w, 0.3.h),
                                   child: Text(
-                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                                    dFormat.format(
+                                        DateTime.fromMicrosecondsSinceEpoch(
+                                            messageTime.microsecondsSinceEpoch
+                                                .toInt(),
+                                            isUtc: false)),
                                     style: 100.h <= 1100
                                         ? StyleConstants.chatTimeTextStyleRight
                                         : StyleConstants
@@ -243,7 +237,6 @@ class VoiceChatContRight extends StatelessWidget {
                                     } else {
                                       voiceStatus.loading(
                                           duration, memberVoiceUrl);
-                                      //animasyonu başlat
 
                                       await _audioPlayer.play(url);
                                       voiceStatus.playing(
@@ -277,7 +270,8 @@ class VoiceChatContRight extends StatelessWidget {
                                   padding:
                                       EdgeInsets.fromLTRB(0.0, 0.0, 5.w, 0.3.h),
                                   child: Text(
-'11:30',                                    style: 100.h <= 1100
+                                    '11:30',
+                                    style: 100.h <= 1100
                                         ? StyleConstants.chatTimeTextStyleRight
                                         : StyleConstants
                                             .chatTabletTimeTextStyleRight,

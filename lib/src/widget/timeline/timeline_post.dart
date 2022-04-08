@@ -1,8 +1,6 @@
-// ignore_for_file: must_be_immutable, unused_local_variable
-import 'dart:collection';
+// ignore_for_file: must_be_immutable, unused_local_variable, avoid_print
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,18 +10,16 @@ import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/blocs/user_hive_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/target_profiles.dart';
 import 'package:isola_app/src/service/firebase/storage/deleting/feed_delete.dart';
 import 'package:isola_app/src/service/firebase/storage/hive_operations.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:uuid/uuid.dart';
+import '../report_sheets.dart';
 
 class TimelineItem extends StatefulWidget {
   IsolaFeedModel feedMeta;
@@ -76,24 +72,7 @@ class _TimelineItemState extends State<TimelineItem>
     return BlocBuilder<UserHiveCubit, UserHive>(builder: (context, userHive) {
       return GestureDetector(
           onTap: () async {
-           
             if (widget.feedMeta.userUid != widget.userUid) {
-/*
-  var userDisplay = UserDisplay(
-      comingValue["user_uid"],
-      comingValue["user_name"],
-      comingValue["user_biography"],
-      comingValue["user_avatar_url"],
-      comingValue["user_university"],
-      comingValue["user_sex"],
-      comingValue["user_is_online"],
-      comingValue["user_is_valid"],
-      comingValue["user_activities"],
-      comingValue["user_interest"],
-      comingValue["user_friends"],
-      comingValue["user_blocked"],
-      comingValue["user_is_non_binary"]);*/
-
               if (widget.isTimeline == true) {
                 Navigator.push(
                     context,
@@ -106,34 +85,6 @@ class _TimelineItemState extends State<TimelineItem>
                               isolaUserAll: widget.isolaUserAll,
                             )));
               }
-              /*
-              refTargetProfile.get().then((value) {
-                var gettingInfo = value.snapshot.value as Map;
-
-                gettingInfo.forEach((key, value) {
-                  var comingItem = UserDisplay.fromJson(value);
-
-                  var targetProfileDisplay = UserDisplay(
-                      comingItem.userUid,
-                      comingItem.userName,
-                      comingItem.userBiography,
-                      comingItem.avatarUrl,
-                      comingItem.userUniversity,
-                      comingItem.userSex,
-                      comingItem.userIsOnline,
-                      comingItem.userIsValid,
-                      comingItem.userActivities,
-                      comingItem.userInterest,
-                      comingItem.userFriends,
-                      comingItem.userBlocked,
-                      comingItem.userIsNonBinary);
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => TargetProfilePage(
-                              userDisplay: targetProfileDisplay)));
-                });
-              });*/
             }
           },
           child: Container(
@@ -303,7 +254,6 @@ class _TimelineItemState extends State<TimelineItem>
                                                             }
                                                           } else {
                                                             try {
-                                                         
                                                               timelineModelNesne
                                                                   .imageLikeOff();
 
@@ -341,48 +291,6 @@ class _TimelineItemState extends State<TimelineItem>
                                                               print(e);
                                                             }
                                                           }
-                                                
-
-                                                          /*  var refLikeFeed =
-                                                              refGetter(
-                                                                  enum2: RefEnum
-                                                                      .Feedsdelete,
-                                                                  targetUid: "",
-                                                                  userUid: widget
-                                                                      .userUid,
-                                                                  crypto: widget
-                                                                      .feedMeta
-                                                                      .feedNo);*/
-/*
-                                                          refLikeFeed
-                                                              .child(
-                                                                  "like_value")
-                                                              .once()
-                                                              .then((value) {
-                                                            if (value.snapshot
-                                                                .exists) {
-                                                             
-                                                            }*/
-
-                                                          /* else {
-                                                              showCupertinoDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (context) =>
-                                                                          CupertinoAlertDialog(
-                                                                            title:
-                                                                                Text("This Post Already Deleted"),
-                                                                            actions: [
-                                                                              CupertinoButton(
-                                                                                  child: Text("Okey"),
-                                                                                  onPressed: () {
-                                                                                    Navigator.pop(context);
-                                                                                  })
-                                                                            ],
-                                                                          ));
-                                                            }*/
-                                                          // });
                                                         }),
                                               );
                                             }),
@@ -423,6 +331,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                               widget.feedMeta
                                                                   .feedNo,
                                                               widget.userUid);
+                                                          // ignore: iterable_contains_unrelated_type
                                                           if (context
                                                               .read<
                                                                   TimelineItemListCubit>()
@@ -441,45 +350,6 @@ class _TimelineItemState extends State<TimelineItem>
 
                                                           Navigator.pop(
                                                               context);
-
-/*
-                                                          try {
-                                                                           DocumentReference
-                                                              textFeedDeleteRef =
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'text_feed_delete_pool')
-                                                                  .doc();
-
-                                                          textFeedDeleteRef
-                                                              .set({
-                                                                'orderNo':textFeedDeleteRef.id,
-                                                                'targetFeed':widget.feedMeta.feedNo,
-                                                                'userUid':widget.userUid
-                                                              })
-                                                          
-                                                                .whenComplete(
-                                                                    () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            });
-                                                          } catch (e) {
-                                                            print(e.toString());
-
-                                                            print(e);
-                                                            print(e);
-                                                            print(e);
-
-                                                            print(e);
-                                                          }
-*/
-                                                          /*  refDeleteFeed
-                                                              .remove()
-                                                              .whenComplete(() {
-                                                            Navigator.pop(
-                                                                context);
-                                                          });*/
                                                         })
                                                     : CupertinoButton(
                                                         child: const Text(
@@ -719,28 +589,15 @@ class _AddPostReportContainerState extends State<AddPostReportContainer> {
                     padding: EdgeInsets.fromLTRB(60.w, 1.5.h, 1.0, 1.0),
                     child: GestureDetector(
                       onTap: () {
-                        String fileReportID = const Uuid().v4();
-                        var refReport = refGetter(
-                            enum2: RefEnum.Feedreports,
-                            targetUid: "",
-                            userUid: "",
-                            crypto: widget.feedMeta.feedNo);
-
-                        var feedReport = HashMap<String, dynamic>();
-
-                        feedReport["reporter_user"] = widget.userUid;
-                        feedReport["report_time"] = ServerValue.timestamp;
-                        feedReport["report_date"] = DateTime.now().toString();
-                        feedReport["report_title"] = t1.text;
-                        feedReport["report_no"] = fileReportID;
-
-                        refReport
-                            .child(widget.feedMeta.userUid)
-                            .child(widget.feedMeta.feedNo)
-                            .child(widget.userUid)
-                            .set(feedReport);
-                        t1.clear();
                         Navigator.pop(context);
+                        showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) => ReportFeedSheet(
+                                  reporterUid: widget.userUid,
+                                  isImageFeed: false,
+                                  feedNo: widget.feedMeta.feedNo,
+                                  targetUid: widget.feedMeta.userUid,
+                                ));
                       },
                       child: Container(
                         height: 3.5.h,

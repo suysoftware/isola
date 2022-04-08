@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/cupertino.dart';
-import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,8 +10,6 @@ class SystemChatCont extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
-
     return Stack(
       children: [
         RichText(

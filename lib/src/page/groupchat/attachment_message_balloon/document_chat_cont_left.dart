@@ -13,12 +13,15 @@ class DocumentChatContLeft extends StatelessWidget {
   String memberName;
   Timestamp messageTime;
   DocumentChatContLeft(
-      {Key? key, required this.memberAttachmentUrl, required this.memberName,required this.messageTime })
+      {Key? key,
+      required this.memberAttachmentUrl,
+      required this.memberName,
+      required this.messageTime})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     DateFormat dFormat = DateFormat("HH:mm");
+    DateFormat dFormat = DateFormat("HH:mm");
     return Container(
       width: 20.w,
       height: 14.h,
@@ -43,7 +46,9 @@ class DocumentChatContLeft extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(0.0, 0.0, 2.w, 0.3.h),
                     child: Text(
-                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                      dFormat.format(DateTime.fromMicrosecondsSinceEpoch(
+                          messageTime.microsecondsSinceEpoch.toInt(),
+                          isUtc: false)),
                       style: 100.h <= 1100
                           ? StyleConstants.chatTimeTextStyleLeft
                           : StyleConstants.chatTabletTimeTextStyleLeft,
@@ -54,8 +59,6 @@ class DocumentChatContLeft extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () {
-                      //   print("fssaf");
-
                       showCupertinoDialog(
                           context: context,
                           builder: (context) => CupertinoPageScaffold(

@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -12,14 +11,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/profile/profile_biography.dart';
 import 'package:isola_app/src/page/profile/profile_media_page.dart';
-import 'package:isola_app/src/service/firebase/storage/feedshare/add_image_feeds.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
-import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/image_cropper.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/page/profile/profile_timeline_page.dart';
@@ -107,13 +102,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-
-
   }
 
   @override
   Widget build(BuildContext context) {
-      print(100.h);
+    print(100.h);
     print(100.w);
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
@@ -127,18 +120,8 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(4.0),
             child: GestureDetector(
                 onTap: () {
-                  /*  addImageFeedToDatabase(
-                      widget.userAll.isolaUserMeta.userUid,
-                      widget.userAll.isolaUserDisplay.avatarUrl,
-                      widget.userAll.isolaUserDisplay.userName,
-                      "https://en.pimg.jp/054/507/693/1/54507693.jpg");*/
-
-                  //image feed bölümünü eklemeyi unutma
-
                   Navigator.of(context, rootNavigator: true)
                       .pushNamed(settingsPage);
-
-                  //   getTimelineFeeds(widget.userAll,20);
                 },
                 child: Image.asset("asset/img/settings_button.png")),
           ),
@@ -150,7 +133,6 @@ class _ProfilePageState extends State<ProfilePage> {
               Stack(
                 children: [
                   Column(
-                    // mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
                         padding: EdgeInsets.fromLTRB(0.0, 2.h, 0.0, 0.0),
@@ -184,10 +166,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   width: 110.sp,
                                                   height: 110.sp,
                                                   fit: BoxFit.cover,
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(CupertinoIcons
+                                                          .xmark_square),
                                                   cacheManager:
                                                       CacheManager(Config(
                                                     "cachedImageFiles",
@@ -204,17 +186,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   width: 80.sp,
                                                   height: 80.sp,
                                                   fit: BoxFit.cover,
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
-                                                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(CupertinoIcons
+                                                          .xmark_square),
+                                                  cacheManager:
+                                                      CacheManager(Config(
+                                                    "cachedImageFiles",
+                                                    stalePeriod:
+                                                        const Duration(days: 3),
+                                                    //one week cache period
+                                                  )),
                                                 ))
                                           : CachedNetworkImage(
                                               imageUrl: widget.userAll
@@ -223,16 +205,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                               height: 75.sp,
                                               fit: BoxFit.cover,
                                               errorWidget:
-                                                  (context, url, error) => Icon(
-                                                      CupertinoIcons
+                                                  (context, url, error) =>
+                                                      const Icon(CupertinoIcons
                                                           .xmark_square),
-                                                                    cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                              cacheManager: CacheManager(Config(
+                                                "cachedImageFiles",
+                                                stalePeriod:
+                                                    const Duration(days: 3),
+                                                //one week cache period
+                                              )),
                                             ))),
                             ),
                           ),
@@ -404,7 +385,6 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
                 child: SizedBox(
                   height: 45.h,
                   width: 95.w,
-                  // color: ColorConstant.addTimelinePost,
                   child: file == null
                       ? GestureDetector(
                           onTap: () {
@@ -463,12 +443,10 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
                           setState(() {});
                         });
 
-                        //  cropImage();
-
                         showCupertinoDialog(
                             context: context,
                             builder: (BuildContext context) =>
-                                AnimatedLiquidCircularProgressIndicator());
+                                const AnimatedLiquidCircularProgressIndicator());
                       },
                       child: Container(
                         padding: const EdgeInsets.all(1.0),
@@ -504,7 +482,7 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
         ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
         : (await cropImageDataWithNativeLibrary(
             state: editorKey.currentState!))!);
-   // print(fileData);
+    // print(fileData);
     final String? fileFath =
         await ImageSaver.save('extended_image_cropped_image.jpg', fileData);
 
@@ -512,25 +490,13 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
     await uploadImageForProfile(
       widget.userAll.isolaUserMeta.userUid,
       file2!,
-    )
-        // widget.userDisplay,gestureKey"profilePhoto")
-        .then((value) {
-      CollectionReference users_display =
+    ).then((value) {
+      CollectionReference usersDisplay =
           FirebaseFirestore.instance.collection('users_display');
 
-      users_display
+      usersDisplay
           .doc(widget.userAll.isolaUserMeta.userUid)
           .update({'uPic': value});
-
-      /*
-      var refAvatarUrl = refGetter(
-          enum2: RefEnum.Useravatar,
-          targetUid: widget.userAll.isolaUserMeta.userUid,
-          userUid: widget.userAll.isolaUserMeta.userUid,
-          crypto: "");
-      refAvatarUrl.set(value);
-
-      widget.userAll.isolaUserDisplay.avatarUrl = value;*/
     });
 
     _cropping = false;

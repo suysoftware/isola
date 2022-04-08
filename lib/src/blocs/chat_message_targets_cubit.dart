@@ -12,10 +12,4 @@ class ChatMessageTargetsCubit extends Cubit<GroupMembers> {
 
     emit(targets);
   }
-
-  
 }
-
-
-
-

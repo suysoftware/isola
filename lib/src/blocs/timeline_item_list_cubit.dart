@@ -1,6 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isola_app/src/model/feeds/feed_meta.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 
 class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
@@ -10,12 +8,8 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
 
   void timelineAdder(dynamic item) {
     var expItem = <TimelineItem>[];
-    // print("TTTTTTT");
 
-    //print(expItem.length);
     expItem.addAll(item);
-    //  print(expItem.length);
-    //  print("TTTTTTT");
 
     emit(expItem);
   }
@@ -50,12 +44,13 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
       String targetFeedNo, bool likeOrUnlike, String myUid) async {
     final int foundIndex =
         state.indexWhere((element) => element.feedMeta.feedNo == targetFeedNo);
-    //print(foundIndex);
+
     if (likeOrUnlike == true) {
       var items = state[foundIndex];
 
       items.feedMeta.likeValue = items.feedMeta.likeValue + 1;
       var item = <String>[];
+      // ignore: avoid_function_literals_in_foreach_calls
       items.feedMeta.likeList.forEach((element) {
         item.add(element);
       });
@@ -77,8 +72,6 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
       allItems[foundIndex] = items;
       emit(allItems);
     }
-
-   // print(foundIndex);
   }
 
   void resetItems() {

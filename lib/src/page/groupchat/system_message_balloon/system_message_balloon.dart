@@ -2,12 +2,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
 import 'package:isola_app/src/page/groupchat/chatting_page.dart';
 import 'package:isola_app/src/page/groupchat/system_message_balloon/system_chat_container.dart';
-import 'package:isola_app/src/page/groupchat/text_message_balloon/text_chat_container_left.dart';
 import 'package:sizer/sizer.dart';
 
 class SystemMessageBalloon extends StatelessWidget {
@@ -28,16 +25,12 @@ class SystemMessageBalloon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double imageSpacing = (memberMessage.length / 50) * 1.4;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         sizedBox,
-        
         SizedBox(
- 
           child: Column(
-          
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 1.w),

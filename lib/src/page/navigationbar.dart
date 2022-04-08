@@ -5,13 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/search_status_cubit.dart';
-import 'package:isola_app/src/blocs/timeline_item_list_cubit.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/group/group_preview_data.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/page/groupchat/chatpage/chatpage.dart';
@@ -20,11 +17,8 @@ import 'package:isola_app/src/page/profilepage.dart';
 import 'package:isola_app/src/page/searchpage.dart';
 import 'package:isola_app/src/page/timelinepage.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
-import 'package:isola_app/src/utils/router.dart';
 import 'package:provider/src/provider.dart';
-
 import '../blocs/current_chat_cubit.dart';
-import '../blocs/group_setting_cubit.dart';
 
 class NavigationBar extends StatefulWidget {
   const NavigationBar({
@@ -41,9 +35,7 @@ class NavigationBar extends StatefulWidget {
 class _NavigationBarState extends State<NavigationBar>
     with WidgetsBindingObserver {
   late User user;
-  // late var _refUserDisplay;
 
-// late UserDisplay userDisplay;
   late IsolaUserAll userAll;
   late var userLikeHistory;
 
@@ -54,75 +46,31 @@ class _NavigationBarState extends State<NavigationBar>
 
   Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
-  //  print(message.data['notiGroupNo']);
 
-  //  print(context.read<CurrentChatCubit>().state);
-   // print('=');
-    //print(context.read<GroupSettingCubit>().state.groupNo);
-
-if(message.data['notiCategory']=='chat_message'){
-if (message.data['notiGroupNo'] == context.read<CurrentChatCubit>().state) {
-      messaging.setForegroundNotificationPresentationOptions(
-          alert: false, badge: false, sound: false);
-    } else {
-      messaging.setForegroundNotificationPresentationOptions(
-          alert: true, badge: true, sound: true);
-    }
-
-
-}
-else{
-
-      messaging.setForegroundNotificationPresentationOptions(
-          alert: true, badge: true, sound: true);
-}
-    
-    /* if (context.read<GroupSettingCubit>().state != null) {
-      if (message.notification!.body!.contains(
-              context.read<GroupSettingCubit>().state.groupMemberName2) ==
-          true) {
-        messaging.setForegroundNotificationPresentationOptions(
-            alert: false, badge: false, sound: false);
-        print('/////////////////////////');
-        print('2numaralı adam mesaj attı');
-        print('-------------------------');
-     
-      } else if (message.notification!.body!.contains(
-              context.read<GroupSettingCubit>().state.groupMemberName3) ==
-          true) {
-        print('/////////////////////////');
-        print('3numaralı adam mesaj attı');
-        print('-------------------------');
+    if (message.data['notiCategory'] == 'chat_message') {
+      if (message.data['notiGroupNo'] ==
+          context.read<CurrentChatCubit>().state) {
         messaging.setForegroundNotificationPresentationOptions(
             alert: false, badge: false, sound: false);
       } else {
         messaging.setForegroundNotificationPresentationOptions(
             alert: true, badge: true, sound: true);
       }
-    }*/
-
-    if (message.notification!.body == 'The group member left the group ') {
-     // print('çalisti');
-      try {
-        Navigator.maybePop(context);
-        // Navigator.pushReplacementNamed(context, navigationBar);
-      } catch (e) {}
+    } else {
+      messaging.setForegroundNotificationPresentationOptions(
+          alert: true, badge: true, sound: true);
     }
 
-  //  print(message.notification!.body);
-    //print(
-      //  'Handling aOnMessage message ${message.messageId} / ${message.sentTime} / ${message.data} / ${message.messageId} /  ${message.notification}');
+    if (message.notification!.body == 'The group member left the group ') {
+      try {
+        Navigator.maybePop(context);
+      // ignore: empty_catches
+      } catch (e) {}
+    }
   }
 
-  Future<void> _firebaseMessagingOpenedAppHandler(RemoteMessage message) async {
-/*  if (message.data['type'] == 'chat') {
-      Navigator.pushNamed(context, '/chat', 
-        arguments: ChatArguments(message),
-      );
-    }*/
-
-   // print('Handling a OpenedApp message ${message.messageId}');
-  }
+  Future<void> _firebaseMessagingOpenedAppHandler(
+      RemoteMessage message) async {}
 
   @override
   void initState() {
@@ -132,13 +80,6 @@ else{
 
     FirebaseAuth auth = FirebaseAuth.instance;
     user = auth.currentUser!;
-    /*
-    _refUserDisplay = refGetter(
-        enum2: RefEnum.Userdisplay,
-        targetUid: user.uid,
-        userUid: user.uid,
-        crypto: "");
-        */
 
     FirebaseMessaging.onMessage.listen(_firebaseMessagingOnMessageHandler);
     FirebaseMessaging.onMessageOpenedApp
@@ -153,8 +94,6 @@ else{
       sound: true,
     );
 
-    // _refUserDisplay.child("user_is_online").set(true);
-    //  getDisplayData(user.uid).then((value) => userDisplay = value);
     getUserAllFromDataBase(user.uid)
         .then((value) => userAll = value)
         .whenComplete(() {
@@ -164,10 +103,8 @@ else{
 
       if (userAll.isolaUserMeta.userIsSearching == true) {
         context.read<SearchStatusCubit>().searching();
-       // print("searhingbastınavigation");
       } else {
         context.read<SearchStatusCubit>().pauseSearching();
-      //  print("pausesearhingbastınavigation");
       }
     });
   }
@@ -182,7 +119,7 @@ else{
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive) {
-    //  print(
+      //  print(
       //    "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
 
       messaging.setForegroundNotificationPresentationOptions(
@@ -193,25 +130,21 @@ else{
     }
 
     if (state == AppLifecycleState.paused) {
-    //  print(" altta atıldı");
+      //  print(" altta atıldı");
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
         sound: true,
       );
-      // await _refUserDisplay.child("user_is_online").set(false);
-      //context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
 
     if (state == AppLifecycleState.resumed) {
-     //"alta atıp geri gelince");
+      //"alta atıp geri gelince");
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
         sound: true,
       );
-      // await _refUserDisplay.child("user_is_online").set(true);
-      //context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = true;
     }
 
     if (state == AppLifecycleState.detached) {
@@ -224,7 +157,6 @@ else{
 
       await DefaultCacheManager().removeFile("cachedImageFiles");
       userDisplayRef.doc(user.uid).update({'uOnline': false});
-      //_refUserDisplay.child("user_is_online").set(false);
       context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
     }
     super.didChangeAppLifecycleState(state);
@@ -233,7 +165,6 @@ else{
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
-      //  backgroundColor: ColorConstant.milkColor,
       tabBar: CupertinoTabBar(
         backgroundColor: ColorConstant.milkColor,
         currentIndex: widget.currentState ?? 2,
@@ -276,19 +207,6 @@ else{
                       if (snapshot.hasError) {
                         return const Text("Error");
                       } else {
-                        /*
-                        var userDisplaySnap = snapshot.data as UserDisplay;
-                        return TimelinePage(
-                          user: user,
-                          userDisplay: userDisplay,
-                        );
-                        */
-                        /*messaging.setForegroundNotificationPresentationOptions(
-      alert: true, // Required to display a heads up notification
-      badge: true,
-      sound: false,
-    );*/
-
                         var userAllSnap = snapshot.data as IsolaUserAll;
 
                         context
@@ -304,7 +222,6 @@ else{
           case 1:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                //  future: getDisplayData(user.uid),
                 future: getUserAllFromDataBase(user.uid),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
@@ -315,23 +232,8 @@ else{
                       if (snapshot.hasError) {
                         return const Text("Error");
                       } else {
-
-
-                       
-
-                        /*
-                        var userDisplaySnap = snapshot.data as UserDisplay;
-                        return SearchPage(
-                          user: user,
-                          userDisplay: userDisplay,
-                        );
-                        */
-                        
                         var userAllSnap = snapshot.data as IsolaUserAll;
-                      
-                      //  print('kakak');
-                       // print(userAllSnap.isolaUserMeta.userToken);
-                       // print('kakak');
+
                         return SearchPage(
                           user: user,
                           userAll: userAllSnap,
@@ -344,7 +246,6 @@ else{
           case 2:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                // future: getDisplayData(user.uid),
                 future: getUserAllFromDataBase(user.uid),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
@@ -355,12 +256,7 @@ else{
                       if (snapshot.hasError) {
                         return const Text("Error");
                       } else {
-                        // var userDisplaySnap = snapshot.data as UserDisplay;
                         var userAllInfo = snapshot.data as IsolaUserAll;
-
-                        //    return HomePage(
-                        //    userDisplay: userDisplaySnap,
-                        //);
 
                         context
                             .read<UserAllCubit>()
@@ -369,7 +265,6 @@ else{
                         return HomePage(
                           userAll: userAllInfo,
                         );
-                        //   searchStatus: userAll.searchStatus);
                       }
                   }
                 },
@@ -378,13 +273,12 @@ else{
           case 3:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                  //   future: getAllDataForChatPage(user.uid),
                   future: mergeForChatPage(user.uid),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Center(
-                            child: const CupertinoActivityIndicator());
+                        return const Center(
+                            child: CupertinoActivityIndicator());
                       case ConnectionState.done:
                         if ((snapshot.data as GroupMergeData)
                                     .userAll
@@ -452,7 +346,6 @@ else{
           case 4:
             return CupertinoTabView(builder: (BuildContext context) {
               return FutureBuilder(
-                //future: getDisplayData(user.uid),
                 future: getUserAllFromDataBase(user.uid),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
@@ -463,14 +356,6 @@ else{
                       if (snapshot.hasError) {
                         return const Text("Error");
                       } else {
-                        /*
-                        var userDisplaySnap = snapshot.data as UserDisplay;
-                        return ProfilePage(
-                          user: user,
-                          userDisplay: userDisplay,
-                        );
-                        */
-
                         var userAllSnap = snapshot.data as IsolaUserAll;
 
                         context
@@ -486,7 +371,6 @@ else{
 
         return CupertinoTabView(builder: (BuildContext context) {
           return FutureBuilder(
-            //  future: getDisplayData(user.uid),
             future: getUserAllFromDataBase(user.uid),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
@@ -497,11 +381,8 @@ else{
                   if (snapshot.hasError) {
                     return const Text("Error");
                   } else {
-                    //  var userDisplaySnap = snapshot.data as UserDisplay;
                     var userAll = snapshot.data as IsolaUserAll;
-                    //  return HomePage(
-                    //  userDisplay: userDisplaySnap,
-                    //);
+
                     context.read<UserAllCubit>().userAllChanger(userAll);
 
                     return HomePage(

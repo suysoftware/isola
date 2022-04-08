@@ -13,12 +13,15 @@ class VideoChatContLeft extends StatelessWidget {
   String memberName;
   Timestamp messageTime;
   VideoChatContLeft(
-      {Key? key, required this.memberAttachmentUrl, required this.memberName,required this.messageTime })
+      {Key? key,
+      required this.memberAttachmentUrl,
+      required this.memberName,
+      required this.messageTime})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     DateFormat dFormat = DateFormat("HH:mm");
+    DateFormat dFormat = DateFormat("HH:mm");
     double contCarpan = 100.h <= 1100 ? 10 : 5;
     double contWidth = 45.w;
     double contHeight =
@@ -48,7 +51,9 @@ class VideoChatContLeft extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(0.0, 0.0, 5.w, 0.3.h),
                       child: Text(
-                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                        dFormat.format(DateTime.fromMicrosecondsSinceEpoch(
+                            messageTime.microsecondsSinceEpoch.toInt(),
+                            isUtc: false)),
                         style: 100.h <= 1100
                             ? StyleConstants.chatTimeTextStyleLeft
                             : StyleConstants.chatTabletTimeTextStyleLeft,

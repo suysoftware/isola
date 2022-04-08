@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,9 +25,6 @@ class _SplashPageState extends State<SplashPage> {
       String? token = await messaging.getToken();
 
       saveTokenToDatabase(token!);
-      //FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
-
-    //  print(token);
 
       getUserAllFromDataBase(user.uid).then((value) {
         if (value.isolaUserDisplay.userInterest.first == "interest1") {

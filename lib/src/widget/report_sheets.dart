@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
-
 import '../service/firebase/storage/groups/group_leave.dart';
 
 Future<void> addToReportPool(String groupNo, String reasonType,
@@ -69,346 +68,144 @@ class ReportSheet extends StatelessWidget {
             child: Text(rt101),
             onPressed: () {
               if (isAllGroup == false) {
-                /*    DocumentReference reportRef =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef.set({
-                'reportGroup': groupNo,
-                'reasonType': rt101,
-                'reportNo': reportRef.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });*/
                 addToReportPool(groupNo, rt101, reporterUid, targetUid1);
                 leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
+                  Future.delayed(const Duration(milliseconds: 3000), () {
                     Navigator.pushReplacementNamed(context, navigationBar);
                   });
                 });
                 showCupertinoDialog(
                     context: context,
                     builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+                        const AnimatedLiquidCircularProgressIndicator());
               } else {
-                /*
-              DocumentReference reportRef1 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              DocumentReference reportRef2 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef1.set({
-                'reportGroup': groupNo,
-                'reasonType': rt101,
-                'reportNo': reportRef1.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });
-
-              await reportRef2.set({
-                'reportGroup': groupNo,
-                'reasonType': rt101,
-                'reportNo': reportRef2.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid2,
-              });
-            }
-
-            print('/////////');
-            print(reporterUid);
-            print(targetUid1);
-            print(targetUid2);
-            print(isAllGroup);
-            print(groupNo);
-            Navigator.pop(context);*/
-
                 addToReportPool(groupNo, rt101, reporterUid, targetUid1);
                 addToReportPool(groupNo, rt101, reporterUid, targetUid2);
                 leaveGroup(groupSettingModel).whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
+                  Future.delayed(const Duration(milliseconds: 3000), () {
                     Navigator.pushReplacementNamed(context, navigationBar);
                   });
                 });
                 showCupertinoDialog(
                     context: context,
                     builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+                        const AnimatedLiquidCircularProgressIndicator());
               }
-
-              //  Navigator.pop(context);
             }),
         CupertinoActionSheetAction(
           child: Text(rt102),
           onPressed: () {
             if (isAllGroup == false) {
-              /*
-              DocumentReference reportRef =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef.set({
-                'reportGroup': groupNo,
-                'reasonType': rt102,
-                'reportNo': reportRef.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });*/
-
               addToReportPool(groupNo, rt102, reporterUid, targetUid1);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
-              /*
-              DocumentReference reportRef1 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              DocumentReference reportRef2 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef1.set({
-                'reportGroup': groupNo,
-                'reasonType': rt102,
-                'reportNo': reportRef1.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });
-
-              await reportRef2.set({
-                'reportGroup': groupNo,
-                'reasonType': rt102,
-                'reportNo': reportRef2.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid2,
-              });
-              */
-
               addToReportPool(groupNo, rt102, reporterUid, targetUid1);
               addToReportPool(groupNo, rt102, reporterUid, targetUid2);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-            //   Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
           child: Text(rt103),
           onPressed: () {
             if (isAllGroup == false) {
-              /*
-              DocumentReference reportRef =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef.set({
-                'reportGroup': groupNo,
-                'reasonType': rt103,
-                'reportNo': reportRef.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });*/
               addToReportPool(groupNo, rt103, reporterUid, targetUid1);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
-              /*
-              DocumentReference reportRef1 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              DocumentReference reportRef2 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef1.set({
-                'reportGroup': groupNo,
-                'reasonType': rt103,
-                'reportNo': reportRef1.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });
-
-              await reportRef2.set({
-                'reportGroup': groupNo,
-                'reasonType': rt103,
-                'reportNo': reportRef2.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid2,
-              });*/
-
               addToReportPool(groupNo, rt103, reporterUid, targetUid1);
               addToReportPool(groupNo, rt103, reporterUid, targetUid2);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-            //  Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
           child: Text(rt104),
           onPressed: () {
             if (isAllGroup == false) {
-              /*
-              DocumentReference reportRef =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef.set({
-                'reportGroup': groupNo,
-                'reasonType': rt104,
-                'reportNo': reportRef.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });*/
-
               addToReportPool(groupNo, rt104, reporterUid, targetUid1);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
-              /*
-              DocumentReference reportRef1 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              DocumentReference reportRef2 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef1.set({
-                'reportGroup': groupNo,
-                'reasonType': rt104,
-                'reportNo': reportRef1.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });
-
-              await reportRef2.set({
-                'reportGroup': groupNo,
-                'reasonType': rt104,
-                'reportNo': reportRef2.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid2,
-              });*/
               addToReportPool(groupNo, rt104, reporterUid, targetUid1);
               addToReportPool(groupNo, rt104, reporterUid, targetUid2);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-            //   Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
           child: Text(rt105),
           onPressed: () {
             if (isAllGroup == false) {
-              /*
-              DocumentReference reportRef =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef.set({
-                'reportGroup': groupNo,
-                'reasonType': rt105,
-                'reportNo': reportRef.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });*/
-
               addToReportPool(groupNo, rt105, reporterUid, targetUid1);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
-              /*
-              DocumentReference reportRef1 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              DocumentReference reportRef2 =
-                  FirebaseFirestore.instance.collection('reports_pool').doc();
-
-              await reportRef1.set({
-                'reportGroup': groupNo,
-                'reasonType': rt105,
-                'reportNo': reportRef1.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid1,
-              });
-
-              await reportRef2.set({
-                'reportGroup': groupNo,
-                'reasonType': rt105,
-                'reportNo': reportRef2.id,
-                'reportDate': DateTime.now().toUtc(),
-                'reporterUid': reporterUid,
-                'targetUid': targetUid2,
-              });*/
-
               addToReportPool(groupNo, rt105, reporterUid, targetUid1);
               addToReportPool(groupNo, rt105, reporterUid, targetUid2);
               leaveGroup(groupSettingModel).whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-            //  Navigator.pop(context);
           },
         ),
       ],
@@ -426,7 +223,6 @@ class ReportFeedSheet extends StatelessWidget {
       : super(key: key);
 
   final String reporterUid;
-
   final bool isImageFeed;
   final String feedNo;
   final String targetUid;
@@ -451,7 +247,7 @@ class ReportFeedSheet extends StatelessWidget {
 
                 addFeedToReportPool(rt101, reporterUid, true, feedNo, targetUid)
                     .whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
+                  Future.delayed(const Duration(milliseconds: 3000), () {
                     Navigator.pushReplacementNamed(context, navigationBar);
                   });
                 });
@@ -459,14 +255,14 @@ class ReportFeedSheet extends StatelessWidget {
                 showCupertinoDialog(
                     context: context,
                     builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+                        const AnimatedLiquidCircularProgressIndicator());
               } else {
                 //feed is not image feed
 
                 addFeedToReportPool(
                         rt101, reporterUid, false, feedNo, targetUid)
                     .whenComplete(() {
-                  Future.delayed(Duration(milliseconds: 3000), () {
+                  Future.delayed(const Duration(milliseconds: 3000), () {
                     Navigator.pushReplacementNamed(context, navigationBar);
                   });
                 });
@@ -474,7 +270,7 @@ class ReportFeedSheet extends StatelessWidget {
                 showCupertinoDialog(
                     context: context,
                     builder: (BuildContext context) =>
-                        AnimatedLiquidCircularProgressIndicator());
+                        const AnimatedLiquidCircularProgressIndicator());
               }
 
               //  Navigator.pop(context);
@@ -487,7 +283,7 @@ class ReportFeedSheet extends StatelessWidget {
 
               addFeedToReportPool(rt102, reporterUid, true, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -495,13 +291,13 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
               //feed is not image feed
 
               addFeedToReportPool(rt102, reporterUid, false, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -509,10 +305,8 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-
-            //   Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
@@ -523,7 +317,7 @@ class ReportFeedSheet extends StatelessWidget {
 
               addFeedToReportPool(rt103, reporterUid, true, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -531,13 +325,13 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
               //feed is not image feed
 
               addFeedToReportPool(rt103, reporterUid, false, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -545,10 +339,8 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-
-            //  Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
@@ -559,7 +351,7 @@ class ReportFeedSheet extends StatelessWidget {
 
               addFeedToReportPool(rt104, reporterUid, true, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -567,13 +359,13 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
               //feed is not image feed
 
               addFeedToReportPool(rt104, reporterUid, false, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -581,10 +373,8 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-
-            //   Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
@@ -595,7 +385,7 @@ class ReportFeedSheet extends StatelessWidget {
 
               addFeedToReportPool(rt105, reporterUid, true, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -603,13 +393,13 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             } else {
               //feed is not image feed
 
               addFeedToReportPool(rt105, reporterUid, false, feedNo, targetUid)
                   .whenComplete(() {
-                Future.delayed(Duration(milliseconds: 3000), () {
+                Future.delayed(const Duration(milliseconds: 3000), () {
                   Navigator.pushReplacementNamed(context, navigationBar);
                 });
               });
@@ -617,17 +407,15 @@ class ReportFeedSheet extends StatelessWidget {
               showCupertinoDialog(
                   context: context,
                   builder: (BuildContext context) =>
-                      AnimatedLiquidCircularProgressIndicator());
+                      const AnimatedLiquidCircularProgressIndicator());
             }
-
-            //  Navigator.pop(context);
           },
         ),
         CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('Cancel'))
+            child: const Text('Cancel'))
       ],
     );
   }

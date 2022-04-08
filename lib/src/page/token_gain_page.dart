@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_review/in_app_review.dart';
-
 
 enum Availability { loading, available, unavailable }
 
@@ -14,22 +12,16 @@ class TokenGainPage extends StatefulWidget {
 }
 
 class _TokenGainPageState extends State<TokenGainPage> {
-
   final InAppReview _inAppReview = InAppReview.instance;
 
+  // ignore: unused_field
   Availability _availability = Availability.loading;
 
-    String _appStoreId = '';
+  String _appStoreId = '';
 
+  void _setAppStoreId(String id) => _appStoreId = id;
 
-
-
- void _setAppStoreId(String id) => _appStoreId = id;
-
-
-
-
- @override
+  @override
   void initState() {
     super.initState();
 
@@ -49,42 +41,34 @@ class _TokenGainPageState extends State<TokenGainPage> {
         setState(() => _availability = Availability.unavailable);
       }
     });
-
-
-  
   }
 
-      Future<void> _requestReview() => _inAppReview.requestReview();
+  Future<void> _requestReview() => _inAppReview.requestReview();
 
   Future<void> _openStoreListing() => _inAppReview.openStoreListing(
         appStoreId: _appStoreId,
-      
       );
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
+        navigationBar: const CupertinoNavigationBar(
           automaticallyImplyLeading: true,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-CupertinoButton(child: Text('222'), onPressed: (){}),
-
-               CupertinoTextField(
+            CupertinoButton(child: const Text('222'), onPressed: () {}),
+            CupertinoTextField(
               onChanged: _setAppStoreId,
-  
             ),
-         
             CupertinoButton(
               onPressed: _requestReview,
-              child: Text('Request Review'),
+              child: const Text('Request Review'),
             ),
             CupertinoButton(
               onPressed: _openStoreListing,
-              child: Text('Open Store Listing'),
+              child: const Text('Open Store Listing'),
             ),
           ],
         ));

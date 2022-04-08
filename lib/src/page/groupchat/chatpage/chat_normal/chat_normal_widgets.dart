@@ -2,12 +2,9 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:isola_app/src/blocs/chaos_group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/chat_message_targets_cubit.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
@@ -23,22 +20,16 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../model/hive_models/user_hive.dart';
-
 class ChatGroupCont extends StatelessWidget {
   const ChatGroupCont(
       {Key? key,
       required this.myUid,
-
-      // required this.ref,
       required this.chatGroupNo,
       required this.userAll,
       required this.groupMergeData})
       : super(key: key);
 
   final String myUid;
-
-  //final Stream<QuerySnapshot> ref;
   final String chatGroupNo;
   final IsolaUserAll userAll;
   final GroupMergeData groupMergeData;
@@ -60,7 +51,6 @@ class ChatGroupCont extends StatelessWidget {
         builder:
             (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshots) {
           if (snapshots.hasData) {
-            //   var groupDatasAll = <GroupChatMessage>[];
             var groupDatasFriend1 = <GroupChatMessage>[];
             var groupDatasFriend2 = <GroupChatMessage>[];
             var chatFriendName1;
@@ -160,7 +150,6 @@ class ChatGroupCont extends StatelessWidget {
                 a.member_message_time.compareTo(b.member_message_time));
             groupDatasFriend2.sort((b, a) =>
                 a.member_message_time.compareTo(b.member_message_time));
-          //  print('notiTargetValue ${notiTargetValue}');
             var groupSetting = GroupSettingModel(
                 groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
                 groupMemberAvatarUrl2:
@@ -183,7 +172,6 @@ class ChatGroupCont extends StatelessWidget {
             var isDoc = ds["member_message_isdocument"];
             var isVoice = ds["member_message_isvoice"];
 
-            //      context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
             chatFriendName1 = groupDatasFriend1.first.member_name;
             chatFriendName2 = groupDatasFriend2.first.member_name;
             chatFriendAvatarUrl1 = groupDatasFriend1.first.member_avatar_url;
@@ -192,12 +180,6 @@ class ChatGroupCont extends StatelessWidget {
             isImage = isImage;
             isVideo = isVideo;
             isDoc = isDoc;
-            //   var chatLastMessage = "";
-/*
-            var isImage = false;
-            var isVideo = false;
-            var isDoc = false;
-            var isVoice = false;*/
 
             return Container(
               decoration: BoxDecoration(
@@ -216,24 +198,18 @@ class ChatGroupCont extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
                     child: ChatGroupCard(
-                      chatPicFirst: /*Image.network(chatFriendAvatarUrl1),*/
-
-                          CachedNetworkImage(
+                      chatPicFirst: CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl1,
-                        //  fit: BoxFit.cover,
                         errorWidget: (context, url, error) =>
-                            Icon(CupertinoIcons.xmark_square),
+                            const Icon(CupertinoIcons.xmark_square),
                       ),
-                      chatPicSecond: /* Image.network(
-                          chatFriendAvatarUrl2)*/
-                          CachedNetworkImage(
+                      chatPicSecond: CachedNetworkImage(
                         imageUrl: chatFriendAvatarUrl2,
                         cacheManager: CacheManager(Config(
                           "cachedImageFiles",
                           stalePeriod: const Duration(days: 3),
                           //one week cache period
                         )),
-                        //  fit: BoxFit.cover,
                       ),
                       chatBoxText: chatLastMessage,
                       notiValue: notiValue,
@@ -256,208 +232,6 @@ class ChatGroupCont extends StatelessWidget {
               child: CupertinoActivityIndicator(animating: true, radius: 12.sp),
             );
           }
-/*
-            var comingMessage = GroupChatMessage(
-              items2['member_avatar_url'],
-              items2["member_message"],
-              items2["member_message_time"],
-              items2["member_name"],
-              items2["member_uid"],
-              items2["member_message_isvoice"],
-              items2["member_message_voice_url"],
-              items2["member_message_isattachment"],
-              items2["member_message_attachment_url"],
-              items2["member_message_isimage"],
-              items2["member_message_isvideo"],
-              items2["member_message_isdocument"],
-              items2["member_message_target_1_uid"],
-              items2["member_message_target_2_uid"],
-            );
-            groupDatasAll.add(comingInfo);
-            var chatFriendName1;
-            var chatFriendName2;
-            var chatFriendAvatarUrl1;
-            var chatFriendAvatarUrl2;
-            var chatFriendUid1;
-            var chatFriendUid2;
-            var chatLastMessage;
-            var isImage;
-            var isVideo;
-            var isDoc;
-
-            var gettingChatInfo = event.data.snapshot.value as Map;
-            gettingChatInfo.forEach((key, value) {
-              var comingInfo = GroupChatMessage.fromJson(value);
-              var groupChatItem = GroupChatMessage(
-                  comingInfo.member_avatar_url,
-                  comingInfo.member_message,
-                  comingInfo.member_message_time,
-                  comingInfo.member_name,
-                  comingInfo.member_uid,
-                  comingInfo.member_message_isVoice,
-                  comingInfo.member_message_voice_url,
-                  comingInfo.member_message_isAttachment,
-                  comingInfo.member_message_attachment_url,
-                  comingInfo.member_message_isImage,
-                  comingInfo.member_message_isVideo,
-                  comingInfo.member_message_isDocument,
-                  comingInfo.message_target_1_uid,
-                  comingInfo.message_target_2_uid);
-              groupDatasAll.add(groupChatItem);
-
-              //groupDatasAll.sort((b, a) =>
-              //  a.member_message_time.compareTo(b.member_message_time));
-
-              if (comingInfo.member_uid != myUid&&comingInfo.member_name!="System Message") {
-                if (comingInfo.member_uid == chatFriendUid1 &&
-                    groupDatasFriend1.isNotEmpty) {
-                  var groupFriend1 = GroupChatMessage(
-                      comingInfo.member_avatar_url,
-                      comingInfo.member_message,
-                      comingInfo.member_message_time,
-                      comingInfo.member_name,
-                      comingInfo.member_uid,
-                      comingInfo.member_message_isVoice,
-                      comingInfo.member_message_voice_url,
-                      comingInfo.member_message_isAttachment,
-                      comingInfo.member_message_attachment_url,
-                      comingInfo.member_message_isImage,
-                      comingInfo.member_message_isVideo,
-                      comingInfo.member_message_isDocument,
-                      comingInfo.message_target_1_uid,
-                      comingInfo.message_target_2_uid);
-                  groupDatasFriend1.add(groupFriend1);
-                }
-                if (groupDatasFriend1.isEmpty) {
-                  chatFriendUid1 = comingInfo.member_uid;
-                  chatFriendName1 = comingInfo.member_name;
-                  chatFriendAvatarUrl1 = comingInfo.member_avatar_url;
-                  var groupFriend1 = GroupChatMessage(
-                      comingInfo.member_avatar_url,
-                      comingInfo.member_message,
-                      comingInfo.member_message_time,
-                      comingInfo.member_name,
-                      comingInfo.member_uid,
-                      comingInfo.member_message_isVoice,
-                      comingInfo.member_message_voice_url,
-                      comingInfo.member_message_isAttachment,
-                      comingInfo.member_message_attachment_url,
-                      comingInfo.member_message_isImage,
-                      comingInfo.member_message_isVideo,
-                      comingInfo.member_message_isDocument,
-                      comingInfo.message_target_1_uid,
-                      comingInfo.message_target_2_uid);
-                  groupDatasFriend1.add(groupFriend1);
-                }
-
-                if (comingInfo.member_uid != chatFriendUid1) {
-                  chatFriendUid2 = comingInfo.member_uid;
-                  chatFriendAvatarUrl2 = comingInfo.member_avatar_url;
-                  chatFriendName2 = comingInfo.member_name;
-                  var groupFriend2 = GroupChatMessage(
-                      comingInfo.member_avatar_url,
-                      comingInfo.member_message,
-                      comingInfo.member_message_time,
-                      comingInfo.member_name,
-                      comingInfo.member_uid,
-                      comingInfo.member_message_isVoice,
-                      comingInfo.member_message_voice_url,
-                      comingInfo.member_message_isAttachment,
-                      comingInfo.member_message_attachment_url,
-                      comingInfo.member_message_isImage,
-                      comingInfo.member_message_isVideo,
-                      comingInfo.member_message_isDocument,
-                      comingInfo.message_target_1_uid,
-                      comingInfo.message_target_2_uid);
-                  groupDatasFriend2.add(groupFriend2);
-                }
-              }
-            });
-
-            groupDatasAll.sort((b, a) =>
-                a.member_message_time.compareTo(b.member_message_time));
-            groupDatasFriend1.sort((b, a) =>
-                a.member_message_time.compareTo(b.member_message_time));
-            groupDatasFriend2.sort((b, a) =>
-                a.member_message_time.compareTo(b.member_message_time));
-
-            var groupSetting = GroupSettingModel(
-                groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
-                groupMemberAvatarUrl2:
-                    groupDatasFriend1.first.member_avatar_url,
-                groupMemberAvatarUrl3:
-                    groupDatasFriend2.first.member_avatar_url,
-                groupMemberName1: userAll.isolaUserDisplay.userName,
-                groupMemberName2: groupDatasFriend1.first.member_name,
-                groupMemberName3: groupDatasFriend2.first.member_name,
-                groupMemberUid2: groupDatasFriend1.first.member_uid,
-                groupMemberUid3: groupDatasFriend2.first.member_uid,
-                groupNo: chatGroupNo,
-                userUid: userAll.isolaUserMeta.userUid);
-
-            context.read<GroupSettingCubit>().groupSettingChanger(groupSetting);
-            chatFriendName1 = groupDatasFriend1.first.member_name;
-            chatFriendName2 = groupDatasFriend2.first.member_name;
-            chatFriendAvatarUrl1 = groupDatasFriend1.first.member_avatar_url;
-            chatFriendAvatarUrl2 = groupDatasFriend2.first.member_avatar_url;
-            chatLastMessage = groupDatasAll.first.member_message;
-            isImage = groupDatasAll.first.member_message_isImage;
-            isVideo = groupDatasAll.first.member_message_isVideo;
-            isDoc = groupDatasAll.first.member_message_isDocument;
-            return Container(
-              decoration: BoxDecoration(
-                  gradient: ColorConstant.isolaMainGradient,
-                  border: Border.all(color: ColorConstant.transparentColor),
-                  borderRadius: const BorderRadius.all(Radius.circular(15.0))),
-              child: Padding(
-                padding: const EdgeInsets.all(0.5),
-                child: Container(
-         
-                  padding: const EdgeInsets.all(1.0),
-                  decoration: BoxDecoration(
-                      color: ColorConstant.milkColor,
-                      border: Border.all(color: ColorConstant.transparentColor),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(15.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 0.0),
-                    child: ChatGroupCard(
-                      chatPicFirst: CachedNetworkImage(
-                        chatFriendAvatarUrl1,
-                        fit: BoxFit.cover,
-                      
-                      ),
-                      chatPicSecond: CachedNetworkImage(
-                        chatFriendAvatarUrl2,
-                        fit: BoxFit.cover,
-                      ),
-                      chatBoxText: groupDatasAll.first.message_target_1_uid !=
-                              "firstmessage"
-                          ? chatLastMessage.length > 35
-                              ? ("${chatLastMessage.toString().substring(0, 34)}...")
-                              : chatLastMessage
-                          : "",
-                      notiValue: notiValue,
-                      chatBoxName:
-                          "${chatFriendName1.toString().substring(0, 6)} & ${chatFriendName2.toString().substring(0, 6)}",
-                      isLocked: false,
-                      chatGroupNo: chatGroupNo,
-                      isImage: isImage,
-                      isVideo: isVideo,
-                      isDoc: isDoc,
-                    ),
-                  ),
-                ),
-              ),
-            );
-
-
-          } else {
-            return Center(
-              child: CupertinoActivityIndicator(animating: true, radius: 12.sp),
-            );
-          }
-          */
         });
   }
 }
@@ -518,7 +292,6 @@ class ChatGroupCard extends StatelessWidget {
               context.read<GroupSettingCubit>().state.groupMemberUid2;
           String target2 =
               context.read<GroupSettingCubit>().state.groupMemberUid3;
-          //buraya if konacak
           context
               .read<ChatReferenceCubit>()
               .chatGroupChanger(chatGroupNo, false);
@@ -553,9 +326,9 @@ class ChatGroupCard extends StatelessWidget {
                 notiValue == 19999
                     ? const SizedBox()
                     : (notiValue == 0
-                        ? SizedBox()
+                        ? const SizedBox()
                         : notiValue > 99
-                            ? MessageNotificationMini(
+                            ? const MessageNotificationMini(
                                 notiValue: 99, leftPadding: 17)
                             : (MessageNotificationMini(
                                 notiValue: notiValue, leftPadding: 17))),
@@ -638,40 +411,6 @@ class ChatGroupCard extends StatelessWidget {
                                 ],
                               ))),
                 ),
-                /*
-                Positioned(
-                  top: -7.0,
-                  right: 2.0,
-                  child: CupertinoButton(
-                      child: SizedBox(
-                          height: 1.h,
-                          width: 5.w,
-                          child: Image.asset(
-                            "asset/img/chat_page_three_dot.png",
-                            fit: BoxFit.contain,
-                          )),
-                      onPressed: () => showCupertinoDialog(
-                          barrierDismissible: true,
-                          context: context,
-                          builder: (context) => CupertinoAlertDialog(
-                                content: const Text("dasdadsadsa"),
-                                actions: [
-                                  CupertinoButton(
-                                      child: const Text(
-                                        "Leave Group",
-                                        style: TextStyle(
-                                            color:
-                                                CupertinoColors.systemRed),
-                                      ),
-                                      onPressed: () {}),
-                                  CupertinoButton(
-                                      child: const Text("Back"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      })
-                                ],
-                              ))),
-                ),*/
               ],
             ),
           ],

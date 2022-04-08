@@ -1,21 +1,15 @@
-//import 'dart:typed_data';
+// ignore_for_file: avoid_print
+
 import 'dart:isolate';
 import 'dart:typed_data';
 import 'dart:ui';
-
-// import 'package:isolate/load_balancer.dart';
-// import 'package:isolate/isolate_runner.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/foundation.dart';
-// ignore: implementation_imports
 import 'package:http_client_helper/http_client_helper.dart';
 import 'package:image/image.dart';
 import 'package:image_editor/image_editor.dart';
 import 'dart:async';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-
-// final Future<LoadBalancer> loadBalancer =
-//     LoadBalancer.create(1, IsolateRunner.spawn);
 
 class ImageSaver {
   ImageSaver._();
@@ -31,40 +25,23 @@ class ImageSaver {
 }
 
 Future<Uint8List?> cropImageDataWithDartLibrary(
+    // ignore: duplicate_ignore
     {required ExtendedImageEditorState state}) async {
   print('dart library start cropping');
 
   ///crop rect base on raw image
   final Rect? cropRect = state.getCropRect();
 
-
-
-  // in web, we can't get rawImageData due to .
-  // using following code to get imageCodec without download it.
-  // final Uri resolved = Uri.base.resolve(key.url);
-  // // This API only exists in the web engine implementation and is not
-  // // contained in the analyzer summary for Flutter.
-  // return ui.webOnlyInstantiateImageCodecFromUrl(
-  //     resolved); //
-
   final Uint8List data = kIsWeb &&
           state.widget.extendedImageState.imageWidget.image
               is ExtendedNetworkImageProvider
       ? await _loadNetwork(state.widget.extendedImageState.imageWidget.image
           as ExtendedNetworkImageProvider)
-
-      ///toByteData is not work on web
-      ///https://github.com/flutter/flutter/issues/44908
-      // (await state.image.toByteData(format: ui.ImageByteFormat.png))
-      //     .buffer
-      //     .asUint8List()
       : state.rawImageData;
 
   final EditActionDetails editAction = state.editAction!;
 
-  final DateTime time1 = DateTime.now();
 
-  //Decode source to Animation. It can holds multi frame.
   Animation? src;
   //LoadBalancer lb;
   if (kIsWeb) {
@@ -75,7 +52,6 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
   if (src != null) {
     //handle every frame.
     src.frames = src.frames.map((Image image) {
-      final DateTime time2 = DateTime.now();
       //clear orientation
       image = bakeOrientation(image);
 
@@ -99,44 +75,30 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
       if (editAction.hasRotateAngle) {
         image = copyRotate(image, editAction.rotateAngle);
       }
-      final DateTime time3 = DateTime.now();
-  
+
       return image;
     }).toList();
   }
 
-  /// you can encode your image
-  ///
-  /// it costs much time and blocks ui.
-  //var fileData = encodeJpg(src);
-
-  /// it will not block ui with using isolate.
-  //var fileData = await compute(encodeJpg, src);
-  //var fileData = await isolateEncodeImage(src);
   List<int>? fileData;
 
-  final DateTime time4 = DateTime.now();
   if (src != null) {
     final bool onlyOneFrame = src.numFrames == 1;
-    //If there's only one frame, encode it to jpg.
+
     if (kIsWeb) {
       fileData = onlyOneFrame ? encodeJpg(src.first) : encodeGifAnimation(src);
     } else {
-      //fileData = await lb.run<List<int>, Image>(encodeJpg, src);
       fileData = onlyOneFrame
           ? await compute(encodeJpg, src.first)
           : await compute(encodeGifAnimation, src);
     }
   }
-  final DateTime time5 = DateTime.now();
- 
+
   return Uint8List.fromList(fileData!);
 }
 
 Future<Uint8List?> cropImageDataWithNativeLibrary(
     {required ExtendedImageEditorState state}) async {
-
-
   final Rect? cropRect = state.getCropRect();
   final EditActionDetails action = state.editAction!;
 
@@ -160,12 +122,10 @@ Future<Uint8List?> cropImageDataWithNativeLibrary(
     option.addOption(RotateOption(rotateAngle));
   }
 
-  final DateTime start = DateTime.now();
   final Uint8List? result = await ImageEditor.editImage(
     image: img,
     imageEditorOption: option,
   );
-
 
   return result;
 }
@@ -210,7 +170,6 @@ void _isolateEncodeImage(SendPort port) {
   });
 }
 
-/// it may be failed, due to Cross-domain
 Future<Uint8List> _loadNetwork(ExtendedNetworkImageProvider key) async {
   try {
     final Response? response = await HttpClientHelper.get(Uri.parse(key.url),

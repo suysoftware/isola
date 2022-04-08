@@ -24,8 +24,6 @@ Widget textWidgetGetter(
 
       targetM3 = targetMessage.substring(rowLetterValue * 2);
     }
-
-   
   }
 
   return RichText(
@@ -67,39 +65,10 @@ Widget bioTextWidgetGetter(
         targetM4 = targetMessage.substring(rowLetterValue * 3);
       }
     }
-
   }
 
   return AutoSizeText.rich(
     TextSpan(text: targetMessage),
     style: DefaultTextStyle.of(context).style.copyWith(fontSize: 13.sp),
   );
-}
-
-TextSpan whichLineGetter(
-    {required int whichLine,
-    required String targetM1,
-    required String targetM2,
-    required String targetM3,
-    required String targetM4,
-    required TextStyle letterTextStyle}) {
-  switch (whichLine) {
-    case 0:
-      return TextSpan(text: "$targetM1", style: letterTextStyle);
-
-    case 1:
-      return TextSpan(text: "$targetM1\n$targetM2", style: letterTextStyle);
-
-    case 2:
-      return TextSpan(
-          text: "$targetM1\n$targetM2\n$targetM3", style: letterTextStyle);
-
-    case 3:
-      return TextSpan(
-          text: "$targetM1\n$targetM2\n$targetM3\n$targetM4",
-          style: letterTextStyle);
-
-    default:
-      return TextSpan(text: "$targetM1\n$targetM2", style: letterTextStyle);
-  }
 }

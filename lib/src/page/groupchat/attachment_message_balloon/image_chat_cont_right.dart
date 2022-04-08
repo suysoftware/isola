@@ -14,16 +14,16 @@ class ImageChatContRight extends StatelessWidget {
   String memberName;
   Timestamp messageTime;
 
-  ImageChatContRight({
-    Key? key,
-    required this.memberAttachmentUrl,
-    required this.memberName,
-    required this.messageTime
-  }) : super(key: key);
+  ImageChatContRight(
+      {Key? key,
+      required this.memberAttachmentUrl,
+      required this.memberName,
+      required this.messageTime})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     DateFormat dFormat = DateFormat("HH:mm");
+    DateFormat dFormat = DateFormat("HH:mm");
     double contCarpan = 100.h <= 1100 ? 15 : 7.5;
     double contWidth = 45.w;
     double contHeight =
@@ -58,13 +58,11 @@ class ImageChatContRight extends StatelessWidget {
                                   child: CachedNetworkImage(
                                     imageUrl: memberAttachmentUrl,
                                     fit: BoxFit.fill,
-                                              cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                    cacheManager: CacheManager(Config(
+                                      "cachedImageFiles",
+                                      stalePeriod: const Duration(days: 3),
+                                      //one week cache period
+                                    )),
                                   ),
                                 )))),
                         child: CachedNetworkImage(
@@ -72,14 +70,12 @@ class ImageChatContRight extends StatelessWidget {
                           height: contHeight,
                           width: contWidth,
                           errorWidget: (context, url, error) =>
-                              Icon(CupertinoIcons.xmark_square),
-                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                              const Icon(CupertinoIcons.xmark_square),
+                          cacheManager: CacheManager(Config(
+                            "cachedImageFiles",
+                            stalePeriod: const Duration(days: 3),
+                            //one week cache period
+                          )),
                         ))),
               ),
               Align(
@@ -87,7 +83,9 @@ class ImageChatContRight extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 8.0),
                   child: Text(
-                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                    dFormat.format(DateTime.fromMicrosecondsSinceEpoch(
+                        messageTime.microsecondsSinceEpoch.toInt(),
+                        isUtc: false)),
                     style: 100.h <= 1100
                         ? StyleConstants.chatTimeTextStyleRight
                         : StyleConstants.chatTabletTimeTextStyleRight,

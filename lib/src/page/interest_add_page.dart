@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/page/location_add_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -49,53 +48,22 @@ class _InterestAddPageState extends State<InterestAddPage> {
                     color: CupertinoColors.systemGreen,
                   ),
                   onPressed: () {
-                 //   print('sfffs');
                     FirebaseAuth _auth = FirebaseAuth.instance;
-                   // print(context.read<HobbyStatusCubit>().state.addingHobby);
-                   // print(_auth.currentUser!.uid);
-                    CollectionReference users_display =
+
+                    CollectionReference usersDisplay =
                         FirebaseFirestore.instance.collection('users_display');
 
-                    users_display.doc(_auth.currentUser!.uid).update({
+                    usersDisplay.doc(_auth.currentUser!.uid).update({
                       'uInterest':
                           context.read<HobbyStatusCubit>().state.addingHobby,
                     }).whenComplete(() => {
-
-                       Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => LocationAddPage(
-                                    userUid: widget.userUid,
-                                  )))
-                    });
-
-                    ///eskisi
-                    ///
-                    /*
-                    var refUpdateInterest = refGetter(
-                        enum2: RefEnum.Userdisplay,
-                        userUid: widget.userUid,
-                        targetUid: widget.userUid,
-                        crypto: "");
-                    print("//1111");
-                    print(context.read<HobbyStatusCubit>().state.addingHobby);
-                    print("////2");
-                    print(context.read<HobbyStatusCubit>().state);
-                    print("////2");
-
-                    refUpdateInterest
-                        .child("user_interest")
-                        .set(context.read<HobbyStatusCubit>().state.addingHobby)
-                        .whenComplete(() {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => LocationAddPage(
-                                    userUid: widget.userUid,
-                                  )));
-                    });
-                    print(context.read<HobbyStatusCubit>().state.addingHobby);
-                    print("geç devammkeeeee");*/
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => LocationAddPage(
+                                        userUid: widget.userUid,
+                                      )))
+                        });
                   }),
             );
           }),
@@ -147,25 +115,16 @@ class HobbyIconButton extends StatelessWidget {
                         fit: BoxFit.contain,
                       )),
             onPressed: () {
-              //print("ag");
               if (iconStatus.hobbyStatusReader(iconName) == true) {
                 iconStatus.hobbyStatusGrey(iconName);
-                //print("ag2");
-                //burada emit yapılacak
-                hobbyPiece = hobbyPiece - 1;
 
-              //  print(iconStatus.state.addingHobby);
-                //print(iconStatus.state.hobbyValue);
+                hobbyPiece = hobbyPiece - 1;
               } else {
                 if (iconStatus.state.hobbyValue < 5) {
-                //  print("ag3");
                   iconStatus.hobbyStatusActive(iconName);
 
                   hobbyPiece = hobbyPiece + 1;
-                //  print(iconStatus.state.addingHobby);
-                //  print(iconStatus.state.hobbyValue);
                 }
-              //  print("coook bastın");
               }
             });
       });
@@ -234,8 +193,6 @@ class HobbyStatusCubit extends Cubit<HobbyButtonModel> {
     updateList.addAll(state.addingHobby);
 
     updateList.add(iconName);
-   // print("girdiimactive1");
-    //print("iconname $iconName");
 
     var hobbyItem = HobbyButtonModel(updateList, newValue);
     emit(hobbyItem);
@@ -243,14 +200,13 @@ class HobbyStatusCubit extends Cubit<HobbyButtonModel> {
 
   void hobbyStatusGrey(String iconName) {
     int newValue = state.hobbyValue - 1;
-    //print("girdiimgrey1");
+
     var updateList = <String>[];
 
     updateList.addAll(state.addingHobby);
     if (updateList.contains(iconName) == true) {
       updateList.remove(iconName);
     }
-   // print("girdiimgrey2");
 
     var hobbyItem = HobbyButtonModel(updateList, newValue);
     emit(hobbyItem);

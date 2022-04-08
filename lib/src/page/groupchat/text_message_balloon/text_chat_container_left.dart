@@ -10,11 +10,13 @@ import 'package:sizer/sizer.dart';
 class TextChatContLeft extends StatelessWidget {
   String targetMesaj;
   Timestamp messageTime;
-  TextChatContLeft({Key? key, required this.targetMesaj,required this.messageTime}) : super(key: key);
+  TextChatContLeft(
+      {Key? key, required this.targetMesaj, required this.messageTime})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     DateFormat dFormat = DateFormat("HH:mm");
+    DateFormat dFormat = DateFormat("HH:mm");
     double contHeight = 100.h <= 1100
         ? ((targetMesaj.length < 50 ? 1 : targetMesaj.length / 50) + 1.0)
         : ((targetMesaj.length / 30) + 0.6);
@@ -63,7 +65,9 @@ class TextChatContLeft extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 5.w, 0.3.h),
                   child: Text(
-                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                    dFormat.format(DateTime.fromMicrosecondsSinceEpoch(
+                        messageTime.microsecondsSinceEpoch.toInt(),
+                        isUtc: false)),
                     style: 100.h <= 1100
                         ? StyleConstants.chatTimeTextStyleLeft
                         : StyleConstants.chatTabletTimeTextStyleLeft,

@@ -6,8 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
 import 'package:isola_app/src/page/groupchat/chatting_page.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_chat_container_left.dart';
 import 'package:sizer/sizer.dart';
@@ -18,7 +16,7 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
   String memberName;
   String memberUid;
   String memberVoiceUrl;
-    TextStyle targetTextStyle;
+  TextStyle targetTextStyle;
 
   VoiceMessageBalloonLeft(
       {Key? key,
@@ -26,7 +24,8 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
       required this.memberAvatarUrl,
       required this.memberMessageTime,
       required this.memberName,
-      required this.memberUid,required this.targetTextStyle })
+      required this.memberUid,
+      required this.targetTextStyle})
       : super(key: key);
 
   @override
@@ -38,27 +37,27 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
         Column(
           children: [
             GestureDetector(
-               onTap: ()=>showCupertinoDialog(
-                                context: context,
-                                builder: (context) => CupertinoPageScaffold(
-                                    navigationBar: const CupertinoNavigationBar(
-                                      automaticallyImplyLeading: true,
-                                    ),
-                                    child: Center(
-                                        child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: memberAvatarUrl,
-                                        fit: BoxFit.fill,
-                                        errorWidget: (context, url, error) =>
-                                            Icon(CupertinoIcons.xmark_square),
-                                        cacheManager: CacheManager(Config(
-                                          "cachedImageFiles",
-                                          stalePeriod: const Duration(days: 3),
-                                          //one week cache period
-                                        )),
-                                      ),
-                                    )))),
+              onTap: () => showCupertinoDialog(
+                  context: context,
+                  builder: (context) => CupertinoPageScaffold(
+                      navigationBar: const CupertinoNavigationBar(
+                        automaticallyImplyLeading: true,
+                      ),
+                      child: Center(
+                          child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: CachedNetworkImage(
+                          imageUrl: memberAvatarUrl,
+                          fit: BoxFit.fill,
+                          errorWidget: (context, url, error) =>
+                              const Icon(CupertinoIcons.xmark_square),
+                          cacheManager: CacheManager(Config(
+                            "cachedImageFiles",
+                            stalePeriod: const Duration(days: 3),
+                            //one week cache period
+                          )),
+                        ),
+                      )))),
               child: Container(
                 height: 100.h >= 1100 ? 21.sp : 30.sp,
                 width: 100.h >= 1100 ? 21.sp : 30.sp,
@@ -71,23 +70,22 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         color: ColorConstant.milkColor,
-                        border: Border.all(color: ColorConstant.transparentColor),
+                        border:
+                            Border.all(color: ColorConstant.transparentColor),
                         borderRadius: BorderRadius.all(Radius.circular(20.sp))),
                     child: CircleAvatar(
-                                backgroundColor: ColorConstant.milkColor,
+                      backgroundColor: ColorConstant.milkColor,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.sp),
                         child: CachedNetworkImage(
                           imageUrl: memberAvatarUrl,
                           errorWidget: (context, url, error) =>
-                              Icon(CupertinoIcons.xmark_square),
-                                        cacheManager: CacheManager(
-                    Config(
-                      "cachedImageFiles",
-                      stalePeriod: const Duration(days: 3),
-                      //one week cache period
-                    )
-                ),
+                              const Icon(CupertinoIcons.xmark_square),
+                          cacheManager: CacheManager(Config(
+                            "cachedImageFiles",
+                            stalePeriod: const Duration(days: 3),
+                            //one week cache period
+                          )),
                         ),
                       ),
                     ),
@@ -108,17 +106,15 @@ class VoiceMessageBalloonLeft extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 0.0),
-                child: Text(
-                  memberName,
-                  style:targetTextStyle/* 100.h <= 1100
-                      ? StyleConstants.chatNameTextStyle1
-                      : StyleConstants.chatTabletNameTextStyle1,*/
-                ),
+                child: Text(memberName, style: targetTextStyle),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 0.0),
                 child: VoiceChatContLeft(
-                    memberVoiceUrl: memberVoiceUrl, memberName: memberName, messageTime: memberMessageTime,),
+                  memberVoiceUrl: memberVoiceUrl,
+                  memberName: memberName,
+                  messageTime: memberMessageTime,
+                ),
               ),
             ],
           ),

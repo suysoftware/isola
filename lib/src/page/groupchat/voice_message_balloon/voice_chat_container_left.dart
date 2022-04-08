@@ -23,7 +23,10 @@ class VoiceChatContLeft extends StatelessWidget {
   String memberName;
   Timestamp messageTime;
   VoiceChatContLeft(
-      {Key? key, required this.memberVoiceUrl, required this.memberName,required this.messageTime})
+      {Key? key,
+      required this.memberVoiceUrl,
+      required this.memberName,
+      required this.messageTime})
       : super(key: key);
   var playIcon = const Icon(CupertinoIcons.play_arrow_solid);
   var pauseIcon = const Icon(CupertinoIcons.pause);
@@ -37,7 +40,7 @@ class VoiceChatContLeft extends StatelessWidget {
   final AudioPlayer _audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
-         DateFormat dFormat = DateFormat("HH:mm");
+    DateFormat dFormat = DateFormat("HH:mm");
 
     double contHeight = 100.h <= 1100 ? 2 : 1;
     double topRight = (contHeight * 2 + 6.5) * 3;
@@ -94,7 +97,6 @@ class VoiceChatContLeft extends StatelessWidget {
                                               .voiceIconReader(memberVoiceUrl)
                                               .icon ==
                                           playIcon.icon) {
-                                        //  await _audioPlayer.resume();
                                         voiceStatus.playing(
                                             duration, memberVoiceUrl);
 
@@ -119,7 +121,6 @@ class VoiceChatContLeft extends StatelessWidget {
                                       } else {
                                         voiceStatus.loading(
                                             duration, memberVoiceUrl);
-                                        //animasyonu başlat
 
                                         await _audioPlayer.play(url);
                                         voiceStatus.playing(
@@ -128,15 +129,10 @@ class VoiceChatContLeft extends StatelessWidget {
 
                                       _audioPlayer.onDurationChanged
                                           .listen((Duration d) {
-                                        //    voiceStatus
-                                        //    .playing(d, memberVoiceUrl);
-
                                         duration = duration;
                                       });
                                       _audioPlayer.onAudioPositionChanged
                                           .listen((Duration p) {
-                                        //  voiceStatus
-                                        //      .playing(p, memberVoiceUrl);
                                         voiceStatus
                                             .durationUpper(memberVoiceUrl);
                                         position = p;
@@ -159,7 +155,8 @@ class VoiceChatContLeft extends StatelessWidget {
                                     padding: EdgeInsets.fromLTRB(
                                         0.0, 0.0, 5.w, 0.3.h),
                                     child: Text(
-'11:30'                         ,             style: 100.h <= 1100
+                                      '11:30',
+                                      style: 100.h <= 1100
                                           ? StyleConstants.chatTimeTextStyleLeft
                                           : StyleConstants
                                               .chatTabletTimeTextStyleLeft,
@@ -222,8 +219,6 @@ class VoiceChatContLeft extends StatelessWidget {
                                               .voiceIconReader(memberVoiceUrl)
                                               .icon ==
                                           playIcon.icon) {
-                                      //  print("abidik");
-                                        //  await _audioPlayer.resume();
                                         voiceStatus.playing(
                                             duration, memberVoiceUrl);
                                         await _audioPlayer.play(url);
@@ -238,17 +233,14 @@ class VoiceChatContLeft extends StatelessWidget {
                                               .voiceIconReader(memberVoiceUrl)
                                               .icon ==
                                           resumeIcon.icon) {
-                                      //  print("resume girdi");
                                         voiceStatus.resume(
                                             Duration(
                                                 seconds: position.inSeconds),
                                             memberVoiceUrl);
                                         await _audioPlayer.resume();
                                       } else {
-                                      //  print("gubidik");
                                         voiceStatus.loading(
                                             duration, memberVoiceUrl);
-                                        //animasyonu başlat
 
                                         await _audioPlayer.play(url);
                                         voiceStatus.playing(
@@ -257,15 +249,10 @@ class VoiceChatContLeft extends StatelessWidget {
 
                                       _audioPlayer.onDurationChanged
                                           .listen((Duration d) {
-                                        //    voiceStatus
-                                        //    .playing(d, memberVoiceUrl);
-
                                         duration = duration;
                                       });
                                       _audioPlayer.onAudioPositionChanged
                                           .listen((Duration p) {
-                                        //  voiceStatus
-                                        //      .playing(p, memberVoiceUrl);
                                         voiceStatus
                                             .durationUpper(memberVoiceUrl);
                                         position = p;
@@ -288,7 +275,11 @@ class VoiceChatContLeft extends StatelessWidget {
                                     padding: EdgeInsets.fromLTRB(
                                         0.0, 0.0, 5.w, 0.3.h),
                                     child: Text(
-                  '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(messageTime.microsecondsSinceEpoch.toInt(), isUtc: false))}',
+                                      dFormat.format(
+                                          DateTime.fromMicrosecondsSinceEpoch(
+                                              messageTime.microsecondsSinceEpoch
+                                                  .toInt(),
+                                              isUtc: false)),
                                       style: 100.h <= 1100
                                           ? StyleConstants.chatTimeTextStyleLeft
                                           : StyleConstants

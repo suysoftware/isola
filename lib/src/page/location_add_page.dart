@@ -21,20 +21,12 @@ class _LocationAddPageState extends State<LocationAddPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-     
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /*
-            CupertinoButton(
-                child: const Text("> GET LOCATION <"),
-                onPressed: () {
-                  getLocation(uid: widget.userUid)
-                      .whenComplete(() => letsGo = true);
-                  setState(() {});
-                }),*/
-                Lottie.asset('asset/animation/get_location_animation.json',height: 30.h),
+            Lottie.asset('asset/animation/get_location_animation.json',
+                height: 30.h),
             SizedBox(
               height: 2.h,
             ),

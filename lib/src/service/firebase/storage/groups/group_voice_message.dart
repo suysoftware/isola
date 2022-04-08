@@ -2,14 +2,11 @@
 
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 
 Future<void> uploadVoice(
     IsolaUserAll userAll,
-    //bu değişebilir
-
     String _filePath,
     CollectionReference chatMessageRef,
     String targetUid1,
@@ -42,8 +39,6 @@ Future<void> uploadVoice(
       }
     }
   }
-
-  //return urlImage;
 }
 
 voiceMessageAdd(IsolaUserAll userAll, String voiceUrl, CollectionReference ref,
@@ -64,7 +59,7 @@ voiceMessageAdd(IsolaUserAll userAll, String voiceUrl, CollectionReference ref,
     'member_message_isdocument': false,
     'member_message_target_1_uid': targetUid1,
     'member_message_target_2_uid': targetUid2,
-     'member_message_no':docRef.id
+    'member_message_no': docRef.id
   });
 }
 
@@ -77,9 +72,8 @@ voiceMessageAddToChaos(
     String targetUid3,
     String targetUid4,
     String targetUid5) {
-
-        var docRef = ref.doc();
-docRef.set({
+  var docRef = ref.doc();
+  docRef.set({
     'member_avatar_url': userAll.isolaUserDisplay.avatarUrl,
     'member_message': "",
     'member_message_time': DateTime.now().toUtc(),
@@ -97,6 +91,6 @@ docRef.set({
     'member_message_target_3_uid': targetUid3,
     'member_message_target_4_uid': targetUid4,
     'member_message_target_5_uid': targetUid5,
-    'member_message_no':docRef.id
+    'member_message_no': docRef.id
   });
 }

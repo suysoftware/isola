@@ -3,17 +3,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileTimelinePage extends StatefulWidget {
-  // const ProfileTimelinePage({Key? key}) : super(key: key);
   final User user;
   final IsolaUserAll userAll;
 
@@ -45,7 +41,6 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
   void _onLoading() async {
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
     if (amountData < 50) {
       if (mounted) {
         setState(() {
@@ -60,11 +55,7 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
   void initState() {
     super.initState();
     amountData = 10;
-    /*  _profileRef = refGetter(
-        enum2: RefEnum.Basereadfeeds,
-        targetUid: widget.user.uid,
-        userUid: widget.user.uid,
-        crypto: "");*/
+
     _profileRef = FirebaseFirestore.instance
         .collection('feeds')
         .doc(widget.userAll.isolaUserMeta.userUid)
@@ -78,44 +69,17 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
           stream: _profileRef
               .orderBy("feed_date", descending: true)
               .limit(amountData)
-           /*   .withConverter<IsolaFeedModel>(
-                fromFirestore: (snapshot, _) =>
-                    IsolaFeedModel.fromJson(snapshot.data()!),
-                toFirestore: (message, _) => message.toJson(),
-              )*/
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              var bioTimeLineItem = <TimelineItem>[];
-
-              //  var gettingBioTimeline = event.data.snapshot.value as Map;
-              if (!snapshot.hasData)
+              if (!snapshot.hasData) {
                 return Center(
                   child: CupertinoActivityIndicator(
                       animating: true, radius: 12.sp),
                 );
+              }
 
-              /*
-              gettingBioTimeline.forEach((key, event) {
-                var comingItem = FeedMeta.fromJson(event);
-
-                bioTimeLineDatas.add(comingItem);
-
-                var bioTimeItem = TimelineItem(
-                  feedMeta: comingItem,
-                  userUid: widget.feedMeta.userUid,
-                  isTimeline: false,
-                );
-                bioTimeLineItem.add(bioTimeItem);
-              });
-  
-  */
               final data = snapshot.requireData;
-
-              /*if (bioTimeLineItem.isNotEmpty) {
-                bioTimeLineItem.sort((b, a) =>
-                    a.feedMeta.feedTime.compareTo(b.feedMeta.feedTime));
-              }*/
 
               return SmartRefresher(
                 enablePullDown: true,
@@ -141,14 +105,9 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
                                 data.docs[indeks]['user_name'],
                                 data.docs[indeks]['user_uid']),
                             userUid: widget.userAll.isolaUserMeta.userUid,
-                            isTimeline: false, isolaUserAll: widget.userAll,
-                          )
-
-                          /*Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [bioTimeLineItem[indeks]],
-                        ),*/
-                          );
+                            isTimeline: false,
+                            isolaUserAll: widget.userAll,
+                          ));
                     }),
               );
             } else {

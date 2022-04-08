@@ -25,7 +25,6 @@ class ColorConstant {
   static const Color chatNameTextColor4 = Color(0xFFFF3666);
   static const Color chatNameTextColor5 = Color(0xFF00E35B);
 
-
   static const Color softPurple = Color(0xFFAF43FD);
   static Color softGrey = CupertinoColors.black.withOpacity(0.7);
   static const Color iGradientMaterial1 = Color(0xFFC549FF);
@@ -51,7 +50,6 @@ class ColorConstant {
         ColorConstant.iGradientMaterial1,
         ColorConstant.iGradientMaterial2,
       ]);
-
   static Gradient isolaHomeBgGradient = LinearGradient(
       begin: const Alignment(-0.05, -2.2),
       end: const Alignment(0.05, 1.9),
@@ -59,7 +57,6 @@ class ColorConstant {
         ColorConstant.iGradientMaterial6,
         ColorConstant.iGradientMaterial7,
       ]);
-
   static const Gradient isolaTriumGradient = LinearGradient(
       begin: Alignment(-0.88, -2.0),
       end: Alignment(0.1, 1.9),

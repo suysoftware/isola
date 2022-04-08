@@ -11,6 +11,7 @@ Future<void> textFeedDelete(String targetFeed, String userUid) async {
       'userUid': userUid
     });
   } catch (e) {
+    // ignore: avoid_print
     print(e.toString());
   }
 }
@@ -26,6 +27,7 @@ Future<void> imageFeedDelete(String targetFeed, String userUid) async {
       'userUid': userUid
     });
   } catch (e) {
+    // ignore: avoid_print
     print(e.toString());
   }
 }

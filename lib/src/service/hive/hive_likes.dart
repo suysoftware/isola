@@ -3,8 +3,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/model/hive_models/user_hive.dart';
 
-class HiveOperations  {
- 
+class HiveOperations {
   likeDataSetter() async {
     var box = await Hive.box('userHive');
     var likesList = <String>[];
@@ -22,22 +21,19 @@ class HiveOperations  {
     exploreList.add("explores5");
     var senderData = UserHive(likesData: likesList, exloreData: exploreList);
     box.put('datetoday', senderData);
-    //box.put('userHive', UserHive(likesData: likesList, exloreData: exploreList));
   }
 
   likeDataGetter() async {
     var box = await Hive.openBox('userHive');
 
     UserHive userHive = box.get('datetoday');
-
-  
   }
 
   Future<UserHive> likeDataReturner() async {
     var box = await Hive.openBox('userHive');
 
     UserHive userHive = box.get('datetoday');
-  
+
     return userHive;
   }
 
@@ -45,8 +41,6 @@ class HiveOperations  {
     var box = await Hive.openBox('userHive');
 
     UserHive userHive = box.get('datetoday');
-
-  
   }
 
   likeDelete(String feedNo) async {
@@ -54,25 +48,16 @@ class HiveOperations  {
 
     UserHive userHive = box.get('datetoday');
     bool cvp = userHive.likesData.contains('likes42');
-//  userHive.likesData.indexOf(element);
+
     userHive.likesData.remove(feedNo);
     box.put('datetoday', userHive);
-   // print(cvp);
-    // userHive.likesData.
-
   }
 
   likeSave(String feedNo) async {
     var box = await Hive.openBox('userHive');
 
     UserHive userHive = box.get('datetoday');
-   // bool cvp = userHive.likesData.contains('likes42');
-//  userHive.likesData.indexOf(element);
     userHive.likesData.add(feedNo);
     box.put('datetoday', userHive);
-
-    //print(cvp);
-    // userHive.likesData.
-    
   }
 }

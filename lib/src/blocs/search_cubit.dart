@@ -1,5 +1,4 @@
 // ignore_for_file: unused_local_variable
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/page/searchpage.dart';
 
@@ -35,22 +34,17 @@ class SearchCubit extends Cubit<List<GridTile>> {
     const tiles9 = GridTile(2, 2);
     const tiles10 = GridTile(1, 1);
 
-    List<GridTile> gList=gTilebaba;
-    
+    List<GridTile> gList = gTilebaba;
+
     gList.add(tiles3);
     gList.add(tiles4);
     gList.add(tiles5);
-     gList.add(tiles6);
+    gList.add(tiles6);
     gList.add(tiles7);
     gList.add(tiles8);
-     gList.add(tiles9);
+    gList.add(tiles9);
     gList.add(tiles10);
     var search = gList;
-       emit(search);
+    emit(search);
   }
-
-  // void sayaciAzalt(int miktar) {
-  // int search = state - miktar;
-  // emit(search);
-  // }
 }

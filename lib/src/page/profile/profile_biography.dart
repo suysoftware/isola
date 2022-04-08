@@ -8,9 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/profile/profile_interest_edit.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
@@ -44,14 +42,10 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
   FirebaseDatabase _refConnect = FirebaseDatabase.instance;
 
   late User user;
-  // late var _refBio;
   late IsolaUserAll userAll;
   bool editingHobby = false;
   String editingChooseText = " ";
   void _onRefresh() async {
-    // monitor network fetch
-    /// await Future.delayed(const Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
     await getUserAllFromDataBase(widget.userAll.isolaUserMeta.userUid)
         .then((value) {
       setState(() {
@@ -63,38 +57,20 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
     _refreshController.refreshCompleted();
   }
 
-  void _onLoading() async {
-    // monitor network fetch
-    /// await Future.delayed(const Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-
-    /// if (mounted) {
-    ///setState(() {
-    //   itemCountValue = itemCountValue + 10;
-    ///});
-    /// }
-    /// _refreshController.loadComplete();
-  }
+  void _onLoading() async {}
 
   @override
   void initState() {
     super.initState();
 
     user = auth.currentUser!;
-    /*  _refBio = refGetter(
-      enum2: RefEnum.Userdisplay,
-      userUid: user.uid,
-      targetUid: user.uid,
-      crypto: '',
-    );*/
+
     userAll = widget.userAll;
   }
 
   @override
   void dispose() {
     super.dispose();
-
-    // streamSubscription.cancel();
   }
 
   @override
@@ -108,7 +84,6 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
         onTap: () {
           setState(() {
             editingHobby = false;
-        //    print("aga absti");
           });
         },
         child: SmartRefresher(
@@ -182,9 +157,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                   Visibility(
                     visible: editingHobby == true ? true : false,
                     child: GestureDetector(
-                      onLongPress: () {
-                     //   print("go");
-                      },
+                      onLongPress: () {},
                       child: Padding(
                           padding: EdgeInsets.fromLTRB(1.w, 0.0, 0.0, 0.0),
                           child: CupertinoButton(
@@ -209,8 +182,6 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                         setState(() {
                           editingHobby = true;
                         });
-
-                        ////"aga absti");
                       },
                       child: Padding(
                         padding: editingHobby == false
@@ -309,7 +280,6 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       setState(() {
                         editingHobby = true;
                       });
-                   //   print("aga absti");
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
@@ -342,7 +312,6 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       setState(() {
                         editingHobby = true;
                       });
-                    //  print("aga absti");
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
@@ -389,11 +358,8 @@ class ClubGridView extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(4.w, 0.0, 0.0, 0.0),
       child: GridView.builder(
         scrollDirection: Axis.horizontal,
-        // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //   mainAxisSpacing: 20.w, crossAxisCount: 1, childAspectRatio: 2 / 1),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1, mainAxisExtent: 45.w, mainAxisSpacing: 3.w),
-
         padding: EdgeInsets.zero,
         itemCount: 10,
         itemBuilder: (context, indeks) {
@@ -428,7 +394,7 @@ class ClubImageTile extends StatelessWidget {
         child: CachedNetworkImage(
             imageUrl: 'https://picsum.photos/$width/$height?random=$index',
             errorWidget: (context, url, error) =>
-                Icon(CupertinoIcons.xmark_square),
+                const Icon(CupertinoIcons.xmark_square),
             cacheManager: CacheManager(Config(
               "cachedImageFiles",
               stalePeriod: const Duration(days: 3),
@@ -482,8 +448,6 @@ class _BioEditContainerState extends State<BioEditContainer> {
 
   @override
   void initState() {
-    // ignore: todo
-    // TODO: implement initState
     super.initState();
 
     t1.text = widget.userAll.isolaUserDisplay.userBiography;
@@ -561,15 +525,7 @@ class _BioEditContainerState extends State<BioEditContainer> {
                             .update({
                           'uBio': t1.text,
                         });
-                        /*
-                        var refUserBio = refGetter(
-                            enum2: RefEnum.Userdisplay,
-                            userUid: widget.userAll.isolaUserMeta.userUid,
-                            targetUid: widget.userAll.isolaUserMeta.userUid,
-                            crypto: "");
 
-                        refUserBio.child("user_biography").set(t1.text);*/
-                        //change bio
                         t1.clear();
                         Navigator.pop(context);
                       },

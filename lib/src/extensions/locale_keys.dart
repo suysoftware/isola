@@ -6,9 +6,7 @@ abstract class LocaleKeys {
   static const main_title = 'main.title';
   static const main_bodytext = 'main.bodytext';
   static const main = 'main';
-
   static const loggingout_buttontext = 'loggingout.buttontext';
-
   static const homepage_circulartext = 'homepage.circulartext';
   static const homepage_populartext = 'homepage.populartext';
 }

@@ -24,50 +24,22 @@ class ChatGroupContWaiting extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(15.0))),
             child: Row(
               children: [
-                SizedBox(width: 2.w,),
-                                Lottie.asset('asset/animation/waiting_animation.json',height: 10.h,),
-                /*
-                Padding(
-                  padding: 100.h >= 1100
-                      ? const EdgeInsets.all(15.0)
-                      : const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundColor: ColorConstant.chatGradientMaterial1,
-                    radius: 15.sp,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(18.sp)),
-                      child: Image.asset(
-                        "asset/img/chatpage_waiting_person_icon.png",
-                      ),
-                    ),
-                  ),
+                SizedBox(
+                  width: 2.w,
                 ),
-                Padding(
-                  padding: 100.h >= 1100
-                      ? const EdgeInsets.all(15.0)
-                      : const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundColor: ColorConstant.chatGradientMaterial1,
-                    radius: 15.sp,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(18.sp)),
-                      child: Image.asset(
-                        "asset/img/chatpage_waiting_person_icon.png",
-                      ),
-                    ),
-                  ),
-                ),*/
+                Lottie.asset(
+                  'asset/animation/waiting_animation.json',
+                  height: 10.h,
+                ),
                 SizedBox(
                   width: 8.w,
                 ),
-                
                 Text(
                   "Waiting For Others",
                   style: 100.h >= 1100
                       ? StyleConstants.groupTabletCardTextStyle
                       : StyleConstants.groupCardTextStyle,
                 ),
-
                 SizedBox(
                   width: 16.w,
                 ),
@@ -91,12 +63,7 @@ class ChatGroupContWaiting extends StatelessWidget {
                                       style: TextStyle(
                                           color: CupertinoColors.systemRed),
                                     ),
-                                    onPressed: () {
-
-
-
-                                      
-                                    }),
+                                    onPressed: () {}),
                                 CupertinoButton(
                                     child: const Text("Back"),
                                     onPressed: () {

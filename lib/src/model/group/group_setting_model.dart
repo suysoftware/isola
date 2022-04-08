@@ -21,7 +21,6 @@ class GroupSettingModel {
       required this.groupMemberUid2,
       required this.groupMemberName3,
       required this.groupMemberAvatarUrl3,
-      required this.groupMemberUid3
-      ,required this.newNotiValueAmount
-      });
+      required this.groupMemberUid3,
+      required this.newNotiValueAmount});
 }

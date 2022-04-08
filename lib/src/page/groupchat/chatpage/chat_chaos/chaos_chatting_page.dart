@@ -1,35 +1,23 @@
-import 'dart:collection';
+// ignore_for_file: unused_local_variable, avoid_types_as_parameter_names, non_constant_identifier_names, prefer_typing_uninitialized_variables
+
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
-import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
-import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/chaos/chaos_group_meta.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
-import 'package:isola_app/src/model/group/group_chaos.dart';
-import 'package:isola_app/src/model/group/group_chat_message.dart';
-import 'package:isola_app/src/model/group/group_preview_data.dart';
-import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/attachment_message_baloon_right.dart';
 import 'package:isola_app/src/page/groupchat/chat_image_picker.dart';
@@ -38,23 +26,17 @@ import 'package:isola_app/src/page/groupchat/text_message_balloon/text_message_b
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_message_balloon_right.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_left.dart';
 import 'package:isola_app/src/page/groupchat/voice_message_balloon/voice_message_balloon_right.dart';
-import 'package:isola_app/src/service/firebase/storage/chaos/chaos_group_finder.dart';
 import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
-import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_attachment_message.dart';
-import 'package:isola_app/src/service/firebase/storage/groups/group_chaos_apply.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_voice_message.dart';
-import 'package:isola_app/src/utils/router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
-import 'package:uuid/uuid.dart';
 import '../../../../blocs/chaos_group_setting_cubit.dart';
 import '../../../../blocs/current_chat_cubit.dart';
 import '../../../../model/chaos/chaos_chat_message.dart';
 import '../../../../model/chaos/chaos_group_setting_model.dart';
-import '../../../../widget/message_noti_mini.dart';
 
 class ChaosChatInteriorPage extends StatefulWidget {
   const ChaosChatInteriorPage({
@@ -73,7 +55,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
   CountDownController chaosTimerController = CountDownController();
-  // late Stream<QueryDocumentSnapshot> groupDocumentStream;
 
   DateFormat dFormat = DateFormat("HH:mm:ss");
   late String target1;
@@ -145,8 +126,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   }
 
   void _onLoading() async {
-   // print("onloading");
-    // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
@@ -160,7 +139,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     }
   }
 
-  File? file = null;
+  File? file;
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -181,7 +160,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
               targetUid3: target3,
               targetUid5: target5,
             ));
-    //setState(() {});
   }
 
   showFilePicker(FileType fileType) async {
@@ -190,9 +168,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
           type: fileType, allowMultiple: false, allowedExtensions: ['pdf']);
 
       if (result2 != null) {
-        String fileName = result2.files.first.name;
-     //   print(fileName);
-        //print(result2.paths);
+
         await uploadAttachmentToChaos(
             userAll,
             result2.paths.first.toString(),
@@ -213,9 +189,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
           .pickFiles(type: fileType, allowMultiple: false);
 
       if (result != null) {
-        String fileName = result.files.first.name;
-       // print(fileName);
-        //print(result.paths);
 
         if (fileType == FileType.video) {
           await uploadAttachmentToChaos(
@@ -249,7 +222,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
       }
     }
 
-    // chatBloc.dispatch(SendAttachmentEvent(chat.chatId, file, fileType));
     Navigator.pop(context);
   }
 
@@ -270,8 +242,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                         child: Icon(CupertinoIcons.paperclip,
                             size: 100.h >= 1100 ? 10.sp : 15.sp),
                         onPressed: () {
-                         // print("ATTACHMENT");
-
                           showCupertinoModalPopup<void>(
                             barrierDismissible: true,
                             context: context,
@@ -310,17 +280,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                   ),
                                   onPressed: () {
                                     chooseImage();
-                                    /*
-                                    showCupertinoDialog(
-                                        context: context,
-                                        builder: (context) => ChatImagePicker(
-                                            userDisplay: userDisplay,
-                                            targetUid1: target1,
-                                            targetUid2: target2));*/
-                                    /*
-                                    showFilePicker(
-                                      FileType.image,
-                                    );*/
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -333,13 +292,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                       const Text('Video (Coming Soon)')
                                     ],
                                   ),
-                                  onPressed: () {
-                                    /*
-                                    showFilePicker(
-                                      FileType.video,
-                                      
-                                    );*/
-                                  },
+                                  onPressed: () {},
                                 ),
                               ],
                             ),
@@ -406,8 +359,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                         onLongPressStart: (LongPressStartDetails) async {
                           if (sayacModelNesne.sendIcon.icon ==
                               CupertinoIcons.mic) {
-                         //   print("mic basıldı");
-                           // print("kayıt alınıyor");
+                            //mic tapped
+                            //recording
 
                             sayacModelNesne.micCancelVisOn();
                             xPosition = LongPressStartDetails.localPosition.dx;
@@ -428,26 +381,17 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                           if (yPosition - 70 >=
                               LongPressMoveUpdateDetails.localPosition.dy) {
                             sayacModelNesne.trashOnline();
-
-                            //sayac model nesneyi çöplük büyüme animasyonunda kullan
-                            //burada animasyon oynat visibitliy animasyonda
-
                           } else {
                             sayacModelNesne.trashOffline();
                           }
-
-                          //    print(LongPressMoveUpdateDetails.localPosition.dx);
-                          //  print(LongPressMoveUpdateDetails.localPosition.dy);
 
                           if (movingy == yPosition) {}
                         },
                         onLongPressEnd: (LongPressEndDetails) async {
                           if (yPosition - 70 >=
                               LongPressEndDetails.localPosition.dy) {
-                           // print("agabuyuk");
-                            //dikkat
                             await _audioRecorder.stop();
-                           // print("ses kaydı çöpe atıldı");
+                            //voice deleted
                             sayacModelNesne.micCancelVisOff();
                             sayacModelNesne.micRecordingToWaste();
 
@@ -455,16 +399,10 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                             _animationController
                                 .forward()
                                 .whenComplete(() async {
-                              //dikkat
-
                               sayacModelNesne.trashingEnd();
                               sayacModelNesne.micOnline();
                               _animationController.reset();
                             });
-
-                            //sayac model nesneyi çöplük büyüme animasyonunda kullan
-                            //burada animasyon oynat visibitliy animasyonda
-
                           } else {
                             if (sayacModelNesne.sendIcon.icon ==
                                 CupertinoIcons.mic_circle_fill) {
@@ -480,26 +418,22 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                   target4,
                                   target5,
                                   true);
-                              //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
-                            //  print(
-                              //    "kayıt veritabanına yükleniyor ve gönderiliyor");
+
+                              //voice uploading to database and sending chat
                               sayacModelNesne.micCancelVisOff();
                               sayacModelNesne.micOnline();
                             }
                           }
-                         // print("end oldumu");
                         },
                         child: CupertinoButton(
                           onPressed: () {
-                           // print("basti");
-
                             if (sayacModelNesne.sendIcon.icon ==
                                 CupertinoIcons.add) {
                               DocumentReference docRef = refChatInterior.doc();
                               userMessageAdd(t1.text, false, "nothing", docRef);
                               sayacModelNesne.micOnline();
                             } else {
-                            //  print("mikrofonbaşladı");
+                              //  print("mikrofonbaşladı");
                             }
                           },
                           child: sayacModelNesne.iconReader(),
@@ -597,61 +531,38 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
 
           extensionButtonActive = true;
 
-          //uzatma talebi gönder
+          //extension order
 
         } else {
-         // print(chaosTimerController.getTime());
-
           var sr = DateTime.now();
-
-          //  chaosTimerController.restart(
-          //  duration: dTimeWithBonus.difference(sr).inSeconds.toInt());
-
-        //  print(dTimeWithBonus.difference(sr).inSeconds.toInt());
         }
       },
       child: CircularCountDownTimer(
         controller: chaosTimerController,
         duration: chaosTime <= 0 ? 0 : chaosTime,
-
-        /*  duration: ds['time_bonus'] == true
-                                  ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
-                                  : dTimeFinish.difference(dTime).inSeconds.toInt(),*/
-        //   initialDuration: 50,
         textFormat: CountdownTextFormat.MM_SS,
         width: 30.sp,
         height: 30.sp,
-        ringColor: isBonus == true ? Color(0xFFA88300) : Color(0xFF80E8FF),
-        //ringGradient: ColorConstant.isolaTriumGradient,
-        fillColor: isBonus == true ? Color(0xFFFF4D00) : Color(0xFFE13D96),
-        // fillGradient: ColorConstant.isolaMainGradient,
+        ringColor:
+            isBonus == true ? const Color(0xFFA88300) : const Color(0xFF80E8FF),
+        fillColor:
+            isBonus == true ? const Color(0xFFFF4D00) : const Color(0xFFE13D96),
         backgroundColor:
-            isBonus == true ? Color(0xFFFFC700) : Color(0xFF5873FF),
-        // backgroundGradient: ColorConstant.isolaMainGradient,
+            isBonus == true ? const Color(0xFFFFC700) : const Color(0xFF5873FF),
         strokeWidth: 4.0,
         strokeCap: StrokeCap.round,
         textStyle: 100.h > 1100
             ? StyleConstants.chaosTimerTabletTextStyle
             : StyleConstants.chaosTimerTextStyle,
-
         isReverse: true,
-
         isReverseAnimation: false,
         isTimerTextShown: true,
         autoStart: true,
-
         onStart: () {
-          print('Countdown Started');
-
-          //   if (ds['time_bonus'] == true) {
-          //   var sr = DateTime.now();
-          // chaosTimerController.restart(
-          //   duration: dTimeWithBonus.difference(sr).inSeconds.toInt());
-          //}
+          //Countdown Started
         },
-
         onComplete: () async {
-          print('Countdown Ended');
+          //Countdown Ended
           var sr = DateTime.now();
 
           if (ds['time_bonus'] == true &&
@@ -678,31 +589,15 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
-
     userAll = context.read<UserAllCubit>().state;
-
-    //isChaosSearching = false;
     itemCountValue = 20;
     _audioPlayer = AudioPlayer();
-
     user = auth.currentUser!;
-
     refChatInterior = context.read<ChatReferenceCubit>().state;
-
     groupSettingModelForTrawling = context.read<ChaosGroupSettingCubit>().state;
-
     context
         .read<CurrentChatCubit>()
         .currentChatChanger(groupSettingModelForTrawling.groupNo);
-    /* groupDocumentStream = FirebaseFirestore.instance
-        .collection('chaos_groups_chat')
-        .doc(groupSettingModelForTrawling.groupNo);*/
-
-    /*FirebaseFirestore.instance
-        .collection('chaos_groups_chat')
-        .doc(groupSettingModelForTrawling.groupNo);*/
-    //   .snapshots(includeMetadataChanges: true);
-    // print(groupSettingModelForTrawling.groupNo);
 
     target1 = context.read<ChaosGroupSettingCubit>().state.groupMemberUid2;
     target2 = context.read<ChaosGroupSettingCubit>().state.groupMemberUid3;
@@ -849,58 +744,17 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     t1.dispose();
 
     WidgetsBinding.instance!.removeObserver(this);
-    // print("sfafsa");
-
-    // print("sfafsa");
-    //print('chattingchaos dispose çalıştı');
 
     super.dispose();
   }
 
-/*
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.inactive) {
-      print(
-          "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
-    }
-
-    if (state == AppLifecycleState.paused) {
-      print(" altta atıldı");
-    }
-
-    if (state == AppLifecycleState.resumed) {
-      print("alta atıp geri gelince");
-    }
-
-    if (state == AppLifecycleState.detached) {
-      print("detached");
-
-      //işlemi cancel et !!!/// streamchanges
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-*/
   @override
   Widget build(BuildContext context) {
-    DateFormat dFormat = DateFormat("HH:mm");
-
-    /*  groupDocumentStream.forEach((element) {
-                print(element);
-                print(element['created_time']);
-              //  print(DateTime.fromMicrosecondsSinceEpoch(
-                //    element['created_time']));
-                print(
-                    '${dFormat.format(DateTime.fromMicrosecondsSinceEpoch(element['created_time'].microsecondsSinceEpoch.toInt(), isUtc: false))}');
-              });*/
-
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           automaticallyImplyMiddle: false,
           backgroundColor: ColorConstant.milkColor,
           automaticallyImplyLeading: true,
-          //eğer stream yapılıyorsa önce uyarı ver //streamingchanges
-
           trailing: Stack(children: [
             Align(
               alignment: Alignment.center,
@@ -938,26 +792,14 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                 isUtc: false);
                         DateTime dTime = DateTime.now();
 
-                        //Timestamp dTimeWithBonus = ds['finish_time'];
-
-                        // Timestamp dTimeFinish = ds['finish_with_bonus_time'];
-
                         chaosTime = ds['time_bonus'] == true
                             ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
                             : dTimeFinish.difference(dTime).inSeconds.toInt();
-                      //  print('??????');
-                       // print(chaosTime);
 
                         if (ds['time_bonus'] &&
                             extensionButtonActive == false) {
-                         // print('SSS');
-                        
-
                           extensionButtonActive = true;
                         }
-
-                    //    print(
-                  //          'with bonus ${dTimeWithBonus.difference(dTime).inSeconds.toInt() > 0}');
 
                         return timeCircle(isBonus, chaosTime, dTime,
                             dTimeWithBonus, ds, chaosTimerController);
@@ -991,15 +833,13 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                               toFirestore: (message, _) => message.toJson(),
                             )
                             .snapshots(),
-                        //    refChatInterior.limitToLast(itemCountValue).onValue,
                         builder: (context, snapshot) {
-                          if (!snapshot.hasData)
+                          if (!snapshot.hasData) {
                             return Center(
                               child: CupertinoActivityIndicator(
                                   animating: true, radius: 12.sp),
                             );
-
-                          //   var chatMessageDatas = <AllMessageBalloon>[];
+                          }
 
                           var seemingMessage = <String>[];
                           final data = snapshot.requireData;
@@ -1023,19 +863,14 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                   enablePullUp: true,
                                   header: const ClassicHeader(),
                                   controller: refreshController,
-                                  // onRefresh: _onLoading,
                                   onLoading: _onLoading,
                                   child: ListView.builder(
                                       reverse: true,
-                                      //itemCount: chatMessageDatas.length,
-                                      //   itemCount: data.size<itemCountValue?data.size:itemCountValue,
                                       itemCount: data.size,
                                       itemBuilder: (context, indeksNumarasi) =>
                                           Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              // child: chatMessageDatas[
-                                              //   indeksNumarasi],
                                               child: AllMessageBalloon(
                                                 isMe: data.docs[indeksNumarasi]
                                                             .data()
@@ -1149,9 +984,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
       await _audioRecorder.initialized;
       _audioRecorder.start();
       _filePath = filepath;
-    } else {
-   //   print("lütfen ses kayit icin izinleri acin");
-    }
+    } else {}
   }
 }
 
@@ -1302,58 +1135,6 @@ class AllMessageBalloon extends StatelessWidget {
     }
   }
 }
-/*
-
-class CircleImageContainer extends StatelessWidget {
-  Widget circleImage;
-
-  CircleImageContainer({Key? key, required this.circleImage}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap:()=>showCupertinoDialog(
-                                context: context,
-                                builder: (context) => CupertinoPageScaffold(
-                                    navigationBar: const CupertinoNavigationBar(
-                                      automaticallyImplyLeading: true,
-                                    ),
-                                    child: Center(
-                                        child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: memberAttachmentUrl,
-                                        fit: BoxFit.fill,
-                                        errorWidget: (context, url, error) =>
-                                            Icon(CupertinoIcons.xmark_square),
-                                        cacheManager: CacheManager(Config(
-                                          "cachedImageFiles",
-                                          stalePeriod: const Duration(days: 3),
-                                          //one week cache period
-                                        )),
-                                      ),
-                                    )))),
-      child: Container(
-        height: 100.h >= 1100 ? 13.sp : 30.sp,
-        width: 100.h >= 1100 ? 13.sp : 30.sp,
-        decoration: BoxDecoration(
-            gradient: ColorConstant.isolaMainGradient,
-            border: Border.all(color: ColorConstant.transparentColor),
-            borderRadius: BorderRadius.all(Radius.circular(20.sp))),
-        child: Padding(
-          padding: const EdgeInsets.all(0.5),
-          child: Container(
-            decoration: BoxDecoration(
-                color: ColorConstant.milkColor,
-                border: Border.all(color: ColorConstant.transparentColor),
-                borderRadius: BorderRadius.all(Radius.circular(20.sp))),
-            child: circleImage,
-          ),
-        ),
-      ),
-    );
-  }
-}*/
 
 class SayacModel extends ChangeNotifier {
   Icon sendIcon = Icon(

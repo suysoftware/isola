@@ -16,25 +16,24 @@ class AttachmentMessageBalloonRight extends StatelessWidget {
   String memberName;
   String memberUid;
   String memberAttachmentUrl;
-    bool memberMessageIsImage;
+  bool memberMessageIsImage;
   bool memberMessageIsVideo;
   bool memberMessageIsDocument;
 
-  AttachmentMessageBalloonRight({Key? key, 
-    required this.memberAvatarUrl,
-    required this.memberMessageTime,
-    required this.memberName,
-    required this.memberUid,
-    required this.memberAttachmentUrl,
-    required this.memberMessageIsImage,
+  AttachmentMessageBalloonRight(
+      {Key? key,
+      required this.memberAvatarUrl,
+      required this.memberMessageTime,
+      required this.memberName,
+      required this.memberUid,
+      required this.memberAttachmentUrl,
+      required this.memberMessageIsImage,
       required this.memberMessageIsVideo,
-      required this.memberMessageIsDocument
-  }) : super(key: key);
+      required this.memberMessageIsDocument})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
- 
-
     double imageSpacing = 3;
 
     return Row(
@@ -46,20 +45,24 @@ class AttachmentMessageBalloonRight extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 2.w, 0.0),
-                child: memberMessageIsImage == true
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 2.w, 0.0),
+                  child: memberMessageIsImage == true
                       ? ImageChatContRight(
                           memberAttachmentUrl: memberAttachmentUrl,
-                          memberName: memberName, messageTime: memberMessageTime,
+                          memberName: memberName,
+                          messageTime: memberMessageTime,
                         )
                       : memberMessageIsVideo == true
                           ? VideoChatContRight(
                               memberAttachmentUrl: memberAttachmentUrl,
-                              memberName: memberName, messageTime: memberMessageTime,)
+                              memberName: memberName,
+                              messageTime: memberMessageTime,
+                            )
                           : DocumentChatContRight(
                               memberAttachmentUrl: memberAttachmentUrl,
-                              memberName: memberName, messageTime: memberMessageTime,)
-              ),
+                              memberName: memberName,
+                              messageTime: memberMessageTime,
+                            )),
             ],
           ),
         ),
@@ -80,22 +83,20 @@ class AttachmentMessageBalloonRight extends StatelessWidget {
                       border: Border.all(color: ColorConstant.transparentColor),
                       borderRadius: BorderRadius.all(Radius.circular(20.sp))),
                   child: CircleAvatar(
-                              backgroundColor: ColorConstant.milkColor,
+                    backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.sp),
-                      child:CachedNetworkImage(
-                       imageUrl: memberAvatarUrl, fit: BoxFit.cover, height: 35.sp,
-                        width: 35.sp,
-                        
-                                  cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-                        )
-                    ),
+                        borderRadius: BorderRadius.circular(20.sp),
+                        child: CachedNetworkImage(
+                          imageUrl: memberAvatarUrl,
+                          fit: BoxFit.cover,
+                          height: 35.sp,
+                          width: 35.sp,
+                          cacheManager: CacheManager(Config(
+                            "cachedImageFiles",
+                            stalePeriod: const Duration(days: 3),
+                            //one week cache period
+                          )),
+                        )),
                   ),
                 ),
               ),

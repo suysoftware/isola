@@ -9,10 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/sign_up_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/user/sign_up.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/interest_add_page.dart';
 import 'package:isola_app/src/page/terms_privacy/agree_terms.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
@@ -65,9 +63,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
         setState(() {});
       });
 
-    ///burası değiştirilecek otomati kolarak okulunun ism iyazılacak
     t3.text = widget.userAll.isolaUserDisplay.userUniversity;
-  
   }
 
   @override
@@ -573,11 +569,11 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                     FirebaseMessaging.instance;
                                 String? token = await messaging.getToken();
 
-                                CollectionReference users_display =
+                                CollectionReference usersDisplay =
                                     FirebaseFirestore.instance
                                         .collection('users_display');
 
-                                await users_display
+                                await usersDisplay
                                     .doc(_auth.currentUser!.uid)
                                     .update({
                                   'uPic': value,
@@ -590,45 +586,6 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                   'uNonBinary': isOther,
                                   'uDbToken': token,
                                 });
-
-//widget.userDisplay.avatarUrl = value;
-
-                                ///// eskiler
-                                /*  var refAvatarUrl = refGetter(
-                                    enum2: RefEnum.Useravatar,
-                                    targetUid:
-                                        widget.userAll.isolaUserMeta.userUid,
-                                    userUid:
-                                        widget.userAll.isolaUserMeta.userUid,
-                                    crypto: "");
-                                var refUserDisplay = refGetter(
-                                    enum2: RefEnum.Userdisplay,
-                                    targetUid:
-                                        widget.userAll.isolaUserMeta.userUid,
-                                    userUid:
-                                        widget.userAll.isolaUserMeta.userUid,
-                                    crypto: "");
-
-                                refAvatarUrl.set(value);
-
-                                refUserDisplay
-                                    .child("user_name")
-                                    .set("${t1.text} ${t2.text}");
-                                refUserDisplay
-                                    .child("user_university")
-                                    .set(t3.text);
-
-                                refUserDisplay
-                                    .child("user_sex")
-                                    .set(isMale == true
-                                        ? true
-                                        : isFemale == true
-                                            ? false
-                                            : true);
-
-                                refUserDisplay
-                                    .child("user_is_non_binary")
-                                    .set(isOther);*/
 
                                 widget.userAll.isolaUserDisplay.avatarUrl =
                                     value;
@@ -649,11 +606,11 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                   FirebaseMessaging.instance;
                               String? token = await messaging.getToken();
 
-                              CollectionReference users_display =
+                              CollectionReference usersDisplay =
                                   FirebaseFirestore.instance
                                       .collection('users_display');
 
-                              await users_display
+                              await usersDisplay
                                   .doc(_auth.currentUser!.uid)
                                   .update({
                                 'uName': "${t1.text} ${t2.text}",
@@ -666,36 +623,6 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 'uDbToken': token,
                               });
 
-                              ///////////////
-                              /*
-                              var refUserDisplay = refGetter(
-                                  enum2: RefEnum.Userdisplay,
-                                  targetUid:
-                                      widget.userAll.isolaUserMeta.userUid,
-                                  userUid: widget.userAll.isolaUserMeta.userUid,
-                                  crypto: "");
-
-                              refUserDisplay
-                                  .child("user_name")
-                                  .set("${t1.text} ${t2.text}");
-                              refUserDisplay
-                                  .child("user_university")
-                                  .set(t3.text);
-
-                              refUserDisplay
-                                  .child("user_sex")
-                                  .set(isMale == true
-                                      ? true
-                                      : isFemale == true
-                                          ? false
-                                          : true);
-
-                              refUserDisplay
-                                  .child("user_is_non_binary")
-                                  .set(isOther);
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              */
-                              //resim yok
                               Navigator.push(
                                   context,
                                   CupertinoPageRoute(
@@ -820,7 +747,6 @@ class _AddProfileSignUpPhotoContainerState
                 child: SizedBox(
                   height: 45.h,
                   width: 95.w,
-                  // color: ColorConstant.addTimelinePost,
                   child: file == null
                       ? GestureDetector(
                           onTap: () {
@@ -836,25 +762,18 @@ class _AddProfileSignUpPhotoContainerState
                         )
                       : ExtendedImage.file(
                           file!,
-                          //  scale: 2.6,
                           extendedImageGestureKey: gestureKey,
-
-                          //   shape: BoxShape.circle,
                           mode: ExtendedImageMode.gesture,
                           fit: BoxFit.fill,
                           border: Border.all(
                               color: ColorConstant.iGradientMaterial4,
                               width: 1.0),
-
                           borderRadius:
                               BorderRadius.all(Radius.circular(70.sp)),
-
                           initGestureConfigHandler: (state) {
                             return GestureConfig(
                                 maxScale: 4.0,
                                 cacheGesture: true,
-                                //  cropRectPadding: EdgeInsets.all(10.0),
-                                //hitTestSize: 10.0,
                                 initialAlignment: InitialAlignment.center,
                                 gestureDetailsIsChanged:
                                     (GestureDetails? details) {
@@ -867,11 +786,7 @@ class _AddProfileSignUpPhotoContainerState
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: GestureDetector(
-                  onTap: () {
-                    // print(t1.text);
-
-                    //  Navigator.pop(context);
-                  },
+                  onTap: () {},
                   child: Container(
                     height: 5.h,
                     width: 40.w,

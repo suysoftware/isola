@@ -8,7 +8,7 @@ Future<void> groupChaosApply(String uid, String groupNo) async {
     
     'memberUid':uid,
     'groupNo':groupNo,
-    'operationTime':DateTime.now().add(Duration(minutes: 7)).toUtc(),
+    'operationTime':DateTime.now().add(const Duration(minutes: 7)).toUtc(),
     
     
     });

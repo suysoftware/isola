@@ -1,34 +1,26 @@
-// ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables, unused_local_variable, avoid_print, avoid_init_to_null
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
-import 'package:isola_app/src/model/hive_models/user_hive.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
-import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
-import '../blocs/current_chat_cubit.dart';
 import '../service/firebase/storage/feedshare/add_image_feeds.dart';
-import '../widget/hero_preview.dart';
 import '../widget/search_detail.dart';
 
 int feedAllControl = 0;
@@ -37,7 +29,7 @@ void amountUpdater(int updateValue) async {
 }
 
 class SearchPage extends StatefulWidget {
-   SearchPage({Key? key, required this.user, required this.userAll})
+   const SearchPage({Key? key, required this.user, required this.userAll})
       : super(key: key);
   final User user;
   final IsolaUserAll userAll;
@@ -47,19 +39,14 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  RefreshController _refreshController =
+  final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  //late var searchHistoryData;
-  var searchFeed = <FeedMeta>[];
+
+
   int loadingValue = 2;
 
-  //dynamic searchHistory = <String>[];
 
-  //void _historyGetter(List _list) {
-  // searchHistoryData = _list;
-  // print(_list);
-  //}
 
   void _onRefresh() async {
     // monitor network fetch
@@ -67,8 +54,7 @@ class _SearchPageState extends State<SearchPage> {
 
     // if failed,use refreshFailed()
     setState(() {
-      // BasicGridWidget.explorerUpdate(widget.user);
-      // BasicGridWidget.explorerGetter(widget.user);
+  
 
       BasicGridWidget.gtGetterReset();
     });
@@ -77,33 +63,21 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _onLoading() async {
-    List<GridTile> gTile = BasicGridWidget.feedValue;
     if (BasicGridWidget.feedValue.length >= feedAllControl) {
-      /*
-      setState(() {
-        //   BasicGridWidget.gtMixer();
-        BasicGridWidget.explorerGetter(widget.user);
-        BasicGridWidget.gtGetterReset();
-        _refreshController.loadComplete();
-        // _onRefresh();
-      });*/
+
       feedAllControl = 0;
       _refreshController.loadNoData();
 
-     // print("aha");
-    } else {
-     // print("bscgridfeedvalue ${BasicGridWidget.feedValue.length}");
 
-      // print("gtilelength ${gTile.length}");
-      // monitor network fetch
+    } else {
+
       await Future.delayed(const Duration(milliseconds: 1000));
-      // if failed,use loadFailed(),if no data return,use LoadNodata()
+   
 
       if (mounted) {
         setState(() {
           BasicGridWidget.gtGetter();
-          //   loadingValue = loadingValue + 1;
-          //   print(loadingValue);
+       
         });
       }
       _refreshController.loadComplete();
@@ -114,18 +88,8 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
 
-    //print(widget.userAll.isolaUserMeta.userToken);
     widget.userAll.isolaUserMeta.userToken =
         context.read<UserAllCubit>().state.isolaUserMeta.userToken;
-   // print('////////');
-  //  print(widget.userAll.isolaUserMeta.userToken);
-  //  print('////////');
-
-
-
-
-        
-
 
   }
 
@@ -137,13 +101,11 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
 
-  print(100.h);
-    print(100.w);
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           trailing: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Container(
+            child: SizedBox(
               height: 50,
               width: 50,
               child: Padding(
@@ -205,7 +167,7 @@ class _SearchPageState extends State<SearchPage> {
 int downloadedItem = 0;
 
 class BasicGridWidget extends StatefulWidget {
-   BasicGridWidget(
+   const BasicGridWidget(
       {Key? key, required this.userUid, required this.userMeta, })
       : super(key: key);
 
@@ -215,42 +177,22 @@ class BasicGridWidget extends StatefulWidget {
   static void gtGetter() {
     feedValue.addAll(tiles2);
 
-    //  context.read<SearchCubit>().feedValueLoader(feedValue);
+
   }
 
-  static void gtMixer() {
-    feedValue.shuffle();
-
-    //  context.read<SearchCubit>().feedValueLoader(feedValue);
-  }
 
   static void gtGetterReset() {
     feedValue.clear();
     feedValue.addAll(tiles2);
 
-    //  context.read<SearchCubit>().feedValueLoader(feedValue);
   }
 
-  static void feedAdder(int cac, int mac) {
-    feedValue.add(GridTile(cac, mac));
-  }
+
 
   static var exploreHistoryState = <String>[];
 
-  static void explorerUpdate(User user) async {
-    // updateExploreData(exploreHistoryState,user.uid, user.uid);
-  ///  await exploreHistoryItemsSave(exploreHistoryState);
-  }
 
-  static void explorerGetter(User user) async {
-    //  explorerDataGetter(user.uid).then((value) => alreadySeem = value);
 
-    var box = await Hive.openBox('userHive');
-
-    UserHive userHive = box.get('datetoday');
-
-    alreadySeem = userHive.exloreData;
-  }
 
   static var alreadySeem = <dynamic>[];
 
@@ -311,14 +253,10 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var searchDatas = <IsolaFeedModel>[];
-            var exploreHistory = <String>[];
-            //  var allDataAmount = <IsolaFeedModel>[];
-
+     
             final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
-            //    List<dynamic> itemList =
-            //      documents.map((doc) => doc['feed_image']).toList();
+       
             List<dynamic> itemDatas = documents
                 .map((doc) => IsolaImageFeedModel(
                     doc['feed_date'],
@@ -337,9 +275,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['feed_token_list']))
                 .toList();
 
-           // print(itemDatas);
-            //print('////////////');
-
+    
             if (itemDatas.length < BasicGridWidget.feedValue.length &&
                 itemDatas.isNotEmpty) {
               int deleteNeed =
@@ -355,12 +291,9 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                 }
               }
             }
-            //  itemDatas.shuffle();
-            // itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
+       
 
-            for (IsolaImageFeedModel item in itemDatas) {
-             // print(item.feedImageUrl);
-            }
+         
             amountUpdater((itemDatas.length) );
             return itemDatas.isEmpty
                 ? Center(
@@ -383,7 +316,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                           mainAxisCellCount: tile.mainAxisCount,
                           child: GestureDetector(
                             onTap: () {
-                              //print('ilk $index');
+                  
                               _openDetail(context, index, itemDatas,
                                   widget.userUid, widget.userMeta, index);
                             },
@@ -391,7 +324,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                               index: index,
                               width: tile.crossAxisCount * 100,
                               height: tile.mainAxisCount * 100,
-                              //   imageUrl: searchDatas[index].feedImageUrl,
+                       
                               imageUrl: itemDatas[index].feedImageUrl,
                             ),
                           ),
@@ -414,9 +347,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
 
 _openDetail(context, index, List<dynamic> imageItemList, String userUid,
     IsolaUserMeta userMeta, int sira,) {
- // print(userMeta.userToken);
-  //print(sira);
-  //imageItemList.sort((a, b) => a.feedDate.compareTo(b.feedDate));
+
 
   List<dynamic> slicedList = imageItemList.slice(sira);
 
@@ -487,7 +418,7 @@ class _ImageTileState extends State<ImageTile> {
     ),
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) =>
-                        Icon(CupertinoIcons.xmark_square),
+                        const Icon(CupertinoIcons.xmark_square),
                   ),
                 ),
               ),
@@ -518,14 +449,12 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
     with TickerProviderStateMixin {
   var t1 = TextEditingController();
 
-  File? file = null;
+  File? file;
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
       preferredCameraDevice:CameraDevice.rear
         source: ImageSource.gallery,
-     //   maxHeight: 1000,
-        
-       // maxWidth: 600,
+
         imageQuality: 100);
     file = File(xfile!.path);
     setState(() {});
@@ -536,7 +465,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     super.dispose();
   }
 
@@ -578,11 +507,11 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                 child: SizedBox(
                   height: 45.h,
                   width: 95.w,
-                  // color: ColorConstant.addTimelinePost,
+               
                   child: file == null
                       ? GestureDetector(
                           onTap: () {
-                           // print("dd");
+      
 
                             chooseImage();
                           },
@@ -608,13 +537,13 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                             
                                 cornerColor: ColorConstant.iGradientMaterial4,
                                 maxScale: 4.0,
-                              //  cropRectPadding: const EdgeInsets.all(15.0),
+                       
                                 hitTestSize: 10.0,
                                 initCropRectType: InitCropRectType.layoutRect,// imageRect,
                                 cropAspectRatio: CropAspectRatios.ratio6_10,
                                 editActionDetailsIsChanged:
                                     (EditActionDetails? details) {
-                                  //print(details?.totalScale);
+                           
                                 });
                           },
                         ),
@@ -650,12 +579,8 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                                 widget.userAll.isolaUserDisplay.userUniversity,
                           );
 
-                          /* widget.userAll.isolaUserMeta.userUid,
-                              widget.userAll.isolaUserDisplay.avatarUrl,
-                              value,
-                              fileID,
-                              widget.userAll.isolaUserDisplay.userUniversity,
-                              false);*/
+                   
+                
                         }).whenComplete(() {
                           Navigator.pop(context);
                           Navigator.pop(context);
@@ -665,7 +590,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                         showCupertinoDialog(
                             context: context,
                             builder: (BuildContext context) =>
-                                AnimatedLiquidCircularProgressIndicator());
+                                const AnimatedLiquidCircularProgressIndicator());
                       },
                       child: Container(
                         padding: const EdgeInsets.all(1.0),
@@ -722,75 +647,3 @@ class CropAspectRatios {
 }
 
 
-
-
-/*
-
-
-
- return StreamBuilder<dynamic>(
-        stream: refSearch.onValue,
-        builder: (context, event) {
-          if (event.hasData) {
-            var searchDatas = <FeedMeta>[];
-            var exploreHistory = <String>[];
-            var allDataAmount = <FeedMeta>[];
-            downloadedItem = downloadedItem + 1;
-            var gettingSearch = event.data.snapshot.value as Map;
-
-            gettingSearch.forEach((key, value) {
-              var imageFeed = FeedMeta.fromJson(value);
-              allDataAmount.add(imageFeed);
-
-              if (imageFeed.feedIsImage == true &&
-                  exploreHistory.length <= feedValue.length) {
-                if (exploreHistory.contains(imageFeed.feedNo) != true) {
-                  if (alreadySeem.contains(imageFeed.feedNo) != true) {
-                    searchDatas.add(imageFeed);
-                    // String explorerItem = imageFeed.feedNo;
-                    exploreHistory.add(imageFeed.feedNo);
-
-                    if (exploreHistoryState.contains(imageFeed.feedNo) !=
-                        true) {
-                      exploreHistoryState.add(imageFeed.feedNo);
-                    }
-
-                    print("Feed miktarı ${exploreHistory.length}");
-                    print("Feed No :  ${imageFeed.feedNo}");
-                  }
-                }
-              }
-            });
-
-            amountUpdater((allDataAmount.length) - 20);
-
-            return StaggeredGrid.count(
-              crossAxisCount: 3,
-              children: [
-                ...feedValue.mapIndexed((index, tile) {
-                  return StaggeredGridTile.count(
-                    crossAxisCellCount: tile.crossAxisCount,
-                    mainAxisCellCount: tile.mainAxisCount,
-                    child: ImageTile(
-                      index: index,
-                      width: tile.crossAxisCount * 100,
-                      height: tile.mainAxisCount * 100,
-                      imageUrl: searchDatas[index].feedImageUrl,
-                    ),
-                  );
-                })
-              ],
-            );
-          } else {
-            return Center(
-              child: CupertinoActivityIndicator(
-                animating: true,
-                radius: 12.sp,
-              ),
-            );
-          }
-        });
-
-
-
-*/

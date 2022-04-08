@@ -5,11 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/document_chat_cont_left.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/image_chat_cont_left.dart';
 import 'package:isola_app/src/page/groupchat/attachment_message_balloon/video_chat_cont_left.dart';
-import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
 import 'package:isola_app/src/page/groupchat/chatting_page.dart';
 import 'package:sizer/sizer.dart';
 
@@ -46,27 +44,27 @@ class AttachmentMessageBalloonLeft extends StatelessWidget {
         Column(
           children: [
             GestureDetector(
-               onTap: ()=>showCupertinoDialog(
-                                context: context,
-                                builder: (context) => CupertinoPageScaffold(
-                                    navigationBar: const CupertinoNavigationBar(
-                                      automaticallyImplyLeading: true,
-                                    ),
-                                    child: Center(
-                                        child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: memberAvatarUrl,
-                                        fit: BoxFit.fill,
-                                        errorWidget: (context, url, error) =>
-                                            Icon(CupertinoIcons.xmark_square),
-                                        cacheManager: CacheManager(Config(
-                                          "cachedImageFiles",
-                                          stalePeriod: const Duration(days: 3),
-                                          //one week cache period
-                                        )),
-                                      ),
-                                    )))),
+              onTap: () => showCupertinoDialog(
+                  context: context,
+                  builder: (context) => CupertinoPageScaffold(
+                      navigationBar: const CupertinoNavigationBar(
+                        automaticallyImplyLeading: true,
+                      ),
+                      child: Center(
+                          child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: CachedNetworkImage(
+                          imageUrl: memberAvatarUrl,
+                          fit: BoxFit.fill,
+                          errorWidget: (context, url, error) =>
+                              const Icon(CupertinoIcons.xmark_square),
+                          cacheManager: CacheManager(Config(
+                            "cachedImageFiles",
+                            stalePeriod: const Duration(days: 3),
+                            //one week cache period
+                          )),
+                        ),
+                      )))),
               child: Container(
                 height: 100.h >= 1100 ? 21.sp : 30.sp,
                 width: 100.h >= 1100 ? 21.sp : 30.sp,
@@ -79,7 +77,8 @@ class AttachmentMessageBalloonLeft extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         color: ColorConstant.milkColor,
-                        border: Border.all(color: ColorConstant.transparentColor),
+                        border:
+                            Border.all(color: ColorConstant.transparentColor),
                         borderRadius: BorderRadius.all(Radius.circular(20.sp))),
                     child: CircleAvatar(
                       backgroundColor: ColorConstant.milkColor,
@@ -88,7 +87,7 @@ class AttachmentMessageBalloonLeft extends StatelessWidget {
                         child: CachedNetworkImage(
                           imageUrl: memberAvatarUrl,
                           errorWidget: (context, url, error) =>
-                              Icon(CupertinoIcons.xmark_square),
+                              const Icon(CupertinoIcons.xmark_square),
                           cacheManager: CacheManager(Config(
                             "cachedImageFiles",
                             stalePeriod: const Duration(days: 3),
@@ -114,12 +113,7 @@ class AttachmentMessageBalloonLeft extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 0.0),
-                child: Text(memberName,
-                    style:
-                        targetTextStyle /* 100.h <= 1100
-                      ? StyleConstants.chatNameTextStyle1
-                      : StyleConstants.chatTabletNameTextStyle1,*/
-                    ),
+                child: Text(memberName, style: targetTextStyle),
               ),
               Padding(
                   padding: EdgeInsets.fromLTRB(2.w, 0.0, 0.0, 0.0),

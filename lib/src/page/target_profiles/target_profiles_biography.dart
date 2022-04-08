@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
-import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
@@ -42,8 +40,6 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseDatabase _refConnect = FirebaseDatabase.instance;
   late User user;
-  // ignore: prefer_typing_uninitialized_variables
-  //late var _refBio;
 
   void _onRefresh() async {}
 
@@ -52,14 +48,6 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
   @override
   void initState() {
     super.initState();
-    /*
-    user = auth.currentUser!;
-    _refBio = refGetter(
-      enum2: RefEnum.Userdisplay,
-      userUid: user.uid,
-      targetUid: user.uid,
-      crypto: '',
-    );*/
   }
 
   @override
@@ -73,7 +61,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
         future: getUserDisplay(widget.targetUid),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CupertinoActivityIndicator());
+            return const Center(child: CupertinoActivityIndicator());
           }
           var userDisplay = snapshot.data as IsolaUserDisplay;
           return Flexible(
@@ -116,7 +104,8 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                     children: [
                       Padding(
                         padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                        child: Text("Club & Activities (coming soon)", style: biographyStyle),
+                        child: Text("Club & Activities (coming soon)",
+                            style: biographyStyle),
                       ),
                     ],
                   ),
@@ -246,11 +235,8 @@ class ClubGridView extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(4.w, 0.0, 0.0, 0.0),
       child: GridView.builder(
         scrollDirection: Axis.horizontal,
-        // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //   mainAxisSpacing: 20.w, crossAxisCount: 1, childAspectRatio: 2 / 1),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1, mainAxisExtent: 45.w, mainAxisSpacing: 3.w),
-
         padding: EdgeInsets.zero,
         itemCount: 10,
         itemBuilder: (context, indeks) {
@@ -286,14 +272,12 @@ class ClubImageTile extends StatelessWidget {
           imageUrl: 'https://picsum.photos/$width/$height?random=$index',
           fit: BoxFit.cover,
           errorWidget: (context, url, error) =>
-              Icon(CupertinoIcons.xmark_square),
-                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+              const Icon(CupertinoIcons.xmark_square),
+          cacheManager: CacheManager(Config(
+            "cachedImageFiles",
+            stalePeriod: const Duration(days: 3),
+            //one week cache period
+          )),
         ),
       ),
     );

@@ -91,11 +91,6 @@ class Authentication {
       await FirebaseAuth.instance.signOut();
     } catch (e) {
       print(e);
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //    Authentication.customSnackBar(
-      //    content: 'Error signing out. Try again.',
-      //),
-      //);
     }
   }
 }

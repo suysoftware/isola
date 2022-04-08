@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/page/groupchat/chat_interior_page.dart';
 import 'package:isola_app/src/page/groupchat/chatting_page.dart';
 import 'package:isola_app/src/page/groupchat/text_message_balloon/text_chat_container_right.dart';
 import 'package:sizer/sizer.dart';
@@ -42,7 +41,8 @@ class TextMessageBalloonRight extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 0.0, 2.w, 0.0),
                 child: TextChatContRight(
-                  targetMesaj: memberMessage, messageTime: memberMessageTime,
+                  targetMesaj: memberMessage,
+                  messageTime: memberMessageTime,
                 ),
               ),
             ],
@@ -70,21 +70,17 @@ class TextMessageBalloonRight extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.sp),
                       child: CachedNetworkImage(
-                      imageUrl:  memberAvatarUrl,
+                        imageUrl: memberAvatarUrl,
                         fit: BoxFit.cover,
                         height: 35.sp,
                         width: 35.sp,
-                         errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
-                                                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(CupertinoIcons.xmark_square),
+                        cacheManager: CacheManager(Config(
+                          "cachedImageFiles",
+                          stalePeriod: const Duration(days: 3),
+                          //one week cache period
+                        )),
                       ),
                     ),
                   ),

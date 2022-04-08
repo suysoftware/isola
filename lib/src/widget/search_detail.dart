@@ -2,22 +2,12 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/model/feeds/feed_meta.dart';
-import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
-import 'package:isola_app/src/model/hive_models/user_hive.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
-import 'package:isola_app/src/page/groupchat/chatting_page.dart';
-import 'package:isola_app/src/page/profile/profile_media_page.dart';
-import 'package:isola_app/src/page/target_profiles/target_profiles_media.dart';
 import 'package:isola_app/src/service/firebase/storage/deleting/feed_delete.dart';
-import 'package:isola_app/src/service/firebase/storage/explore_history.dart';
-import 'package:isola_app/src/service/firebase/storage/feedshare/feed_timestamp.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/report_sheets.dart';
 import 'package:like_button/like_button.dart';
@@ -33,6 +23,7 @@ void amountUpdater(int updateValue) async {
   feedAllControl = updateValue;
 }
 
+// ignore: must_be_immutable
 class SearchDetail extends StatefulWidget {
   final List<dynamic> imageItemList;
   int index;
@@ -42,12 +33,14 @@ class SearchDetail extends StatefulWidget {
   bool isProfile;
 
   SearchDetail(
-      {required this.imageItemList,
+      {Key? key,
+      required this.imageItemList,
       required this.index,
       required this.userUid,
       required this.userMeta,
       required this.itemLoc,
-      required this.isProfile});
+      required this.isProfile})
+      : super(key: key);
   @override
   _SearchDetailState createState() => _SearchDetailState();
 }
@@ -57,7 +50,7 @@ class _SearchDetailState extends State<SearchDetail> {
       RefreshController(initialRefresh: false);
 
   //late var searchHistoryData;
-  var searchFeed = <FeedMeta>[];
+
   int loadingValue = 2;
   // var newItemList=<dynamic>[];
 
@@ -67,16 +60,12 @@ class _SearchDetailState extends State<SearchDetail> {
       feedAllControl = 0;
       _refreshController.loadNoData();
     } else {
-      // print("gtilelength ${gTile.length}");
-      // monitor network fetch
       await Future.delayed(const Duration(milliseconds: 1000));
       // if failed,use loadFailed(),if no data return,use LoadNodata()
 
       if (mounted) {
         setState(() {
           BasicGridWidget.gtGetter();
-          //   loadingValue = loadingValue + 1;
-          //   print(loadingValue);
         });
       }
       _refreshController.loadComplete();
@@ -91,11 +80,9 @@ class _SearchDetailState extends State<SearchDetail> {
       BasicGridWidget.feedValue.clear();
 
       for (var i = 0; i < widget.imageItemList.length; i++) {
-        BasicGridWidget.feedValue.add(GridTile(3, 5));
+        BasicGridWidget.feedValue.add(const GridTile(3, 5));
       }
     }
-    //  newItemList.addAll(widget.imageItemList.slice(widget.index));
-    //newItemList.sort((b, a) => a.feedDate.compareTo(b.feedDate));
   }
 
   @override
@@ -153,42 +140,6 @@ class BasicGridWidget extends StatefulWidget {
 
     //  context.read<SearchCubit>().feedValueLoader(feedValue);
   }
-
-  static void gtMixer() {
-    feedValue.shuffle();
-
-    //  context.read<SearchCubit>().feedValueLoader(feedValue);
-  }
-
-  static void gtGetterReset() {
-    feedValue.clear();
-    feedValue.addAll(tiles2);
-
-    //  context.read<SearchCubit>().feedValueLoader(feedValue);
-  }
-
-  static void feedAdder(int cac, int mac) {
-    feedValue.add(GridTile(cac, mac));
-  }
-
-  static var exploreHistoryState = <String>[];
-
-  static void explorerUpdate(User user) async {
-    // updateExploreData(exploreHistoryState,user.uid, user.uid);
-    ///  await exploreHistoryItemsSave(exploreHistoryState);
-  }
-
-  static void explorerGetter(User user) async {
-    //  explorerDataGetter(user.uid).then((value) => alreadySeem = value);
-
-    var box = await Hive.openBox('userHive');
-
-    UserHive userHive = box.get('datetoday');
-
-    alreadySeem = userHive.exloreData;
-  }
-
-  static var alreadySeem = <dynamic>[];
 
   static const tiles2 = [
     GridTile(3, 5),
@@ -266,101 +217,15 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     width: tile.crossAxisCount * 100,
                     height: tile.mainAxisCount * 100,
                     imageUrl: widget.imageItemList[index].feedImageUrl,
-                    // imageUrl: itemDatas[index].feedImageUrl,
                     userUid: widget.userUid,
                     imageItemList: widget.imageItemList,
-                    userMeta: widget.userMeta, isProfile: widget.isProfile,
+                    userMeta: widget.userMeta,
+                    isProfile: widget.isProfile,
                   ),
                 );
               })
             ],
           );
-
-    /*
-    StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collectionGroup('image_feeds')
-            .limit(BasicGridWidget.feedValue.length + 30)
-            .snapshots(includeMetadataChanges: true),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var searchDatas = <IsolaFeedModel>[];
-            var exploreHistory = <String>[];
-            //  var allDataAmount = <IsolaFeedModel>[];
-
-            final List<DocumentSnapshot> documents = snapshot.data!.docs;
-
-            //    List<dynamic> itemList =
-            //      documents.map((doc) => doc['feed_image']).toList();
-          List<dynamic> itemDatas = documents
-                .map((doc) => IsolaImageFeedModel(
-                    doc['feed_date'],
-                    doc['feed_no'],
-                    doc['feed_image'],
-                    doc['like_list'],
-                    doc['like_value'],
-                    doc['user_avatar_url'],
-                    doc['user_name'],
-                    doc['user_uid'],
-                    doc['user_loc'],
-                    doc['feed_visibility'],
-                    doc['feed_report_value'],
-                    doc['user_university'],
-                    doc['feed_token'],
-                    doc['feed_token_list']))
-                .toList()..sort((a, b) => a.feedDate.compareTo(b.feedDate));
-
-            //  itemDatas.shuffle();
-            //   itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
-/*
-            for (IsolaImageFeedModel item in itemDatas) {
-              print(item.feedImageUrl);
-            }*/
-            amountUpdater((itemDatas.length) - 20);
-            return itemDatas.isEmpty
-                ? Center(
-                    child: Column(
-                    children: [
-                      Icon(
-                        CupertinoIcons.photo,
-                        size: 65.sp,
-                        color: ColorConstant.softGrey,
-                      ),
-                      const Text("You have not image")
-                    ],
-                  ))
-                : StaggeredGrid.count(
-                    crossAxisCount: 3,
-                    children: [
-                      ...BasicGridWidget.feedValue.mapIndexed((index, tile) {
-                        return StaggeredGridTile.count(
-                          crossAxisCellCount: tile.crossAxisCount,
-                          mainAxisCellCount: tile.mainAxisCount,
-                          child: BoneOfPost(
-                            index: index,
-                            width: tile.crossAxisCount * 100,
-                            height: tile.mainAxisCount * 100,
-                            imageUrl: itemDatas[widget.lastIndex]
-                                .feedImageUrl,
-                            // imageUrl: itemDatas[index].feedImageUrl,
-                            userUid: widget.userUid,
-                            imageItemList: itemDatas,
-                            userMeta: widget.userMeta,
-                          ),
-                        );
-                      })
-                    ],
-                  );
-          } else if (snapshot.hasError) {
-            return const Text('It Error!');
-          } else {
-            return Center(
-                child: CupertinoActivityIndicator(
-              animating: true,
-              radius: 15.sp,
-            ));
-          }
-        });*/
   }
 }
 
@@ -411,12 +276,11 @@ class _PostTileState extends State<PostTile> {
                 width: 100.w,
                 child: FittedBox(
                   fit: BoxFit.cover,
-                  child: /*Image.network(widget.imageUrl,fit: BoxFit.cover,)*/
-                      CachedNetworkImage(
+                  child: CachedNetworkImage(
                     imageUrl: widget.imageUrl,
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) =>
-                        Icon(CupertinoIcons.xmark_square),
+                        const Icon(CupertinoIcons.xmark_square),
                     cacheManager: CacheManager(Config(
                       "cachedImageFiles",
                       stalePeriod: const Duration(days: 3),
@@ -507,7 +371,7 @@ class BoneOfPost extends StatelessWidget {
                           builder: (context) => CupertinoAlertDialog(
                                 actions: [
                                   CupertinoButton(
-                                      child: Text('Delete Post'),
+                                      child: const Text('Delete Post'),
                                       onPressed: () {
                                         imageFeedDelete(
                                             imageItemList[index].feedNo,
@@ -517,7 +381,7 @@ class BoneOfPost extends StatelessWidget {
                                             context, navigationBar);
                                       }),
                                   CupertinoButton(
-                                      child: Text('Back'),
+                                      child: const Text('Back'),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       }),
@@ -540,7 +404,6 @@ class BoneOfPost extends StatelessWidget {
           ),
         ),
         Align(
-      
           alignment: Alignment.bottomCenter,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -757,9 +620,10 @@ class BoneOfPost extends StatelessWidget {
                                                     width: 7.h,
                                                     height: 7.h,
                                                     fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(CupertinoIcons
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(
+                                                            CupertinoIcons
                                                                 .xmark_square),
                                                     cacheManager:
                                                         CacheManager(Config(
@@ -777,9 +641,10 @@ class BoneOfPost extends StatelessWidget {
                                                     width: 35.sp,
                                                     height: 35.sp,
                                                     fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Icon(CupertinoIcons
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(
+                                                            CupertinoIcons
                                                                 .xmark_square),
                                                     cacheManager:
                                                         CacheManager(Config(
@@ -796,10 +661,10 @@ class BoneOfPost extends StatelessWidget {
                                                 width: 45.sp,
                                                 height: 45.sp,
                                                 fit: BoxFit.cover,
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(CupertinoIcons
-                                                            .xmark_square),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    const Icon(CupertinoIcons
+                                                        .xmark_square),
                                                 cacheManager:
                                                     CacheManager(Config(
                                                   "cachedImageFiles",
@@ -846,8 +711,11 @@ class BoneOfPost extends StatelessWidget {
               SizedBox(
                 height: 3.h,
               ),
-
-            100.h>1150?SizedBox(height: 20.h,):SizedBox(),
+              100.h > 1150
+                  ? SizedBox(
+                      height: 20.h,
+                    )
+                  : const SizedBox(),
             ],
           ),
         )
@@ -856,15 +724,10 @@ class BoneOfPost extends StatelessWidget {
   }
 
   Future<bool> onLikeButtonTapped(bool isLiked) async {
-    /// send your request here
-    //buradan final bool success= await sendRequest();
     bool success;
 
     if (isLiked == true) {
       try {
-        //   imageItemList[index].likeList.remove(userUid);
-        // imageItemList[index].likeValue--;
-
         await unLikeFeed(
             targetUid: imageItemList[index].userUid,
             userUid: userUid,
@@ -892,12 +755,6 @@ class BoneOfPost extends StatelessWidget {
 
     /// if failed, you can do nothing
     return success ? !isLiked : isLiked;
-
-    /* isUnlike == true
-        ? (success ? false : isLiked)
-        : (success ? !isLiked : isLiked);*/
-
-    //return !isLiked;
   }
 
   Future<bool> onTokenButtonTapped(bool isGave) async {
@@ -912,13 +769,6 @@ class BoneOfPost extends StatelessWidget {
         try {
           singleTokenSend(userUid, imageItemList[index].userUid,
               imageItemList[index].feedNo);
-
-          /*   await likeFeed(
-            feedLikeList: imageItemList[index].likeList,
-            targetUid: imageItemList[index].userUid,
-            userUid: userUid,
-            feedNo: imageItemList[index].feedNo,
-            isImage: true);*/
 
           //token ı var mı diye kontrol et hatta tokenı yoksa başta bu tuşa basamasın
           //token operation
@@ -940,10 +790,5 @@ class BoneOfPost extends StatelessWidget {
     }
 
     return success ? !isGave : isGave;
-    /* isUnlike == true
-        ? (success ? false : isLiked)
-        : (success ? !isLiked : isLiked);*/
-
-    //return !isLiked;
   }
 }

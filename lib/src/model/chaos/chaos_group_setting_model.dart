@@ -1,5 +1,3 @@
-
-
 class ChaosGroupSettingModel {
   late String groupNo;
   late String userUid;
@@ -17,7 +15,7 @@ class ChaosGroupSettingModel {
   late String groupMemberName5;
   late String groupMemberAvatarUrl5;
   late String groupMemberUid5;
-      late String groupMemberName6;
+  late String groupMemberName6;
   late String groupMemberAvatarUrl6;
   late String groupMemberUid6;
 
@@ -37,6 +35,8 @@ class ChaosGroupSettingModel {
       required this.groupMemberUid4,
       required this.groupMemberName5,
       required this.groupMemberAvatarUrl5,
-      required this.groupMemberUid5,required this.groupMemberName6,required this.groupMemberAvatarUrl6,required this.groupMemberUid6
-      });
+      required this.groupMemberUid5,
+      required this.groupMemberName6,
+      required this.groupMemberAvatarUrl6,
+      required this.groupMemberUid6});
 }

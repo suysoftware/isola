@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
-import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:isola_app/src/page/target_profiles/target_profiles_biography.dart';
@@ -113,15 +112,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
+      navigationBar: const CupertinoNavigationBar(
         backgroundColor: ColorConstant.milkColor,
         automaticallyImplyLeading: true,
-     /*   trailing: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: GestureDetector(
-              onTap: () {},
-              child: Image.asset("asset/img/settings_button.png")),
-        ),*/
       ),
       child: FutureBuilder(
         future: getUserDisplay(widget.targetUid),
@@ -175,8 +168,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
-                                                              Icon(CupertinoIcons
-                                                                  .xmark_square),
+                                                              const Icon(
+                                                                  CupertinoIcons
+                                                                      .xmark_square),
                                                           cacheManager:
                                                               CacheManager(
                                                                   Config(
@@ -195,8 +189,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
-                                                              Icon(CupertinoIcons
-                                                                  .xmark_square),
+                                                              const Icon(
+                                                                  CupertinoIcons
+                                                                      .xmark_square),
                                                           cacheManager:
                                                               CacheManager(
                                                                   Config(
@@ -215,8 +210,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                       fit: BoxFit.cover,
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                                          const Icon(
+                                                              CupertinoIcons
+                                                                  .xmark_square),
                                                       cacheManager:
                                                           CacheManager(Config(
                                                         "cachedImageFiles",
@@ -248,17 +244,11 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                   ? StyleConstants.profileNameTabletTextStyle
                                   : StyleConstants.profileNameTextStyle,
                             ),
-                            true
-                                ? Padding(
-                                    padding: const EdgeInsets.all(6.0),
-                                    child: Image.asset(
-                                        "asset/img/profile_online.png"),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(6.0),
-                                    child: Image.asset(
-                                        "asset/img/profile_offline.png"),
-                                  ),
+                            Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child:
+                                  Image.asset("asset/img/profile_offline.png"),
+                            ),
                           ],
                         ),
                       ),
@@ -296,13 +286,6 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                   ),
                 );
               } else {
-                /*
-                        var userDisplaySnap = snapshot.data as UserDisplay;
-                        return TimelinePage(
-                          user: user,
-                          userDisplay: userDisplay,
-                        );
-                        */
                 var targetDisplay = snapshot.data as IsolaUserDisplay;
 
                 return Container(
@@ -349,8 +332,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
-                                                              Icon(CupertinoIcons
-                                                                  .xmark_square),
+                                                              const Icon(
+                                                                  CupertinoIcons
+                                                                      .xmark_square),
                                                           cacheManager:
                                                               CacheManager(
                                                                   Config(
@@ -370,8 +354,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
-                                                              Icon(CupertinoIcons
-                                                                  .xmark_square),
+                                                              const Icon(
+                                                                  CupertinoIcons
+                                                                      .xmark_square),
                                                           cacheManager:
                                                               CacheManager(
                                                                   Config(
@@ -390,8 +375,9 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                                                       fit: BoxFit.cover,
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Icon(CupertinoIcons
-                                                              .xmark_square),
+                                                          const Icon(
+                                                              CupertinoIcons
+                                                                  .xmark_square),
                                                       cacheManager:
                                                           CacheManager(Config(
                                                         "cachedImageFiles",

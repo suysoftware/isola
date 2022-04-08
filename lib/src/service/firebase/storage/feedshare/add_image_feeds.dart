@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> addImageFeedToDatabase(
@@ -9,8 +7,6 @@ Future<void> addImageFeedToDatabase(
     required String imageFeedUrl,
     required String userUniversity,
     required bool feedIsActivity}) async {
-  Random random = new Random();
-  int randomNumber = random.nextInt(1000);
 
   DocumentReference feedImageRef =
       FirebaseFirestore.instance.collection('image_feeds_pool').doc();

@@ -6,7 +6,6 @@ import 'package:isola_app/src/page/logging_out.dart';
 import 'package:isola_app/src/page/navigationbar.dart';
 import 'package:isola_app/src/page/settings_page.dart';
 import 'package:isola_app/src/page/splash_page.dart';
-
 import '../page/groupchat/chatpage/chat_chaos/chaos_chatting_page.dart';
 
 class RouterSystem {
@@ -38,7 +37,6 @@ class RouterSystem {
 }
 
 const String loggingOutRoute = '/LoggingOut';
-//const String homePageRoute = '/HomePage';
 const String navigationBar = '/NavigationBar';
 const String chatInteriorPage = '/ChatInteriorPage';
 const String chaosChatInteriorPage = '/ChaosChatInteriorPage';

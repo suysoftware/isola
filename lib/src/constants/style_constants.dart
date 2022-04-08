@@ -1,9 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
 import 'package:sizer/sizer.dart';
 
 class StyleConstants {
@@ -190,78 +188,66 @@ class StyleConstants {
     fontSize: 18.sp,
   );
   static TextStyle searchFeedNameTextStyle = TextStyle(
-    fontFamily: "Roboto",
-    color: ColorConstant.milkColor,
-    fontSize: 16.sp,
-   shadows: [
-                                Shadow(
-                                  offset: Offset(1.sp, 1.sp),
-                                  color: ColorConstant.softGrey,
-                                  blurRadius: 5.sp
-                                )
-                              ]
-  );
+      fontFamily: "Roboto",
+      color: ColorConstant.milkColor,
+      fontSize: 16.sp,
+      shadows: [
+        Shadow(
+            offset: Offset(1.sp, 1.sp),
+            color: ColorConstant.softGrey,
+            blurRadius: 5.sp)
+      ]);
   static TextStyle searchFeedNameTabletTextStyle = TextStyle(
-    fontFamily: "Roboto",
-    color: ColorConstant.milkColor,
-    fontSize: 12.sp,
-     shadows: [
-                                Shadow(
-                                  offset: Offset(1.sp, 1.sp),
-                                  color: ColorConstant.softGrey,
-                                  blurRadius: 5.sp
-                                )
-                              ]
-  );
+      fontFamily: "Roboto",
+      color: ColorConstant.milkColor,
+      fontSize: 12.sp,
+      shadows: [
+        Shadow(
+            offset: Offset(1.sp, 1.sp),
+            color: ColorConstant.softGrey,
+            blurRadius: 5.sp)
+      ]);
   static TextStyle searchFeedLikeAndTokenTextStyle = TextStyle(
-    fontFamily: "Roboto",
-    color: ColorConstant.milkColor,
-    fontSize: 16.sp,
-   shadows: [
-                                Shadow(
-                                  offset: Offset(1.sp, 1.sp),
-                                  color: ColorConstant.softGrey,
-                                  blurRadius: 5.sp
-                                )
-                              ]
-  );
+      fontFamily: "Roboto",
+      color: ColorConstant.milkColor,
+      fontSize: 16.sp,
+      shadows: [
+        Shadow(
+            offset: Offset(1.sp, 1.sp),
+            color: ColorConstant.softGrey,
+            blurRadius: 5.sp)
+      ]);
   static TextStyle searchFeedLikeAndTokenTabletTextStyle = TextStyle(
-    fontFamily: "Roboto",
-    color: ColorConstant.milkColor,
-    fontSize: 12.sp,
-     shadows: [
-                                Shadow(
-                                  offset: Offset(1.sp, 1.sp),
-                                  color: ColorConstant.softGrey,
-                                  blurRadius: 5.sp
-                                )
-                              ]
-  );
+      fontFamily: "Roboto",
+      color: ColorConstant.milkColor,
+      fontSize: 12.sp,
+      shadows: [
+        Shadow(
+            offset: Offset(1.sp, 1.sp),
+            color: ColorConstant.softGrey,
+            blurRadius: 5.sp)
+      ]);
 
   static TextStyle searchFeedUniversityTextStyle = TextStyle(
-    fontFamily: "Roboto",
-    color: ColorConstant.milkColor,
-    fontSize: 10.sp,
-       shadows: [
-                                Shadow(
-                                  offset: Offset(1.sp, 1.sp),
-                                  color: ColorConstant.softGrey,
-                                  blurRadius: 5.sp
-                                )
-                              ]
-  );
+      fontFamily: "Roboto",
+      color: ColorConstant.milkColor,
+      fontSize: 10.sp,
+      shadows: [
+        Shadow(
+            offset: Offset(1.sp, 1.sp),
+            color: ColorConstant.softGrey,
+            blurRadius: 5.sp)
+      ]);
   static TextStyle searchFeedUniversityTabletTextStyle = TextStyle(
-    fontFamily: "Roboto",
-    color: ColorConstant.milkColor,
-    fontSize: 7.sp,
-       shadows: [
-                                Shadow(
-                                  offset: Offset(1.sp, 1.sp),
-                                  color: ColorConstant.softGrey,
-                                  blurRadius: 5.sp
-                                )
-                              ]
-  );
+      fontFamily: "Roboto",
+      color: ColorConstant.milkColor,
+      fontSize: 7.sp,
+      shadows: [
+        Shadow(
+            offset: Offset(1.sp, 1.sp),
+            color: ColorConstant.softGrey,
+            blurRadius: 5.sp)
+      ]);
   static TextStyle hobbiesTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -312,7 +298,7 @@ class StyleConstants {
     color: ColorConstant.milkColor,
     fontSize: 8.sp,
   );
-    static TextStyle chaosTimerTextStyle = TextStyle(
+  static TextStyle chaosTimerTextStyle = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.milkColor,
     fontSize: 9.sp,
@@ -349,10 +335,9 @@ class StyleConstants {
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
-
   static TextStyle chatNameTextStyle2 = TextStyle(
     fontFamily: "Roboto-Bold",
-    color:  ColorConstant.chatNameTextColor2.withOpacity(0.8),
+    color: ColorConstant.chatNameTextColor2.withOpacity(0.8),
     fontSize: 12,
     overflow: TextOverflow.fade,
   );
@@ -362,8 +347,7 @@ class StyleConstants {
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
-  
-    static TextStyle chatNameTextStyle3 = TextStyle(
+  static TextStyle chatNameTextStyle3 = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.chatNameTextColor3.withOpacity(0.8),
     fontSize: 12,
@@ -375,7 +359,6 @@ class StyleConstants {
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
-  
   static TextStyle chatNameTextStyle4 = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.chatNameTextColor4.withOpacity(0.8),
@@ -388,8 +371,7 @@ class StyleConstants {
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
-  
-    static TextStyle chatNameTextStyle5 = TextStyle(
+  static TextStyle chatNameTextStyle5 = TextStyle(
     fontFamily: "Roboto-Bold",
     color: ColorConstant.chatNameTextColor5.withOpacity(0.8),
     fontSize: 12,
@@ -401,7 +383,7 @@ class StyleConstants {
     fontSize: 24,
     overflow: TextOverflow.fade,
   );
-  
+
   BoxDecoration isGradientBoxDec(
       {required bool isGradient,
       required Gradient buttonGradient,
@@ -420,28 +402,3 @@ class StyleConstants {
   }
 }
 
-class GambitConstant {
-  static const testedList = <String>["f", "df"];
-  static const testedList2 = <String>[
-    "gardening",
-    "camping",
-    "yoga",
-    "martial",
-    "chess"
-  ];
-
-  static final gambitProfile = UserDisplay(
-      "",
-      "Grand Lotus",
-      "power in firebending comes from the breath not the muscle",
-      "",
-      "The White Lotus",
-      true,
-      true,
-      false,
-      testedList,
-      testedList2,
-      testedList,
-      testedList,
-      true);
-}

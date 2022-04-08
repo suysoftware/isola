@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:isola_app/src/model/feeds/feed_meta.dart';
 
 class PopularTimeline {
   late PopularItem popularItem1;
@@ -16,5 +15,6 @@ class PopularItem {
   late String pText;
   late int pLikeValue;
 
-  PopularItem(this.pAvatarUrl, this.pDate, this.pLink, this.pName, this.pText,this.pLikeValue);
+  PopularItem(this.pAvatarUrl, this.pDate, this.pLink, this.pName, this.pText,
+      this.pLikeValue);
 }

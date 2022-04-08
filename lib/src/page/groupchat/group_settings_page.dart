@@ -1,7 +1,6 @@
 // ignore_for_file: implementation_imports, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +13,12 @@ import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/model/user/user_display.dart';
-import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/add_friend.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_leave.dart';
-import 'package:isola_app/src/service/firebase/storage/groups/group_leave_message.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/report_sheets.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../widget/liquid_progress_indicator.dart';
 
 class GroupSettingsPage extends StatefulWidget {
@@ -42,24 +37,21 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
   late List<dynamic> joinedList;
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late IsolaUserAll userAll;
+  // ignore: prefer_typing_uninitialized_variables
   late var refChatInterior;
   @override
   void initState() {
     super.initState();
-
     userAll = context.read<UserAllCubit>().state;
-
     groupSettingModel = context.read<GroupSettingCubit>().state;
     joinedList = context.read<JoinedListCubit>().state;
-
     refChatInterior = context.read<ChatReferenceCubit>().state;
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
+        navigationBar: const CupertinoNavigationBar(
           automaticallyImplyLeading: true,
           backgroundColor: ColorConstant.milkColor,
         ),
@@ -75,27 +67,20 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                       circleImage: CircleAvatar(
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(70.sp),
-                      child: /*Image.network(
-                          groupSettingModel.groupMemberAvatarUrl2),*/
-
-                       CachedNetworkImage(
-
+                        borderRadius: BorderRadius.circular(70.sp),
+                        child: CachedNetworkImage(
                           imageUrl: groupSettingModel.groupMemberAvatarUrl2,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
-                              Icon(CupertinoIcons.xmark_square),
-                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-                        )
-                    ),
+                              const Icon(CupertinoIcons.xmark_square),
+                          cacheManager: CacheManager(Config(
+                            "cachedImageFiles",
+                            stalePeriod: const Duration(days: 3),
+                            //one week cache period
+                          )),
+                        )),
                   ))),
               Positioned(
                   top: 5.h,
@@ -105,25 +90,20 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     radius: 100.h <= 1100 ? 55.sp : 35.sp,
                     backgroundColor: ColorConstant.milkColor,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(70.sp),
-                      child:/* Image.network(groupSettingModel
-                          .groupMemberAvatarUrl3),*/ 
-                          CachedNetworkImage(
+                        borderRadius: BorderRadius.circular(70.sp),
+                        child: CachedNetworkImage(
                           imageUrl: groupSettingModel.groupMemberAvatarUrl3,
                           fit: BoxFit.cover,
                           height: 110.sp,
                           width: 110.sp,
                           errorWidget: (context, url, error) =>
-                              Icon(CupertinoIcons.xmark_square),
-                                        cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-                        )
-                    ),
+                              const Icon(CupertinoIcons.xmark_square),
+                          cacheManager: CacheManager(Config(
+                            "cachedImageFiles",
+                            stalePeriod: const Duration(days: 3),
+                            //one week cache period
+                          )),
+                        )),
                   ))),
               Positioned(
                   top: 100.h <= 700 ? 28.h : 25.h,
@@ -160,25 +140,20 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     circleImage: CircleAvatar(
                                   backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(18.sp),
-                                      child:/* Image.network(
-                                        groupSettingModel.groupMemberAvatarUrl1,
-                                      )*/
-                                           CachedNetworkImage(
+                                    borderRadius: BorderRadius.circular(18.sp),
+                                    child: CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl1,
                                       errorWidget: (context, url, error) =>
-                                          Icon(CupertinoIcons.xmark_square),
-                                                    cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                          const Icon(
+                                              CupertinoIcons.xmark_square),
+                                      cacheManager: CacheManager(Config(
+                                        "cachedImageFiles",
+                                        stalePeriod: const Duration(days: 3),
+                                        //one week cache period
+                                      )),
                                     ),
-                                      ),
+                                  ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
                               ),
@@ -214,34 +189,28 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                           Row(
                             children: [
                               Padding(
-                                //padding: EdgeInsets.fromLTRB(3.w, 1.h, 0.0, 1.h),
                                 padding: EdgeInsets.only(left: 3.w),
                                 child: CircleImageContainer(
                                     circleImage: CircleAvatar(
                                   backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(20.sp),
-                                      child:/* Image.network(
-                                        groupSettingModel.groupMemberAvatarUrl2,
-                                      )*/
-                                      CachedNetworkImage(
+                                    borderRadius: BorderRadius.circular(20.sp),
+                                    child: CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl2,
                                       fit: BoxFit.cover,
                                       height: 50.sp,
                                       width: 50.sp,
                                       errorWidget: (context, url, error) =>
-                                          Icon(CupertinoIcons.xmark_square),
-                                                    cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                          const Icon(
+                                              CupertinoIcons.xmark_square),
+                                      cacheManager: CacheManager(Config(
+                                        "cachedImageFiles",
+                                        stalePeriod: const Duration(days: 3),
+                                        //one week cache period
+                                      )),
                                     ),
-                                      ),
+                                  ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
                               ),
@@ -277,9 +246,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                             : const Icon(
                                                 CupertinoIcons.clock_fill,
                                               ),
-                                        onPressed: () {
-                                        //  print('zaten pending');
-                                        })
+                                        onPressed: () {})
                                     : userAll.isolaUserMeta.userBlocked
                                             .contains(groupSettingModel
                                                 .groupMemberUid2)
@@ -298,9 +265,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                     color:
                                                         ColorConstant.redAlert,
                                                   ),
-                                            onPressed: () {
-                                         //     print('zaten pending');
-                                            })
+                                            onPressed: () {})
                                         : CupertinoButton(
                                             child: 100.h >= 1100
                                                 ? Icon(
@@ -352,24 +317,20 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     circleImage: CircleAvatar(
                                   backgroundColor: ColorConstant.milkColor,
                                   child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(18.sp),
-                                      child: /*Image.network(
-                                        groupSettingModel.groupMemberAvatarUrl3,
-                                      ) */CachedNetworkImage(
+                                    borderRadius: BorderRadius.circular(18.sp),
+                                    child: CachedNetworkImage(
                                       imageUrl: groupSettingModel
                                           .groupMemberAvatarUrl3,
                                       errorWidget: (context, url, error) =>
-                                          Icon(CupertinoIcons.xmark_square),
-                                                    cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                          const Icon(
+                                              CupertinoIcons.xmark_square),
+                                      cacheManager: CacheManager(Config(
+                                        "cachedImageFiles",
+                                        stalePeriod: const Duration(days: 3),
+                                        //one week cache period
+                                      )),
                                     ),
-                                      ),
+                                  ),
                                   radius: 100.h >= 1100 ? 15.sp : 18.sp,
                                 )),
                               ),
@@ -405,9 +366,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                             : const Icon(
                                                 CupertinoIcons.clock_fill,
                                               ),
-                                        onPressed: () {
-                                       //   print('zaten pending');
-                                        })
+                                        onPressed: () {})
                                     : userAll.isolaUserMeta.userBlocked
                                             .contains(groupSettingModel
                                                 .groupMemberUid3)
@@ -426,9 +385,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                     color:
                                                         ColorConstant.redAlert,
                                                   ),
-                                            onPressed: () {
-                                           //   print('zaten pending');
-                                            })
+                                            onPressed: () {})
                                         : CupertinoButton(
                                             child: 100.h >= 1100
                                                 ? Icon(
@@ -505,12 +462,9 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                               ),
                             ),
                             onPressed: () async {
-                              //buraya groupneedliste nothingi dğeiştirip kendi kodunu eklemeyi unutma
-                              //ilk olarak kontrol etmeyi ekle buraya o kişi o gruptamı baksın
-
                               leaveGroup(groupSettingModel).whenComplete(() {
-                                Future.delayed(Duration(milliseconds: 3000),
-                                    () {
+                                Future.delayed(
+                                    const Duration(milliseconds: 3000), () {
                                   Navigator.pushReplacementNamed(
                                       context, navigationBar);
                                 });
@@ -518,64 +472,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                               showCupertinoDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      AnimatedLiquidCircularProgressIndicator());
-/*
-                              CollectionReference leaveRef = FirebaseFirestore
-                                  .instance
-                                  .collection('groups_leave_pool');
-
-                              leaveRef.doc(groupSettingModel.groupNo).set({
-                                'groupNo': groupSettingModel.groupNo,
-                                'leaverUser': groupSettingModel.userUid
-                              }).whenComplete(() {
-                                print(groupSettingModel.groupNo);
-                                print(groupSettingModel.groupNo);
-                                print(groupSettingModel.groupNo);
-                                print(groupSettingModel.groupNo);
-                                print(groupSettingModel.groupNo);
-                                Navigator.pushReplacementNamed(
-                                    context, navigationBar);
-                              });
-                              */
-
-                              /* groupChaosSearchingInfoGetter(
-                                      groupSettingModel.groupNo)
-                                  .then((value) {
-                                if (value == true) {
-                                  showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          CupertinoAlertDialog(
-                                            content: Text(
-                                                "You can't leave group when you are searching chaos"),
-                                            actions: [
-                                              CupertinoButton(
-                                                  child: Text("okey"),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  })
-                                            ],
-                                          ));
-                                } else {
-                                  groupLeaveMessage(
-                                          groupSettingModel, refChatInterior)
-                                      .whenComplete(() {
-                                    groupLeave(
-                                            groupSettingModel.groupNo,
-                                            groupSettingModel.userUid,
-                                            joinedList)
-                                        .whenComplete(() {
-                                      Navigator.pushReplacementNamed(
-                                          context, navigationBar);
-                                    });
-                                  });
-                                }
-                              });
-                              */
-
-                              //    print(groupSettingModel.groupNo);
-                              //  print(
-                              //    "buraya gruptan çıkma işlemi yapılacak o sebeple groupno getiriyorum");
+                                      const AnimatedLiquidCircularProgressIndicator());
                             }),
                         CupertinoButton(
                             child: Container(
@@ -691,8 +588,6 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                           ),
                                         ],
                                       ));
-
-                           //groupSettingModel.groupNo);
                             }),
                       ],
                     )

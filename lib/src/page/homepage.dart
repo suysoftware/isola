@@ -1,13 +1,10 @@
 // ignore_for_file: implementation_imports, prefer_typing_uninitialized_variables, avoid_print, invalid_use_of_protected_member, must_be_immutable, unused_field, duplicate_ignore
 import 'dart:math';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_circular_text/circular_text.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/match_button_cubit.dart';
@@ -15,10 +12,8 @@ import 'package:isola_app/src/blocs/search_status_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
-import 'package:isola_app/src/model/enum/ref_enum.dart';
 import 'package:isola_app/src/model/feeds/popular_timeline.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
-import 'package:isola_app/src/page/navigationbar.dart';
 import 'package:isola_app/src/page/token_gain_page.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_finder.dart';
@@ -26,18 +21,12 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
 
-import '../blocs/current_chat_cubit.dart';
-import '../service/notification/notification_helper.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
     required this.userAll,
-  })
-  // required this.searchStatus})
-  : super(key: key);
+  }) : super(key: key);
   final IsolaUserAll userAll;
-  // final bool searchStatus;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -62,38 +51,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 //searching animations
   late AnimationController animationController4;
   late Animation<double> rotateAnimationValue3;
-/*
-  Future<void> setupInteractedMessage() async {
-    print('setupInteractedMessage');
-    // Get any messages which caused the application to open from
-    // a terminated state.
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
-
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    if (initialMessage != null) {
-      _handleMessage(initialMessage);
-    }
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  }
-*/
-/*
-  onNotificationInLowerVersions(ReceivedNotification receivedNotification) {
-    print('onNotificationInLowerVersions Received ${receivedNotification.id}');
-  }
-
-  onNotificationClick(String payload) {
-    print('onNotificationClick, Payload $payload');
-  }*/
-
-  // void _handleMessage(RemoteMessage message) {
-  //  print(message.data);
-
-//  }
 
   void addGroupToJoinedList(String comingValue) {
     context.read<JoinedListCubit>().joinedListAdd(comingValue);
@@ -106,44 +63,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // context.read<CurrentChatCubit>().currentChatReset();
 
-    //setupInteractedMessage();
-    /* FirebaseMessaging.onMessage
-    
-    .listen((RemoteMessage message) async {
-
-
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-      //  print('Message also contained a notification: ${message.notification}');
-        //  await notificationHelper.showNotification();
-      }
-    });*/
-
-    //   notificationHelper
-    //     .setListenerForLowerVersions(onNotificationInLowerVersions);
-    // notificationHelper.setOnNotificationClick(onNotificationClick);
-
-/*
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-    print(widget.userAll.isolaUserMeta.userIsSearching);
-
-    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
-    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
-
-    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
-    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
-    print(widget.userAll.isolaUserMeta.joinedGroupList.length);
-*/
     isTablet = 100.h >= 1100 ? true : false;
 
     animationController = AnimationController(
@@ -199,8 +119,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     if (widget.userAll.isolaUserMeta.userIsSearching != false) {
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
-      // print("burada***");
-      // widget.userAll.isolaUserMeta.userIsSearching = true;
+
       animationController4.repeat(period: const Duration(milliseconds: 1800));
       context.read<SearchStatusCubit>().searching();
     } else {
@@ -237,90 +156,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           break;
       }
     }
-
-/*
-    if (context.read<SearchStatusCubit>().state == true) {
-//burası çalışınca 10 saniyedebir kontrolüde çalıştırabiliriz.
-      context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
-      print("burada***");
-      animationController4.repeat();
-    } else {
-      print("burada****");
-      if (context.read<JoinedListCubit>().state.length == 3 ||
-          context.read<JoinedListCubit>().state.length == 4 &&
-              context.read<SearchStatusCubit>().state != true) {
-        print("1*1*1");
-        context
-            .read<MatchButtonCubit>()
-            .imageButtonUseToken(isTablet: isTablet);
-      } else if (context.read<JoinedListCubit>().state.length == 5 &&
-          context.read<SearchStatusCubit>().state != true) {
-        print("2*2*2");
-        context.read<MatchButtonCubit>().imageButtonFull(isTablet: isTablet);
-      } else {
-        print("3*3*3");
-        context
-            .read<MatchButtonCubit>()
-            .imageButtonSearcingCancel(isTablet: isTablet);
-      }
-    }
-
-    searchingStatus(context.read<JoinedListCubit>().state).then((value) {
-      if (value == true) {
-        print("burada*");
-        context.read<SearchStatusCubit>().searching();
-        context
-            .read<MatchButtonCubit>()
-            .imageButtonSearching(isTablet: isTablet);
-        animationController4.repeat(period: const Duration(milliseconds: 1800));
-
-        print("burada1****");
-        if (context.read<JoinedListCubit>().state.length == 3 ||
-            context.read<JoinedListCubit>().state.length == 4 &&
-                context.read<SearchStatusCubit>().state != true) {
-          print("burada2**");
-          context
-              .read<MatchButtonCubit>()
-              .imageButtonUseToken(isTablet: isTablet);
-        } else if (context.read<JoinedListCubit>().state.length == 5 &&
-            context.read<SearchStatusCubit>().state != true) {
-          print("burada3**");
-          context.read<MatchButtonCubit>().imageButtonFull(isTablet: isTablet);
-        } else {
-          print("burada4**");
-          // context
-          //   .read<MatchButtonCubit>()
-          // .imageButtonSearcingCancel(isTablet: isTablet);
-        }
-      } else {
-        print("burada**");
-
-        context.read<SearchStatusCubit>().pauseSearching();
-        context
-            .read<MatchButtonCubit>()
-            .imageButtonSearcingCancel(isTablet: isTablet);
-        if (mounted) {
-          setState(() {
-            animationController4.stop();
-          });
-        }
-
-        print("burada****");
-        if (context.read<JoinedListCubit>().state.length == 3 ||
-            context.read<JoinedListCubit>().state.length == 4) {
-          context
-              .read<MatchButtonCubit>()
-              .imageButtonUseToken(isTablet: isTablet);
-        } else if (context.read<JoinedListCubit>().state.length == 5) {
-          context.read<MatchButtonCubit>().imageButtonFull(isTablet: isTablet);
-        } else {
-          context
-              .read<MatchButtonCubit>()
-              .imageButtonSearcingCancel(isTablet: isTablet);
-        }
-      }
-    });
-    */
   }
 
   @override
@@ -342,12 +177,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
     }
 
-    //  print(100.h);
     return FutureBuilder(
         future: getPopularItems(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return CupertinoActivityIndicator();
+            return const CupertinoActivityIndicator();
           } else {
             var popularItem = snapshot.data as PopularTimeline;
 
@@ -359,33 +193,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     padding: EdgeInsets.zero,
                     child: GestureDetector(
                         onTap: () async {
-                          //  print(widget.userAll.isolaUserDisplay.avatarUrl);
-                          //print(widget.userAll.isolaUserDisplay.userName);
-
-                          // await notificationHelper.showNotificationTest();
-                          //   await notificationHelper.showWeeklyAtDayAndTime();
-
-                          //   await notificationHelper.showPeriodicly();
-
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => TokenGainPage()));
-
-                          /*
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) =>
-                                  SignUpPage(userDisplay: widget.userDisplay))
-                                  );*/
-                          /*
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => InterestAddPage(
-                                    userUid: widget.userDisplay.userUid,
-                                  )));*/
+                                  builder: (context) => const TokenGainPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -411,7 +222,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 decoration:
                     BoxDecoration(gradient: ColorConstant.isolaHomeBgGradient),
                 child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Stack(
                       children: [
@@ -429,8 +239,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 context.read<SearchStatusCubit>().state == true
                                     ? rotateAnimationValue3.value
                                     : rotateAnimationValue2.value,
-
-                            // angle: rotateAnimationDegerleri.value,
                             child: CircularText(
                               children: [
                                 TextItem(
@@ -464,15 +272,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             right: 5.w,
                             child: GestureDetector(
                               onTap: () {
-                                /*    joinToMatchingPool(
-                                widget.userAll.isolaUserMeta.userUid,
-                                widget.userAll.isolaUserDisplay.userSex,
-                                widget.userAll.isolaUserDisplay.userIsNonBinary,
-                                widget.userAll.isolaUserMeta.userIsValid);*/
-
                                 if (widget
                                     .userAll.isolaUserMeta.userIsSearching) {
-                                  //print("zaten searching şuan");
                                 } else {
                                   if (widget.userAll.isolaUserMeta
                                           .joinedGroupList.length <
@@ -600,99 +401,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                             ));
                                   }
                                 }
-
-                                /*
-                            //buraya grup tamamlanma şartı koy bastınv eo grup tamamlanana kadar kapatma yok iptal etme koyulabilir ve iptal ile o grup silinir
-                            if (context.read<SearchStatusCubit>().state != true) {
-                              if (context.read<JoinedListCubit>().state.length <
-                                  3) {
-                                findGroup(widget.userAll)
-                                    .then((value) => context
-                                        .read<JoinedListCubit>()
-                                        // ignore: invalid_use_of_visible_for_testing_member
-                                        .emit(value));
-                                animationController.forward();
-                                animationController2
-                                    .forward()
-                                    .whenComplete(() => animationController3
-                                            .forward()
-                                            .whenComplete(() {
-                                          animationController.reset();
-                                          animationController2.reset();
-                                          animationController3.reset();
-    
-                                          //   animationController4.repeat();
-    
-                                          //  animationController.reverse();
-    
-                                          //animationController.reset();
-                                          //animationController2.reset();
-                                          //animationController3.reset();
-                                        }))
-                                    .whenComplete(() {
-                                  context
-                                      .read<MatchButtonCubit>()
-                                      .imageButtonSearching(isTablet: isTablet);
-                                  context.read<SearchStatusCubit>().searching();
-                                  setState(() {});
-    
-                                  animationController4.repeat(
-                                      period: const Duration(milliseconds: 1800));
-                                });
-                              } else {
-                                if (widget.userAll.isolaUserMeta.userToken > 0) {
-                                  // YOU HAVE TOKEN AND YOU CAN USE
-                                  showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) => CupertinoAlertDialog(
-                                            content: const Text(
-                                                "Do you wanna spend token for more match,or you can leave your current group"),
-                                            title: const Text("Use Token "),
-                                            actions: [
-                                              CupertinoButton(
-                                                  child: Text("Use",
-                                                      style: TextStyle(
-                                                          fontSize: 11.sp)),
-                                                  onPressed: () {}),
-                                              CupertinoButton(
-                                                  child: Text(
-                                                    "No Doesnt Yet",
-                                                    style:
-                                                        TextStyle(fontSize: 11.sp),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  })
-                                            ],
-                                          ));
-                                } else {
-                                  // YOU HAVENT TOKEN , YOU HAVE TO BUY
-                                  showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) => CupertinoAlertDialog(
-                                            content: const Text(
-                                                "You havent permission for more match"),
-                                            title: const Text("Token Alert"),
-                                            actions: [
-                                              CupertinoButton(
-                                                  child: Text("Buy token",
-                                                      style: TextStyle(
-                                                          fontSize: 11.sp)),
-                                                  onPressed: () {}),
-                                              CupertinoButton(
-                                                  child: Text(
-                                                    "No Doesnt Yet",
-                                                    style:
-                                                        TextStyle(fontSize: 11.sp),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  })
-                                            ],
-                                          ));
-                                }
-                              }
-                            }*/
                               },
                               child: CircleAvatar(
                                 radius: 100.h >= 1100
@@ -740,8 +448,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             widthSize: 45),
                       ),
                     ),
-                    //  SizedBox(height: 1.h),
-
                     HomePageCard(
                       contHeightSize:
                           100.h < 680 ? 13 : (100.h <= 820 ? 10 : 11),
@@ -749,7 +455,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       context: context,
                       targetName: popularItem.popularItem1.pName,
                       targetText: popularItem.popularItem1.pText,
-                      //     'bir berber bir berbere gel beraber berber dükkanı açalım',
                       isLeft: true,
                       letterTextStyle: 100.h <= 1100
                           ? StyleConstants.cardTextStyle
@@ -759,7 +464,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       pLikeValue: popularItem.popularItem1.pLikeValue,
                       pLink: popularItem.popularItem1.pLink,
                     ),
-
                     SizedBox(height: 1.h),
                     HomePageCard(
                       contHeightSize:
@@ -820,13 +524,10 @@ class HomePageCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (pLink == "nothing") {
-          //print(pLink);
         } else {
-          // print(pLink);
-
           showCupertinoDialog(
               context: context,
-              builder: (context) => CupertinoPageScaffold(
+              builder: (context) => const CupertinoPageScaffold(
                   navigationBar:
                       CupertinoNavigationBar(automaticallyImplyLeading: true),
                   child: SizedBox()));
@@ -843,7 +544,9 @@ class HomePageCard extends StatelessWidget {
                   : contHeightSize - 6,
               isLeft: isLeft,
               letterTextStyle: letterTextStyle),
-          heightSize: 100.h <= 1100 ? (100.h==736?contHeightSize+3:contHeightSize) : contHeightSize + 4,
+          heightSize: 100.h <= 1100
+              ? (100.h == 736 ? contHeightSize + 3 : contHeightSize)
+              : contHeightSize + 4,
           widthSize: contWidthSize),
     );
   }
@@ -958,20 +661,7 @@ class PostAvatarLeft extends StatelessWidget {
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
-            child: Image.network(avatarUrl)
-            /* CachedNetworkImage(
-            imageUrl: avatarUrl,
-            errorWidget: (context, url, error) =>
-                Icon(CupertinoIcons.xmark_square),
-                          cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-          ),*/
-            ),
+            child: Image.network(avatarUrl)),
       ),
     );
   }
@@ -995,20 +685,7 @@ class PostAvatarRight extends StatelessWidget {
         backgroundColor: ColorConstant.milkColor,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20.sp),
-            child: Image.network(avatarUrl)
-            /* CachedNetworkImage(
-              imageUrl: avatarUrl,
-              errorWidget: (context, url, error) =>
-                  Icon(CupertinoIcons.xmark_square),
-                            cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
-            )*/
-            ),
+            child: Image.network(avatarUrl)),
       ),
     );
   }
@@ -1054,7 +731,6 @@ class HomeTextsRight extends StatelessWidget {
           padding: 100.h >= 800
               ? EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue + 0.7).h)
               : EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue - 1).h),
-          //padding: EdgeInsets.fromLTRB(2.0, 4.0, 5.w, 2.0),
           child: textWidgetGetter(context,
               targetMessage: targetText,
               targetName: targetName,

@@ -1,7 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class GroupChatMessage {
   late String member_avatar_url;
@@ -53,7 +51,7 @@ class GroupChatMessage {
           json["member_message_isdocument"] as bool,
           json["member_message_target_1_uid"] as String,
           json["member_message_target_2_uid"] as String,
-            json["member_message_no"] as String,
+          json["member_message_no"] as String,
         );
 
   Map<String, dynamic> toJson() {
@@ -72,26 +70,7 @@ class GroupChatMessage {
       "member_message_isdocument": member_message_isDocument,
       "member_message_target_1_uid": message_target_1_uid,
       "member_message_target_2_uid": message_target_2_uid,
-      "member_message_no":member_message_no
+      "member_message_no": member_message_no
     };
   }
-/*
-  factory GroupChatMessage.fromJson(Map<dynamic, dynamic> json) {
-    return GroupChatMessage(
-      json["member_avatar_url"] as String,
-      json["member_message"] as String,
-      json["member_message_time"] as int,
-      json["member_name"] as String,
-      json["member_uid"] as String,
-      json["member_message_isvoice"] as bool,
-      json["member_message_voice_url"] as String,
-      json["member_message_isattachment"] as bool,
-      json["member_message_attachment_url"] as String,
-      json["member_message_isimage"] as bool,
-      json["member_message_isvideo"] as bool,
-      json["member_message_isdocument"] as bool,
-      json["member_message_target_1_uid"] as String,
-       json["member_message_target_2_uid"] as String,
-    );
-  }*/
 }

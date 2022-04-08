@@ -5,5 +5,5 @@ class GroupChatVoice {
   late Duration duration;
   late String itemUrl;
 
-  GroupChatVoice(this.icon, this.duration,this.itemUrl);
+  GroupChatVoice(this.icon, this.duration, this.itemUrl);
 }
