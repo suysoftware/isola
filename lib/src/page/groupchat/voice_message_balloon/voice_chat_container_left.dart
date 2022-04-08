@@ -222,7 +222,7 @@ class VoiceChatContLeft extends StatelessWidget {
                                               .voiceIconReader(memberVoiceUrl)
                                               .icon ==
                                           playIcon.icon) {
-                                        print("abidik");
+                                      //  print("abidik");
                                         //  await _audioPlayer.resume();
                                         voiceStatus.playing(
                                             duration, memberVoiceUrl);
@@ -238,14 +238,14 @@ class VoiceChatContLeft extends StatelessWidget {
                                               .voiceIconReader(memberVoiceUrl)
                                               .icon ==
                                           resumeIcon.icon) {
-                                        print("resume girdi");
+                                      //  print("resume girdi");
                                         voiceStatus.resume(
                                             Duration(
                                                 seconds: position.inSeconds),
                                             memberVoiceUrl);
                                         await _audioPlayer.resume();
                                       } else {
-                                        print("gubidik");
+                                      //  print("gubidik");
                                         voiceStatus.loading(
                                             duration, memberVoiceUrl);
                                         //animasyonu başlat

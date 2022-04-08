@@ -45,6 +45,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+
+      print(100.h);
+    print(100.w);
     return CupertinoPageScaffold(
         backgroundColor: ColorConstant.themeGrey,
         navigationBar: CupertinoNavigationBar(
@@ -328,11 +331,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(CupertinoIcons.info_circle,
                     color: ColorConstant.softBlack),
                 Text("About", style: settingTextStyle), () async {
-
-
-
-                   imageCache!.clear();
-           /*   var file = await DefaultCacheManager().getSingleFile(
+              imageCache!.clear();
+              /*   var file = await DefaultCacheManager().getSingleFile(
                   "https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/search_items%2FQ1j0ibLDbhQye11fduuKmjkw3Ry2%2F3373759c-d1d6-42d3-9ab9-8ffbaa0e15b3?alt=media&token=948bc89a-d689-4ee8-a762-4a3be06b43fc");
               var ss = file.stat();
               //  var file2 = await DefaultCacheManager().
@@ -342,9 +342,8 @@ class _SettingsPageState extends State<SettingsPage> {
               print(file.fileSystem.currentDirectory);
               print(file.uri);
               print(file.parent);*/
-          
-            
-            //  print(ss);
+
+              //  print(ss);
 
               /*  getUserAllFromDataBase(user!.uid).then((value) {
                 print(value.isolaUserDisplay.userName);

@@ -80,9 +80,9 @@ class _InterestAddPageState extends State<ProfileInterestEditPage> {
                       Navigator.pop(context);
                     });
 
-                    print(
-                        context.read<HobbyEditStatusCubit>().state.addingHobby);
-                    print("geç devammkeeeee");
+                //    print(
+                  //      context.read<HobbyEditStatusCubit>().state.addingHobby);
+                   // print("geç devammkeeeee");
                   }),
             );
           }),
@@ -135,25 +135,25 @@ class HobbyIconButton extends StatelessWidget {
                         fit: BoxFit.contain,
                       )),
             onPressed: () {
-              print("ag");
+           //   print("ag");
               if (iconStatus.hobbyStatusReader(iconName) == true) {
                 iconStatus.hobbyStatusGrey(iconName);
-                print("ag2");
+             //   print("ag2");
                 //burada emit yapılacak
                 hobbyPiece = hobbyPiece - 1;
 
-                print(iconStatus.state.addingHobby);
-                print(iconStatus.state.hobbyValue);
+              //  print(iconStatus.state.addingHobby);
+              //  print(iconStatus.state.hobbyValue);
               } else {
                 if (iconStatus.state.hobbyValue < 5) {
-                  print("ag3");
+               //   print("ag3");
                   iconStatus.hobbyStatusActive(iconName);
 
                   hobbyPiece = hobbyPiece + 1;
-                  print(iconStatus.state.addingHobby);
-                  print(iconStatus.state.hobbyValue);
+               //   print(iconStatus.state.addingHobby);
+               //   print(iconStatus.state.hobbyValue);
                 }
-                print("coook bastın");
+               // print("coook bastın");
               }
             });
       });
@@ -218,8 +218,8 @@ class HobbyEditStatusCubit extends Cubit<HobbyButtonModel> {
     updateList.addAll(state.addingHobby);
 
     updateList.add(iconName);
-    print("girdiimactive1");
-    print("iconname $iconName");
+    //print("girdiimactive1");
+    //print("iconname $iconName");
 
     var hobbyItem = HobbyButtonModel(updateList, newValue);
     emit(hobbyItem);
@@ -227,14 +227,14 @@ class HobbyEditStatusCubit extends Cubit<HobbyButtonModel> {
 
   void hobbyStatusGrey(String iconName) {
     int newValue = state.hobbyValue - 1;
-    print("girdiimgrey1");
+   // print("girdiimgrey1");
     var updateList = <String>[];
 
     updateList.addAll(state.addingHobby);
     if (updateList.contains(iconName) == true) {
       updateList.remove(iconName);
     }
-    print("girdiimgrey2");
+   // print("girdiimgrey2");
 
     var hobbyItem = HobbyButtonModel(updateList, newValue);
     emit(hobbyItem);
@@ -242,7 +242,7 @@ class HobbyEditStatusCubit extends Cubit<HobbyButtonModel> {
 
   void hobbyStatusReset() {
     int newValue = 0;
-    print("girdiimgrey1");
+  //  print("girdiimgrey1");
     var updateList = <String>[];
 
     var hobbyItem = HobbyButtonModel(updateList, newValue);

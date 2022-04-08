@@ -66,11 +66,11 @@ class _TimelinePageState extends State<TimelinePage> {
 
   void _onRefresh() async {
     // monitor network fetch
-    print("onrefresh");
+    //print("onrefresh");
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     setState(() {
-      print("111");
+     // print("111");
       isRefresh = true;
       itemCountValue = 20;
     });
@@ -79,7 +79,7 @@ class _TimelinePageState extends State<TimelinePage> {
   }
 
   void _onLoading() async {
-    print("onloading");
+   // print("onloading");
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
@@ -96,11 +96,11 @@ class _TimelinePageState extends State<TimelinePage> {
 
   void _onRefresh2() async {
     // monitor network fetch
-    print("onrefresh");
+   // print("onrefresh");
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     setState(() {
-      print("111");
+    //  print("111");
       isRefresh = true;
       itemCountValue = 20;
     });
@@ -109,7 +109,7 @@ class _TimelinePageState extends State<TimelinePage> {
   }
 
   void _onLoading2() async {
-    print("onloading");
+   // print("onloading");
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
@@ -127,7 +127,7 @@ class _TimelinePageState extends State<TimelinePage> {
   @override
   void initState() {
     super.initState();
-    print("GENE INITLEDİ");
+   // print("GENE INITLEDİ");
     itemCountValue = 20;
     if (context.read<TimelineItemListCubit>().state.isEmpty) {
       isRefresh = true;
@@ -260,13 +260,13 @@ class _TimelinePageState extends State<TimelinePage> {
 
                       context.read<TimelineItemListCubit>().timelineItemsSort();
                       // var userAllSnap = snapshot.data as UserAll;
-                      print("fdsfs");
+                     // print("fdsfs");
                       for (var item
                           in context.read<TimelineItemListCubit>().state) {
                         //print(item.feedMeta.feedText);
                       }
-                      print("fdsfs2");
-                      print(context.read<TimelineItemListCubit>().state.length);
+                   //   print("fdsfs2");
+                     // print(context.read<TimelineItemListCubit>().state.length);
                       return SmartRefresher(
                         enablePullDown: true,
                         enablePullUp: true,
@@ -327,7 +327,7 @@ class _TimelinePageState extends State<TimelinePage> {
                         // var userAllSnap = snapshot.data as UserAll;
                         for (var item
                             in context.read<TimelineItemListCubit>().state) {
-                          print(item.feedMeta.feedText);
+                         // print(item.feedMeta.feedText);
                         }
 
                         return SmartRefresher(
@@ -402,7 +402,9 @@ class _AddPostContainerState extends State<AddPostContainer> {
   var t1 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    print(100.h);
+
+     print(100.h);
+    print(100.w);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

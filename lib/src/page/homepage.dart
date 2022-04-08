@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     // context.read<CurrentChatCubit>().currentChatReset();
- 
+
     //setupInteractedMessage();
     /* FirebaseMessaging.onMessage
     
@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     if (widget.userAll.isolaUserMeta.userIsSearching != false) {
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
-      print("burada***");
+      // print("burada***");
       // widget.userAll.isolaUserMeta.userIsSearching = true;
       animationController4.repeat(period: const Duration(milliseconds: 1800));
       context.read<SearchStatusCubit>().searching();
@@ -359,21 +359,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     padding: EdgeInsets.zero,
                     child: GestureDetector(
                         onTap: () async {
-                          print(widget.userAll.isolaUserDisplay.avatarUrl);
-                          print(widget.userAll.isolaUserDisplay.userName);
+                          //  print(widget.userAll.isolaUserDisplay.avatarUrl);
+                          //print(widget.userAll.isolaUserDisplay.userName);
 
-                          await notificationHelper.showNotificationTest();
+                          // await notificationHelper.showNotificationTest();
                           //   await notificationHelper.showWeeklyAtDayAndTime();
 
                           //   await notificationHelper.showPeriodicly();
-/*
 
-
-                      !!!!!!
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => TokenGainPage()));*/
+                                  builder: (context) => TokenGainPage()));
 
                           /*
                       Navigator.push(
@@ -475,7 +472,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                                 if (widget
                                     .userAll.isolaUserMeta.userIsSearching) {
-                                  print("zaten searching şuan");
+                                  //print("zaten searching şuan");
                                 } else {
                                   if (widget.userAll.isolaUserMeta
                                           .joinedGroupList.length <
@@ -818,12 +815,14 @@ class HomePageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(100.h);
+    print(100.w);
     return GestureDetector(
       onTap: () {
         if (pLink == "nothing") {
-          print(pLink);
+          //print(pLink);
         } else {
-          print(pLink);
+          // print(pLink);
 
           showCupertinoDialog(
               context: context,
@@ -840,11 +839,11 @@ class HomePageCard extends StatelessWidget {
               targetName: targetName,
               targetText: targetText,
               avatarRadius: 100.h <= 1100
-                  ? (100.h <= 800 ? contHeightSize - 9 : contHeightSize - 8)
+                  ? (100.h <= 700 ? contHeightSize - 11 : contHeightSize - 8)
                   : contHeightSize - 6,
               isLeft: isLeft,
               letterTextStyle: letterTextStyle),
-          heightSize: 100.h <= 1100 ? contHeightSize : contHeightSize + 4,
+          heightSize: 100.h <= 1100 ? (100.h==736?contHeightSize+3:contHeightSize) : contHeightSize + 4,
           widthSize: contWidthSize),
     );
   }

@@ -75,7 +75,7 @@ dependencies:
   in_app_review: ^2.0.4
   flutter_cache_manager: ^3.3.0
   circular_countdown_timer: ^0.2.1
-  rxdart: ^0.27.3
+
   
 
 

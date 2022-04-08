@@ -108,9 +108,9 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
       feedAllControl = 0;
       _refreshController.loadNoData();
 
-      print("aha");
+     //"aha");
     } else {
-      print("bscgridfeedvalue ${BasicGridWidget.feedValue.length}");
+    //  print("bscgridfeedvalue ${BasicGridWidget.feedValue.length}");
 
       // print("gtilelength ${gTile.length}");
       // monitor network fetch
@@ -134,12 +134,12 @@ class _ProfileMediaPageState extends State<ProfileMediaPage> {
   void initState() {
     super.initState();
 
-    print(widget.userAll.isolaUserMeta.userToken);
+    //print(widget.userAll.isolaUserMeta.userToken);
     widget.userAll.isolaUserMeta.userToken =
         context.read<UserAllCubit>().state.isolaUserMeta.userToken;
-    print('////////');
-    print(widget.userAll.isolaUserMeta.userToken);
-    print('////////');
+    //print('////////');
+    //print(widget.userAll.isolaUserMeta.userToken);
+    //print('////////');
     /*  if (feedAllControl != 0) {
       for (var i = 0; i < feedAllControl; i++) {
         BasicGridWidget.feedValue.add(GridTile(1, 2));
@@ -273,12 +273,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(BasicGridWidget.feedValue.length);
-    print(BasicGridWidget.feedValue.length);
-    print(BasicGridWidget.feedValue.length);
-    print(BasicGridWidget.feedValue.length);
-    print(BasicGridWidget.feedValue.length);
-    print(BasicGridWidget.feedValue.length);
+   
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('feeds')
@@ -327,8 +322,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                   }
             }
 
-            print(itemDatas);
-            print('////////////');
+          
             if (aDeleted == true) {
               BasicGridWidget.feedValue.removeLast();
               aDeleted = false;
@@ -365,7 +359,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                           mainAxisCellCount: tile.mainAxisCount,
                           child: GestureDetector(
                             onTap: () {
-                              print('ilk $index');
+                      
                               _openDetail(context, index, itemDatas,
                                   widget.userUid, widget.userAll.isolaUserMeta, index);
                             },
@@ -396,8 +390,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
 
 _openDetail(context, index, List<dynamic> imageItemList, String userUid,
     IsolaUserMeta userMeta, int sira) {
-  print(userMeta.userToken);
-  print(sira);
+ 
   //imageItemList.sort((a, b) => a.feedDate.compareTo(b.feedDate));
 
   List<dynamic> slicedList = imageItemList.slice(sira);

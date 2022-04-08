@@ -278,7 +278,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 CupertinoIcons.clock_fill,
                                               ),
                                         onPressed: () {
-                                          print('zaten pending');
+                                        //  print('zaten pending');
                                         })
                                     : userAll.isolaUserMeta.userBlocked
                                             .contains(groupSettingModel
@@ -299,7 +299,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                         ColorConstant.redAlert,
                                                   ),
                                             onPressed: () {
-                                              print('zaten pending');
+                                         //     print('zaten pending');
                                             })
                                         : CupertinoButton(
                                             child: 100.h >= 1100
@@ -406,7 +406,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 CupertinoIcons.clock_fill,
                                               ),
                                         onPressed: () {
-                                          print('zaten pending');
+                                       //   print('zaten pending');
                                         })
                                     : userAll.isolaUserMeta.userBlocked
                                             .contains(groupSettingModel
@@ -427,7 +427,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                         ColorConstant.redAlert,
                                                   ),
                                             onPressed: () {
-                                              print('zaten pending');
+                                           //   print('zaten pending');
                                             })
                                         : CupertinoButton(
                                             child: 100.h >= 1100
@@ -692,7 +692,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                         ],
                                       ));
 
-                              print(groupSettingModel.groupNo);
+                           //groupSettingModel.groupNo);
                             }),
                       ],
                     )

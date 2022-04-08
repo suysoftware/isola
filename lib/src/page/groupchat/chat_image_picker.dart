@@ -163,7 +163,7 @@ class _ChatImagePickerState extends State<ChatImagePicker>
         ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
         : (await cropImageDataWithNativeLibrary(
             state: editorKey.currentState!))!);
-    print(fileData);
+  //  print(fileData);
     final String? fileFath = await ImageSaver.save(
         'isola_chat_image-${DateTime.now().toUtc().toString()}.jpg', fileData);
     if (widget.isChaos) {

@@ -150,7 +150,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   }
 
   void _onLoading() async {
-    print("onloading");
+   // print("onloading");
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
@@ -196,8 +196,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
       if (result2 != null) {
         String fileName = result2.files.first.name;
-        print(fileName);
-        print(result2.paths);
+       // print(fileName);
+       // print(result2.paths);
         await uploadAttachment(userAll, result2.paths.first.toString(),
             refChatInterior, false, false, true, target1, target2);
 
@@ -209,8 +209,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
       if (result != null) {
         String fileName = result.files.first.name;
-        print(fileName);
-        print(result.paths);
+        //print(fileName);
+       // print(result.paths);
 
         if (fileType == FileType.video) {
           await uploadAttachment(userAll, result.paths.first.toString(),
@@ -245,7 +245,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                         child: Icon(CupertinoIcons.paperclip,
                             size: 100.h >= 1100 ? 10.sp : 15.sp),
                         onPressed: () {
-                          print("ATTACHMENT");
+                        //  print("ATTACHMENT");
 
                           showCupertinoModalPopup<void>(
                             barrierDismissible: true,
@@ -381,8 +381,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                         onLongPressStart: (LongPressStartDetails) async {
                           if (sayacModelNesne.sendIcon.icon ==
                               CupertinoIcons.mic) {
-                            print("mic basıldı");
-                            print("kayıt alınıyor");
+                         //   print("mic basıldı");
+                           // print("kayıt alınıyor");
 
                             sayacModelNesne.micCancelVisOn();
                             xPosition = LongPressStartDetails.localPosition.dx;
@@ -419,10 +419,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                         onLongPressEnd: (LongPressEndDetails) async {
                           if (yPosition - 70 >=
                               LongPressEndDetails.localPosition.dy) {
-                            print("agabuyuk");
+                          //  print("agabuyuk");
                             //dikkat
                             await _audioRecorder.stop();
-                            print("ses kaydı çöpe atıldı");
+                          //  print("ses kaydı çöpe atıldı");
                             sayacModelNesne.micCancelVisOff();
                             sayacModelNesne.micRecordingToWaste();
 
@@ -448,17 +448,17 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               uploadVoice(userAll, _filePath, refChatInterior,
                                   target1, target2, "", "", "", false);
                               //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
-                              print(
-                                  "kayıt veritabanına yükleniyor ve gönderiliyor");
+                            //  print(
+                              //    "kayıt veritabanına yükleniyor ve gönderiliyor");
                               sayacModelNesne.micCancelVisOff();
                               sayacModelNesne.micOnline();
                             }
                           }
-                          print("end oldumu");
+                         // print("end oldumu");
                         },
                         child: CupertinoButton(
                           onPressed: () {
-                            print("basti");
+                         //   print("basti");
 
                             if (sayacModelNesne.sendIcon.icon ==
                                 CupertinoIcons.add) {
@@ -466,7 +466,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               userMessageAdd(t1.text, false, "nothing", docRef);
                               sayacModelNesne.micOnline();
                             } else {
-                              print("mikrofonbaşladı");
+                            //  print("mikrofonbaşladı");
                             }
                           },
                           child: sayacModelNesne.iconReader(),
@@ -553,8 +553,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
         .read<CurrentChatCubit>()
         .currentChatChanger(groupSettingModelForTrawling.groupNo);
 
-    print(context.read<CurrentChatCubit>().state);
-    print('sds');
+   // print(context.read<CurrentChatCubit>().state);
+   // print('sds');
 
     itemCountValue =
         itemCountValue + groupSettingModelForTrawling.newNotiValueAmount;
@@ -753,7 +753,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
    
     // print("sfafsa");
-    print('chatting dispose çalıştı');
+   //'chatting dispose çalıştı');
 
     super.dispose();
   }
@@ -761,25 +761,25 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive) {
-      print(
-          "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
+    //  print(
+      //    "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
        
     }
 
     if (state == AppLifecycleState.paused) {
       
-      print(" altta atıldı");
+    // /7 print(" altta atıldı");
     }
 
     if (state == AppLifecycleState.resumed) {
        
-      print("alta atıp geri gelince");
+   //   print("alta atıp geri gelince");
     }
 
     if (state == AppLifecycleState.detached) {
      
     
-      print("detached");
+    //  print("detached");
 
       //işlemi cancel et !!!/// streamchanges
     }
@@ -825,7 +825,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                         //groupNo gerekli
                         onTap: () async {
                           if (isChaosSearching == true) {
-                            print('hala search ediyor');
+                          //  print('hala search ediyor');
 
                             DocumentReference pool2Ref = FirebaseFirestore
                                 .instance
@@ -836,15 +836,15 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
                             await pool2Ref.get().then(
                                 (value) => pool2Doc = value['groupMemberList']);
-                            print(pool2Doc);
+                           // print(pool2Doc);
 
                             var listDoc = pool2Doc as List<dynamic>;
 
                             if (listDoc
                                 .contains(userAll.isolaUserMeta.userUid)) {
-                              print('içeriyor');
+                           //   print('içeriyor');
                             } else {
-                              print('atiş serbset');
+                            //  print('atiş serbset');
                               await groupChaosApply(
                                   userAll.isolaUserMeta.userUid,
                                   groupSettingModelForTrawling.groupNo);
@@ -852,7 +852,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                           } else {
                             if (_animationControllerChaosStreaming
                                 .isAnimating) {
-                              print('islem yapamazsın');
+                            //  print('islem yapamazsın');
                             } else {
                               if (userAll.isolaUserMeta.userToken == 0) {
                                 //uyarı göster token yetersiz
@@ -1115,7 +1115,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
       _audioRecorder.start();
       _filePath = filepath;
     } else {
-      print("lütfen ses kayit icin izinleri acin");
+  //    print("lütfen ses kayit icin izinleri acin");
     }
   }
 }

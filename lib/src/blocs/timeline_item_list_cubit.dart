@@ -50,7 +50,7 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
       String targetFeedNo, bool likeOrUnlike, String myUid) async {
     final int foundIndex =
         state.indexWhere((element) => element.feedMeta.feedNo == targetFeedNo);
-    print(foundIndex);
+    //print(foundIndex);
     if (likeOrUnlike == true) {
       var items = state[foundIndex];
 
@@ -78,7 +78,7 @@ class TimelineItemListCubit extends Cubit<List<TimelineItem>> {
       emit(allItems);
     }
 
-    print(foundIndex);
+   // print(foundIndex);
   }
 
   void resetItems() {

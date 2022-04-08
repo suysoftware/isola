@@ -90,9 +90,9 @@ class _SearchPageState extends State<SearchPage> {
       feedAllControl = 0;
       _refreshController.loadNoData();
 
-      print("aha");
+     // print("aha");
     } else {
-      print("bscgridfeedvalue ${BasicGridWidget.feedValue.length}");
+     // print("bscgridfeedvalue ${BasicGridWidget.feedValue.length}");
 
       // print("gtilelength ${gTile.length}");
       // monitor network fetch
@@ -114,12 +114,12 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
 
-    print(widget.userAll.isolaUserMeta.userToken);
+    //print(widget.userAll.isolaUserMeta.userToken);
     widget.userAll.isolaUserMeta.userToken =
         context.read<UserAllCubit>().state.isolaUserMeta.userToken;
-    print('////////');
-    print(widget.userAll.isolaUserMeta.userToken);
-    print('////////');
+   // print('////////');
+  //  print(widget.userAll.isolaUserMeta.userToken);
+  //  print('////////');
 
 
 
@@ -136,9 +136,9 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.userAll.isolaUserDisplay.avatarUrl);
-    print(widget.userAll.isolaUserDisplay.userName);
 
+  print(100.h);
+    print(100.w);
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           trailing: Padding(
@@ -337,8 +337,8 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['feed_token_list']))
                 .toList();
 
-            print(itemDatas);
-            print('////////////');
+           // print(itemDatas);
+            //print('////////////');
 
             if (itemDatas.length < BasicGridWidget.feedValue.length &&
                 itemDatas.isNotEmpty) {
@@ -359,7 +359,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
             // itemDatas.sort((a, b) => a.feedDate.compareTo(b.feedDate));
 
             for (IsolaImageFeedModel item in itemDatas) {
-              print(item.feedImageUrl);
+             // print(item.feedImageUrl);
             }
             amountUpdater((itemDatas.length) );
             return itemDatas.isEmpty
@@ -383,7 +383,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                           mainAxisCellCount: tile.mainAxisCount,
                           child: GestureDetector(
                             onTap: () {
-                              print('ilk $index');
+                              //print('ilk $index');
                               _openDetail(context, index, itemDatas,
                                   widget.userUid, widget.userMeta, index);
                             },
@@ -414,8 +414,8 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
 
 _openDetail(context, index, List<dynamic> imageItemList, String userUid,
     IsolaUserMeta userMeta, int sira,) {
-  print(userMeta.userToken);
-  print(sira);
+ // print(userMeta.userToken);
+  //print(sira);
   //imageItemList.sort((a, b) => a.feedDate.compareTo(b.feedDate));
 
   List<dynamic> slicedList = imageItemList.slice(sira);
@@ -582,7 +582,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                   child: file == null
                       ? GestureDetector(
                           onTap: () {
-                            print("dd");
+                           // print("dd");
 
                             chooseImage();
                           },

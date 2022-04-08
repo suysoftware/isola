@@ -88,9 +88,8 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    //  print("H: ${100.h}");
-    // print("W: ${100.w}");
-
+  print(100.h);
+    print(100.w);
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
@@ -127,7 +126,7 @@ class _ChatPageState extends State<ChatPage> {
                           in groupMergeData as List<GroupsModel>) {
                         if (groupData.groupChaosIsActive) {
                           //  print("1 kere döndü");
-                          print('chaoslu item çalıştı');
+                        //  print('chaoslu item çalıştı');
                           final Stream<QuerySnapshot> _chaosStream =
                               FirebaseFirestore.instance
                                   .collection('chaos_groups_chat')

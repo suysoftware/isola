@@ -38,7 +38,6 @@ import 'package:isola_app/src/page/profile/profile_interest_edit.dart';
 import 'package:isola_app/src/page/splash_page.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:sizer/sizer.dart';
 
 late Box box;
@@ -104,8 +103,6 @@ Future<void> init() async {
       .onError((error, stackTrace) =>
           _userHive = UserHive(likesData: likeList, exloreData: history));
 
-
-
 /*
 var messaging= FirebaseMessaging.instance;
   NotificationSettings settings = await messaging.getNotificationSettings();
@@ -159,7 +156,8 @@ class MyApp extends StatelessWidget {
         groupMemberUid3: '',
         groupMemberUid2: '',
         groupNo: '',
-        userUid: '',newNotiValueAmount: 0);
+        userUid: '',
+        newNotiValueAmount: 0);
 
     var chaosGroupSetting = ChaosGroupSettingModel(
       groupMemberAvatarUrl2: '',
@@ -256,10 +254,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) {
             return TimelineItemListCubit(testItem: <TimelineItem>[]);
           }),
-            BlocProvider(create: (context) {
+          BlocProvider(create: (context) {
             return CurrentChatCubit();
           }),
-           
         ],
         child: CupertinoApp(
           debugShowCheckedModeBanner: false,

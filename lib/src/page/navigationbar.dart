@@ -54,11 +54,11 @@ class _NavigationBarState extends State<NavigationBar>
 
   Future<void> _firebaseMessagingOnMessageHandler(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
-    print(message.data['notiGroupNo']);
+  //  print(message.data['notiGroupNo']);
 
-    print(context.read<CurrentChatCubit>().state);
-    print('=');
-    print(context.read<GroupSettingCubit>().state.groupNo);
+  //  print(context.read<CurrentChatCubit>().state);
+   // print('=');
+    //print(context.read<GroupSettingCubit>().state.groupNo);
 
 if(message.data['notiCategory']=='chat_message'){
 if (message.data['notiGroupNo'] == context.read<CurrentChatCubit>().state) {
@@ -102,16 +102,16 @@ else{
     }*/
 
     if (message.notification!.body == 'The group member left the group ') {
-      print('çalisti');
+     // print('çalisti');
       try {
         Navigator.maybePop(context);
         // Navigator.pushReplacementNamed(context, navigationBar);
       } catch (e) {}
     }
 
-    print(message.notification!.body);
-    print(
-        'Handling aOnMessage message ${message.messageId} / ${message.sentTime} / ${message.data} / ${message.messageId} /  ${message.notification}');
+  //  print(message.notification!.body);
+    //print(
+      //  'Handling aOnMessage message ${message.messageId} / ${message.sentTime} / ${message.data} / ${message.messageId} /  ${message.notification}');
   }
 
   Future<void> _firebaseMessagingOpenedAppHandler(RemoteMessage message) async {
@@ -121,7 +121,7 @@ else{
       );
     }*/
 
-    print('Handling a OpenedApp message ${message.messageId}');
+   // print('Handling a OpenedApp message ${message.messageId}');
   }
 
   @override
@@ -164,10 +164,10 @@ else{
 
       if (userAll.isolaUserMeta.userIsSearching == true) {
         context.read<SearchStatusCubit>().searching();
-        print("searhingbastınavigation");
+       // print("searhingbastınavigation");
       } else {
         context.read<SearchStatusCubit>().pauseSearching();
-        print("pausesearhingbastınavigation");
+      //  print("pausesearhingbastınavigation");
       }
     });
   }
@@ -182,8 +182,8 @@ else{
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive) {
-      print(
-          "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
+    //  print(
+      //    "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
 
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
@@ -193,7 +193,7 @@ else{
     }
 
     if (state == AppLifecycleState.paused) {
-      print(" altta atıldı");
+    //  print(" altta atıldı");
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
@@ -204,7 +204,7 @@ else{
     }
 
     if (state == AppLifecycleState.resumed) {
-      print("alta atıp geri gelince");
+     //"alta atıp geri gelince");
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
@@ -329,9 +329,9 @@ else{
                         
                         var userAllSnap = snapshot.data as IsolaUserAll;
                       
-                        print('kakak');
-                        print(userAllSnap.isolaUserMeta.userToken);
-                        print('kakak');
+                      //  print('kakak');
+                       // print(userAllSnap.isolaUserMeta.userToken);
+                       // print('kakak');
                         return SearchPage(
                           user: user,
                           userAll: userAllSnap,

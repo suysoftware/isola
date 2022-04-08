@@ -108,7 +108,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
         onTap: () {
           setState(() {
             editingHobby = false;
-            print("aga absti");
+        //    print("aga absti");
           });
         },
         child: SmartRefresher(
@@ -183,7 +183,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                     visible: editingHobby == true ? true : false,
                     child: GestureDetector(
                       onLongPress: () {
-                        print("go");
+                     //   print("go");
                       },
                       child: Padding(
                           padding: EdgeInsets.fromLTRB(1.w, 0.0, 0.0, 0.0),
@@ -210,7 +210,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           editingHobby = true;
                         });
 
-                        print("aga absti");
+                        ////"aga absti");
                       },
                       child: Padding(
                         padding: editingHobby == false
@@ -309,7 +309,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       setState(() {
                         editingHobby = true;
                       });
-                      print("aga absti");
+                   //   print("aga absti");
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
@@ -342,7 +342,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       setState(() {
                         editingHobby = true;
                       });
-                      print("aga absti");
+                    //  print("aga absti");
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),

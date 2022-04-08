@@ -66,11 +66,7 @@ class _SearchDetailState extends State<SearchDetail> {
     if (BasicGridWidget.feedValue.length >= feedAllControl) {
       feedAllControl = 0;
       _refreshController.loadNoData();
-
-      print("aha");
     } else {
-      print("bscgridfeedvalue ${BasicGridWidget.feedValue.length}");
-
       // print("gtilelength ${gTile.length}");
       // monitor network fetch
       await Future.delayed(const Duration(milliseconds: 1000));
@@ -394,8 +390,6 @@ class PostTile extends StatefulWidget {
 class _PostTileState extends State<PostTile> {
   @override
   Widget build(BuildContext context) {
-    print(80.h);
-    print(100.w);
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Container(
@@ -413,7 +407,7 @@ class _PostTileState extends State<PostTile> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: SizedBox(
-                height: 80.h,
+                height: 100.h > 1150 ? 100.h : (100.h < 750 ? 90.h : 80.h),
                 width: 100.w,
                 child: FittedBox(
                   fit: BoxFit.cover,
@@ -423,13 +417,11 @@ class _PostTileState extends State<PostTile> {
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) =>
                         Icon(CupertinoIcons.xmark_square),
-                                  cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                    cacheManager: CacheManager(Config(
+                      "cachedImageFiles",
+                      stalePeriod: const Duration(days: 3),
+                      //one week cache period
+                    )),
                   ),
                 ),
               ),
@@ -471,19 +463,14 @@ class BoneOfPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('aasaafafsafs');
     return Stack(
       children: [
         GestureDetector(
           onTap: () {
-            print('imageUrl: $imageUrl');
-            print('indeks: $index');
             Timestamp dateStamp = imageItemList[index].feedDate;
 
             var ss = DateTime.fromMicrosecondsSinceEpoch(
                 dateStamp.microsecondsSinceEpoch);
-
-            print(ss);
           },
           child: PostTile(
             index: index,
@@ -553,6 +540,7 @@ class BoneOfPost extends StatelessWidget {
           ),
         ),
         Align(
+      
           alignment: Alignment.bottomCenter,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -773,13 +761,14 @@ class BoneOfPost extends StatelessWidget {
                                                         (context, url, error) =>
                                                             Icon(CupertinoIcons
                                                                 .xmark_square),
-                                                                          cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                    cacheManager:
+                                                        CacheManager(Config(
+                                                      "cachedImageFiles",
+                                                      stalePeriod:
+                                                          const Duration(
+                                                              days: 3),
+                                                      //one week cache period
+                                                    )),
                                                   )
                                                 : CachedNetworkImage(
                                                     imageUrl:
@@ -792,13 +781,14 @@ class BoneOfPost extends StatelessWidget {
                                                         (context, url, error) =>
                                                             Icon(CupertinoIcons
                                                                 .xmark_square),
-                                                                          cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                    cacheManager:
+                                                        CacheManager(Config(
+                                                      "cachedImageFiles",
+                                                      stalePeriod:
+                                                          const Duration(
+                                                              days: 3),
+                                                      //one week cache period
+                                                    )),
                                                   ))
                                             : CachedNetworkImage(
                                                 imageUrl: imageItemList[index]
@@ -810,13 +800,13 @@ class BoneOfPost extends StatelessWidget {
                                                     (context, url, error) =>
                                                         Icon(CupertinoIcons
                                                             .xmark_square),
-                                                                      cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                                                cacheManager:
+                                                    CacheManager(Config(
+                                                  "cachedImageFiles",
+                                                  stalePeriod:
+                                                      const Duration(days: 3),
+                                                  //one week cache period
+                                                )),
                                               ))),
                               ),
                             ),
@@ -855,7 +845,9 @@ class BoneOfPost extends StatelessWidget {
               ),
               SizedBox(
                 height: 3.h,
-              )
+              ),
+
+            100.h>1150?SizedBox(height: 20.h,):SizedBox(),
             ],
           ),
         )
@@ -864,18 +856,11 @@ class BoneOfPost extends StatelessWidget {
   }
 
   Future<bool> onLikeButtonTapped(bool isLiked) async {
-    print('in onTapped ${imageItemList[index].likeList}');
-    print('in onTapped ${imageItemList[index].likeValue}');
-
     /// send your request here
     //buradan final bool success= await sendRequest();
     bool success;
 
     if (isLiked == true) {
-      print('bu likelanmış');
-      print(
-        imageItemList[index].feedNo,
-      );
       try {
         //   imageItemList[index].likeList.remove(userUid);
         // imageItemList[index].likeValue--;
@@ -892,7 +877,6 @@ class BoneOfPost extends StatelessWidget {
         success = false;
       }
     } else {
-      print('bu likelanmamış');
       try {
         await likeFeed(
             feedLikeList: imageItemList[index].likeList,
@@ -917,17 +901,6 @@ class BoneOfPost extends StatelessWidget {
   }
 
   Future<bool> onTokenButtonTapped(bool isGave) async {
-    print(
-      imageItemList[index].feedNo,
-    );
-    print(
-        'onun token listesi in onTapped ${imageItemList[index].feedTokenList}');
-    print('onun token miktarı ${imageItemList[index].feedToken}');
-
-    print('///////////');
-    print('benim token miktar ${userMeta.userToken}');
-    print('//////////');
-
     /// send your request here
     //buradan final bool success= await sendRequest();
     bool success;
@@ -939,7 +912,7 @@ class BoneOfPost extends StatelessWidget {
         try {
           singleTokenSend(userUid, imageItemList[index].userUid,
               imageItemList[index].feedNo);
-          print('gönderildi');
+
           /*   await likeFeed(
             feedLikeList: imageItemList[index].likeList,
             targetUid: imageItemList[index].userUid,
@@ -960,7 +933,6 @@ class BoneOfPost extends StatelessWidget {
 
     } else {
       success = false;
-      print('hata göster tokenı yetmiyor');
     }
 
     if (success) {

@@ -113,6 +113,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+      print(100.h);
+    print(100.w);
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
@@ -502,7 +504,7 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
         ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
         : (await cropImageDataWithNativeLibrary(
             state: editorKey.currentState!))!);
-    print(fileData);
+   // print(fileData);
     final String? fileFath =
         await ImageSaver.save('extended_image_cropped_image.jpg', fileData);
 

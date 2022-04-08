@@ -259,7 +259,6 @@ Future<void> joinToMatchingPool(
     String userUid, bool userSexType, bool userIsNonBinary, bool userIsValid) {
   CollectionReference matchingPool =
       FirebaseFirestore.instance.collection('matching_pool');
-  print(DateTime.now().toUtc().millisecondsSinceEpoch);
   // Call the user's CollectionReference to add a new user
   return matchingPool.doc(userUid).set({
     'uUid': userUid,

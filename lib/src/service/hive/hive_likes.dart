@@ -30,16 +30,14 @@ class HiveOperations  {
 
     UserHive userHive = box.get('datetoday');
 
-    print("${userHive.likesData}");
-    print("${userHive.exloreData}");
+  
   }
 
   Future<UserHive> likeDataReturner() async {
     var box = await Hive.openBox('userHive');
 
     UserHive userHive = box.get('datetoday');
-    print("${userHive.likesData}");
-    print("${userHive.exloreData}");
+  
     return userHive;
   }
 
@@ -48,8 +46,7 @@ class HiveOperations  {
 
     UserHive userHive = box.get('datetoday');
 
-    print("${userHive.likesData}");
-    print("${userHive.exloreData}");
+  
   }
 
   likeDelete(String feedNo) async {

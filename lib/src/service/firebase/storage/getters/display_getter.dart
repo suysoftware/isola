@@ -1335,41 +1335,41 @@ Future<GroupMergeData> mergeForChatPage(String userUid) async {
   var userAll;
   var groupDatas;
   //we search user
-  print('1111');
+
   try {
-    print('girdi');
+   
     await getUserAllFromDataBase(userUid).then((value) => userAll = value);
   } catch (e) {
     print('$e PROBLEMİ VAR');
   }
   try {
-    print('girdi2');
+
     await getGroupDataFromDatabase(userAll).then((value) => groupDatas = value);
   } catch (e) {
     print('$e PROBLEMİ VAR');
   }
-  print('girdi3');
+
   var isThereGroup = userAll as IsolaUserAll;
 
-  print('grdi4');
+
   if (isThereGroup.isolaUserMeta.joinedGroupList.first != "nothing") {
-    print('giiririiri');
+  
     var expList;
     var box = await Hive.openBox('userHive');
     if (box.isNotEmpty) {
       UserHive userHive = box.get('datetoday');
 
       expList = userHive.exloreData;
-      print('ororoororor');
+      
     } else {
       expList = ['s'];
 
-      print('yok sana orrr');
+
     }
 
-    print('grdi5');
+
     var groupMergeDatas = GroupMergeData(userAll, groupDatas, expList);
-    print('grdi6');
+  
     return groupMergeDatas;
     /*
     try {
@@ -1381,7 +1381,7 @@ Future<GroupMergeData> mergeForChatPage(String userUid) async {
     }*/
   } else {
     var groupMergeDatas = GroupMergeData(userAll, groupDatas, ['df']);
-    print('grdi6');
+
     return groupMergeDatas;
   }
 }
@@ -1424,7 +1424,7 @@ Future<List<dynamic>> getGroupDataFromDatabase(IsolaUserAll userAll) async {
 
 Future<List<dynamic>> getTimelineFeeds(
     IsolaUserAll isolaUserAll, int amountData) async {
-  print(DateTime.now().toString());
+
   var timelineDatas = <TimelineItem>[];
 
   var timelineUserList = <dynamic>[];
@@ -1470,7 +1470,7 @@ Future<List<dynamic>> getTimelineFeeds(
           isolaUserAll: isolaUserAll,
         );
 
-        print('Name : ${item['user_name']}');
+
 
         timelineDatas.add(timelineItem);
       }
@@ -1481,7 +1481,7 @@ Future<List<dynamic>> getTimelineFeeds(
 }
 
 Future<void> getProfileTimeline(String userUid, int amountData) async {
-  print(DateTime.now().toString());
+
   var timelineDatas = <TimelineItem>[];
 
   var isolaFeedDatas = <IsolaFeedModel>[];
@@ -1515,13 +1515,13 @@ Future<void> getProfileTimeline(String userUid, int amountData) async {
           item['user_name'],
           item['user_uid']);
 
-      print('Name : ${item['user_name']}');
+
 
       isolaFeedDatas.add(isolaItem);
     }
   });
 
-  print(DateTime.now().toString());
+
 }
 
 Future<PopularTimeline> getPopularItems() async {

@@ -66,7 +66,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
       });
 
     ///burası değiştirilecek otomati kolarak okulunun ism iyazılacak
-    t3.text = "Tilburg University";
+    t3.text = widget.userAll.isolaUserDisplay.userUniversity;
+  
   }
 
   @override
@@ -549,7 +550,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                             t2.text.length > 2 &&
                             t3.text.isNotEmpty) {
                           if (checkbox == true) {
-                            print("tıklı");
+                            // print("tıklı");
 
                             if (context
                                     .read<SignUpCubit>()
@@ -593,7 +594,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
 //widget.userDisplay.avatarUrl = value;
 
                                 ///// eskiler
-                              /*  var refAvatarUrl = refGetter(
+                                /*  var refAvatarUrl = refGetter(
                                     enum2: RefEnum.Useravatar,
                                     targetUid:
                                         widget.userAll.isolaUserMeta.userUid,
@@ -631,12 +632,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
 
                                 widget.userAll.isolaUserDisplay.avatarUrl =
                                     value;
-                                print("kakakakkakakakka");
-                                print("kakakakkakakakka");
-                                print("kakakakkakakakka");
-                                print("kakakakkakakakka");
-                                print("kakakakkakakakka");
-                                print("kakakakkakakakka");
+
                                 FocusScope.of(context)
                                     .requestFocus(FocusNode());
                                 Navigator.push(

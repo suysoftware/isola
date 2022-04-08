@@ -37,7 +37,7 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
   ///crop rect base on raw image
   final Rect? cropRect = state.getCropRect();
 
-  print('getCropRect : $cropRect');
+
 
   // in web, we can't get rawImageData due to .
   // using following code to get imageCodec without download it.
@@ -100,7 +100,7 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
         image = copyRotate(image, editAction.rotateAngle);
       }
       final DateTime time3 = DateTime.now();
-      print('${time3.difference(time2)} : crop/flip/rotate');
+  
       return image;
     }).toList();
   }
@@ -114,7 +114,7 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
   //var fileData = await compute(encodeJpg, src);
   //var fileData = await isolateEncodeImage(src);
   List<int>? fileData;
-  print('start encode');
+
   final DateTime time4 = DateTime.now();
   if (src != null) {
     final bool onlyOneFrame = src.numFrames == 1;
@@ -129,14 +129,13 @@ Future<Uint8List?> cropImageDataWithDartLibrary(
     }
   }
   final DateTime time5 = DateTime.now();
-  print('${time5.difference(time4)} : encode');
-  print('${time5.difference(time1)} : total time');
+ 
   return Uint8List.fromList(fileData!);
 }
 
 Future<Uint8List?> cropImageDataWithNativeLibrary(
     {required ExtendedImageEditorState state}) async {
-  print('native library start cropping');
+
 
   final Rect? cropRect = state.getCropRect();
   final EditActionDetails action = state.editAction!;
@@ -167,7 +166,7 @@ Future<Uint8List?> cropImageDataWithNativeLibrary(
     imageEditorOption: option,
   );
 
-  print('${DateTime.now().difference(start)} ：total time');
+
   return result;
 }
 

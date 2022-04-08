@@ -101,7 +101,7 @@ class NotificationHelper {
   }
 
   setOnNotificationClick(Function onNotificationClick) async {
-        print('setOnNotificiClick');
+
 
     init();
 
@@ -178,7 +178,7 @@ class NotificationHelper {
   }
 
   Future<int> getPendingNotificationCount() async {
-    print('getPendingNoti');
+  
     List<PendingNotificationRequest> pendingNotifications =
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
     return pendingNotifications.length;

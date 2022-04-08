@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
       saveTokenToDatabase(token!);
       //FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
 
-      print(token);
+    //  print(token);
 
       getUserAllFromDataBase(user.uid).then((value) {
         if (value.isolaUserDisplay.userInterest.first == "interest1") {

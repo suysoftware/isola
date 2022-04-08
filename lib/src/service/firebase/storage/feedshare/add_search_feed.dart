@@ -60,11 +60,7 @@ Future<String> uploadImage(
   UploadTask uploadTask = refStorage.putFile(image);
   TaskSnapshot taskSnapshot = await uploadTask;
   await taskSnapshot.ref.getDownloadURL().then((value) => urlImage = value);
-  print(urlImage);
-   print(urlImage);
-    print(urlImage);
-     print(urlImage);
-      print(urlImage);
+
   return urlImage;
 }
 

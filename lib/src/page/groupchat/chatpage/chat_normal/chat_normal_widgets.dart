@@ -160,7 +160,7 @@ class ChatGroupCont extends StatelessWidget {
                 a.member_message_time.compareTo(b.member_message_time));
             groupDatasFriend2.sort((b, a) =>
                 a.member_message_time.compareTo(b.member_message_time));
-            print('notiTargetValue ${notiTargetValue}');
+          //  print('notiTargetValue ${notiTargetValue}');
             var groupSetting = GroupSettingModel(
                 groupMemberAvatarUrl1: userAll.isolaUserDisplay.avatarUrl,
                 groupMemberAvatarUrl2:

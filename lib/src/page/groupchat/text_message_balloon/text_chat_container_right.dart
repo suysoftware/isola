@@ -19,19 +19,7 @@ class TextChatContRight extends StatelessWidget {
     DateFormat dFormat = DateFormat("HH:mm");
     
 
-        /*
-    print(DateTime.fromMicrosecondsSinceEpoch(
-            messageTime.microsecondsSinceEpoch.toInt(),
-            isUtc: false)
-        .timeZoneName);
-
-    print('/////////');
-    print(duration);
-    Locale myLocale = Localizations.localeOf(context);
-    print(myLocale);
-    print(DateTime.now().timeZoneName);
-    print('//////////');
-    */
+  
     double contHeight = 100.h <= 1100
         ? ((targetMesaj.length < 50 ? 1 : targetMesaj.length / 50) + 1.0)
         : ((targetMesaj.length / 30) + 0.6);

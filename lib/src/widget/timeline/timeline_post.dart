@@ -76,8 +76,7 @@ class _TimelineItemState extends State<TimelineItem>
     return BlocBuilder<UserHiveCubit, UserHive>(builder: (context, userHive) {
       return GestureDetector(
           onTap: () async {
-            print(widget.feedMeta.userUid);
-            print(widget.userUid);
+           
             if (widget.feedMeta.userUid != widget.userUid) {
 /*
   var userDisplay = UserDisplay(
@@ -304,8 +303,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                             }
                                                           } else {
                                                             try {
-                                                              print(
-                                                                  'like geri alma');
+                                                         
                                                               timelineModelNesne
                                                                   .imageLikeOff();
 
@@ -343,7 +341,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                               print(e);
                                                             }
                                                           }
-                                                          print("exist");
+                                                
 
                                                           /*  var refLikeFeed =
                                                               refGetter(

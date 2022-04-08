@@ -28,7 +28,7 @@ class _LoggingOutState extends State<LoggingOut> {
     User? user = await Authentication.signInWithGoogle(context: context);
 
     if (user != null) {
-      print("girdi");
+      // print("girdi");
       try {
         await getUserAllFromDataBase(user.uid).then((value) {
           if (value.isolaUserDisplay.userInterest.first == "interest1") {
@@ -41,11 +41,11 @@ class _LoggingOutState extends State<LoggingOut> {
           }
         });
       } catch (e) {
-        print(e);
+        // print(e);
         Navigator.pushReplacementNamed(context, loggingOutRoute);
       }
     } else {
-      print("nulmuş");
+      //  print("nulmuş");
     }
   }
 
@@ -56,14 +56,20 @@ class _LoggingOutState extends State<LoggingOut> {
     return CupertinoPageScaffold(
         child: Stack(
       children: [
-        100.h >= 750
-            ? Image.asset("asset/img/logging_out.png",
-                width: 100.w, fit: BoxFit.fitHeight)
-            : Image.asset(
+        100.h > 1200
+            ? Image.asset(
                 "asset/img/logging_out_backscreen_for_low_height.png",
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fill,
                 width: 100.w,
-              ),
+              )
+            : (100.h >= 750
+                ? Image.asset("asset/img/logging_out.png",
+                    width: 100.w, fit: BoxFit.fitHeight)
+                : Image.asset(
+                    "asset/img/logging_out_backscreen_for_low_height.png",
+                    fit: BoxFit.fitWidth,
+                    width: 100.w,
+                  )),
         Align(
           alignment: Alignment.center,
           child: Image.asset(
@@ -72,7 +78,7 @@ class _LoggingOutState extends State<LoggingOut> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 1.w, 2.h),
+          padding:100.h>1150?EdgeInsets.fromLTRB(0, 0, 4.w, 2.h) : EdgeInsets.fromLTRB(0, 0, 1.w, 2.h),
           child: Align(
             alignment: Alignment.bottomRight,
             child: oblongTextIconButton(
@@ -84,7 +90,7 @@ class _LoggingOutState extends State<LoggingOut> {
                 isGradient: true,
                 textStyle: StyleConstants.softMilkTextStyle,
                 buttonHeight: 6,
-                buttonWidth: 52,
+                buttonWidth:100.h>1150? 32:52,
                 buttonPadding: 2.0,
                 borderWidth: 0.25,
                 borderColor: ColorConstant.softBlack),

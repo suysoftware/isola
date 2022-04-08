@@ -145,7 +145,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   }
 
   void _onLoading() async {
-    print("onloading");
+   // print("onloading");
     // monitor network fetch
     await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
@@ -191,8 +191,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
 
       if (result2 != null) {
         String fileName = result2.files.first.name;
-        print(fileName);
-        print(result2.paths);
+     //   print(fileName);
+        //print(result2.paths);
         await uploadAttachmentToChaos(
             userAll,
             result2.paths.first.toString(),
@@ -214,8 +214,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
 
       if (result != null) {
         String fileName = result.files.first.name;
-        print(fileName);
-        print(result.paths);
+       // print(fileName);
+        //print(result.paths);
 
         if (fileType == FileType.video) {
           await uploadAttachmentToChaos(
@@ -270,7 +270,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                         child: Icon(CupertinoIcons.paperclip,
                             size: 100.h >= 1100 ? 10.sp : 15.sp),
                         onPressed: () {
-                          print("ATTACHMENT");
+                         // print("ATTACHMENT");
 
                           showCupertinoModalPopup<void>(
                             barrierDismissible: true,
@@ -406,8 +406,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                         onLongPressStart: (LongPressStartDetails) async {
                           if (sayacModelNesne.sendIcon.icon ==
                               CupertinoIcons.mic) {
-                            print("mic basıldı");
-                            print("kayıt alınıyor");
+                         //   print("mic basıldı");
+                           // print("kayıt alınıyor");
 
                             sayacModelNesne.micCancelVisOn();
                             xPosition = LongPressStartDetails.localPosition.dx;
@@ -444,10 +444,10 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                         onLongPressEnd: (LongPressEndDetails) async {
                           if (yPosition - 70 >=
                               LongPressEndDetails.localPosition.dy) {
-                            print("agabuyuk");
+                           // print("agabuyuk");
                             //dikkat
                             await _audioRecorder.stop();
-                            print("ses kaydı çöpe atıldı");
+                           // print("ses kaydı çöpe atıldı");
                             sayacModelNesne.micCancelVisOff();
                             sayacModelNesne.micRecordingToWaste();
 
@@ -481,17 +481,17 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                   target5,
                                   true);
                               //buraya kural koy eğer 1 snaiyeyi geçtiyse yüklesin
-                              print(
-                                  "kayıt veritabanına yükleniyor ve gönderiliyor");
+                            //  print(
+                              //    "kayıt veritabanına yükleniyor ve gönderiliyor");
                               sayacModelNesne.micCancelVisOff();
                               sayacModelNesne.micOnline();
                             }
                           }
-                          print("end oldumu");
+                         // print("end oldumu");
                         },
                         child: CupertinoButton(
                           onPressed: () {
-                            print("basti");
+                           // print("basti");
 
                             if (sayacModelNesne.sendIcon.icon ==
                                 CupertinoIcons.add) {
@@ -499,7 +499,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                               userMessageAdd(t1.text, false, "nothing", docRef);
                               sayacModelNesne.micOnline();
                             } else {
-                              print("mikrofonbaşladı");
+                            //  print("mikrofonbaşladı");
                             }
                           },
                           child: sayacModelNesne.iconReader(),
@@ -600,10 +600,14 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
           //uzatma talebi gönder
 
         } else {
-          print('sikintii');
-          print(isBonus);
-          print(extensionButtonActive);
-          print(userAll.isolaUserMeta.userToken);
+         // print(chaosTimerController.getTime());
+
+          var sr = DateTime.now();
+
+          //  chaosTimerController.restart(
+          //  duration: dTimeWithBonus.difference(sr).inSeconds.toInt());
+
+        //  print(dTimeWithBonus.difference(sr).inSeconds.toInt());
         }
       },
       child: CircularCountDownTimer(
@@ -638,23 +642,22 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
 
         onStart: () {
           print('Countdown Started');
+
+          //   if (ds['time_bonus'] == true) {
+          //   var sr = DateTime.now();
+          // chaosTimerController.restart(
+          //   duration: dTimeWithBonus.difference(sr).inSeconds.toInt());
+          //}
         },
 
         onComplete: () async {
           print('Countdown Ended');
+          var sr = DateTime.now();
 
           if (ds['time_bonus'] == true &&
-              dTimeWithBonus.difference(dTime).inSeconds.toInt() > 0) {
-            await showCupertinoDialog(
-                barrierDismissible: true,
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                      actions: [
-                        CupertinoButton(
-                            child: Text('You have more time :)'),
-                            onPressed: () {})
-                      ],
-                    ));
+              dTimeWithBonus.difference(sr).inSeconds.toInt() > 0) {
+            chaosTimerController.restart(
+                duration: dTimeWithBonus.difference(sr).inSeconds.toInt());
           } else {
             var chaosCompleteRef = FirebaseFirestore.instance
                 .collection('chaos_complete_pool')
@@ -663,20 +666,9 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
             await chaosCompleteRef.set({
               'complete_chaos_no': groupSettingModelForTrawling.groupNo,
             });
-          }
 
-          /*  await showCupertinoDialog(
-              context: context,
-              builder: (context) => CupertinoAlertDialog(
-                    actions: [
-                      CupertinoButton(
-                          child: Text('Chaos Finished'),
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                                context, navigationBar);
-                          })
-                    ],
-                  ));*/
+            Navigator.pop(context);
+          }
         },
       ),
     );
@@ -698,8 +690,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     refChatInterior = context.read<ChatReferenceCubit>().state;
 
     groupSettingModelForTrawling = context.read<ChaosGroupSettingCubit>().state;
-
-
 
     context
         .read<CurrentChatCubit>()
@@ -861,9 +851,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
     WidgetsBinding.instance!.removeObserver(this);
     // print("sfafsa");
 
-    
     // print("sfafsa");
-    print('chattingchaos dispose çalıştı');
+    //print('chattingchaos dispose çalıştı');
 
     super.dispose();
   }
@@ -927,58 +916,12 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                           toFirestore: (message, _) => message.toJson(),
                         )
                         .snapshots(includeMetadataChanges: true),
-
-                    /*groupDocumentStream
-                          .withConverter<ChaosChatMessage>(
-                            fromFirestore: (snapshot, _) =>
-                                ChaosChatMessage.fromJson(snapshot.data()!),
-                            toFirestore: (message, _) => message.toJson(),
-                          )
-                          .snapshots(includeMetadataChanges: true),*/
                     builder: (context, snapshots) // (context, snapshots)
                         {
                       if (snapshots.hasData) {
                         DocumentSnapshot ds =
                             snapshots.requireData as DocumentSnapshot;
 
-                        /* print(ds['created_time']);
-                          print(ds['created_time']);
-                          print(ds['created_time']);
-                          print(ds['created_time']);
-                          print(ds['created_time']);
-                          
-                          print(DateTime.fromMicrosecondsSinceEpoch(
-                              ds['created_time'].microsecondsSinceEpoch.toInt(),
-                              isUtc: false));
-                          print(DateTime.fromMicrosecondsSinceEpoch(
-                              ds['finish_time'].microsecondsSinceEpoch.toInt(),
-                              isUtc: false));
-                          print(DateTime.fromMicrosecondsSinceEpoch(
-                              ds['finish_with_bonus_time']
-                                  .microsecondsSinceEpoch
-                                  .toInt(),
-                              isUtc: false));*/
-
-                        /*DateTime.fromMicrosecondsSinceEpoch(
-                              ds['created_time'].microsecondsSinceEpoch.toInt(),
-                              isUtc: false);*/
-                        /* DateTime dTimeFinish =
-                            DateTime.fromMicrosecondsSinceEpoch(
-                                ds['finish_time']
-                                    .microsecondsSinceEpoch
-                                    .toInt(),
-                                isUtc: false);
-                        DateTime dTimeWithBonus =
-                            DateTime.fromMicrosecondsSinceEpoch(
-                                ds['finish_with_bonus_time']
-                                    .microsecondsSinceEpoch
-                                    .toInt(),
-                                isUtc: false);
-                        DateTime dTime = DateTime.now();
-
-                        var ssd = dFormat.format(dTime);
-                        print('ssd $ssd');
-                        */
                         int chaosTime;
                         bool isBonus = ds['time_bonus'];
                         DateTime dTimeFinish =
@@ -1002,207 +945,22 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                         chaosTime = ds['time_bonus'] == true
                             ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
                             : dTimeFinish.difference(dTime).inSeconds.toInt();
-                        print('??????');
-                        print(chaosTime);
-                        print('???????');
-                        /*    chaosTime = ds['time_bonus'] == true
-                            ? (dTimeWithBonus.toDate())
-                                .difference(dTime)
-                                .inSeconds
-                                .toInt()
-                            : (dTimeFinish.toDate())
-                                .difference(dTime)
-                                .inSeconds
-                                .toInt();*/
+                      //  print('??????');
+                       // print(chaosTime);
 
                         if (ds['time_bonus'] &&
                             extensionButtonActive == false) {
-                          print('SSS');
-                          print('SSS');
-                          print('SSS');
-                          print('SSS');
-                          print('SSS');
-                          print('SSS');
+                         // print('SSS');
+                        
 
                           extensionButtonActive = true;
                         }
-                        //   dTime.microsecond.toInt;
-                        // print('dTime: ${dTime.millisecond}');
-                        //print(
-                        //  'dTimeFinish:  ${dTimeFinish.}');
-                        //  print(
-                        //    'dTimeWithBonus: ${dTimeWithBonus.millisecondsSinceEpoch}');
 
-                        print('////////////////');
-                        //   print((dTime.millisecond) - (dTimeFinish.millisecond));
-                        // print(
-                        //   (dTime.millisecond) - (dTimeWithBonus.millisecond));
-
-                        //print('________________');
-                        //  print(chaosTime);
-                        //   print(dTimeFinish.difference(dTime));
-
-                        /* print(dTime);
-                            print(dTime);
-                              print(dTime);
-                                print(dTime);
-                                  print(dTime);
-                                    print(dTime);*/
-                        // print('${dFormat.format()}');
-                        //  print(ss.chaosIsComplete);
-                        /*   if (isBonus) {
-                          print('girdiiiii');
-                          if ((dTimeWithBonus.difference(dTime).inSeconds.toInt() ==
-                              0)) {
-                            var chaosCompleteRef = FirebaseFirestore.instance
-                                .collection('chaos_complete_pool')
-                                .doc();
-
-                            chaosCompleteRef.set({
-                              'complete_chaos_no':
-                                  groupSettingModelForTrawling.groupNo,
-                              'complete_no': chaosCompleteRef.id,
-                            });
-                          }
-                        } else {
-                          if ((dTimeFinish.difference(dTime).inSeconds.toInt()) == 0) {
-                            var chaosCompleteRef = FirebaseFirestore.instance
-                                .collection('chaos_complete_pool')
-                                .doc();
-
-                            chaosCompleteRef.set({
-                              'complete_chaos_no':
-                                  groupSettingModelForTrawling.groupNo,
-                              'complete_no': chaosCompleteRef.id,
-                            });
-                          }
-                        }*/
-                        // print('chaostime $chaosTime');
-                        //var sfss = chaosTimerController.getTime();
-
-                        //print(sfss);
-
-                        print(
-                            'with bonus ${dTimeWithBonus.difference(dTime).inSeconds.toInt() > 0}');
+                    //    print(
+                  //          'with bonus ${dTimeWithBonus.difference(dTime).inSeconds.toInt() > 0}');
 
                         return timeCircle(isBonus, chaosTime, dTime,
                             dTimeWithBonus, ds, chaosTimerController);
-
-                        /*          return GestureDetector(
-                          onTap: () {
-                            if (userAll.isolaUserMeta.userToken > 0 &&
-                                isBonus != true &&
-                                extensionButtonActive == false) {
-                              DocumentReference extenRef = FirebaseFirestore
-                                  .instance
-                                  .collection('chaos_extensions_pool')
-                                  .doc();
-
-                              extenRef.set({
-                                'extension_no': extenRef.id,
-                                'benefactor_uid': userAll.isolaUserMeta.userUid,
-                                'chaos_group_no':
-                                    groupSettingModelForTrawling.groupNo,
-                                'extension_time': DateTime.now().toUtc(),
-                                'benefactor_name':
-                                    userAll.isolaUserDisplay.userName,
-                                'benefactor_avatar_url':
-                                    userAll.isolaUserDisplay.avatarUrl,
-                                'chaos_member_1_uid': target1,
-                                'chaos_member_2_uid': target2,
-                                'chaos_member_3_uid': target3,
-                                'chaos_member_4_uid': target4,
-                                'chaos_member_5_uid': target5,
-                              });
-
-                              extensionButtonActive = true;
-
-                              //uzatma talebi gönder
-
-                            } else {
-                              print('sikintii');
-                              print(isBonus);
-                              print(extensionButtonActive);
-                              print(userAll.isolaUserMeta.userToken);
-                            }
-                          },
-                          child: CircularCountDownTimer(
-                            controller: chaosTimerController,
-                            duration: chaosTime <= 0 ? 0 : chaosTime,
-
-                            /*  duration: ds['time_bonus'] == true
-                                  ? dTimeWithBonus.difference(dTime).inSeconds.toInt()
-                                  : dTimeFinish.difference(dTime).inSeconds.toInt(),*/
-                            //   initialDuration: 50,
-                            textFormat: CountdownTextFormat.MM_SS,
-                            width: 30.sp,
-                            height: 30.sp,
-                            ringColor: isBonus == true
-                                ? Colors.yellow[300]!
-                                : Colors.grey[300]!,
-                            //ringGradient: ColorConstant.isolaTriumGradient,
-                            fillColor: isBonus == true
-                                ? Colors.redAccent
-                                : Colors.purpleAccent[100]!,
-                            // fillGradient: ColorConstant.isolaMainGradient,
-                            backgroundColor: isBonus == true
-                                ? Colors.orange[300]!
-                                : Colors.purple[500],
-                            // backgroundGradient: ColorConstant.isolaMainGradient,
-                            strokeWidth: 5.0,
-                            strokeCap: StrokeCap.round,
-                            textStyle: 100.h > 1100
-                                ? StyleConstants.userTabletChatMessageTextStyle
-                                : StyleConstants.userChatMessageTextStyle,
-
-                            isReverse: true,
-
-                            isReverseAnimation: true,
-                            isTimerTextShown: true,
-                            autoStart: true,
-
-                            onStart: () {
-                              print('Countdown Started');
-                            },
-
-                            onComplete: () {
-                              print('Countdown Ended');
-
-                              if (ds['time_bonus'] == true &&
-                                  dTimeWithBonus
-                                          .difference(dTime)
-                                          .inSeconds
-                                          .toInt() >
-                                      0) {
-                                        
-                               
-                              } else {
-                                var chaosCompleteRef = FirebaseFirestore
-                                    .instance
-                                    .collection('chaos_complete_pool')
-                                    .doc(groupSettingModelForTrawling.groupNo);
-
-                                chaosCompleteRef.set({
-                                  'complete_chaos_no':
-                                      groupSettingModelForTrawling.groupNo,
-                                });
-                              }
-
-                              showCupertinoDialog(
-                                  context: context,
-                                  builder: (context) => CupertinoAlertDialog(
-                                        actions: [
-                                          CupertinoButton(
-                                              child: Text('sda'),
-                                              onPressed: () {
-                                                Navigator.pushReplacementNamed(
-                                                    context, navigationBar);
-                                              })
-                                        ],
-                                      ));
-                            },
-                          ),
-                        ); */
                       } else {
                         return Center(
                           child: CupertinoActivityIndicator(
@@ -1392,7 +1150,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
       _audioRecorder.start();
       _filePath = filepath;
     } else {
-      print("lütfen ses kayit icin izinleri acin");
+   //   print("lütfen ses kayit icin izinleri acin");
     }
   }
 }

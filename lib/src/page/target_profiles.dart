@@ -116,12 +116,12 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
       navigationBar: CupertinoNavigationBar(
         backgroundColor: ColorConstant.milkColor,
         automaticallyImplyLeading: true,
-        trailing: Padding(
+     /*   trailing: Padding(
           padding: const EdgeInsets.all(4.0),
           child: GestureDetector(
               onTap: () {},
               child: Image.asset("asset/img/settings_button.png")),
-        ),
+        ),*/
       ),
       child: FutureBuilder(
         future: getUserDisplay(widget.targetUid),
