@@ -5,6 +5,12 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
 import '../service/firebase/storage/groups/group_leave.dart';
 
+const String rt101Preview = 'It’s spam';
+const String rt102Preview = 'Nudity or sexual activity';
+const String rt103Preview = 'Hate speech or symbols';
+const String rt104Preview = 'Suicide or self-injury';
+const String rt105Preview = 'False information';
+
 Future<void> addToReportPool(String groupNo, String reasonType,
     String reporterUid, String targetUid) async {
   DocumentReference reportRef =
@@ -61,11 +67,12 @@ class ReportSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
-      title: const Text('Choose Reason !'),
-      message: const Text('sebebini söyle aga '),
+      title: const Text('Why are you reporting this post?'),
+      message: const Text(
+          'Your report is anonymous,if someone is in immediate danger, call the local emergency services'),
       actions: [
         CupertinoActionSheetAction(
-            child: Text(rt101),
+            child: const Text(rt101Preview),
             onPressed: () {
               if (isAllGroup == false) {
                 addToReportPool(groupNo, rt101, reporterUid, targetUid1);
@@ -93,7 +100,7 @@ class ReportSheet extends StatelessWidget {
               }
             }),
         CupertinoActionSheetAction(
-          child: Text(rt102),
+          child: const Text(rt102Preview),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt102, reporterUid, targetUid1);
@@ -122,7 +129,7 @@ class ReportSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: Text(rt103),
+          child: const Text(rt103Preview),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt103, reporterUid, targetUid1);
@@ -151,7 +158,7 @@ class ReportSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: Text(rt104),
+          child: const Text(rt104Preview),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt104, reporterUid, targetUid1);
@@ -180,7 +187,7 @@ class ReportSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: Text(rt105),
+          child: const Text(rt105Preview),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt105, reporterUid, targetUid1);
@@ -236,11 +243,12 @@ class ReportFeedSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
-      title: const Text('Choose Reason !'),
-      message: const Text('sebebini söyle aga '),
+      title: const Text('Why are you reporting this post?'),
+      message: const Text(
+          'Your report is anonymous,if someone is in immediate danger, call the local emergency services'),
       actions: [
         CupertinoActionSheetAction(
-            child: Text(rt101),
+            child: const Text(rt101Preview),
             onPressed: () {
               if (isImageFeed == true) {
 //reporting feed is image feed
@@ -276,7 +284,7 @@ class ReportFeedSheet extends StatelessWidget {
               //  Navigator.pop(context);
             }),
         CupertinoActionSheetAction(
-          child: Text(rt102),
+          child: const Text(rt102Preview),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed
@@ -310,7 +318,7 @@ class ReportFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: Text(rt103),
+          child: const Text(rt103Preview),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed
@@ -344,7 +352,7 @@ class ReportFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: Text(rt104),
+          child: const Text(rt104Preview),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed
@@ -378,7 +386,7 @@ class ReportFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: Text(rt105),
+          child: const Text(rt105Preview),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed

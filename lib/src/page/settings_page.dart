@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/page/account_setting.dart';
+import 'package:isola_app/src/page/terms_privacy/agree_terms.dart';
+import 'package:isola_app/src/page/terms_privacy/policy_dialog.dart';
 import 'package:isola_app/src/service/firebase/authentication.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
@@ -44,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         child: ListView(
           children: [
-            buttonGetter(
+        /*    buttonGetter(
                 const Icon(
                   CupertinoIcons.bell,
                   color: ColorConstant.softBlack,
@@ -72,6 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 1.h,
             ),
+            */
             buttonGetter(
                 const Icon(CupertinoIcons.person_circle,
                     color: ColorConstant.softBlack),
@@ -101,8 +104,12 @@ class _SettingsPageState extends State<SettingsPage> {
             buttonGetter(
                 const Icon(CupertinoIcons.info_circle,
                     color: ColorConstant.softBlack),
-                Text("About", style: settingTextStyle),
-                () async {}),
+                Text("About", style: settingTextStyle), () {
+              showCupertinoModalPopup(
+                  context: context,
+                  //imageUrlList[index].userName
+                  builder: (BuildContext context) => AboutFeedSheet());
+            }),
             SizedBox(
               height: 1.h,
             ),
@@ -148,4 +155,45 @@ Widget buttonGetter(
       ),
     ),
   );
+}
+
+class AboutFeedSheet extends StatelessWidget {
+  const AboutFeedSheet({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoActionSheet(
+      actions: [
+        CupertinoActionSheetAction(
+            child: const Text('Terms & Conditions'),
+            onPressed: () {
+
+                 showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return PolicyDialog(
+                          mdFileName: 'terms_and_conditions.md',
+                        );
+                      });
+              //  Navigator.pop(context);
+            }),
+        CupertinoActionSheetAction(
+          child: const Text('Privacy Policy!'),
+          onPressed: () {
+
+               showCupertinoDialog(
+                    context: context,
+                    builder: (context) {
+                      return PolicyDialog(
+                        mdFileName: 'privacy_policy.md',
+                      );
+                    },
+                  );
+          },
+        ),
+      ],
+    );
+  }
 }
