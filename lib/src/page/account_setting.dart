@@ -426,7 +426,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                                 t3.text.isNotEmpty) {
                               CollectionReference accountUpdateRef =
                                   FirebaseFirestore.instance
-                                      .collection("users_display");
+                                      .collection('users_display');
 
                               accountUpdateRef.doc(widget.userUid).update({
                                 'uName': "${t1.text} ${t2.text}",

@@ -65,7 +65,7 @@ class _InterestAddPageState extends State<ProfileInterestEditPage> {
                   ),
                   onPressed: () {
                     CollectionReference userDisplayRef =
-                        FirebaseFirestore.instance.collection("users_display");
+                        FirebaseFirestore.instance.collection('users_display');
 
                     userDisplayRef
                         .doc(widget.userAll.isolaUserMeta.userUid)

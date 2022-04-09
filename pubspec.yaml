@@ -76,6 +76,7 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   circular_countdown_timer: ^0.2.1
 
+
   
 
 
@@ -117,7 +118,6 @@ flutter:
     - asset/img/hobbies_icons_grey/
     - asset/img/hobbies_icons_active/
     - asset/img/hobbies_icons/
-    - asset/img/boring_files/
     - asset/animation/
     - asset/sound/
 

@@ -46,8 +46,14 @@ class _LoggingOutState extends State<LoggingOut> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         child: Stack(
+
       children: [
-        100.h > 1200
+
+
+        Container(
+          child: Image.asset('asset/img/logging_out_gradient.png'),
+        ),
+     /*   100.h > 1200
             ? Image.asset(
                 "asset/img/logging_out_backscreen_for_low_height.png",
                 fit: BoxFit.fill,
@@ -60,7 +66,7 @@ class _LoggingOutState extends State<LoggingOut> {
                     "asset/img/logging_out_backscreen_for_low_height.png",
                     fit: BoxFit.fitWidth,
                     width: 100.w,
-                  )),
+                  )), */
         Align(
           alignment: Alignment.center,
           child: Image.asset(
