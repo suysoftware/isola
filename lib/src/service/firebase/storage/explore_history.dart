@@ -5,7 +5,8 @@ exploreHistoryItemsSave(
     List<String> targetFeedNoList, String whichGroup) async {
   var box = await Hive.openBox('userHive');
 
-  UserHive userHive = box.get('datetoday');
+
+   UserHive userHive = box.get('datetoday');
   for (var item in targetFeedNoList) {
     if (userHive.exloreData.contains(item) == false) {
       userHive.exloreData.add(item);

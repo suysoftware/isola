@@ -75,6 +75,7 @@ dependencies:
   in_app_review: ^2.0.4
   flutter_cache_manager: ^3.3.0
   circular_countdown_timer: ^0.2.1
+  google_fonts: ^2.3.1
 
 
   
@@ -115,11 +116,13 @@ flutter:
     - asset/lang/es-ES.json
     - asset/lang/tr-TR.json
     - asset/document/
+    - asset/document/licences/
     - asset/img/hobbies_icons_grey/
     - asset/img/hobbies_icons_active/
     - asset/img/hobbies_icons/
     - asset/animation/
     - asset/sound/
+    - asset/img/guidebook/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

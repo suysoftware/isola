@@ -11,6 +11,7 @@ import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 import '../../../../model/group/groups_model.dart';
 import '../../../../model/hive_models/user_hive.dart';
+import '../../../../model/user/user_notification_settings.dart';
 
 Future<IsolaUserDisplay> getUserDisplay(String uid) async {
   var userDisplay;
@@ -261,4 +262,28 @@ Future<PopularTimeline> getPopularItems() async {
   });
 
   return PopularTimeline(itemList[0], itemList[1]);
+}
+
+Future<UserNotificationSettings> userNotificationSettingsGetter(
+    String userUid) async {
+  print(userUid);
+
+  DocumentReference userNotiSettingRef = FirebaseFirestore.instance
+      .collection('users_notification_settings')
+      .doc(userUid);
+  print('1');
+  var notiSettingData;
+  await userNotiSettingRef.get().then((notiData) => notiSettingData =
+      UserNotificationSettings(
+          notiData['chaos_messages'],
+          notiData['group_messages'],
+          notiData['likes'],
+          notiData['new_matches'],
+          notiData['system_notifications'],
+          notiData['tokens']));
+
+  print('2');
+
+  print('3');
+  return notiSettingData;
 }

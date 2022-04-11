@@ -1,46 +1,45 @@
-**RULES**
+**Safety**
 
-Don't harass others
+We care about our users and that’s the reason why we have some tips on how to stay safe while using Isola. It is very important to us to know that you are having a great time while also being cautious, so read carefully the following information.
 
-You must be 13+ to use the app.
+**How to Prioritize your safety on Isola**
 
-Do not reveal your personal information
+• Do not send money to someone you just met
 
-Do not spam the system
+• Do not overshare personal information which could put you in a very vulnerable position with strangers
 
-Do not discuss illegal activities
+• Request the person you are chatting with to verify their account
 
-**GUIDEBOOK**
+• Report hate speech and insults
 
-**If you don't want read to someone message:**
+• Report people you suspect to be catfishing
 
-=> Long press to his/her name 
+• Report spammers and scammers
 
-=> Then when he/she write something, you will see like a symbolic words
+• Report harassment, threats, and offensive messages
 
-=> If you want change back , you have to long press again
+• Report pictures and messages which inspire violence
 
-**If you want spam and block to someone:**
+In order to be safe remember to avoid posting pictures and messages that might share your location with strangers. In case you encounter a misbehaving user, do not hesitate to use the report and block features. Reported users will be scrutinized by our safety team and they will be banned from our app if they violated the safety of the other users. Your report will be anonymous and it will help us to create a better community.
 
-=> Choose the message want to reporting
+**Safety tips while meeting someone for the first time**
 
-=> 2 times tap to the name 
+• Before going out ask your matches to get a verified profile
 
-=> Then when you see the alert dialog , you have to tap to yes
+• Do not share personal information such as your home address, workplace etc. before meeting your matches and feeling safe around them.
 
-=> People you block can't see your messages
+• Always go out with at least two people. Avoid meeting only one group member.
 
-=> You can't see messages who people you block
+• Make sure to have your local emergency numbers saved on your phone before going out
 
-=> You can't undo the block
+• Propose always to meet in a public place such as the university cafeteria, coffee shops, bars and restaurants
 
-=> If user blocked from a lot people, the admins will check to messages
+• Don’t leave drinks unattended; There are bad people who can drug you
 
-**RANKS**
+• Be wary of getting robbed so take care of your personal items
 
-**Admin** => Red 
+• You can always leave the meeting. If you do not feel very safe, tell them that you are going to the bathroom and then leave.
 
-**Master** & Mod => Yellow 
+• Inform your closed ones the full name of the people you are going out with and the location of your appointment
 
-**Junior& Standart** => Green
-
+To help you feel safe before and after meeting people on Isola, we researched the safety numbers such as ambulances & authorities of countries around the world. Please visit this 'https://travel.state.gov/content/dam/students-abroad/pdfs/911_ABROAD.pdf' and, as we mentioned before, make sure to have your local emergency saved in your phone before your first appointment.

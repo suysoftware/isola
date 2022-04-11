@@ -689,8 +689,9 @@ class _AddProfileSignUpPhotoContainerState
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxHeight: 250,
-      maxWidth: 250,
+      maxHeight: 600,
+      maxWidth: 600,
+      imageQuality: 5,
     );
     file = File(xfile!.path);
     var currentSignUp = context.read<SignUpCubit>().state;

@@ -50,23 +50,23 @@ class _LoggingOutState extends State<LoggingOut> {
       children: [
 
 
-        Container(
+      /*  Container(
           child: Image.asset('asset/img/logging_out_gradient.png'),
-        ),
-     /*   100.h > 1200
+        ),*/
+       100.h > 1200
             ? Image.asset(
-                "asset/img/logging_out_backscreen_for_low_height.png",
+                'asset/img/logging_out_gradient.png',
                 fit: BoxFit.fill,
                 width: 100.w,
               )
             : (100.h >= 750
-                ? Image.asset("asset/img/logging_out.png",
+                ? Image.asset('asset/img/logging_out_gradient.png',
                     width: 100.w, fit: BoxFit.fitHeight)
                 : Image.asset(
-                    "asset/img/logging_out_backscreen_for_low_height.png",
-                    fit: BoxFit.fitWidth,
+                    'asset/img/logging_out_gradient.png',
+                    fit: BoxFit.fill,
                     width: 100.w,
-                  )), */
+                  )), 
         Align(
           alignment: Alignment.center,
           child: Image.asset(

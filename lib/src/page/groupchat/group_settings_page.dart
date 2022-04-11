@@ -1,6 +1,7 @@
 // ignore_for_file: implementation_imports, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -462,17 +463,46 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                               ),
                             ),
                             onPressed: () async {
-                              leaveGroup(groupSettingModel).whenComplete(() {
-                                Future.delayed(
-                                    const Duration(milliseconds: 3000), () {
-                                  Navigator.pushReplacementNamed(
-                                      context, navigationBar);
-                                });
+//
+
+                              CollectionReference chaosApply2Ref =
+                                  FirebaseFirestore.instance
+                                      .collection('groups');
+
+                              await chaosApply2Ref
+                                  .doc(groupSettingModel.groupNo)
+                                  .get()
+                                  .then((value) {
+                                if (value['gChaosSearching']) {
+                                  showCupertinoDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          CupertinoAlertDialog(
+                                            content: Text(
+                                                "You can't leave the group when you are searching chaos "),
+                                            actions: [
+                                              CupertinoButton(
+                                                  child: Text('Okey'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  }),
+                                            ],
+                                          ));
+                                } else {
+                                  leaveGroup(groupSettingModel)
+                                      .whenComplete(() {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 3000), () {
+                                      Navigator.pushReplacementNamed(
+                                          context, navigationBar);
+                                    });
+                                  });
+                                  showCupertinoDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          const AnimatedLiquidCircularProgressIndicator());
+                                }
                               });
-                              showCupertinoDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      const AnimatedLiquidCircularProgressIndicator());
                             }),
                         CupertinoButton(
                             child: Container(
@@ -498,24 +528,103 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     )
                                   ],
                                 )),
-                            onPressed: () {
-                              showCupertinoModalPopup(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      CupertinoActionSheet(
-                                        title: const Text('Report & Block !'),
-                                        message: const Text(
-                                            'Please choose a operation, then you will leave this group '),
-                                        actions: [
-                                          CupertinoActionSheetAction(
-                                            child: Text(groupSettingModel
-                                                .groupMemberName2),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              showCupertinoModalPopup(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) =>
+                            onPressed: () async {
+                              //
+                              CollectionReference chaosApply2Ref =
+                                  FirebaseFirestore.instance
+                                      .collection('groups');
+
+                              await chaosApply2Ref
+                                  .doc(groupSettingModel.groupNo)
+                                  .get()
+                                  .then((value) {
+                                if (value['gChaosSearching']) {
+                                  CollectionReference chaosApply2Ref =
+                                      FirebaseFirestore.instance
+                                          .collection('chaos_apply_pool_2');
+
+                                  chaosApply2Ref
+                                      .doc(groupSettingModel.groupNo)
+                                      .get()
+                                      .then((valueApply) {
+                                    var gList = valueApply['groupMemberList']
+                                        as List<dynamic>;
+                                    if (gList.length == 3) {
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              CupertinoAlertDialog(
+                                                content: Text(
+                                                    "You can't leave the group when you are searching chaos "),
+                                                actions: [
+                                                  CupertinoButton(
+                                                      child: Text('Okey'),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      }),
+                                                ],
+                                              ));
+                                    } else {
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              CupertinoAlertDialog(
+                                                  content:
+                                                      Text('Stop Matching?'),
+                                                  actions: [
+                                                    CupertinoButton(
+                                                        child: Text('Yes'),
+                                                        onPressed: () {
+                                                          DocumentReference
+                                                              stopMatchRef =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'chaos_stopper_pool')
+                                                                  .doc();
+
+                                                          stopMatchRef.set({
+                                                            'orderNo':
+                                                                stopMatchRef.id,
+                                                            'groupNo':
+                                                                groupSettingModel
+                                                                    .groupNo
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                          //chaos matching stop pool oluştur
+                                                          //orayı checker eden bir şey
+                                                          //
+                                                        }),
+                                                    CupertinoButton(
+                                                        child:
+                                                            Text('No Go Back'),
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        })
+                                                  ]));
+                                    }
+                                  });
+                                } else {
+                                  showCupertinoModalPopup(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          CupertinoActionSheet(
+                                            title:
+                                                const Text('Report & Block !'),
+                                            message: const Text(
+                                                'Please choose a operation, then you will leave this group '),
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                child: Text(groupSettingModel
+                                                    .groupMemberName2),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showCupertinoModalPopup(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
                                                           ReportSheet(
                                                             reporterUid:
                                                                 groupSettingModel
@@ -531,17 +640,17 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                             groupSettingModel:
                                                                 groupSettingModel,
                                                           ));
-                                            },
-                                          ),
-                                          CupertinoActionSheetAction(
-                                            child: Text(groupSettingModel
-                                                .groupMemberName3),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              showCupertinoModalPopup(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) =>
+                                                },
+                                              ),
+                                              CupertinoActionSheetAction(
+                                                child: Text(groupSettingModel
+                                                    .groupMemberName3),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showCupertinoModalPopup(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
                                                           ReportSheet(
                                                             reporterUid:
                                                                 groupSettingModel
@@ -557,16 +666,16 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                             groupSettingModel:
                                                                 groupSettingModel,
                                                           ));
-                                            },
-                                          ),
-                                          CupertinoActionSheetAction(
-                                            child: const Text(' All Group'),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              showCupertinoModalPopup(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) =>
+                                                },
+                                              ),
+                                              CupertinoActionSheetAction(
+                                                child: const Text(' All Group'),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  showCupertinoModalPopup(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
                                                           ReportSheet(
                                                             reporterUid:
                                                                 groupSettingModel
@@ -584,10 +693,12 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                             groupSettingModel:
                                                                 groupSettingModel,
                                                           ));
-                                            },
-                                          ),
-                                        ],
-                                      ));
+                                                },
+                                              ),
+                                            ],
+                                          ));
+                                }
+                              });
                             }),
                       ],
                     )

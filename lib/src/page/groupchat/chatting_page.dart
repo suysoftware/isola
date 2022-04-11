@@ -41,6 +41,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/style_constants.dart';
+import '../../model/group/groups_model.dart';
 
 class ChatInteriorPage extends StatefulWidget {
   const ChatInteriorPage({
@@ -724,6 +725,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                     child: GestureDetector(
                         onTap: () async {
                           if (isChaosSearching == true) {
+                            print('fsfas');
                             DocumentReference pool2Ref = FirebaseFirestore
                                 .instance
                                 .collection('chaos_apply_pool_2')
@@ -739,10 +741,98 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
 
                             if (listDoc
                                 .contains(userAll.isolaUserMeta.userUid)) {
+                              //iptal işlemi
+                              if (_animationControllerChaosStreaming
+                                      .isAnimating ==
+                                  false) {
+                                CollectionReference chaosApply2Ref =
+                                    FirebaseFirestore.instance
+                                        .collection('chaos_apply_pool_2');
+
+                                await chaosApply2Ref
+                                    .doc(groupSettingModelForTrawling.groupNo)
+                                    .get()
+                                    .then((value) {
+                                  var gList =
+                                      value['groupMemberList'] as List<dynamic>;
+
+                                  if (gList.length < 3) {
+                                    showCupertinoDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            CupertinoAlertDialog(
+                                                content: Text('Stop Matching?'),
+                                                actions: [
+                                                  CupertinoButton(
+                                                      child: Text('Yes'),
+                                                      onPressed: () {
+                                                        DocumentReference
+                                                            stopMatchRef =
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'chaos_stopper_pool')
+                                                                .doc();
+
+                                                        stopMatchRef.set({
+                                                          'orderNo':
+                                                              stopMatchRef.id,
+                                                          'groupNo':
+                                                              groupSettingModelForTrawling
+                                                                  .groupNo,
+                                                        });
+                                                        Navigator.pop(context);
+                                                        //chaos matching stop pool oluştur
+                                                        //orayı checker eden bir şey
+                                                        //
+                                                      }),
+                                                  CupertinoButton(
+                                                      child: Text('No Go Back'),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      })
+                                                ]));
+                                  } else {
+                                    showCupertinoDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            CupertinoAlertDialog(
+                                                content: Text(
+                                                    'All member already accepted the invite'),
+                                                actions: [
+                                                  CupertinoButton(
+                                                      child: Text('Okey'),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      })
+                                                ]));
+                                  }
+                                });
+                              }
                             } else {
-                              await groupChaosApply(
-                                  userAll.isolaUserMeta.userUid,
-                                  groupSettingModelForTrawling.groupNo);
+                              showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) => CupertinoAlertDialog(
+                                        content: Text('Join Chaos?'),
+                                        actions: [
+                                          CupertinoButton(
+                                              child: Text('Yes'),
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+
+                                                await groupChaosApply(
+                                                    userAll
+                                                        .isolaUserMeta.userUid,
+                                                    groupSettingModelForTrawling
+                                                        .groupNo);
+                                              }),
+                                          CupertinoButton(
+                                              child: Text('No, Go Back'),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              })
+                                        ],
+                                      ));
                             }
                           } else {
                             if (_animationControllerChaosStreaming
@@ -750,6 +840,18 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               //  print('islem yapamazsın');
                             } else {
                               if (userAll.isolaUserMeta.userToken == 0) {
+                                showCupertinoDialog(
+                                    context: context,
+                                    builder: (context) => CupertinoAlertDialog(
+                                          content: Text("You haven't token"),
+                                          actions: [
+                                            CupertinoButton(
+                                                child: Text('Okey'),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                })
+                                          ],
+                                        ));
                                 //uyarı göster token yetersiz
                               } else {
                                 if (_animationControllerChaos.isAnimating) {
@@ -780,6 +882,49 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               scale: 1.2),
                         )),
                   ),
+                  /*  Align(
+                    alignment: Alignment.center,
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('groups')
+                            .doc(groupSettingModelForTrawling.groupNo)
+                            .withConverter<GroupsModel>(
+                              fromFirestore: (snapshot, _) =>
+                                  GroupsModel.fromJson(snapshot.data()!),
+                              toFirestore: (message, _) => message.toJson(),
+                            )
+                            .snapshots(includeMetadataChanges: true),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            DocumentSnapshot groupData =
+                                snapshot.requireData as DocumentSnapshot;
+
+                 
+
+                            if ( groupData['gChaosSearching'] == false) {
+                              if (_animationControllerChaosSearching
+                                  .isAnimating) {
+                                print('calisti');
+                            
+                                _animationControllerChaosSearching.reset();
+                               setState(() {
+                                 
+                               });
+                              }
+                            } else if ( groupData['gChaosSearching'] == true) {
+                              if (_animationControllerChaosSearching
+                                      .isAnimating ==
+                                  false) {
+                                _animationControllerChaosSearching.repeat();
+                              }
+                            }
+                          }
+
+                          return SizedBox();
+                        }),
+                  ),
+                 
+                 */
                   Align(
                     alignment: Alignment.topRight,
                     child: Padding(
