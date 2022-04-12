@@ -1,5 +1,7 @@
 // ignore_for_file: implementation_imports, avoid_print, must_be_immutable, avoid_init_to_null
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
