@@ -10,7 +10,7 @@ class GuideBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
+        navigationBar: const CupertinoNavigationBar(
           automaticallyImplyLeading: true,
         ),
         child: SingleChildScrollView(
@@ -30,7 +30,7 @@ class GuideBookPage extends StatelessWidget {
               ),
               SizedBox(
                 width: 80.w,
-                child: AutoSizeText.rich(
+                child: const AutoSizeText.rich(
 
 
                     TextSpan(text: GuideBookConstants.guideIsolaText)
@@ -54,7 +54,7 @@ class GuideBookPage extends StatelessWidget {
               ),
               SizedBox(
                 width: 80.w,
-                child: AutoSizeText.rich(
+                child: const AutoSizeText.rich(
                     TextSpan(text: GuideBookConstants.guideMatchText)  ,textAlign: TextAlign.center,),
               ),
               SizedBox(
@@ -74,7 +74,7 @@ class GuideBookPage extends StatelessWidget {
               ),
               SizedBox(
                 width: 80.w,
-                child: AutoSizeText.rich(
+                child: const AutoSizeText.rich(
                     TextSpan(text: GuideBookConstants.guideTimelineText)  ,textAlign: TextAlign.center,),
               ),
               SizedBox(
@@ -94,7 +94,7 @@ class GuideBookPage extends StatelessWidget {
               ),
               SizedBox(
                 width: 80.w,
-                child: AutoSizeText.rich(
+                child: const AutoSizeText.rich(
                     TextSpan(text: GuideBookConstants.guideExploreText)  ,textAlign: TextAlign.center,),
               ),
               SizedBox(
@@ -114,7 +114,7 @@ class GuideBookPage extends StatelessWidget {
               ),
               SizedBox(
                 width: 80.w,
-                child: AutoSizeText.rich(
+                child: const AutoSizeText.rich(
                     TextSpan(text: GuideBookConstants.guideChatText)  ,textAlign: TextAlign.center,),
               ),
               SizedBox(
@@ -125,7 +125,7 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 height: 5.h,
               ),
-              Text('_______________'),
+              const Text('_______________'),
               SizedBox(
                 height: 7.h,
               ),

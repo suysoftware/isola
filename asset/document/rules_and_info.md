@@ -1,3 +1,5 @@
+**-**
+
 **Safety**
 
 We care about our users and that’s the reason why we have some tips on how to stay safe while using Isola. It is very important to us to know that you are having a great time while also being cautious, so read carefully the following information.

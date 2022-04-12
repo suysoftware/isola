@@ -41,7 +41,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/style_constants.dart';
-import '../../model/group/groups_model.dart';
+
 
 class ChatInteriorPage extends StatefulWidget {
   const ChatInteriorPage({
@@ -725,7 +725,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                     child: GestureDetector(
                         onTap: () async {
                           if (isChaosSearching == true) {
-                            print('fsfas');
+                       
                             DocumentReference pool2Ref = FirebaseFirestore
                                 .instance
                                 .collection('chaos_apply_pool_2')
@@ -761,10 +761,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                                content: Text('Stop Matching?'),
+                                                content: const Text('Stop Matching?'),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: Text('Yes'),
+                                                      child: const Text('Yes'),
                                                       onPressed: () {
                                                         DocumentReference
                                                             stopMatchRef =
@@ -787,7 +787,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                         //
                                                       }),
                                                   CupertinoButton(
-                                                      child: Text('No Go Back'),
+                                                      child: const Text('No Go Back'),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       })
@@ -797,11 +797,11 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                                content: Text(
+                                                content: const Text(
                                                     'All member already accepted the invite'),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: Text('Okey'),
+                                                      child: const Text('Okey'),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       })
@@ -813,10 +813,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               showCupertinoDialog(
                                   context: context,
                                   builder: (context) => CupertinoAlertDialog(
-                                        content: Text('Join Chaos?'),
+                                        content: const Text('Join Chaos?'),
                                         actions: [
                                           CupertinoButton(
-                                              child: Text('Yes'),
+                                              child: const Text('Yes'),
                                               onPressed: () async {
                                                 Navigator.pop(context);
 
@@ -827,7 +827,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                         .groupNo);
                                               }),
                                           CupertinoButton(
-                                              child: Text('No, Go Back'),
+                                              child: const Text('No, Go Back'),
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               })
@@ -843,10 +843,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                 showCupertinoDialog(
                                     context: context,
                                     builder: (context) => CupertinoAlertDialog(
-                                          content: Text("You haven't token"),
+                                          content: const Text("You haven't token"),
                                           actions: [
                                             CupertinoButton(
-                                                child: Text('Okey'),
+                                                child: const Text('Okey'),
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 })

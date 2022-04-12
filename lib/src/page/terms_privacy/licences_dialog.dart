@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../constants/color_constants.dart';
 
+// ignore: must_be_immutable
 class LicencesDialog extends StatelessWidget {
   LicencesDialog(
       {Key? key,
@@ -68,6 +69,7 @@ class LicencesDialog extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TermsAndPrivacyDialog extends StatelessWidget {
   TermsAndPrivacyDialog(
       {Key? key,

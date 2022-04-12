@@ -109,7 +109,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
               Positioned(
                   top: 100.h <= 700 ? 28.h : 25.h,
                   child: Text(
-                      "${(groupSettingModel.groupMemberName2).substring(0, 10)} & ${(groupSettingModel.groupMemberName3).substring(0, 10)}",
+                      "${(groupSettingModel.groupMemberName2.length>11?(groupSettingModel.groupMemberName2).substring(0, 10):groupSettingModel.groupMemberName2)} & ${(groupSettingModel.groupMemberName3.length>11?(groupSettingModel.groupMemberName3).substring(0, 10):groupSettingModel.groupMemberName3)}",
                       style: StyleConstants.profileNameTextStyle)),
               Positioned(
                 top: 100.h <= 1100 ? (100.h <= 700 ? 34.h : 30.h) : 34.h,
@@ -478,11 +478,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                       context: context,
                                       builder: (context) =>
                                           CupertinoAlertDialog(
-                                            content: Text(
+                                            content: const Text(
                                                 "You can't leave the group when you are searching chaos "),
                                             actions: [
                                               CupertinoButton(
-                                                  child: Text('Okey'),
+                                                  child: const Text('Okey'),
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   }),
@@ -554,11 +554,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                           context: context,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                                content: Text(
+                                                content: const Text(
                                                     "You can't leave the group when you are searching chaos "),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: Text('Okey'),
+                                                      child: const Text('Okey'),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       }),
@@ -570,10 +570,10 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                           builder: (context) =>
                                               CupertinoAlertDialog(
                                                   content:
-                                                      Text('Stop Matching?'),
+                                                      const Text('Stop Matching?'),
                                                   actions: [
                                                     CupertinoButton(
-                                                        child: Text('Yes'),
+                                                        child: const Text('Yes'),
                                                         onPressed: () {
                                                           DocumentReference
                                                               stopMatchRef =
@@ -598,7 +598,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                         }),
                                                     CupertinoButton(
                                                         child:
-                                                            Text('No Go Back'),
+                                                            const Text('No Go Back'),
                                                         onPressed: () {
                                                           Navigator.pop(
                                                               context);

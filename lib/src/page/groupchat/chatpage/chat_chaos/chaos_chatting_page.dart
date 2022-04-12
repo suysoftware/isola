@@ -168,7 +168,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
           type: fileType, allowMultiple: false, allowedExtensions: ['pdf']);
 
       if (result2 != null) {
-
         await uploadAttachmentToChaos(
             userAll,
             result2.paths.first.toString(),
@@ -189,7 +188,6 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
           .pickFiles(type: fileType, allowMultiple: false);
 
       if (result != null) {
-
         if (fileType == FileType.video) {
           await uploadAttachmentToChaos(
               userAll,
@@ -508,28 +506,53 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
       CountDownController chaosTimerController) {
     return GestureDetector(
       onTap: () {
+       
         if (userAll.isolaUserMeta.userToken > 0 &&
             isBonus != true &&
             extensionButtonActive == false) {
-          DocumentReference extenRef = FirebaseFirestore.instance
-              .collection('chaos_extensions_pool')
-              .doc();
+          showCupertinoDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                    title: const Text('More Time?'),
+                    content: const Text('You want +20 minutes? Price: 1 Token'),
+                    actions: [
+                      CupertinoButton(
+                          child: const Text('Yes'),
+                          onPressed: () async {
+                          
 
-          extenRef.set({
-            'extension_no': extenRef.id,
-            'benefactor_uid': userAll.isolaUserMeta.userUid,
-            'chaos_group_no': groupSettingModelForTrawling.groupNo,
-            'extension_time': DateTime.now().toUtc(),
-            'benefactor_name': userAll.isolaUserDisplay.userName,
-            'benefactor_avatar_url': userAll.isolaUserDisplay.avatarUrl,
-            'chaos_member_1_uid': target1,
-            'chaos_member_2_uid': target2,
-            'chaos_member_3_uid': target3,
-            'chaos_member_4_uid': target4,
-            'chaos_member_5_uid': target5,
-          });
+                            DocumentReference extenRef = FirebaseFirestore
+                                .instance
+                                .collection('chaos_extensions_pool')
+                                .doc();
 
-          extensionButtonActive = true;
+                            extenRef.set({
+                              'extension_no': extenRef.id,
+                              'benefactor_uid': userAll.isolaUserMeta.userUid,
+                              'chaos_group_no':
+                                  groupSettingModelForTrawling.groupNo,
+                              'extension_time': DateTime.now().toUtc(),
+                              'benefactor_name':
+                                  userAll.isolaUserDisplay.userName,
+                              'benefactor_avatar_url':
+                                  userAll.isolaUserDisplay.avatarUrl,
+                              'chaos_member_1_uid': target1,
+                              'chaos_member_2_uid': target2,
+                              'chaos_member_3_uid': target3,
+                              'chaos_member_4_uid': target4,
+                              'chaos_member_5_uid': target5,
+                            });
+
+                            extensionButtonActive = true;
+                              Navigator.pop(context);
+                          }),
+                      CupertinoButton(
+                          child: const Text('No, Go Back'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          })
+                    ],
+                  ));
 
           //extension order
 

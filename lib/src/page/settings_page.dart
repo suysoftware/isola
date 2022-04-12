@@ -6,9 +6,7 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/user/user_notification_settings.dart';
 import 'package:isola_app/src/page/account_setting.dart';
 import 'package:isola_app/src/page/guide_book_page.dart';
-import 'package:isola_app/src/page/terms_privacy/agree_terms.dart';
 import 'package:isola_app/src/page/terms_privacy/licences_dialog.dart';
-import 'package:isola_app/src/page/terms_privacy/policy_dialog.dart';
 import 'package:isola_app/src/service/firebase/authentication.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
@@ -61,7 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 () => showCupertinoDialog(
                       context: context,
                       builder: (context) {
-                        return NotificationSettingsPage();
+                        return const NotificationSettingsPage();
                       },
                     )),
             SizedBox(
@@ -508,6 +506,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   }
 }
 
+// ignore: must_be_immutable
 class NotificationChangeButton extends StatefulWidget {
   NotificationChangeButton(
       {Key? key,
