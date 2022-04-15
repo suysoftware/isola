@@ -145,9 +145,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxHeight: 600,
-      maxWidth: 600,
-      imageQuality: 5,
+      maxHeight: 1200,
+      maxWidth: 1200,
+      imageQuality: 100
+
     );
     File file = File(xfile!.path);
     showCupertinoDialog(

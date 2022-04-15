@@ -13,6 +13,7 @@ import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
+import 'package:isola_app/src/page/groupchat/chat_image_picker.dart';
 import 'package:isola_app/src/page/profile/profile_biography.dart';
 import 'package:isola_app/src/page/profile/profile_media_page.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
@@ -99,7 +100,25 @@ class _ProfilePageState extends State<ProfilePage> {
         );
     }
   }
+   chooseImage2() async {
+    XFile? xfile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 600,
+      maxWidth: 600,
+      imageQuality: 5,
 
+    );
+    File file = File(xfile!.path);
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) => ChatImagePickerNoChat(
+              userAll: widget.userAll,
+
+              file: file,
+              isChaos: false, isProfile: true, cropAspectRatios:CropAspectRatios.ratio1_1 , pHeight: 500, pWidth: 500,
+            
+            ));
+  }
   @override
   void initState() {
     super.initState();
@@ -226,15 +245,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     top: 100.h >= 700 ? (100.h >= 1100 ? 14.h : 14.h) : 9.5.h,
                     right: 100.h >= 700 ? (100.h >= 1100 ? 35.w : 28.w) : 33.w,
                     child: CupertinoButton(
-                      onPressed: () {
-                        showCupertinoDialog(
+                 onPressed: ()async=>chooseImage2(),
+                   /*     showCupertinoDialog(
                             context: context,
                             barrierDismissible: true,
                             builder: (BuildContext context) => Center(
                                   child: AddProfilePhotoContainer(
                                       userAll: widget.userAll),
-                                ));
-                      },
+                                ));*/
+                      
                       child: SizedBox(
                         height: 100.h >= 700
                             ? (100.h <= 1100 ? 22.sp : 5.h)
@@ -392,10 +411,17 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
                             chooseImage();
                           },
                           child: ClipOval(
-                            child: Icon(
-                              CupertinoIcons.photo_camera_solid,
-                              size: 70.sp,
-                              color: ColorConstant.themeGrey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  CupertinoIcons.photo_camera_solid,
+                                  size: 70.sp,
+                                  color: ColorConstant.themeGrey,
+                                ),
+                                   Text('Click Here',style: TextStyle(fontFamily: 'Roboto-Bold',fontSize: 24.sp,color: ColorConstant.themeGrey))
+                              ],
                             ),
                           ),
                         )

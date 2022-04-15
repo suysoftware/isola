@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -9,6 +11,7 @@ import 'package:isola_app/src/page/target_profiles/target_profiles_biography.dar
 import 'package:isola_app/src/page/target_profiles/target_profiles_media.dart';
 import 'package:isola_app/src/page/target_profiles/target_profiles_timeline.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
+import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
 
 class TargetProfilePage extends StatefulWidget {
@@ -78,6 +81,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
           targetUid: widget.targetUid,
           userUid: widget.userUid,
           isolaUserAll: widget.isolaUserAll,
+          targetImageUrl: widget.targetAvatarUrl,
         );
 
       case 1:
@@ -95,6 +99,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
           targetUid: widget.targetUid,
           userUid: widget.userUid,
           isolaUserAll: widget.isolaUserAll,
+          targetImageUrl: widget.targetAvatarUrl,
         );
     }
   }
@@ -102,6 +107,12 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   @override
   void initState() {
     super.initState();
+    print(widget.isolaUserAll.isolaUserMeta.userFriends);
+    if (widget.isolaUserAll.isolaUserMeta.userFriends
+            .contains(widget.targetUid) ==
+        false) {
+      Navigator.pushReplacementNamed(context, navigationBar);
+    }
   }
 
   @override
@@ -112,9 +123,48 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
+      navigationBar: CupertinoNavigationBar(
         backgroundColor: ColorConstant.milkColor,
         automaticallyImplyLeading: true,
+        trailing: CupertinoButton(
+          child: Icon(CupertinoIcons.exclamationmark_octagon_fill,
+              color: ColorConstant.redAlert),
+          onPressed: () {
+            showCupertinoDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                      actions: [
+                        CupertinoButton(
+                            child: Text('Delete Friend'),
+                            onPressed: () async {
+                              DocumentReference deleteRef = FirebaseFirestore
+                                  .instance
+                                  .collection('delete_friend_pool')
+                                  .doc();
+                              deleteRef.set({
+                                'target_uid': widget.targetUid,
+                                'user_uid': widget.userUid,
+                                'report_no': deleteRef.id,
+                              });
+
+                              widget.isolaUserAll.isolaUserMeta.userFriends
+                                  .remove(widget.targetUid);
+
+                              Navigator.pushReplacementNamed(
+                                  context, navigationBar);
+                            }),
+                        CupertinoButton(
+                            child: Text('Report'), onPressed: () {}),
+                        CupertinoButton(
+                            child: Text('No, Go Back'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })
+                      ],
+                    ));
+          },
+        ),
       ),
       child: FutureBuilder(
         future: getUserDisplay(widget.targetUid),

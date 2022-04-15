@@ -708,9 +708,8 @@ class _AddProfileSignUpPhotoContainerState
 
     setState(() {});
   }
-
-  final GlobalKey<ExtendedImageGestureState> gestureKey =
-      GlobalKey<ExtendedImageGestureState>();
+  final GlobalKey<ExtendedImageEditorState> editorKey =
+      GlobalKey<ExtendedImageEditorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -745,7 +744,7 @@ class _AddProfileSignUpPhotoContainerState
                       })
                 ],
               ),
-              Padding(
+             Padding(
                 padding: EdgeInsets.fromLTRB(0.w, 2.h, 0.0, 0.0),
                 child: SizedBox(
                   height: 45.h,
@@ -765,28 +764,28 @@ class _AddProfileSignUpPhotoContainerState
                         )
                       : ExtendedImage.file(
                           file!,
-                          extendedImageGestureKey: gestureKey,
-                          mode: ExtendedImageMode.gesture,
-                          fit: BoxFit.fill,
-                          border: Border.all(
-                              color: ColorConstant.iGradientMaterial4,
-                              width: 1.0),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(70.sp)),
-                          initGestureConfigHandler: (state) {
-                            return GestureConfig(
+                          extendedImageEditorKey: editorKey,
+                          mode: ExtendedImageMode.editor,
+                          fit: BoxFit.contain,
+                          height: 500,
+                          width: 500,
+                          enableLoadState: true,
+                          cacheRawData: true,
+                          initEditorConfigHandler: (state) {
+                            return EditorConfig(
+                                cornerColor: ColorConstant.iGradientMaterial4,
                                 maxScale: 4.0,
-                                cacheGesture: true,
-                                initialAlignment: InitialAlignment.center,
-                                gestureDetailsIsChanged:
-                                    (GestureDetails? details) {
-                                  print(details?.totalScale);
-                                });
+                                cropRectPadding: const EdgeInsets.all(15.0),
+                                hitTestSize: 10.0,
+                                initCropRectType: InitCropRectType.imageRect,
+                                cropAspectRatio: CropAspectRatios.ratio1_1,
+                                editActionDetailsIsChanged:
+                                    (EditActionDetails? details) {});
                           },
                         ),
                 ),
               ),
-              Padding(
+               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: GestureDetector(
                   onTap: () {},

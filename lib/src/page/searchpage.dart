@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -15,6 +17,7 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
+import 'package:isola_app/src/page/groupchat/chat_image_picker.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,6 +25,7 @@ import 'package:sizer/sizer.dart';
 import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
 import '../service/firebase/storage/feedshare/add_image_feeds.dart';
+import '../utils/image_cropper.dart';
 import '../widget/search_detail.dart';
 
 int feedAllControl = 0;
@@ -61,6 +65,26 @@ class _SearchPageState extends State<SearchPage> {
     });
     _refreshController.loadComplete();
     _refreshController.refreshCompleted();
+  }
+
+   chooseImage2() async {
+    XFile? xfile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 1200,
+      maxWidth: 1200,
+      imageQuality: 100
+
+    );
+    File file = File(xfile!.path);
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) => ChatImagePickerNoChat(
+              userAll: widget.userAll,
+
+              file: file,
+              isChaos: false, isProfile: false, cropAspectRatios: CropAspectRatios.ratio6_10, pHeight: 1000, pWidth: 600,
+            
+            ));
   }
 
   void _onLoading() async {
@@ -113,7 +137,8 @@ class _SearchPageState extends State<SearchPage> {
                 padding: const EdgeInsets.all(1.0),
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(1.0),
-                  onPressed: () async =>addSearchItemDialogContent(context)
+                  onPressed: ()async=>chooseImage2()
+              //    onPressed: () async =>addSearchItemDialogContent(context)
                     ,
                 
                   child: Container(
@@ -151,7 +176,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
             )));
   }
-
+/*
   addSearchItemDialogContent(BuildContext context) {
     return showCupertinoDialog(
       barrierDismissible: true,
@@ -162,7 +187,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
-  }
+  }*/
 }
 
 int downloadedItem = 0;
@@ -436,7 +461,7 @@ class GridTile {
   final int crossAxisCount;
   final int mainAxisCount;
 }
-
+/*
 class AddSearchItemContainer extends StatefulWidget {
   const AddSearchItemContainer({Key? key, required this.userAll})
       : super(key: key);
@@ -449,8 +474,12 @@ class AddSearchItemContainer extends StatefulWidget {
 class _AddSearchItemContainerState extends State<AddSearchItemContainer>
     with TickerProviderStateMixin {
   var t1 = TextEditingController();
-
+  bool _cropping = false;
   File? file;
+
+
+
+  File? file2 = null;
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
       preferredCameraDevice:CameraDevice.rear
@@ -517,30 +546,40 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                             chooseImage();
                           },
                           child: ClipOval(
-                            child: Icon(
-                              CupertinoIcons.photo_camera_solid,
-                              size: 70.sp,
-                              color: ColorConstant.themeGrey,
+                           child: Column(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             crossAxisAlignment: CrossAxisAlignment.center,
+                             children: [
+                               Icon(
+                                 CupertinoIcons.photo_camera_solid,
+                                 size: 70.sp,
+                                 color: ColorConstant.themeGrey,
+                               ),
+                                Text('Click Here',style: TextStyle(fontFamily: 'Roboto-Bold',fontSize: 24.sp,color: ColorConstant.themeGrey))
+                             ],
+                           ),
                             ),
-                          ),
                         )
                       : ExtendedImage.file(
                         
                           file!,
                           fit: BoxFit.contain,
                           mode: ExtendedImageMode.editor,
-                       
+                          enableLoadState: true,
+                          cacheRawData: true,
                           height: 1000,
                           width: 600,
                           extendedImageEditorKey: editorKey,
                           initEditorConfigHandler: (state) {
                             return EditorConfig(
-                            
+                             
+                                cropRectPadding: const EdgeInsets.all(15.0),
+                               
                                 cornerColor: ColorConstant.iGradientMaterial4,
                                 maxScale: 4.0,
                        
                                 hitTestSize: 10.0,
-                                initCropRectType: InitCropRectType.layoutRect,// imageRect,
+                                initCropRectType: InitCropRectType.imageRect,// imageRect,
                                 cropAspectRatio: CropAspectRatios.ratio6_10,
                                 editActionDetailsIsChanged:
                                     (EditActionDetails? details) {
@@ -550,6 +589,8 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                         ),
                 ),
               ),
+              
+             
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Container(
@@ -565,7 +606,8 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                     child: CupertinoButton(
                       padding: const EdgeInsets.all(1.0),
                       onPressed: () async {
-                        String fileID = const Uuid().v4();
+                        cropImage()
+                      /*  String fileID = const Uuid().v4();
                         uploadImage(widget.userAll.isolaUserMeta.userUid, file!,
                                 fileID)
                             .then((value) {
@@ -578,11 +620,11 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                             userName: widget.userAll.isolaUserDisplay.userName,
                             userUniversity:
                                 widget.userAll.isolaUserDisplay.userUniversity,
-                          );
+                          );*/
 
                    
                 
-                        }).whenComplete(() {
+                    .whenComplete(() {
                           Navigator.pop(context);
                           Navigator.pop(context);
                           setState(() {});
@@ -618,8 +660,44 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
       ),
     );
   }
-}
 
+
+  Future<void> cropImage() async {
+    if (_cropping) {
+      return;
+    }
+    final Uint8List fileData = Uint8List.fromList(kIsWeb
+        ? (await cropImageDataWithDartLibrary(state: editorKey.currentState!))!
+        : (await cropImageDataWithNativeLibrary(
+            state: editorKey.currentState!))!);
+    // print(fileData);
+    final String? fileFath =
+        await ImageSaver.save('extended_image_cropped_image.jpg', fileData);
+
+    file2 = File(fileFath!);
+    
+          String fileID = const Uuid().v4();
+                       await uploadImage(widget.userAll.isolaUserMeta.userUid, file2!,
+                                fileID)
+                            .then((value) {
+                          addImageFeedToDatabase(
+                            feedIsActivity: false,
+                            imageFeedUrl: value,
+                            uid: widget.userAll.isolaUserMeta.userUid,
+                            userAvatarUrl:
+                                widget.userAll.isolaUserDisplay.avatarUrl,
+                            userName: widget.userAll.isolaUserDisplay.userName,
+                            userUniversity:
+                                widget.userAll.isolaUserDisplay.userUniversity,
+                          );
+
+                   
+                
+                        });
+    _cropping = false;
+  }
+}
+*/
 class CropAspectRatios {
   /// no aspect ratio for crop
   //static const double custom = null;

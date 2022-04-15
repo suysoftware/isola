@@ -143,8 +143,8 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxHeight: 800,
-      maxWidth: 800,
+      maxHeight: 1200,
+      maxWidth: 1200,
       imageQuality: 100,
     );
     File file = File(xfile!.path);

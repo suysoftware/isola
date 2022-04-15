@@ -12,12 +12,13 @@ class TargetProfileTimelinePage extends StatefulWidget {
   final String targetUid;
   final String userUid;
   final IsolaUserAll isolaUserAll;
+  final String targetImageUrl;
 
   const TargetProfileTimelinePage(
       {Key? key,
       required this.targetUid,
       required this.userUid,
-      required this.isolaUserAll})
+      required this.isolaUserAll,required this.targetImageUrl})
       : super(key: key);
 
   @override
@@ -102,7 +103,8 @@ class _TargetProfileTimelinePageState extends State<TargetProfileTimelinePage> {
                                 data.docs[indeks]['feed_text'],
                                 data.docs[indeks]['like_list'],
                                 data.docs[indeks]['like_value'],
-                                data.docs[indeks]['user_avatar_url'],
+                             //   data.docs[indeks]['user_avatar_url'],
+                             widget.targetImageUrl,
                                 data.docs[indeks]['user_name'],
                                 data.docs[indeks]['user_uid']),
                             userUid: widget.userUid,

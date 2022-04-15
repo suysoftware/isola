@@ -276,6 +276,8 @@ class _PostTileState extends State<PostTile> {
                 width: 100.w,
                 child: FittedBox(
                   fit: BoxFit.cover,
+
+                 // child:Image.network(widget.imageUrl, fit: BoxFit.cover,),
                   child: CachedNetworkImage(
                     imageUrl: widget.imageUrl,
                     fit: BoxFit.cover,
@@ -589,12 +591,16 @@ class BoneOfPost extends StatelessWidget {
                                     child: ClipOval(
                                         child: 100.h >= 700
                                             ? (100.h <= 1100
-                                                ? /* Image.network(
+                                                ? 
+                                                
+                                                /* Image.network(
+                                                  
                                                     imageItemList[index]
                                                         .userAvatarUrl,
                                                     width: 7.h,
                                                     height: 7.h,
                                                     fit: BoxFit.cover,
+                                                  
                                                   )
                                                 : Image.network(
                                                     imageItemList[index]
@@ -610,7 +616,11 @@ class BoneOfPost extends StatelessWidget {
                                                 height: 35.sp,
                                                 fit: BoxFit.cover,
                                               )
+
 */
+
+
+
                                                 CachedNetworkImage(
                                                     imageUrl:
                                                         imageItemList[index]
@@ -619,6 +629,7 @@ class BoneOfPost extends StatelessWidget {
                                                         true,
                                                     width: 7.h,
                                                     height: 7.h,
+                                                    
                                                     fit: BoxFit.cover,
                                                     errorWidget: (context, url,
                                                             error) =>
@@ -632,12 +643,13 @@ class BoneOfPost extends StatelessWidget {
                                                           const Duration(
                                                               days: 3),
                                                       //one week cache period
-                                                    )),
+                                                    ),),
                                                   )
                                                 : CachedNetworkImage(
                                                     imageUrl:
                                                         imageItemList[index]
                                                             .userAvatarUrl,
+                                                            useOldImageOnUrlChange: true,
                                                     width: 35.sp,
                                                     height: 35.sp,
                                                     fit: BoxFit.cover,
@@ -661,6 +673,7 @@ class BoneOfPost extends StatelessWidget {
                                                 width: 45.sp,
                                                 height: 45.sp,
                                                 fit: BoxFit.cover,
+                                                useOldImageOnUrlChange: true,
                                                 errorWidget: (context, url,
                                                         error) =>
                                                     const Icon(CupertinoIcons
@@ -672,7 +685,14 @@ class BoneOfPost extends StatelessWidget {
                                                       const Duration(days: 3),
                                                   //one week cache period
                                                 )),
-                                              ))),
+                                              )
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              )
+                                              ),
                               ),
                             ),
                           )),
