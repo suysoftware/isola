@@ -109,7 +109,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
               Positioned(
                   top: 100.h <= 700 ? 28.h : 25.h,
                   child: Text(
-                      "${(groupSettingModel.groupMemberName2.length>11?(groupSettingModel.groupMemberName2).substring(0, 10):groupSettingModel.groupMemberName2)} & ${(groupSettingModel.groupMemberName3.length>11?(groupSettingModel.groupMemberName3).substring(0, 10):groupSettingModel.groupMemberName3)}",
+                      "${(groupSettingModel.groupMemberName2.length > 11 ? (groupSettingModel.groupMemberName2).substring(0, 10) : groupSettingModel.groupMemberName2)} & ${(groupSettingModel.groupMemberName3.length > 11 ? (groupSettingModel.groupMemberName3).substring(0, 10) : groupSettingModel.groupMemberName3)}",
                       style: StyleConstants.profileNameTextStyle)),
               Positioned(
                 top: 100.h <= 1100 ? (100.h <= 700 ? 34.h : 30.h) : 34.h,
@@ -295,8 +295,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 userAll.isolaUserMeta
                                                         .userFriendOrders =
                                                     friendOrderUpdate;
-
-                                                setState(() {});
+                                                print(userAll.isolaUserMeta
+                                                    .userFriendOrders);
+                                                setState(() {
+                                         
+                                                });
                                               });
                                             }),
                           )
@@ -415,8 +418,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 userAll.isolaUserMeta
                                                         .userFriendOrders =
                                                     friendOrderUpdate;
-
-                                                setState(() {});
+                                                print(userAll.isolaUserMeta
+                                                    .userFriendOrders);
+                                                setState(() {
+                                             
+                                                });
                                               });
                                             }),
                           )
@@ -569,11 +575,12 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                           context: context,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                                  content:
-                                                      const Text('Stop Matching?'),
+                                                  content: const Text(
+                                                      'Stop Matching?'),
                                                   actions: [
                                                     CupertinoButton(
-                                                        child: const Text('Yes'),
+                                                        child:
+                                                            const Text('Yes'),
                                                         onPressed: () {
                                                           DocumentReference
                                                               stopMatchRef =
@@ -597,8 +604,8 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                           //
                                                         }),
                                                     CupertinoButton(
-                                                        child:
-                                                            const Text('No Go Back'),
+                                                        child: const Text(
+                                                            'No Go Back'),
                                                         onPressed: () {
                                                           Navigator.pop(
                                                               context);

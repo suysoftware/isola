@@ -64,7 +64,7 @@ class _NavigationBarState extends State<NavigationBar>
     if (message.notification!.body == 'The group member left the group ') {
       try {
         Navigator.maybePop(context);
-      // ignore: empty_catches
+        // ignore: empty_catches
       } catch (e) {}
     }
   }

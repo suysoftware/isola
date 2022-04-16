@@ -107,12 +107,8 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   @override
   void initState() {
     super.initState();
-    print(widget.isolaUserAll.isolaUserMeta.userFriends);
-    if (widget.isolaUserAll.isolaUserMeta.userFriends
-            .contains(widget.targetUid) ==
-        false) {
-      Navigator.pushReplacementNamed(context, navigationBar);
-    }
+
+   
   }
 
   @override

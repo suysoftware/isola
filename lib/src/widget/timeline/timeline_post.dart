@@ -74,7 +74,13 @@ class _TimelineItemState extends State<TimelineItem>
           onTap: () async {
             if (widget.feedMeta.userUid != widget.userUid) {
               if (widget.isTimeline == true) {
-                Navigator.push(
+                if (widget.isolaUserAll.isolaUserMeta.userFriends
+                        .contains(widget.feedMeta.userUid) ==
+                    false) {
+                  print('alerttt no friend');
+                }
+                else{
+                        Navigator.push(
                     context,
                     CupertinoPageRoute(
                         builder: (context) => TargetProfilePage(
@@ -84,6 +90,8 @@ class _TimelineItemState extends State<TimelineItem>
                               userUid: widget.userUid,
                               isolaUserAll: widget.isolaUserAll,
                             )));
+                }
+          
               }
             }
           },
@@ -313,8 +321,7 @@ class _TimelineItemState extends State<TimelineItem>
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                              content:
-                                                  const Text("What's problem"),
+                                           
                                               actions: [
                                                 widget.feedMeta.userUid ==
                                                         widget.userUid
