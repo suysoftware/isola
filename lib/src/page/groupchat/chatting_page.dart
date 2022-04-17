@@ -7,6 +7,7 @@ import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,7 +42,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/style_constants.dart';
-
+import '../../extensions/locale_keys.dart';
 
 class ChatInteriorPage extends StatefulWidget {
   const ChatInteriorPage({
@@ -144,12 +145,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
   File? file = null;
   chooseImage() async {
     XFile? xfile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 1200,
-      maxWidth: 1200,
-      imageQuality: 100
-
-    );
+        source: ImageSource.gallery,
+        maxHeight: 1200,
+        maxWidth: 1200,
+        imageQuality: 100);
     File file = File(xfile!.path);
     showCupertinoDialog(
         context: context,
@@ -221,7 +220,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                             builder: (BuildContext context) =>
                                 CupertinoActionSheet(
                               cancelButton: CupertinoActionSheetAction(
-                                child: const Text('Cancel'),
+                                child: Text(LocaleKeys.main_cancel.tr()),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
@@ -262,7 +261,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                       SizedBox(
                                         width: 3.w,
                                       ),
-                                      const Text('Video (Coming Soon)')
+                                      Text(
+                                          'Video ${LocaleKeys.main_comingsoon.tr()}')
                                     ],
                                   ),
                                   onPressed: () {},
@@ -726,7 +726,6 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                     child: GestureDetector(
                         onTap: () async {
                           if (isChaosSearching == true) {
-                       
                             DocumentReference pool2Ref = FirebaseFirestore
                                 .instance
                                 .collection('chaos_apply_pool_2')
@@ -762,7 +761,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                                content: const Text('Stop Matching?'),
+                                                content: const Text(
+                                                    'Stop Matching?'),
                                                 actions: [
                                                   CupertinoButton(
                                                       child: const Text('Yes'),
@@ -788,7 +788,9 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                         //
                                                       }),
                                                   CupertinoButton(
-                                                      child: const Text('No Go Back'),
+                                                      child: Text(LocaleKeys
+                                                          .main_nogoback
+                                                          .tr()),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       })
@@ -844,7 +846,8 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                 showCupertinoDialog(
                                     context: context,
                                     builder: (context) => CupertinoAlertDialog(
-                                          content: const Text("You haven't token"),
+                                          content:
+                                              const Text("You haven't token"),
                                           actions: [
                                             CupertinoButton(
                                                 child: const Text('Okey'),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -13,6 +14,8 @@ import 'package:isola_app/src/page/target_profiles/target_profiles_timeline.dart
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
+
+import '../extensions/locale_keys.dart';
 
 class TargetProfilePage extends StatefulWidget {
   const TargetProfilePage(
@@ -47,7 +50,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
     0: Container(
       padding: EdgeInsets.zero,
       child: Text(
-        "Timeline",
+ LocaleKeys.main_timeline.tr(),
         style: navigatorStyle,
       ),
       color: ColorConstant.themeGrey,
@@ -56,7 +59,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
       padding: EdgeInsets.zero,
       child: Container(
         child: Text(
-          "Media",
+          LocaleKeys.main_media.tr(),
           style: navigatorStyle,
         ),
         color: ColorConstant.themeGrey,
@@ -132,7 +135,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
                 builder: (context) => CupertinoAlertDialog(
                       actions: [
                         CupertinoButton(
-                            child: Text('Delete Friend'),
+                            child: Text(LocaleKeys.main_deletefriend.tr()),
                             onPressed: () async {
                               DocumentReference deleteRef = FirebaseFirestore
                                   .instance

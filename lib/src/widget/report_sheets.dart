@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/model/group/group_setting_model.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
+import '../extensions/locale_keys.dart';
 import '../service/firebase/storage/groups/group_leave.dart';
 
 const String rt101Preview = 'It’s spam';
@@ -67,12 +69,11 @@ class ReportSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
-      title: const Text('Why are you reporting this post?'),
-      message: const Text(
-          'Your report is anonymous,if someone is in immediate danger, call the local emergency services'),
+      title: Text(LocaleKeys.report_reportingtextinterior.tr()),
+      message: Text(LocaleKeys.report_reportingtextdetail.tr()),
       actions: [
         CupertinoActionSheetAction(
-            child: const Text(rt101Preview),
+            child: Text(LocaleKeys.report_spam.tr()),
             onPressed: () {
               if (isAllGroup == false) {
                 addToReportPool(groupNo, rt101, reporterUid, targetUid1);
@@ -100,7 +101,7 @@ class ReportSheet extends StatelessWidget {
               }
             }),
         CupertinoActionSheetAction(
-          child: const Text(rt102Preview),
+          child:  Text(LocaleKeys.report_nudity.tr()),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt102, reporterUid, targetUid1);
@@ -129,7 +130,7 @@ class ReportSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text(rt103Preview),
+          child:  Text(LocaleKeys.report_hate.tr()),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt103, reporterUid, targetUid1);
@@ -158,7 +159,7 @@ class ReportSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text(rt104Preview),
+          child:  Text(LocaleKeys.report_suicide.tr()),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt104, reporterUid, targetUid1);
@@ -187,7 +188,7 @@ class ReportSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text(rt105Preview),
+          child:  Text(LocaleKeys.report_falseinfo.tr()),
           onPressed: () {
             if (isAllGroup == false) {
               addToReportPool(groupNo, rt105, reporterUid, targetUid1);
@@ -243,12 +244,11 @@ class ReportFeedSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
-      title: const Text('Why are you reporting this post?'),
-      message: const Text(
-          'Your report is anonymous,if someone is in immediate danger, call the local emergency services'),
+      title: Text(LocaleKeys.report_reportingtextinterior.tr()),
+      message: Text(LocaleKeys.report_reportingtextdetail.tr()),
       actions: [
         CupertinoActionSheetAction(
-            child: const Text(rt101Preview),
+            child:  Text(LocaleKeys.report_spam.tr()),
             onPressed: () {
               if (isImageFeed == true) {
 //reporting feed is image feed
@@ -284,7 +284,7 @@ class ReportFeedSheet extends StatelessWidget {
               //  Navigator.pop(context);
             }),
         CupertinoActionSheetAction(
-          child: const Text(rt102Preview),
+          child:  Text(LocaleKeys.report_nudity.tr()),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed
@@ -318,7 +318,7 @@ class ReportFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text(rt103Preview),
+          child:  Text(LocaleKeys.report_hate.tr()),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed
@@ -352,7 +352,7 @@ class ReportFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text(rt104Preview),
+          child:  Text(LocaleKeys.report_suicide.tr()),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed
@@ -386,7 +386,7 @@ class ReportFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text(rt105Preview),
+          child:  Text(LocaleKeys.report_falseinfo.tr()),
           onPressed: () {
             if (isImageFeed == true) {
 //reporting feed is image feed
@@ -423,7 +423,7 @@ class ReportFeedSheet extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Cancel'))
+            child: Text(LocaleKeys.main_cancel.tr()))
       ],
     );
   }

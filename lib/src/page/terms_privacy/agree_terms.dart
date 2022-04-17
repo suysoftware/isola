@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
+import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/page/terms_privacy/policy_dialog.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,7 +26,7 @@ class AgreeTermsOfUse extends StatelessWidget {
               fontSize: 10.sp),
           children: [
             TextSpan(
-              text: "Terms & Conditions ",
+              text: LocaleKeys.main_termsandconditions.tr(),
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: ColorConstant.signUpGenderButtons),
@@ -78,7 +80,7 @@ class SettingsTermsOfUse extends StatelessWidget {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-          text: "I agree  ",
+          text: LocaleKeys.main_agree.tr(),
           style: TextStyle(
               overflow: TextOverflow.ellipsis,
               color: ColorConstant.doubleSoftBlack,
@@ -86,7 +88,7 @@ class SettingsTermsOfUse extends StatelessWidget {
               fontSize: 10.sp),
           children: [
             TextSpan(
-              text: "Terms & Conditions ",
+              text: LocaleKeys.main_termsandconditions.tr(),
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: ColorConstant.signUpGenderButtons),

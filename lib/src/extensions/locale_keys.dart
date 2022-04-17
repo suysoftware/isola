@@ -5,7 +5,6 @@ abstract class LocaleKeys {
   // ignore: constant_identifier_names
   static const main_title = 'main.title';
   static const main_bodytext = 'main.bodytext';
-  static const main = 'main';
   static const main_report = 'main.report';
   static const main_back = 'main.back';
   static const main_cancel = 'main.cancel';
@@ -24,6 +23,25 @@ abstract class LocaleKeys {
   static const main_nogoback = 'main.nogoback';
   static const main_delete = 'main.delete';
   static const main_post = 'main.post';
+  static const main_name = 'main.name';
+  static const main_yourname = 'main.yourname';
+  static const main_surname = 'main.surname';
+  static const main_yoursurname = 'main.yoursurname';
+  static const main_university = 'main.university';
+  static const main_youruniversity = 'main.youruniversity';
+  static const main_gender = 'main.gender';
+  static const main_male = 'main.male';
+  static const main_female = 'main.female';
+  static const main_other = 'main.other';
+  static const main_agree = 'main.agree';
+  static const main_next = 'main.next';
+  static const main_agreeterms = 'main.agreeterms';
+  static const main_termsandconditions = 'main.termsandconditions';
+  static const main_privacypolicy = 'main.privacypolicy';
+  static const main_and = 'main.and';
+  static const main_givelocation = 'main.givelocation';
+  static const main_okay = 'main.okay';
+  static const main = 'main';
 
   static const report_reportingtextouter = 'report_reportingtextouter';
   static const report_reportingtextinterior = 'report.reportingtextinterior';
@@ -37,6 +55,12 @@ abstract class LocaleKeys {
 
   static const homepage_circulartext = 'homepage.circulartext';
   static const homepage_populartext = 'homepage.populartext';
+  static const homepage_needtoken = 'homepage.needtoken';
+  static const homepage_tokenalert = 'homepage.tokenalert';
+  static const homepage_earntoken = 'homepage.earntoken';
+  static const homepage_doesntyet = 'homepage.doesntyet';
+  static const homepage_nomorematch = 'homepage.nomorematch';
+  static const homepage_full = 'homepage.full';
   static const homepage = 'homepage';
 
   static const chat_participant = 'chat.participant';

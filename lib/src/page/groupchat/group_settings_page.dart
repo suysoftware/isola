@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/report_sheets.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../../extensions/locale_keys.dart';
 import '../../widget/liquid_progress_indicator.dart';
 
 class GroupSettingsPage extends StatefulWidget {
@@ -528,7 +530,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(left: 1.5.w),
-                                      child: Text("Report Group",
+                                      child: Text(LocaleKeys.chat_reportgroup.tr(),
                                           style: StyleConstants
                                               .userChatMessageTextStyle),
                                     )
@@ -604,8 +606,8 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                           //
                                                         }),
                                                     CupertinoButton(
-                                                        child: const Text(
-                                                            'No Go Back'),
+                                                        child:  Text(
+                                                          LocaleKeys.main_nogoback.tr()),
                                                         onPressed: () {
                                                           Navigator.pop(
                                                               context);

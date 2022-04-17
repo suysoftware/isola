@@ -19,7 +19,25 @@
         "deletefriend": "Delete Friend",
         "nogoback": "No, Go Back",
         "delete" : "Delete",
-        "post": "Post"
+        "post": "Post",
+        "name" : "Name",
+        "yourname" : "Your Name",
+        "surname" : "Surname",
+        "yoursurname" : "Your Surname",
+        "university":"University",
+        "youruniversity" : "Your university",
+        "gender" : "Gender",
+        "male" : "Male",
+        "female" : "Female",
+        "other" : "Other",
+        "agree" : "I Agree",
+        "next" : "Next",
+        "agreeterms":"You have to agree our terms",
+        "termsandconditions":"Terms & Conditions",
+        "privacypolicy":"Privacy Policy",
+        "and":"and",
+        "givelocation":"Please Give Location",
+        "okay":"okay"
       },
       "report": {
         "reportingtextouter": "Why you report this post , please explain",
@@ -34,7 +52,13 @@
 
     "homepage": {
       "circulartext": "Let's find some friends",
-      "populartext":"Popular in Timeline"
+      "populartext":"Popular in Timeline",
+       "needtoken" : "You need token",
+       "tokenalert" : "Token Alert",
+       "earntoken" : "Earn Token",
+       "doesntyet" : "No Doesn't yet",
+       "nomorematch" : "No more match",
+       "full" : "Full"
   },
   "chat": {
     "participant": "Participant",

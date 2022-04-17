@@ -1,8 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:isola_app/src/constants/guidebook_constants.dart';
 import 'package:sizer/sizer.dart';
+
+import '../extensions/locale_keys.dart';
 
 class GuideBookPage extends StatelessWidget {
   const GuideBookPage({Key? key}) : super(key: key);
@@ -60,7 +63,7 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              Text('Timeline',
+              Text(LocaleKeys.main_timeline.tr(),
                   style: GoogleFonts.orbitron(
                       fontSize: 24.sp, fontWeight: FontWeight.w400)),
               SizedBox(
@@ -80,7 +83,7 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              Text('Explore',
+              Text(LocaleKeys.main_explore.tr(),
                   style: GoogleFonts.orbitron(
                       fontSize: 24.sp, fontWeight: FontWeight.w400)),
               SizedBox(

@@ -1,16 +1,133 @@
 {
-    "main": {
-      "title": "Dil Desteği",
-      "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin."
-    },
-    "loggingout": {
-      "buttontext": "Google ile Katıl"
+  "main": {
+    "title": "Dil Desteği",
+    "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+    "report" : "Şikayet Et",
+    "back": "Geri",
+    "cancel": "İptal",
+    "media" : "Medya",
+    "timeline" : "Akış",
+    "biography" : "Biyografi",
+    "share" : "Paylaş",
+    "refreshing": "Yenileniyor",
+    "refcompleted": "Yenilendi",
+    "loading" : "Yükleniyor",
+    "nomoredata" : "İçerik Sonu",
+    "explore" : "Keşfet",
+    "comingsoon" : "Pek Yakında",
+    "clickhere" : "Buraya Tıkla",
+    "deletefriend": "Arkadaşlıktan Çıkar",
+    "nogoback": "Hayır, Geri Dön",
+    "delete" : "Sil",
+    "post": "Post",
+    "name" : "İsim",
+    "yourname" : "İsim giriniz",
+    "surname" : "Soyisim",
+    "yoursurname" :"Soyisim giriniz",
+    "university":"Üniversite",
+    "youruniversity" : "Üniversite giriniz",
+    "gender" : "Cinsiyet",
+    "male" : "Erkek",
+    "female" : "Kadın",
+    "other" : "Diğer",
+    "agree" : "Onaylıyorum",
+    "next" : "İleri",
+    "agreeterms":"Şartlarımızı kabul etmelisiniz",
+    "termsandconditions":"Şartlar & Koşullar",
+    "privacypolicy":"Gizlilik Sözleşmesi",
+    "and":"ve",
+    "givelocation":"Konumu Paylaş",
+    "okay":"Tamam"
+
+
+
+  },
+  "report": {
+    "reportingtextouter": "Neden bu içeriği şikayet ediyorsun , lütfen açıklayın",
+    "reportingtextinterior":"Neden bu içeriği şikayet ediyorsun?",
+    "reportingtextdetail":"Şikayetiniz anonim olacaktır, Eğer tehlikedeyseniz yerel acil durum ekiplerine haber veriniz",
+    "spam":"Bu içerik Spam",
+    "nudity":"Çıplaklık",
+    "hate":"Nefret Söylemi",
+    "suicide":"Tehlikeli İçerik",
+    "falseinfo":"Yanlış Bilgi"
   },
 
+"homepage": {
+  "circulartext": "Hadi arkadaş bul",
+  "populartext":"Popüler İçerikler",
+  "needtoken" : "Token Gerekli",
+  "tokenalert" : "Token Alarmı",
+  "earntoken" : "Token Kazan",
+  "doesntyet" : "Henüz Değil",
+  "nomorematch" : "Daha fazla eşleşemezsin",
+  "full" : "Dolu"
+},
+"chat": {
+"participant": "Grup Üyeleri",
+"leavegroup":"Gruptan Çık",
+"reportgroup":"Şikayet Et",
+"document":"Döküman",
+"photo":"Fotoğraf",
+"video":"Video"
 
-    "homepage": {
-      "circulartext": "Hadi Arkadaş Bul",
-      "populartext":"Popüler Gönderiler"
-  }
+},
+"profile": {
+"havenotimage": "Henüz resmin yok",
+"clubandact":"Kulüp & Aktiviteler",
+"hobbiesandinterest":"Hobiler & İlgiler"
+},
+"interest": {
+    
+"hiking":"Hiking",
+"reading":"Okuma",
+"art":"Sanat",
+"cooking":"Yemek",
+"theater":"Tiyatro",
+"traveling":"Seyahat",
+"swimming":"Yüzme",
+"basketball":"Basketbol",
+"football":"Futbol",
+"volleyball":"Voleybol",
+"tennis":"Tenis",
+"skiing":"Kayak",
+"cycling":"Bisiklet",
+"baseball":"Beyzbol",
+"climbing":"Tırmanış",
+"blogging":"Blog",
+"astrology":"Astroloji",
+"movies":"Film",
+"music":"Müzik",
+"gardening":"Bahçe",
+"calligraphy":"Kaligrafi",
+"yoga":"Yoga",
+"language":"Dil",
+"camping":"Kamp",
+"dance":"Dans",
+"games":"Oyun",
+"design":"Dizayn",
+"photograph":"Fotoğraf",
+"chess":"Satranç",
+"running":"Koşu",
+"bowling":"Bowling",
+"skate": "Kaykay",
+"martial":"Dövüş",
+"fashion":"Moda",
+"pet":"Pet"
+},
+"settings": {
+"notification":"Bildirimler",
+"account":"Hesap",
+"guidebook":"Kullanım",
+"about":"Bilgi",
+"logout":"Çıkış"
+
+},
+"loggingout": {
+"buttontext": "Google ile katıl"
+}
+
+
+
 
 }

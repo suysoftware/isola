@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -18,6 +19,8 @@ import 'package:isola_app/src/page/terms_privacy/agree_terms.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
+
+import '../extensions/locale_keys.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key, required this.userAll}) : super(key: key);
@@ -198,8 +201,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 15.w),
-                  child: const Text(
-                    "Name",
+                  child:  Text(
+                   LocaleKeys.main_name.tr(),
                     style: StyleConstants.signUpTitlesTextStyle,
                   ),
                 ),
@@ -228,7 +231,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               : const BorderSide(
                                   width: 1.0, color: ColorConstant.redAlert))),
                   controller: t1,
-                  placeholder: "Your name",
+                  placeholder: LocaleKeys.main_yourname.tr(),
                   placeholderStyle:
                       TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w100),
                 )),
@@ -240,8 +243,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 15.w),
-                  child: const Text(
-                    "Surname",
+                  child:  Text(
+                   LocaleKeys.main_surname.tr(),
                     style: StyleConstants.signUpTitlesTextStyle,
                   ),
                 ),
@@ -269,7 +272,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               : const BorderSide(
                                   width: 1.0, color: ColorConstant.redAlert))),
                   controller: t2,
-                  placeholder: "Your surname",
+                  placeholder: LocaleKeys.main_yoursurname,
                   placeholderStyle:
                       TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w100),
                 )),
@@ -280,8 +283,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 15.w),
-                  child: const Text(
-                    "University",
+                  child:  Text(
+                  LocaleKeys.main_university.tr(),
                     style: StyleConstants.signUpTitlesTextStyle,
                   ),
                 ),
@@ -309,7 +312,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               : const BorderSide(
                                   width: 1.0, color: ColorConstant.redAlert))),
                   controller: t3,
-                  placeholder: "Your University",
+                  placeholder: LocaleKeys.main_youruniversity.tr(),
                   placeholderStyle:
                       TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w100),
                 )),
@@ -319,8 +322,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 15.w),
-                  child: const Text(
-                    "Gender",
+                  child: Text(
+              LocaleKeys.main_gender.tr(),
                     style: StyleConstants.signUpTitlesTextStyle,
                   ),
                 ),
@@ -358,7 +361,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: CupertinoButton(
-                      child: Text("OTHER",
+                      child: Text(LocaleKeys.main_other.tr(),
                           style: isOther == true
                               ? StyleConstants.signUpGenderButtonActiveTextStyle
                               : StyleConstants
@@ -408,7 +411,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: CupertinoButton(
-                      child: Text("MALE",
+                      child: Text(LocaleKeys.main_male.tr(),
                           style: isMale == true
                               ? StyleConstants.signUpGenderButtonActiveTextStyle
                               : StyleConstants
@@ -458,7 +461,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: CupertinoButton(
-                      child: Text("FEMALE",
+                      child: Text(LocaleKeys.main_female.tr(),
                           style: isFemale == true
                               ? StyleConstants.signUpGenderButtonActiveTextStyle
                               : StyleConstants
@@ -637,11 +640,11 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 barrierDismissible: true,
                                 context: context,
                                 builder: (context) => CupertinoAlertDialog(
-                                      content: const Text(
-                                          "You have to agree our terms"),
+                                      content:  Text(
+                                      LocaleKeys.main_agreeterms.tr()),
                                       actions: [
                                         CupertinoButton(
-                                            child: const Text("Okey"),
+                                            child: const Text("Okay"),
                                             onPressed: () {
                                               Navigator.pop(context);
                                             })

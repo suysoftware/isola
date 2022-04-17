@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, unused_local_variable, avoid_print
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ import 'package:isola_app/src/service/firebase/storage/hive_operations.dart';
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../../extensions/locale_keys.dart';
 import '../report_sheets.dart';
 
 class TimelineItem extends StatefulWidget {
@@ -326,8 +328,8 @@ class _TimelineItemState extends State<TimelineItem>
                                                 widget.feedMeta.userUid ==
                                                         widget.userUid
                                                     ? CupertinoButton(
-                                                        child: const Text(
-                                                          "Delete Post",
+                                                        child: Text(
+                                                          "${LocaleKeys.main_delete.tr()} Post",
                                                           style: TextStyle(
                                                               color:
                                                                   CupertinoColors
@@ -359,8 +361,8 @@ class _TimelineItemState extends State<TimelineItem>
                                                               context);
                                                         })
                                                     : CupertinoButton(
-                                                        child: const Text(
-                                                          "Report",
+                                                        child:  Text(
+                                                        LocaleKeys.main_report.tr(),
                                                           style: TextStyle(
                                                               color:
                                                                   CupertinoColors
@@ -384,7 +386,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                                               .feedMeta,
                                                                     )))),
                                                 CupertinoButton(
-                                                    child: const Text("Back"),
+                                                    child:Text(LocaleKeys.main_back.tr()),
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     })
@@ -556,8 +558,8 @@ class _AddPostReportContainerState extends State<AddPostReportContainer> {
                             onPressed: () {
                               Navigator.pop(context);
                             }),
-                        const Text(
-                          "Why you report this post , please explain",
+                         Text(
+                          LocaleKeys.report_reportingtextouter.tr(),
                           style: StyleConstants.softDarkTextStyle,
                         ),
                       ],
@@ -627,7 +629,7 @@ class _AddPostReportContainerState extends State<AddPostReportContainer> {
                                     Radius.circular(6.0))),
                             child: Center(
                               child: Text(
-                                "Report",
+                                LocaleKeys.main_report.tr(),
                                 style: StyleConstants.postAddTextStyle,
                               ),
                             ),

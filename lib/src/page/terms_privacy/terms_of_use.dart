@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/page/terms_privacy/policy_dialog.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../extensions/locale_keys.dart';
 
 class TermsOfUse extends StatelessWidget {
   const TermsOfUse({
@@ -24,7 +27,7 @@ class TermsOfUse extends StatelessWidget {
               fontSize: 10.sp),
           children: [
             TextSpan(
-              text: "Terms & Conditions ",
+              text: LocaleKeys.main_termsandconditions.tr(),
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: ColorConstant.themeGrey),
@@ -39,7 +42,7 @@ class TermsOfUse extends StatelessWidget {
                       });
                 },
             ),
-            const TextSpan(text: "and "),
+             TextSpan(text:LocaleKeys.main_and.tr()),
             TextSpan(
               text: "Privacy Policy! ",
               style: const TextStyle(

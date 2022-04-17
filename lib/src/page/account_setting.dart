@@ -1,10 +1,12 @@
 // ignore_for_file: implementation_imports
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
+import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -120,8 +122,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child: const Text(
-                        "Name",
+                      child: Text(
+                       LocaleKeys.main_name.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -152,7 +154,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                                       width: 1.0,
                                       color: ColorConstant.redAlert))),
                       controller: t1,
-                      placeholder: "Your name",
+                      placeholder: LocaleKeys.main_yourname.tr(),
                       placeholderStyle: TextStyle(
                           fontSize: 10.sp, fontWeight: FontWeight.w100),
                     )),
@@ -164,8 +166,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child: const Text(
-                        "Surname",
+                      child:  Text(
+                        LocaleKeys.main_surname,
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -195,7 +197,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                                       width: 1.0,
                                       color: ColorConstant.redAlert))),
                       controller: t2,
-                      placeholder: "Your surname",
+                      placeholder: LocaleKeys.main_yoursurname.tr(),
                       placeholderStyle: TextStyle(
                           fontSize: 10.sp, fontWeight: FontWeight.w100),
                     )),
@@ -206,8 +208,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child: const Text(
-                        "University",
+                      child:  Text(
+                       LocaleKeys.main_university.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -228,7 +230,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                                       width: 1.0,
                                       color: ColorConstant.redAlert))),
                       controller: t3,
-                      placeholder: "Your University",
+                      placeholder: LocaleKeys.main_youruniversity.tr(),
                       placeholderStyle: TextStyle(
                           fontSize: 10.sp, fontWeight: FontWeight.w100),
                     )),
@@ -238,8 +240,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child: const Text(
-                        "Gender",
+                      child:  Text(
+                       LocaleKeys.main_gender.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -274,7 +276,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: CupertinoButton(
-                          child: Text("OTHER",
+                          child: Text(LocaleKeys.main_other.tr(),
                               style: isOther == true
                                   ? StyleConstants
                                       .signUpGenderButtonActiveTextStyle
@@ -322,7 +324,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: CupertinoButton(
-                          child: Text("MALE",
+                          child: Text( LocaleKeys.main_male.tr(),
                               style: isMale == true
                                   ? StyleConstants
                                       .signUpGenderButtonActiveTextStyle
@@ -370,7 +372,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: CupertinoButton(
-                          child: Text("FEMALE",
+                          child: Text(LocaleKeys.main_female.tr(),
                               style: isFemale == true
                                   ? StyleConstants
                                       .signUpGenderButtonActiveTextStyle

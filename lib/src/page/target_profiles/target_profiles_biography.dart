@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields, unused_field, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,8 @@ import 'package:isola_app/src/service/firebase/storage/getters/display_getter.da
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../extensions/locale_keys.dart';
 
 class TargetProfileBiographPage extends StatefulWidget {
   const TargetProfileBiographPage({Key? key, required this.targetUid})
@@ -78,7 +81,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                     children: [
                       Padding(
                         padding: EdgeInsets.fromLTRB(5.w, 0.0, 0.0, 0.5.h),
-                        child: Text("Biography", style: biographyStyle),
+                        child: Text(LocaleKeys.main_biography.tr(), style: biographyStyle),
                       ),
                     ],
                   ),
@@ -104,7 +107,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                     children: [
                       Padding(
                         padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                        child: Text("Club & Activities (coming soon)",
+                        child: Text("Club & Activities ${LocaleKeys.main_comingsoon.tr()}",
                             style: biographyStyle),
                       ),
                     ],

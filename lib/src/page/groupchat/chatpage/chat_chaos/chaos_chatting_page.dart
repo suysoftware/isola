@@ -35,6 +35,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../blocs/chaos_group_setting_cubit.dart';
 import '../../../../blocs/current_chat_cubit.dart';
+import '../../../../extensions/locale_keys.dart';
 import '../../../../model/chaos/chaos_chat_message.dart';
 import '../../../../model/chaos/chaos_group_setting_model.dart';
 
@@ -246,7 +247,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                             builder: (BuildContext context) =>
                                 CupertinoActionSheet(
                               cancelButton: CupertinoActionSheetAction(
-                                child: const Text('Cancel'),
+                                child: Text(LocaleKeys.main_cancel.tr()),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
@@ -287,7 +288,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                                       SizedBox(
                                         width: 3.w,
                                       ),
-                                      const Text('Video (Coming Soon)')
+                                    Text('Video ${LocaleKeys.main_comingsoon.tr()}')
                                     ],
                                   ),
                                   onPressed: () {},

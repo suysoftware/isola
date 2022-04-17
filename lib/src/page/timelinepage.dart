@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, unused_field
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ import 'package:isola_app/src/widget/timeline/timeline_post.dart';
 import 'package:provider/src/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
+
+import '../extensions/locale_keys.dart';
 
 class TimelinePage extends StatefulWidget {
   const TimelinePage({
@@ -458,7 +461,7 @@ class _AddPostContainerState extends State<AddPostContainer> {
                                           Radius.circular(6.0))),
                                   child: Center(
                                     child: Text(
-                                      "Post",
+                                     LocaleKeys.main_post.tr(),
                                       style: StyleConstants.postAddTextStyle,
                                     ),
                                   ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,6 +24,8 @@ import 'package:isola_app/src/page/profile/profile_timeline_page.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
+
+import '../extensions/locale_keys.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -50,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
     0: Container(
       padding: EdgeInsets.zero,
       child: Text(
-        "Timeline",
+        LocaleKeys.main_timeline.tr(),
         style: navigatorStyle,
       ),
       color: ColorConstant.themeGrey,
@@ -58,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
     1: Padding(
       padding: EdgeInsets.zero,
       child: Container(
-        child: Text("Media", style: navigatorStyle),
+        child: Text(LocaleKeys.main_media.tr(), style: navigatorStyle),
         color: ColorConstant.themeGrey,
       ),
     ),
@@ -420,7 +423,7 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
                                   size: 70.sp,
                                   color: ColorConstant.themeGrey,
                                 ),
-                                   Text('Click Here',style: TextStyle(fontFamily: 'Roboto-Bold',fontSize: 24.sp,color: ColorConstant.themeGrey))
+                                   Text(LocaleKeys.main_clickhere.tr(),style: TextStyle(fontFamily: 'Roboto-Bold',fontSize: 24.sp,color: ColorConstant.themeGrey))
                               ],
                             ),
                           ),
@@ -485,7 +488,7 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
                                 const BorderRadius.all(Radius.circular(6.0))),
                         child: Center(
                           child: Text(
-                            "Post",
+                            LocaleKeys.main_post.tr(),
                             style: StyleConstants.postAddTextStyle,
                           ),
                         ),

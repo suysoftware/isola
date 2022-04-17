@@ -2,10 +2,12 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
+import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/service/firebase/storage/deleting/feed_delete.dart';
 import 'package:isola_app/src/utils/router.dart';
@@ -373,7 +375,7 @@ class BoneOfPost extends StatelessWidget {
                           builder: (context) => CupertinoAlertDialog(
                                 actions: [
                                   CupertinoButton(
-                                      child: const Text('Delete Post'),
+                                      child:  Text('${LocaleKeys.main_delete.tr()} Post'),
                                       onPressed: () {
                                         imageFeedDelete(
                                             imageItemList[index].feedNo,

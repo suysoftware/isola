@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
+import '../extensions/locale_keys.dart';
 import '../service/firebase/storage/feedshare/add_image_feeds.dart';
 import '../utils/image_cropper.dart';
 import '../widget/search_detail.dart';
@@ -154,9 +156,9 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           backgroundColor: ColorConstant.milkColor,
-          leading: const Padding(
+          leading:  Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text("Explorer"),
+            child: Text(LocaleKeys.main_explore.tr(),),
           ),
         ),
         child: SmartRefresher(
@@ -555,7 +557,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                                  size: 70.sp,
                                  color: ColorConstant.themeGrey,
                                ),
-                                Text('Click Here',style: TextStyle(fontFamily: 'Roboto-Bold',fontSize: 24.sp,color: ColorConstant.themeGrey))
+                                Text(LocaleKeys.main_clickhere.tr(),style: TextStyle(fontFamily: 'Roboto-Bold',fontSize: 24.sp,color: ColorConstant.themeGrey))
                              ],
                            ),
                             ),
@@ -645,7 +647,7 @@ class _AddSearchItemContainerState extends State<AddSearchItemContainer>
                                 const BorderRadius.all(Radius.circular(6.0))),
                         child: Center(
                           child: Text(
-                            "Post",
+                            LocaleKeys.main_post.tr(),
                             style: StyleConstants.postAddTextStyle,
                           ),
                         ),

@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -19,6 +20,8 @@ import 'package:isola_app/src/page/groupchat/chatpage/chatpage.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../extensions/locale_keys.dart';
 
 class ChatGroupCont extends StatelessWidget {
   const ChatGroupCont(
@@ -397,14 +400,14 @@ class ChatGroupCard extends StatelessWidget {
                                 content: const Text("dasdadsadsa"),
                                 actions: [
                                   CupertinoButton(
-                                      child: const Text(
-                                        "Report Group",
+                                      child:  Text(
+                                      LocaleKeys.chat_reportgroup.tr(),
                                         style: TextStyle(
                                             color: CupertinoColors.systemRed),
                                       ),
                                       onPressed: () {}),
                                   CupertinoButton(
-                                      child: const Text("Back"),
+                                      child:  Text( LocaleKeys.main_back.tr(),),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       })
