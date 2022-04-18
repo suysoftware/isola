@@ -203,7 +203,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                 size: 65.sp,
                 color: ColorConstant.softGrey,
               ),
-              const Text("You have not image")
+             Text(LocaleKeys.profile_havenotimage.tr())
             ],
           ))
         : StaggeredGrid.count(
@@ -364,7 +364,7 @@ class BoneOfPost extends StatelessWidget {
                         )
                       : Icon(
                           CupertinoIcons.exclamationmark_circle,
-                          color: ColorConstant.iGradientMaterial4,
+                          color: CupertinoColors.destructiveRed,
                           size: 23.sp,
                         ),
               onPressed: isProfile == true &&

@@ -37,7 +37,16 @@
     "privacypolicy":"Gizlilik Sözleşmesi",
     "and":"ve",
     "givelocation":"Konumu Paylaş",
-    "okay":"Tamam"
+    "okay":"Tamam",
+    "update":"Güncelle",
+    "fillall":"Tüm alanları eksiksiz doldurunuz",
+    "youdidntjoingroup":"Henüz bir gruba girmediniz",
+    "youhavetowait":"Lütfen bekleyiniz",
+    "yes":"Evet",
+    "stopmatching":"Eşleşmeyi Durdur",
+    "block":"Blokla",
+    "allgroup":"Gruplar"
+
 
 
 
@@ -69,13 +78,20 @@
 "reportgroup":"Şikayet Et",
 "document":"Döküman",
 "photo":"Fotoğraf",
-"video":"Video"
+"video":"Video",
+"allmemberaccept":"Tüm üyeler daveti kabul etti",
+"joinchaos":"Kaos'a Katıl",
+"youcantleavethegroup":"Kaos Eşleşmesinde Gruptan Ayrılamazsın",
+"moretime":"Ek Süre?",
+"youwant20min":"20 Dakika Uzatmak İster misiniz? Bedel: 1 Token"
+
 
 },
 "profile": {
 "havenotimage": "Henüz resmin yok",
 "clubandact":"Kulüp & Aktiviteler",
-"hobbiesandinterest":"Hobiler & İlgiler"
+"hobbiesandinterest":"Hobiler & İlgiler",
+"profile":"Profil"
 },
 "interest": {
     
@@ -120,9 +136,27 @@
 "account":"Hesap",
 "guidebook":"Kullanım",
 "about":"Bilgi",
-"logout":"Çıkış"
+"logout":"Çıkış",
+"settings":"Ayarlar",
+"help":"Destek",
+"options":"Seçenekler",
+"language":"Dil",
+"licences":"Lisanslar",
+"rules":"Kurallar"
 
 },
+
+"notifications":{
+
+  "newmatches" :"Yeni Eşleşme",
+  "groupmessages":"Grup Mesajları",
+  "chaosmessages" :"Kaos Mesajları",
+  "likes" :"Beğeni",
+  "tokens":"Token",
+  "systemnotifications" :"Sistem Bildirimleri"
+
+},
+
 "loggingout": {
 "buttontext": "Google ile katıl"
 }

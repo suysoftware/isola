@@ -142,11 +142,11 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                           context: context,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                                content: const Text(
-                                                    "You have to fill all bar"),
+                                                content:  Text(
+                                                 LocaleKeys.main_fillall.tr()),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: const Text("Okey"),
+                                                      child: Text(LocaleKeys.main_okay.tr()),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       })
@@ -541,7 +541,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: CupertinoButton(
-                      child: Text("Next",
+                      child: Text(LocaleKeys.main_next.tr(),
                           style: isOther == true
                               ? StyleConstants.signUpGenderButtonActiveTextStyle
                               : StyleConstants
@@ -644,7 +644,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                       LocaleKeys.main_agreeterms.tr()),
                                       actions: [
                                         CupertinoButton(
-                                            child: const Text("Okay"),
+                                            child:  Text(LocaleKeys.main_okay.tr()),
                                             onPressed: () {
                                               Navigator.pop(context);
                                             })
@@ -657,10 +657,10 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               context: context,
                               builder: (context) => CupertinoAlertDialog(
                                     content:
-                                        const Text("You have to fill all bar"),
+                                        Text(LocaleKeys.main_fillall.tr()),
                                     actions: [
                                       CupertinoButton(
-                                          child: const Text("Okey"),
+                                          child:  Text(LocaleKeys.main_okay.tr()),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           })
@@ -828,7 +828,7 @@ class _AddProfileSignUpPhotoContainerState
                               });
                             },
                             child: Text(
-                              "Update Photo",
+                              "${LocaleKeys.main_update.tr()} ${LocaleKeys.chat_photo.tr()}",
                               style: StyleConstants.postAddTextStyle,
                             ),
                           ),

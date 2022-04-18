@@ -31,7 +31,7 @@ class RouterSystem {
         return CupertinoPageRoute(
             builder: (_) => const CupertinoPageScaffold(
                 backgroundColor: CupertinoColors.systemRed,
-                child: Text("birşeyler teers giti")));
+                child: Text("Error")));
     }
   }
 }

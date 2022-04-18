@@ -139,11 +139,11 @@ class _TimelinePageState extends State<TimelinePage> {
       backgroundColor: ColorConstant.themeGrey,
       navigationBar: CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
-          leading: const Align(
+          leading:  Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text("Timeline"),
+                child: Text(LocaleKeys.main_timeline.tr()),
               )),
           trailing: Padding(
             padding: const EdgeInsets.all(2.0),

@@ -1,12 +1,14 @@
 // ignore_for_file: implementation_imports, avoid_print, prefer_typing_uninitialized_variables, unused_local_variable, duplicate_ignore, must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
+import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/group/group_preview_data.dart';
 import 'package:isola_app/src/model/group/groups_model.dart';
 import 'package:isola_app/src/page/groupchat/chatpage/chat_chaos/chat_chaos_widgets.dart';
@@ -86,8 +88,8 @@ class _ChatPageState extends State<ChatPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset("asset/img/chat_warning_icon.png"),
-                    const Text(
-                      "You didnt join group",
+                     Text(
+                     LocaleKeys.main_youdidntjoingroup.tr(),
                       style: TextStyle(color: ColorConstant.softBlack),
                     ),
                   ],

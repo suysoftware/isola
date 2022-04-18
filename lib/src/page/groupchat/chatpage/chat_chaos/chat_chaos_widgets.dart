@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -15,6 +16,7 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../blocs/chaos_chat_message_target.dart';
+import '../../../../extensions/locale_keys.dart';
 import '../../../../model/chaos/chaos_chat_message.dart';
 import '../../../../model/chaos/chaos_group_setting_model.dart';
 import '../../../../model/group/group_preview_data.dart';
@@ -541,10 +543,10 @@ class ChaosChatGroupCard extends StatelessWidget {
               barrierDismissible: true,
               context: context,
               builder: (context) => CupertinoAlertDialog(
-                    content: const Text("You have to wait"),
+                    content:  Text(LocaleKeys.main_youhavetowait.tr()),
                     actions: [
                       CupertinoButton(
-                          child: const Text("Okey"),
+                          child:  Text(LocaleKeys.main_okay.tr()),
                           onPressed: () {
                             Navigator.pop(context);
                           }),

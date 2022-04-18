@@ -514,11 +514,11 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
           showCupertinoDialog(
               context: context,
               builder: (context) => CupertinoAlertDialog(
-                    title: const Text('More Time?'),
-                    content: const Text('You want +20 minutes? Price: 1 Token'),
+                    title: Text(LocaleKeys.chat_moretime.tr()),
+                    content:  Text(LocaleKeys.chat_youwant20min.tr()),
                     actions: [
                       CupertinoButton(
-                          child: const Text('Yes'),
+                          child: Text(LocaleKeys.main_yes.tr()),
                           onPressed: () async {
                           
 
@@ -548,7 +548,7 @@ class _ChaosChatInteriorPageState extends State<ChaosChatInteriorPage>
                               Navigator.pop(context);
                           }),
                       CupertinoButton(
-                          child: const Text('No, Go Back'),
+                          child:  Text(LocaleKeys.main_nogoback.tr()),
                           onPressed: () {
                             Navigator.pop(context);
                           })

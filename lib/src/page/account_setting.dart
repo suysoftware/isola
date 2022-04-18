@@ -167,7 +167,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
                       child:  Text(
-                        LocaleKeys.main_surname,
+                        LocaleKeys.main_surname.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -416,7 +416,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: CupertinoButton(
-                          child: Text("Update",
+                          child: Text(LocaleKeys.main_update.tr(),
                               style: isOther == true
                                   ? StyleConstants
                                       .signUpGenderButtonActiveTextStyle
@@ -448,11 +448,11 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                                   barrierDismissible: true,
                                   context: context,
                                   builder: (context) => CupertinoAlertDialog(
-                                        content: const Text(
-                                            "You have to fill all bar"),
+                                        content:  Text(
+                                           LocaleKeys.main_fillall.tr()),
                                         actions: [
                                           CupertinoButton(
-                                              child: const Text("Okey"),
+                                              child:  Text(LocaleKeys.main_okay.tr()),
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               })

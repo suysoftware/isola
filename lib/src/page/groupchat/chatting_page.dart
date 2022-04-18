@@ -761,11 +761,11 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                                content: const Text(
-                                                    'Stop Matching?'),
+                                                content: Text(
+                                                   LocaleKeys.main_stopmatching.tr()),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: const Text('Yes'),
+                                                      child:  Text(LocaleKeys.main_yes.tr()),
                                                       onPressed: () {
                                                         DocumentReference
                                                             stopMatchRef =
@@ -800,11 +800,11 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                                content: const Text(
-                                                    'All member already accepted the invite'),
+                                                content:  Text(
+                                                    LocaleKeys.chat_allmemberaccept.tr()),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: const Text('Okey'),
+                                                      child:  Text(LocaleKeys.chat_allmemberaccept.tr()),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       })
@@ -816,10 +816,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                               showCupertinoDialog(
                                   context: context,
                                   builder: (context) => CupertinoAlertDialog(
-                                        content: const Text('Join Chaos?'),
+                                        content:  Text(LocaleKeys.chat_joinchaos.tr()),
                                         actions: [
                                           CupertinoButton(
-                                              child: const Text('Yes'),
+                                              child:  Text(LocaleKeys.main_yes.tr()),
                                               onPressed: () async {
                                                 Navigator.pop(context);
 
@@ -830,7 +830,7 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                                         .groupNo);
                                               }),
                                           CupertinoButton(
-                                              child: const Text('No, Go Back'),
+                                              child:  Text(LocaleKeys.main_nogoback.tr()),
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               })
@@ -847,10 +847,10 @@ class _ChatInteriorPageState extends State<ChatInteriorPage>
                                     context: context,
                                     builder: (context) => CupertinoAlertDialog(
                                           content:
-                                              const Text("You haven't token"),
+                                              Text(LocaleKeys.homepage_needtoken.tr()),
                                           actions: [
                                             CupertinoButton(
-                                                child: const Text('Okey'),
+                                                child: Text(LocaleKeys.main_okay.tr()),
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 })

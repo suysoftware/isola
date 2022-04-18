@@ -122,7 +122,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "Participant",
+                        LocaleKeys.chat_participant.tr(),
                         style: 100.h >= 1100
                             ? StyleConstants.targetTabletChatMessageTextStyle
                             : StyleConstants.targetChatMessageTextStyle,
@@ -462,7 +462,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 1.5.w),
                                     child: Text(
-                                      "Leave Group",
+                                     LocaleKeys.chat_leavegroup.tr(),
                                       style: StyleConstants
                                           .userChatMessageTextStyle,
                                     ),
@@ -486,11 +486,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                       context: context,
                                       builder: (context) =>
                                           CupertinoAlertDialog(
-                                            content: const Text(
-                                                "You can't leave the group when you are searching chaos "),
+                                            content:  Text(
+                                               LocaleKeys.chat_youcantleavethegroup.tr()),
                                             actions: [
                                               CupertinoButton(
-                                                  child: const Text('Okey'),
+                                                  child:  Text(LocaleKeys.main_okay.tr()),
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   }),
@@ -562,11 +562,11 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                           context: context,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                                content: const Text(
-                                                    "You can't leave the group when you are searching chaos "),
+                                                content:  Text(
+                                                    LocaleKeys.chat_youcantleavethegroup.tr()),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: const Text('Okey'),
+                                                      child: Text(LocaleKeys.main_okay.tr()),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       }),
@@ -577,12 +577,12 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                           context: context,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                                  content: const Text(
-                                                      'Stop Matching?'),
+                                                  content: Text(
+                                                     LocaleKeys.main_stopmatching.tr()),
                                                   actions: [
                                                     CupertinoButton(
                                                         child:
-                                                            const Text('Yes'),
+                                                           Text(LocaleKeys.main_yes.tr()),
                                                         onPressed: () {
                                                           DocumentReference
                                                               stopMatchRef =
@@ -621,9 +621,8 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                       builder: (BuildContext context) =>
                                           CupertinoActionSheet(
                                             title:
-                                                const Text('Report & Block !'),
-                                            message: const Text(
-                                                'Please choose a operation, then you will leave this group '),
+                                               Text('${LocaleKeys.main_report.tr()} & ${LocaleKeys.main_block.tr()} !'),
+
                                             actions: [
                                               CupertinoActionSheetAction(
                                                 child: Text(groupSettingModel
@@ -678,7 +677,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 },
                                               ),
                                               CupertinoActionSheetAction(
-                                                child: const Text(' All Group'),
+                                                child: Text(LocaleKeys.main_allgroup.tr()),
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                   showCupertinoModalPopup(

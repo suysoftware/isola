@@ -107,7 +107,7 @@ class _TargetProfileBiographPageState extends State<TargetProfileBiographPage> {
                     children: [
                       Padding(
                         padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                        child: Text("Club & Activities ${LocaleKeys.main_comingsoon.tr()}",
+                        child: Text("${LocaleKeys.profile_clubandact.tr()} (${LocaleKeys.main_comingsoon.tr()})",
                             style: biographyStyle),
                       ),
                     ],

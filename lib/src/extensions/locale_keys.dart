@@ -41,6 +41,14 @@ abstract class LocaleKeys {
   static const main_and = 'main.and';
   static const main_givelocation = 'main.givelocation';
   static const main_okay = 'main.okay';
+  static const main_update = 'main.update';
+  static const main_fillall = 'main.fillall';
+  static const main_youdidntjoingroup = 'main.youdidntjoingroup';
+  static const main_youhavetowait = 'main.youhavetowait';
+  static const main_yes = 'main.yes';
+  static const main_stopmatching = 'main.stopmatching';
+  static const main_block = 'main.block';
+  static const main_allgroup = 'main.allgroup';
   static const main = 'main';
 
   static const report_reportingtextouter = 'report_reportingtextouter';
@@ -69,11 +77,17 @@ abstract class LocaleKeys {
   static const chat_document = 'chat.document';
   static const chat_photo = 'chat.photo';
   static const chat_video = 'chat.video';
+  static const chat_allmemberaccept = 'chat.allmemberaccept';
+  static const chat_joinchaos = 'chat.joinchaos';
+  static const chat_youcantleavethegroup = 'chat.youcantleavethegroup';
+  static const chat_moretime = 'chat.moretime';
+  static const chat_youwant20min = 'chat.youwant20min';
   static const chat = 'chat';
 
   static const profile_havenotimage = 'profile.havenotimage';
   static const profile_clubandact = 'profile.clubandact';
   static const profile_hobbiesandinterest = 'profile.hobbiesandinterest';
+  static const profile_profile = 'profile.profile';
   static const profile = 'profile';
 
   static const interest_hiking = 'interest.hiking';
@@ -118,8 +132,24 @@ abstract class LocaleKeys {
   static const settings_guidebook = 'settings.guidebook';
   static const settings_about = 'settings.about';
   static const settings_logout = 'settings.logout';
+  static const settings_settings = 'settings.settings';
+  static const settings_help = 'settings.help';
+  static const settings_options = 'settings.options';
+  static const settings_language = 'settings.language';
+  static const settings_licences = 'settings.licences';
+  static const settings_rules = 'settings.rules';
   static const settings = 'settings';
 
+  static const notifications_newmatches = 'notifications.newmatches';
+  static const notifications_groupmessages = 'notifications.groupmessages';
+  static const notifications_chaosmessages = 'notifications.chaosmessages';
+  static const notifications_likes = 'notifications.likes';
+  static const notifications_tokens = 'notifications.tokens';
+  static const notifications_systemnotifications =
+      'notifications.systemnotifications';
+  static const notifications = 'notifications';
+
+  
   static const loggingout_buttontext = 'loggingout.buttontext';
   static const loggingout = 'loggingout';
 }

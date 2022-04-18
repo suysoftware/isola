@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     padding: EdgeInsets.zero,
                     child: GestureDetector(
                         onTap: () async {
-                   /*       Navigator.push(
+                          /*       Navigator.push(
                               context,
                               CupertinoPageRoute(
                                   builder: (context) => const TokenGainPage()));*/
@@ -350,13 +350,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           context: context,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                                content: const Text(
-                                                    "You need token"),
+                                                content: Text(
+                                                    LocaleKeys.homepage_needtoken.tr()),
                                                 title:
-                                                    const Text("Token Alert"),
+                                                    Text(LocaleKeys.homepage_tokenalert.tr()),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: Text("Earn token",
+                                                      child: Text(LocaleKeys.homepage_earntoken.tr(),
                                                           style: TextStyle(
                                                               fontSize: 11.sp)),
                                                       onPressed: () {
@@ -364,7 +364,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                       }),
                                                   CupertinoButton(
                                                       child: Text(
-                                                        "No Doesnt Yet",
+                                                      LocaleKeys.homepage_doesntyet.tr(),
                                                         style: TextStyle(
                                                             fontSize: 11.sp),
                                                       ),
@@ -385,12 +385,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                              content: const Text(
-                                                  "No more match :("),
-                                              title: const Text("Full"),
+                                              content:Text(
+                                                LocaleKeys.homepage_nomorematch.tr()),
+                                              title: Text(LocaleKeys.homepage_full.tr()),
                                               actions: [
                                                 CupertinoButton(
-                                                    child: Text("Okey",
+                                                    child: Text(LocaleKeys.main_okay.tr(),
                                                         style: TextStyle(
                                                             fontSize: 11.sp)),
                                                     onPressed: () {

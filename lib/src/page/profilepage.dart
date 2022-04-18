@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: EdgeInsets.zero,
       child: Container(
         child: Text(
-          "Biograph",
+          LocaleKeys.main_biography.tr(),
           style: navigatorStyle,
         ),
         color: ColorConstant.themeGrey,
@@ -134,9 +134,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
-          leading: const Padding(
+          leading:  Padding(
             padding: EdgeInsets.all(10.0),
-            child: Text("Profile"),
+            child: Text(LocaleKeys.profile_profile.tr()),
           ),
           automaticallyImplyLeading: false,
           trailing: Padding(

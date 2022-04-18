@@ -138,7 +138,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                    child: Text("Club & Activities ${LocaleKeys.main_comingsoon.tr()}",
+                    child: Text("${LocaleKeys.profile_clubandact.tr()} (${LocaleKeys.main_comingsoon.tr()})",
                         style: biographyStyle),
                   ),
                 ],
@@ -151,7 +151,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(5.w, 2.h, 0.0, 1.5.h),
-                    child: Text("Hobbies & Interests", style: biographyStyle),
+                    child: Text(LocaleKeys.profile_hobbiesandinterest.tr(), style: biographyStyle),
                   ),
                 ],
               ),
@@ -250,7 +250,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       setState(() {
                         editingHobby = true;
                       });
-                      print("aga absti");
+          
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),

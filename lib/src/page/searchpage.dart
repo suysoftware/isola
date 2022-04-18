@@ -332,7 +332,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                         size: 65.sp,
                         color: ColorConstant.softGrey,
                       ),
-                      const Text("You have not image")
+                       Text(LocaleKeys.profile_havenotimage.tr())
                     ],
                   ))
                 : StaggeredGrid.count(

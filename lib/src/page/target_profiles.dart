@@ -69,7 +69,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
       padding: EdgeInsets.zero,
       child: Container(
         child: Text(
-          "Biograph",
+        LocaleKeys.main_biography.tr(),
           style: navigatorStyle,
         ),
         color: ColorConstant.themeGrey,

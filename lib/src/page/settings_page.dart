@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -6,11 +7,14 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/user/user_notification_settings.dart';
 import 'package:isola_app/src/page/account_setting.dart';
 import 'package:isola_app/src/page/guide_book_page.dart';
+import 'package:isola_app/src/page/options_page.dart';
 import 'package:isola_app/src/page/terms_privacy/licences_dialog.dart';
 import 'package:isola_app/src/service/firebase/authentication.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
+
+import '../extensions/locale_keys.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -43,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
         navigationBar: CupertinoNavigationBar(
           padding: EdgeInsetsDirectional.only(bottom: 2.h),
           automaticallyImplyLeading: true,
-          previousPageTitle: "Settings",
+          previousPageTitle: LocaleKeys.settings_settings.tr(),
         ),
         child: ListView(
           children: [
@@ -53,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: ColorConstant.softBlack,
                 ),
                 Text(
-                  "Notifications",
+                  LocaleKeys.settings_notification.tr(),
                   style: settingTextStyle,
                 ),
                 () => showCupertinoDialog(
@@ -82,11 +86,23 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 1.h,
             ),
               */
+            buttonGetter(
+                const Icon(CupertinoIcons.gear, color: ColorConstant.softBlack),
+                Text(LocaleKeys.settings_options.tr(), style: settingTextStyle),
+                () {
+                                                                   
 
+              showCupertinoDialog(
+                  context: context, builder: (context) => OptionsPage());
+            }),
+            SizedBox(
+              height: 1.h,
+            ),
             buttonGetter(
                 const Icon(CupertinoIcons.person_circle,
                     color: ColorConstant.softBlack),
-                Text("Account", style: settingTextStyle), () {
+                Text(LocaleKeys.settings_account.tr(), style: settingTextStyle),
+                () {
               User? user = FirebaseAuth.instance.currentUser;
 
               showCupertinoDialog(
@@ -102,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(CupertinoIcons.question_circle,
                     color: ColorConstant.softBlack),
                 Text(
-                  "Help",
+                  LocaleKeys.settings_help.tr(),
                   style: settingTextStyle,
                 ),
                 () {}),
@@ -111,7 +127,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             buttonGetter(
                 const Icon(CupertinoIcons.book, color: ColorConstant.softBlack),
-                Text("Guidebook", style: settingTextStyle), () {
+                Text(LocaleKeys.settings_guidebook.tr(),
+                    style: settingTextStyle), () {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
@@ -123,7 +140,8 @@ class _SettingsPageState extends State<SettingsPage> {
             buttonGetter(
                 const Icon(CupertinoIcons.info_circle,
                     color: ColorConstant.softBlack),
-                Text("About", style: settingTextStyle), () {
+                Text(LocaleKeys.settings_about.tr(), style: settingTextStyle),
+                () {
               showCupertinoModalPopup(
                   context: context,
                   //imageUrlList[index].userName
@@ -137,7 +155,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   CupertinoIcons.left_chevron,
                   color: ColorConstant.softBlack,
                 ),
-                Text("Log out", style: settingTextStyle),
+                Text(LocaleKeys.settings_logout.tr(), style: settingTextStyle),
                 () => signOut()),
           ],
         ));
@@ -186,7 +204,7 @@ class AboutFeedSheet extends StatelessWidget {
     return CupertinoActionSheet(
       actions: [
         CupertinoActionSheetAction(
-            child: const Text('Terms & Conditions'),
+            child: Text(LocaleKeys.main_termsandconditions.tr()),
             onPressed: () {
               showCupertinoDialog(
                   context: context,
@@ -199,7 +217,7 @@ class AboutFeedSheet extends StatelessWidget {
               //  Navigator.pop(context);
             }),
         CupertinoActionSheetAction(
-          child: const Text('Privacy Policy!'),
+          child: Text(LocaleKeys.main_privacypolicy.tr()),
           onPressed: () {
             showCupertinoDialog(
               context: context,
@@ -213,7 +231,7 @@ class AboutFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text('Licenses'),
+          child:  Text(LocaleKeys.settings_licences.tr()),
           onPressed: () {
             showCupertinoDialog(
               context: context,
@@ -224,7 +242,7 @@ class AboutFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child: const Text('Rules'),
+          child:  Text(LocaleKeys.settings_rules.tr()),
           onPressed: () {
             showCupertinoDialog(
               context: context,
@@ -316,7 +334,7 @@ class _LicencesPageState extends State<LicencesPage> {
         navigationBar: CupertinoNavigationBar(
           padding: EdgeInsetsDirectional.only(bottom: 2.h),
           automaticallyImplyLeading: true,
-          previousPageTitle: "Settings",
+          previousPageTitle: LocaleKeys.settings_settings.tr(),
         ),
         child: ListView.builder(
             itemCount: licencesButtonList.length,
@@ -455,44 +473,44 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                   navigationBar: CupertinoNavigationBar(
                     padding: EdgeInsetsDirectional.only(bottom: 2.h),
                     automaticallyImplyLeading: true,
-                    middle: const Text('Notifications'),
-                    previousPageTitle: "Settings",
+                    middle: Text(LocaleKeys.settings_notification.tr()),
+                    previousPageTitle: LocaleKeys.settings_settings.tr(),
                   ),
                   child: ListView(
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       NotificationChangeButton(
-                        switchName: 'New Matches',
+                        switchName: LocaleKeys.notifications_newmatches.tr(),
                         switchStatus: newMatches,
                         switchDbName: 'new_matches',
                         userUid: user!.uid,
                       ),
                       NotificationChangeButton(
-                        switchName: 'Group Messages',
+                        switchName: LocaleKeys.notifications_groupmessages.tr(),
                         switchStatus: groupMessages,
                         switchDbName: 'group_messages',
                         userUid: user!.uid,
                       ),
                       NotificationChangeButton(
-                        switchName: 'Chaos Messages',
+                        switchName: LocaleKeys.notifications_chaosmessages.tr(),
                         switchStatus: chaosMessages,
                         switchDbName: 'chaos_messages',
                         userUid: user!.uid,
                       ),
                       NotificationChangeButton(
-                        switchName: 'Likes',
+                        switchName: LocaleKeys.notifications_likes.tr(),
                         switchStatus: likes,
                         switchDbName: 'likes',
                         userUid: user!.uid,
                       ),
                       NotificationChangeButton(
-                        switchName: 'Tokens',
+                        switchName: LocaleKeys.notifications_tokens.tr(),
                         switchStatus: tokens,
                         switchDbName: 'tokens',
                         userUid: user!.uid,
                       ),
                       NotificationChangeButton(
-                        switchName: 'System Notifications',
+                        switchName: LocaleKeys.notifications_systemnotifications.tr(),
                         switchStatus: systemNotifications,
                         switchDbName: 'system_notifications',
                         userUid: user!.uid,
@@ -533,10 +551,9 @@ class _NotificationChangeButtonState extends State<NotificationChangeButton> {
 
     await settingRef.update({widget.switchDbName: currentStatus});
 
-setState(() {
-     widget.switchStatus = currentStatus;
-});
- 
+    setState(() {
+      widget.switchStatus = currentStatus;
+    });
   }
 
   TextStyle switchStyle = const TextStyle();

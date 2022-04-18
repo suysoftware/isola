@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -13,6 +14,7 @@ import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
+import '../../extensions/locale_keys.dart';
 import '../../model/user/user_meta.dart';
 import '../../widget/search_detail.dart';
 import 'dart:async';
@@ -257,7 +259,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                         size: 65.sp,
                         color: ColorConstant.softGrey,
                       ),
-                      const Text("You have not image")
+                      Text(LocaleKeys.profile_havenotimage.tr())
                     ],
                   ))
                 : StaggeredGrid.count(

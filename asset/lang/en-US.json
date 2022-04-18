@@ -37,7 +37,18 @@
         "privacypolicy":"Privacy Policy",
         "and":"and",
         "givelocation":"Please Give Location",
-        "okay":"okay"
+        "okay":"okay",
+        "update":"Update",
+        "fillall":"You have to fill all required",
+        "youdidntjoingroup":"You didnt join group",
+        "youhavetowait":"You Have to Wait",
+        "yes":"Yes",
+        "stopmatching":"Stop Matching",
+        "block":"Block",
+        "allgroup":"All Group"
+        
+
+
       },
       "report": {
         "reportingtextouter": "Why you report this post , please explain",
@@ -66,13 +77,21 @@
     "reportgroup":"Report Group",
     "document":"Document",
     "photo":"Photo",
-    "video":"Video"
+    "video":"Video",
+    "allmemberaccept":"All member already accepted the invite",
+    "joinchaos":"Join Chaos",
+    "youcantleavethegroup":"You can't leave the group when you are searching chaos ",
+    "moretime":"More Time",
+    "youwant20min":"You want +20 minutes? Price: 1 Token"
+
 
   },
   "profile": {
     "havenotimage": "You have not image",
     "clubandact":"Club & Activities",
-    "hobbiesandinterest":"Hobbies & Interest"
+    "hobbiesandinterest":"Hobbies & Interest",
+    "profile":"Profile",
+    "settings":"Settings"
   },
   "interest": {
         
@@ -115,11 +134,28 @@
   "settings": {
     "notification":"Notifications",
     "account":"Account",
-    "guidebook":"GuideBook",
+    "guidebook":"Guidebook",
     "about":"About",
-    "logout":"Log out"
+    "logout":"Log out",
+    "settings":"Settings",
+    "help":"Help",
+    "options":"Options",
+    "language":"Language",
+    "licences":"Licences",
+    "rules":"Rules"
     
   },
+  "notifications":{
+
+    "newmatches" :"New Matches",
+    "groupmessages":"Group Messages",
+    "chaosmessages" :"Chaos Messages",
+    "likes" :"Likes",
+    "tokens":"Tokens",
+    "systemnotifications" :"System Notifications"
+
+  },
+
   "loggingout": {
     "buttontext": "Sign With Google"
 }

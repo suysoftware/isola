@@ -279,10 +279,10 @@ class ChatGroupCard extends StatelessWidget {
               barrierDismissible: true,
               context: context,
               builder: (context) => CupertinoAlertDialog(
-                    content: const Text("You have to wait"),
+                    content:  Text(LocaleKeys.main_youhavetowait.tr()),
                     actions: [
                       CupertinoButton(
-                          child: const Text("Okey"),
+                          child: Text(LocaleKeys.main_okay.tr()),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
@@ -397,7 +397,7 @@ class ChatGroupCard extends StatelessWidget {
                           barrierDismissible: true,
                           context: context,
                           builder: (context) => CupertinoAlertDialog(
-                                content: const Text("dasdadsadsa"),
+                             
                                 actions: [
                                   CupertinoButton(
                                       child:  Text(

@@ -58,7 +58,7 @@ class ChatGroupContWaiting extends StatelessWidget {
                         barrierDismissible: true,
                         context: context,
                         builder: (context) => CupertinoAlertDialog(
-                              content: const Text("dasdadsadsa"),
+                           
                               actions: [
                                 CupertinoButton(
                                     child: Text(

@@ -1,3 +1,5 @@
+**-**
+
 **Terms & Conditions**
 
 Welcome to Isola’s Terms and Conditions of Use. This is a contract between you and the Dynamic Gentis BV (the company which owns Isola) and we want you to know yours and our rights before you use Isola application. Please take a few moments to read these Terms before enjoying the App, because once you access, view or use the App, you are going to be legally bound by these Terms.
