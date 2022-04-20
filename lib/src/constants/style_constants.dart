@@ -384,6 +384,29 @@ class StyleConstants {
     overflow: TextOverflow.fade,
   );
 
+  static TextStyle friendListNameTextStyle = TextStyle(
+      fontFamily: 'Roboto-Medium',
+      color: ColorConstant.doubleSoftBlack,
+      fontSize: 15.sp);
+
+  static TextStyle friendListNameTabletTextStyle = TextStyle(
+      fontFamily: 'Roboto-Medium',
+      color: ColorConstant.doubleSoftBlack,
+      fontSize: 12.sp);
+
+  static TextStyle friendListUniversityTextStyle = TextStyle(
+
+    fontFamily: 'Roboto',
+                              color: ColorConstant.softBlack,
+                              fontSize: 11.sp
+  );
+  static TextStyle friendListUniversityTabletTextStyle = TextStyle(
+
+    fontFamily: 'Roboto',
+                              color: ColorConstant.softBlack,
+                              fontSize: 8.sp
+  );
+
   BoxDecoration isGradientBoxDec(
       {required bool isGradient,
       required Gradient buttonGradient,
@@ -401,4 +424,3 @@ class StyleConstants {
     }
   }
 }
-

@@ -36,7 +36,7 @@ void amountUpdater(int updateValue) async {
 }
 
 class SearchPage extends StatefulWidget {
-   const SearchPage({Key? key, required this.user, required this.userAll})
+  const SearchPage({Key? key, required this.user, required this.userAll})
       : super(key: key);
   final User user;
   final IsolaUserAll userAll;
@@ -49,11 +49,7 @@ class _SearchPageState extends State<SearchPage> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-
-
   int loadingValue = 2;
-
-
 
   void _onRefresh() async {
     // monitor network fetch
@@ -61,50 +57,42 @@ class _SearchPageState extends State<SearchPage> {
 
     // if failed,use refreshFailed()
     setState(() {
-  
-
       BasicGridWidget.gtGetterReset();
     });
     _refreshController.loadComplete();
     _refreshController.refreshCompleted();
   }
 
-   chooseImage2() async {
+  chooseImage2() async {
     XFile? xfile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 1200,
-      maxWidth: 1200,
-      imageQuality: 100
-
-    );
+        source: ImageSource.gallery,
+        maxHeight: 1200,
+        maxWidth: 1200,
+        imageQuality: 100);
     File file = File(xfile!.path);
     showCupertinoDialog(
         context: context,
         builder: (BuildContext context) => ChatImagePickerNoChat(
               userAll: widget.userAll,
-
               file: file,
-              isChaos: false, isProfile: false, cropAspectRatios: CropAspectRatios.ratio6_10, pHeight: 1000, pWidth: 600,
-            
+              isChaos: false,
+              isProfile: false,
+              cropAspectRatios: CropAspectRatios.ratio6_10,
+              pHeight: 1000,
+              pWidth: 600,
             ));
   }
 
   void _onLoading() async {
     if (BasicGridWidget.feedValue.length >= feedAllControl) {
-
       feedAllControl = 0;
       _refreshController.loadNoData();
-
-
     } else {
-
       await Future.delayed(const Duration(milliseconds: 1000));
-   
 
       if (mounted) {
         setState(() {
           BasicGridWidget.gtGetter();
-       
         });
       }
       _refreshController.loadComplete();
@@ -117,7 +105,6 @@ class _SearchPageState extends State<SearchPage> {
 
     widget.userAll.isolaUserMeta.userToken =
         context.read<UserAllCubit>().state.isolaUserMeta.userToken;
-
   }
 
   @override
@@ -127,7 +114,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           trailing: Padding(
@@ -139,10 +125,9 @@ class _SearchPageState extends State<SearchPage> {
                 padding: const EdgeInsets.all(1.0),
                 child: CupertinoButton(
                   padding: const EdgeInsets.all(1.0),
-                  onPressed: ()async=>chooseImage2()
-              //    onPressed: () async =>addSearchItemDialogContent(context)
-                    ,
-                
+                  onPressed: () async => chooseImage2()
+                  //    onPressed: () async =>addSearchItemDialogContent(context)
+                  ,
                   child: Container(
                     padding: const EdgeInsets.all(1.0),
                     child: Center(
@@ -156,9 +141,11 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           backgroundColor: ColorConstant.milkColor,
-          leading:  Padding(
+          leading: Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text(LocaleKeys.main_explore.tr(),),
+            child: Text(
+              LocaleKeys.main_explore.tr(),
+            ),
           ),
         ),
         child: SmartRefresher(
@@ -195,32 +182,25 @@ class _SearchPageState extends State<SearchPage> {
 int downloadedItem = 0;
 
 class BasicGridWidget extends StatefulWidget {
-   const BasicGridWidget(
-      {Key? key, required this.userUid, required this.userMeta, })
-      : super(key: key);
+  const BasicGridWidget({
+    Key? key,
+    required this.userUid,
+    required this.userMeta,
+  }) : super(key: key);
 
   final String userUid;
   final IsolaUserMeta userMeta;
- 
+
   static void gtGetter() {
     feedValue.addAll(tiles2);
-
-
   }
-
 
   static void gtGetterReset() {
     feedValue.clear();
     feedValue.addAll(tiles2);
-
   }
 
-
-
   static var exploreHistoryState = <String>[];
-
-
-
 
   static var alreadySeem = <dynamic>[];
 
@@ -276,15 +256,14 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collectionGroup('image_feeds').orderBy('feed_date',descending: true)
+            .collectionGroup('image_feeds')
+            .orderBy('feed_date', descending: true)
             .limit(BasicGridWidget.feedValue.length + 16)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-     
             final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
-       
             List<dynamic> itemDatas = documents
                 .map((doc) => IsolaImageFeedModel(
                     doc['feed_date'],
@@ -303,7 +282,6 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['feed_token_list']))
                 .toList();
 
-    
             if (itemDatas.length < BasicGridWidget.feedValue.length &&
                 itemDatas.isNotEmpty) {
               int deleteNeed =
@@ -319,10 +297,9 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                 }
               }
             }
-       
 
-         
-            amountUpdater((itemDatas.length) );
+
+            amountUpdater((itemDatas.length));
             return itemDatas.isEmpty
                 ? Center(
                     child: Column(
@@ -332,7 +309,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                         size: 65.sp,
                         color: ColorConstant.softGrey,
                       ),
-                       Text(LocaleKeys.profile_havenotimage.tr())
+                      Text(LocaleKeys.profile_havenotimage.tr())
                     ],
                   ))
                 : StaggeredGrid.count(
@@ -344,7 +321,6 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                           mainAxisCellCount: tile.mainAxisCount,
                           child: GestureDetector(
                             onTap: () {
-                  
                               _openDetail(context, index, itemDatas,
                                   widget.userUid, widget.userMeta, index);
                             },
@@ -352,7 +328,6 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                               index: index,
                               width: tile.crossAxisCount * 100,
                               height: tile.mainAxisCount * 100,
-                       
                               imageUrl: itemDatas[index].feedImageUrl,
                             ),
                           ),
@@ -373,10 +348,14 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
   }
 }
 
-_openDetail(context, index, List<dynamic> imageItemList, String userUid,
-    IsolaUserMeta userMeta, int sira,) {
-
-
+_openDetail(
+  context,
+  index,
+  List<dynamic> imageItemList,
+  String userUid,
+  IsolaUserMeta userMeta,
+  int sira,
+) {
   List<dynamic> slicedList = imageItemList.slice(sira);
 
   final route = CupertinoPageRoute(
@@ -386,7 +365,7 @@ _openDetail(context, index, List<dynamic> imageItemList, String userUid,
       userUid: userUid,
       userMeta: userMeta,
       itemLoc: sira,
-      isProfile: false ,
+      isProfile: false,
     ),
   );
   Navigator.push(context, route);
@@ -437,13 +416,11 @@ class _ImageTileState extends State<ImageTile> {
                   borderRadius: BorderRadius.circular(16),
                   child: CachedNetworkImage(
                     imageUrl: widget.imageUrl,
-                    cacheManager: CacheManager(
-        Config(
-          "cachedImageFiles",
-          stalePeriod: const Duration(days: 3),
-          //one week cache period
-        )
-    ),
+                    cacheManager: CacheManager(Config(
+                      "cachedImageFiles",
+                      stalePeriod: const Duration(days: 3),
+                      //one week cache period
+                    )),
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) =>
                         const Icon(CupertinoIcons.xmark_square),
@@ -463,6 +440,7 @@ class GridTile {
   final int crossAxisCount;
   final int mainAxisCount;
 }
+
 /*
 class AddSearchItemContainer extends StatefulWidget {
   const AddSearchItemContainer({Key? key, required this.userAll})
@@ -726,5 +704,3 @@ class CropAspectRatios {
   /// ratio of width and height is 16 : 9
   static const double ratio16_9 = 16.0 / 9.0;
 }
-
-

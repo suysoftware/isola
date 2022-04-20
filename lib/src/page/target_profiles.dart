@@ -50,7 +50,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
     0: Container(
       padding: EdgeInsets.zero,
       child: Text(
- LocaleKeys.main_timeline.tr(),
+        LocaleKeys.main_timeline.tr(),
         style: navigatorStyle,
       ),
       color: ColorConstant.themeGrey,
@@ -69,7 +69,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
       padding: EdgeInsets.zero,
       child: Container(
         child: Text(
-        LocaleKeys.main_biography.tr(),
+          LocaleKeys.main_biography.tr(),
           style: navigatorStyle,
         ),
         color: ColorConstant.themeGrey,
@@ -110,8 +110,6 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
   @override
   void initState() {
     super.initState();
-
-   
   }
 
   @override
@@ -149,6 +147,37 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
 
                               widget.isolaUserAll.isolaUserMeta.userFriends
                                   .remove(widget.targetUid);
+
+                              Navigator.pushReplacementNamed(
+                                  context, navigationBar);
+                            }),
+                        CupertinoButton(
+                            child: Text(LocaleKeys.main_block.tr()),
+                            onPressed: () async {
+                                DocumentReference deleteRef = FirebaseFirestore
+                                  .instance
+                                  .collection('delete_friend_pool')
+                                  .doc();
+                            deleteRef.set({
+                                'target_uid': widget.targetUid,
+                                'user_uid': widget.userUid,
+                                'report_no': deleteRef.id,
+                              });
+
+widget.isolaUserAll.isolaUserMeta.userFriends
+                                  .remove(widget.targetUid);
+                              DocumentReference blockRef = FirebaseFirestore
+                                  .instance
+                                  .collection('block_target_pool')
+                                  .doc();
+                              blockRef.set({
+                                'target_uid': widget.targetUid,
+                                'user_uid': widget.userUid,
+                                'report_no': blockRef.id,
+                              });
+
+                              widget.isolaUserAll.isolaUserMeta.userBlocked
+                                  .add(widget.targetUid);
 
                               Navigator.pushReplacementNamed(
                                   context, navigationBar);

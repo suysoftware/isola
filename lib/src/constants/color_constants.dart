@@ -15,6 +15,7 @@ class ColorConstant {
   static const Color signUpGenderButtons = Color(0xFF955AD0);
   static const Color accountEditButtonColor = Color(0xFFC498F1);
   static const Color isolaTokenColor = Color(0xFFA88300);
+  static const Color friendAmount = Color(0xFF6622CC);
 
   static const Color groupSettingsButton1 = Color(0xFF485FDB);
   static const Color groupSettingsButton2 = Color(0xFF5973FF);

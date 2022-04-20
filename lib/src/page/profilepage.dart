@@ -8,6 +8,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
@@ -17,7 +18,9 @@ import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/page/groupchat/chat_image_picker.dart';
 import 'package:isola_app/src/page/profile/profile_biography.dart';
 import 'package:isola_app/src/page/profile/profile_media_page.dart';
+import 'package:isola_app/src/page/target_profiles.dart';
 import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
+import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/image_cropper.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/page/profile/profile_timeline_page.dart';
@@ -26,6 +29,7 @@ import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../extensions/locale_keys.dart';
+import '../model/user/user_display.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -103,25 +107,28 @@ class _ProfilePageState extends State<ProfilePage> {
         );
     }
   }
-   chooseImage2() async {
+
+  chooseImage2() async {
     XFile? xfile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxHeight: 600,
       maxWidth: 600,
       imageQuality: 5,
-
     );
     File file = File(xfile!.path);
     showCupertinoDialog(
         context: context,
         builder: (BuildContext context) => ChatImagePickerNoChat(
               userAll: widget.userAll,
-
               file: file,
-              isChaos: false, isProfile: true, cropAspectRatios:CropAspectRatios.ratio1_1 , pHeight: 500, pWidth: 500,
-            
+              isChaos: false,
+              isProfile: true,
+              cropAspectRatios: CropAspectRatios.ratio1_1,
+              pHeight: 500,
+              pWidth: 500,
             ));
   }
+
   @override
   void initState() {
     super.initState();
@@ -134,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
-          leading:  Padding(
+          leading: Padding(
             padding: EdgeInsets.all(10.0),
             child: Text(LocaleKeys.profile_profile.tr()),
           ),
@@ -248,15 +255,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     top: 100.h >= 700 ? (100.h >= 1100 ? 14.h : 14.h) : 9.5.h,
                     right: 100.h >= 700 ? (100.h >= 1100 ? 35.w : 28.w) : 33.w,
                     child: CupertinoButton(
-                 onPressed: ()async=>chooseImage2(),
-                   /*     showCupertinoDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) => Center(
-                                  child: AddProfilePhotoContainer(
-                                      userAll: widget.userAll),
-                                ));*/
-                      
+                      onPressed: () async => chooseImage2(),
+                   
+
                       child: SizedBox(
                         height: 100.h >= 700
                             ? (100.h <= 1100 ? 22.sp : 5.h)
@@ -278,8 +279,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
                     ),
                     Text(
                       widget.userAll.isolaUserDisplay.userName,
@@ -310,6 +311,31 @@ class _ProfilePageState extends State<ProfilePage> {
                     ? StyleConstants.profileUniversityTabletTextStyle
                     : StyleConstants.profileUniversityTextStyle,
               ),
+              CupertinoButton(
+                  padding: EdgeInsets.fromLTRB(0.0, 1.h, 0.0, 0.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        CupertinoIcons.person_2_fill,
+                        color: ColorConstant.friendAmount,
+                      ),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Text(
+                        '${widget.userAll.isolaUserMeta.userFriends.length} Friends',
+                        style: StyleConstants.profileMiniNaviTextStyle,
+                      )
+                    ],
+                  ),
+                  onPressed: () {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (context) =>
+                            FriendListPage(userAll: widget.userAll));
+                  }),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 2.h),
                 child: Container(
@@ -423,7 +449,11 @@ class _AddProfilePhotoContainerState extends State<AddProfilePhotoContainer>
                                   size: 70.sp,
                                   color: ColorConstant.themeGrey,
                                 ),
-                                   Text(LocaleKeys.main_clickhere.tr(),style: TextStyle(fontFamily: 'Roboto-Bold',fontSize: 24.sp,color: ColorConstant.themeGrey))
+                                Text(LocaleKeys.main_clickhere.tr(),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto-Bold',
+                                        fontSize: 24.sp,
+                                        color: ColorConstant.themeGrey))
                               ],
                             ),
                           ),
@@ -558,4 +588,136 @@ class CropAspectRatios {
 
   /// ratio of width and height is 16 : 9
   static const double ratio16_9 = 16.0 / 9.0;
+}
+
+class FriendListPage extends StatefulWidget {
+  const FriendListPage({Key? key, required this.userAll}) : super(key: key);
+
+  final IsolaUserAll userAll;
+
+  @override
+  State<FriendListPage> createState() => _FriendListPageState();
+}
+
+class _FriendListPageState extends State<FriendListPage> {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+        backgroundColor: ColorConstant.themeGrey,
+        navigationBar: CupertinoNavigationBar(
+          padding: EdgeInsetsDirectional.only(bottom: 2.h),
+          automaticallyImplyLeading: true,
+          previousPageTitle: LocaleKeys.profile_profile.tr(),
+        ),
+        child: ListView.builder(
+          itemCount: widget.userAll.isolaUserMeta.userFriends.length,
+          itemBuilder: (BuildContext context, int index) {
+            return FriendCard(
+                targetUid: widget.userAll.isolaUserMeta.userFriends[index],userAll: widget.userAll,);
+          },
+        ));
+  }
+}
+
+class FriendCard extends StatefulWidget {
+  const FriendCard({Key? key, required this.targetUid,required this.userAll}) : super(key: key);
+
+  final String targetUid;
+  final IsolaUserAll userAll;
+
+  @override
+  State<FriendCard> createState() => _FriendCardState();
+}
+
+class _FriendCardState extends State<FriendCard> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getUserDisplay(widget.targetUid),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CupertinoActivityIndicator());
+        }
+        var targetDisplay = snapshot.data as IsolaUserDisplay;
+        return Container(
+          decoration: BoxDecoration(
+              color: ColorConstant.milkColor,
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 1.sp,
+                    spreadRadius: 0.2.sp,
+                    offset: const Offset(0.0, 0.0),
+                    color: ColorConstant.softBlack.withOpacity(0.2))
+              ],
+              border: Border.all(width: 0.01, color: ColorConstant.softBlack)),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(5.w, 0.25.h, 5.w, 0.25.h),
+            child: CupertinoButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 2.h, 0.0, 0.0),
+                          child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    gradient: ColorConstant.isolaMainGradient,
+                                    border: Border.all(
+                                        color: ColorConstant.transparentColor),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(60.sp))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0.5),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: ColorConstant.milkColor,
+                                        border: Border.all(
+                                            color:
+                                                ColorConstant.transparentColor),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(60.sp))),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        targetDisplay.avatarUrl,
+                                        width: 100.h >= 1100 ? 35.sp : 45.sp,
+                                        height: 100.h >= 1100 ? 35.sp : 45.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ))),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+                    
+                      Text(targetDisplay.userName,
+                          style:100.h>=1100?StyleConstants.friendListNameTabletTextStyle:StyleConstants.friendListNameTextStyle ),
+                      Text(targetDisplay.userUniversity,
+                         style:100.h>=1100?StyleConstants.friendListUniversityTabletTextStyle:StyleConstants.friendListUniversityTextStyle  ),
+                    ],
+                  ),
+                ],
+              ),
+              onPressed: () {
+    Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => TargetProfilePage(
+                              targetUid: widget.targetUid,
+                              targetName: targetDisplay.userName,
+                              targetAvatarUrl:targetDisplay.avatarUrl,
+                              userUid: widget.userAll.isolaUserMeta.userUid,
+                              isolaUserAll: widget.userAll,
+                            )));
+
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

@@ -122,11 +122,11 @@ class HobbyIconButton extends StatelessWidget {
                 child: iconStatus.hobbyStatusReader(iconName) == true
                     ? Image.asset(
                         "asset/img/hobbies_icons_active/${iconName}_active_icon.png",
-                        fit: BoxFit.contain,
+                       
                       )
                     : Image.asset(
                         "asset/img/hobbies_icons_grey/${iconName}_grey_icon.png",
-                        fit: BoxFit.contain,
+                       
                       )),
             onPressed: () {
               if (iconStatus.hobbyStatusReader(iconName) == true) {

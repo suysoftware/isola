@@ -115,7 +115,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                   ),
                 ),
                 child: SizedBox(
-                  height: 100.h >= 1100 ? 15.h : 11.h,
+                  height: 100.h >= 1100 ? 13.h : 9.h,
                   width: 94.w,
                   child: BiographPageContainer(
                       contInteriorWidget: Padding(
