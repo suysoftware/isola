@@ -93,7 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                                    
 
               showCupertinoDialog(
-                  context: context, builder: (context) => OptionsPage());
+                  context: context, builder: (context) =>const OptionsPage());
             }),
             SizedBox(
               height: 1.h,

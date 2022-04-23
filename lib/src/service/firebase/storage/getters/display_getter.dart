@@ -175,7 +175,7 @@ Future<List<dynamic>> getTimelineFeeds(
 
   final Timestamp now = Timestamp.fromDate(DateTime.now());
   final Timestamp yesterday = Timestamp.fromDate(
-    DateTime.now().subtract(const Duration(days: 1)),
+    DateTime.now().subtract(const Duration(days: 3)),
   );
 
   for (var friend in timelineUserList) {

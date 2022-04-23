@@ -297,8 +297,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 userAll.isolaUserMeta
                                                         .userFriendOrders =
                                                     friendOrderUpdate;
-                                                print(userAll.isolaUserMeta
-                                                    .userFriendOrders);
+                                                
                                                 setState(() {
                                          
                                                 });
@@ -420,8 +419,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                                 userAll.isolaUserMeta
                                                         .userFriendOrders =
                                                     friendOrderUpdate;
-                                                print(userAll.isolaUserMeta
-                                                    .userFriendOrders);
+                                              
                                                 setState(() {
                                              
                                                 });

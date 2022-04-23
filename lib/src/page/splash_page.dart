@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:isola_app/src/page/non_valid_page.dart';
 import 'package:isola_app/src/page/sign_up_page.dart';
 import 'package:isola_app/src/service/firebase/storage/add_user.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
@@ -27,7 +28,10 @@ class _SplashPageState extends State<SplashPage> {
       saveTokenToDatabase(token!);
 
       getUserAllFromDataBase(user.uid).then((value) {
-        if (value.isolaUserDisplay.userInterest.first == "interest1") {
+
+if(value.isolaUserMeta.userIsValid==true){
+
+    if (value.isolaUserDisplay.userInterest.first == "interest1") {
           Navigator.push(
               context,
               CupertinoPageRoute(
@@ -35,6 +39,16 @@ class _SplashPageState extends State<SplashPage> {
         } else {
           Navigator.pushReplacementNamed(context, navigationBar);
         }
+}
+else{
+  Navigator.push(context, CupertinoPageRoute(builder: (context)=>NonValidPage()));
+
+}
+
+    
+
+
+
       });
     } else {
       Navigator.pushReplacementNamed(context, loggingOutRoute);

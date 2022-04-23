@@ -6,12 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
+import 'package:isola_app/src/page/non_valid_page.dart';
 import 'package:isola_app/src/page/sign_up_page.dart';
 import 'package:isola_app/src/service/firebase/authentication.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/widget/button_widgets.dart';
 import 'package:sizer/sizer.dart';
+
+import '../widget/liquid_progress_indicator.dart';
 
 class LoggingOut extends StatefulWidget {
   const LoggingOut({Key? key}) : super(key: key);
@@ -23,37 +26,47 @@ class LoggingOut extends StatefulWidget {
 class _LoggingOutState extends State<LoggingOut> {
   authenticationButtonFunc() async {
     User? user = await Authentication.signInWithGoogle(context: context);
-
-    if (user != null) {
+    showCupertinoDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          const AnimatedLiquidCircularProgressIndicator());
+    
+    Future.delayed(Duration(seconds: 5), () {
+if (user != null) {
       try {
-        await getUserAllFromDataBase(user.uid).then((value) {
-          if (value.isolaUserDisplay.userInterest.first == "interest1") {
-            Navigator.pushReplacement(
-                context,
-                CupertinoPageRoute(
-                    builder: (context) => SignUpPage(userAll: value)));
+       getUserAllFromDataBase(user.uid).then((value) {
+          if (value.isolaUserMeta.userIsValid) {
+            if (value.isolaUserDisplay.userInterest.first == "interest1") {
+              Navigator.pushReplacement(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => SignUpPage(userAll: value)));
+            } else {
+              Navigator.pushNamed(context, navigationBar);
+            }
           } else {
-            Navigator.pushNamed(context, navigationBar);
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => NonValidPage()));
           }
         });
       } catch (e) {
         Navigator.pushReplacementNamed(context, loggingOutRoute);
       }
     } else {}
+
+    });
+    
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         child: Stack(
-
       children: [
-
-
-      /*  Container(
+        /*  Container(
           child: Image.asset('asset/img/logging_out_gradient.png'),
         ),*/
-       100.h > 1200
+        100.h > 1200
             ? Image.asset(
                 'asset/img/logging_out_gradient.png',
                 fit: BoxFit.fill,
@@ -66,7 +79,7 @@ class _LoggingOutState extends State<LoggingOut> {
                     'asset/img/logging_out_gradient.png',
                     fit: BoxFit.fill,
                     width: 100.w,
-                  )), 
+                  )),
         Align(
           alignment: Alignment.center,
           child: Image.asset(

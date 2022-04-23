@@ -37,6 +37,7 @@ class Authentication {
 
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
+          
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =

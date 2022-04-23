@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
@@ -124,7 +123,7 @@ class _TargetProfilePageState extends State<TargetProfilePage> {
         backgroundColor: ColorConstant.milkColor,
         automaticallyImplyLeading: true,
         trailing: CupertinoButton(
-          child: Icon(CupertinoIcons.exclamationmark_octagon_fill,
+          child:const Icon(CupertinoIcons.exclamationmark_octagon_fill,
               color: ColorConstant.redAlert),
           onPressed: () {
             showCupertinoDialog(
@@ -183,9 +182,9 @@ widget.isolaUserAll.isolaUserMeta.userFriends
                                   context, navigationBar);
                             }),
                         CupertinoButton(
-                            child: Text('Report'), onPressed: () {}),
+                            child:const Text('Report'), onPressed: () {}),
                         CupertinoButton(
-                            child: Text('No, Go Back'),
+                            child:const Text('No, Go Back'),
                             onPressed: () {
                               Navigator.pop(context);
                             })

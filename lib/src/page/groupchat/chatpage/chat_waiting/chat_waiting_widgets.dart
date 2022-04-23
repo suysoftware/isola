@@ -63,7 +63,7 @@ class ChatGroupContWaiting extends StatelessWidget {
                                 CupertinoButton(
                                     child: Text(
                                    LocaleKeys.chat_reportgroup.tr(),
-                                      style: TextStyle(
+                                      style:const TextStyle(
                                           color: CupertinoColors.systemRed),
                                     ),
                                     onPressed: () {}),

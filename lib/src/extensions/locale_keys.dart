@@ -51,7 +51,7 @@ abstract class LocaleKeys {
   static const main_allgroup = 'main.allgroup';
   static const main = 'main';
 
-  static const report_reportingtextouter = 'report_reportingtextouter';
+  static const report_reportingtextouter = 'report.reportingtextouter';
   static const report_reportingtextinterior = 'report.reportingtextinterior';
   static const report_reportingtextdetail = 'report.reportingtextdetail';
   static const report_spam = 'report.spam';

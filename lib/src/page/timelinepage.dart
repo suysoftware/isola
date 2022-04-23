@@ -142,7 +142,7 @@ class _TimelinePageState extends State<TimelinePage> {
           leading:  Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding:const EdgeInsets.all(8.0),
                 child: Text(LocaleKeys.main_timeline.tr()),
               )),
           trailing: Padding(

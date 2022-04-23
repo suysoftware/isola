@@ -90,7 +90,7 @@ class _ChatPageState extends State<ChatPage> {
                     Image.asset("asset/img/chat_warning_icon.png"),
                      Text(
                      LocaleKeys.main_youdidntjoingroup.tr(),
-                      style: TextStyle(color: ColorConstant.softBlack),
+                      style:const TextStyle(color: ColorConstant.softBlack),
                     ),
                   ],
                 ),

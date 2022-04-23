@@ -8,7 +8,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
@@ -142,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
         navigationBar: CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
           leading: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding:const EdgeInsets.all(10.0),
             child: Text(LocaleKeys.profile_profile.tr()),
           ),
           automaticallyImplyLeading: false,
@@ -279,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
+                   const Padding(
                       padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
                     ),
                     Text(

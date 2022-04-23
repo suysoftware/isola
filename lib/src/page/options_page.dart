@@ -15,25 +15,27 @@ class OptionsPage extends StatefulWidget {
 }
 
 class _OptionsPageState extends State<OptionsPage> {
+  // ignore: unused_field
   int _selectedValue = 0;
   String languageText = "default";
   void _showPicker(BuildContext ctx) {
     showCupertinoModalPopup(
         context: ctx,
-        builder: (_) => Container(
+        builder: (_) => SizedBox(
               width: 100.w,
               height: 250,
               child: CupertinoPicker(
                 backgroundColor: Colors.white,
                 itemExtent: 30,
-                selectionOverlay: CupertinoPickerDefaultSelectionOverlay(),
+                selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(),
                 scrollController: FixedExtentScrollController(initialItem: 1),
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  Text('English'),
-                  Text('Turkish'),
+                  const Text('English'),
+                  const Text('Turkish'),
                 ],
                 onSelectedItemChanged: (value) {
-                  print(value);
+               
 
                   setState(() {
                     switch (value) {
@@ -65,17 +67,7 @@ class _OptionsPageState extends State<OptionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('1');
-    print(context.deviceLocale);
-        print('2');
-    print(context.localizationDelegates);
-        print('3');
-    print(context.locale);
-        print('4');
-    print(context.fallbackLocale);
-        print('5');
-    print(context.fallbackLocale);
-    print(context.fallbackLocale);
+
     if (languageText == "default") {
       switch (context.locale.toString()) {
         case 'en_US':
@@ -100,8 +92,8 @@ class _OptionsPageState extends State<OptionsPage> {
         ),
         child: ListView(
           children: [
-            buttonGetterOptions(Icon(CupertinoIcons.location,color: ColorConstant.softBlack,),
-                Text(LocaleKeys.settings_language.tr(), style: TextStyle(color: ColorConstant.softBlack),), () => _showPicker(context),Text('$languageText     ',style: TextStyle(color: ColorConstant.softBlack)))
+            buttonGetterOptions(const Icon(CupertinoIcons.location,color: ColorConstant.softBlack,),
+                Text(LocaleKeys.settings_language.tr(), style: const TextStyle(color: ColorConstant.softBlack),), () => _showPicker(context),Text('$languageText     ',style: const TextStyle(color: ColorConstant.softBlack)))
           ],
         ));
   }

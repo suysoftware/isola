@@ -64,6 +64,18 @@ class StyleConstants {
       fontFamily: "Roboto-Black",
       color: ColorConstant.isolaTokenColor,
       fontSize: 18);
+  static TextStyle isolaTokenPageStyle = TextStyle(
+      fontFamily: "Roboto-Black",
+      color: ColorConstant.isolaTokenColorLight,
+      fontSize: 28.sp);
+        static TextStyle isolaTokenCardYellowStyle = TextStyle(
+      fontFamily: "Roboto-Black",
+      color: ColorConstant.isolaTokenColorLight,
+      fontSize: 20.sp);
+      static TextStyle isolaTokenCardStyle = TextStyle(
+      fontFamily: "Roboto-Black",
+      color: ColorConstant.softBlack,
+      fontSize: 14.sp);
   static const TextStyle biographTabletTextStyle = TextStyle(
     fontFamily: "Roboto",
     color: ColorConstant.softBlack,
@@ -395,17 +407,9 @@ class StyleConstants {
       fontSize: 12.sp);
 
   static TextStyle friendListUniversityTextStyle = TextStyle(
-
-    fontFamily: 'Roboto',
-                              color: ColorConstant.softBlack,
-                              fontSize: 11.sp
-  );
+      fontFamily: 'Roboto', color: ColorConstant.softBlack, fontSize: 11.sp);
   static TextStyle friendListUniversityTabletTextStyle = TextStyle(
-
-    fontFamily: 'Roboto',
-                              color: ColorConstant.softBlack,
-                              fontSize: 8.sp
-  );
+      fontFamily: 'Roboto', color: ColorConstant.softBlack, fontSize: 8.sp);
 
   BoxDecoration isGradientBoxDec(
       {required bool isGradient,

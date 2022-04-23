@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:isola_app/src/blocs/chaos_chat_message_target.dart';
 import 'package:isola_app/src/blocs/chaos_group_setting_cubit.dart';
@@ -68,6 +69,7 @@ Future<void> init() async {
   WidgetsFlutterBinding.ensureInitialized();
   EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
+  await MobileAds.instance.initialize();
 
   await Hive.initFlutter();
   box = await Hive.openBox('HiveDatabase2');

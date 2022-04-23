@@ -330,7 +330,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                     ? CupertinoButton(
                                                         child: Text(
                                                           "${LocaleKeys.main_delete.tr()} Post",
-                                                          style: TextStyle(
+                                                          style:const TextStyle(
                                                               color:
                                                                   CupertinoColors
                                                                       .black),
@@ -363,7 +363,7 @@ class _TimelineItemState extends State<TimelineItem>
                                                     : CupertinoButton(
                                                         child:  Text(
                                                         LocaleKeys.main_report.tr(),
-                                                          style: TextStyle(
+                                                          style:const TextStyle(
                                                               color:
                                                                   CupertinoColors
                                                                       .systemRed),

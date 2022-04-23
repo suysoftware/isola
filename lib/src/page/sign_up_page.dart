@@ -272,7 +272,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                               : const BorderSide(
                                   width: 1.0, color: ColorConstant.redAlert))),
                   controller: t2,
-                  placeholder: LocaleKeys.main_yoursurname,
+                  placeholder: LocaleKeys.main_yoursurname.tr(),
                   placeholderStyle:
                       TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w100),
                 )),

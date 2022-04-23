@@ -205,6 +205,7 @@ class _ChatImagePickerNoChatState extends State<ChatImagePickerNoChat>
   late var refChatInterior;
   final GlobalKey<ExtendedImageEditorState> editorKey =
       GlobalKey<ExtendedImageEditorState>();
+  // ignore: avoid_init_to_null
   File? file2 = null;
   @override
   void initState() {

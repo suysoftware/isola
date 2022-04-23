@@ -1,33 +1,24 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
-import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/model/feeds/image_feed_meta.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/model/user/user_meta.dart';
 import 'package:isola_app/src/page/groupchat/chat_image_picker.dart';
-import 'package:isola_app/src/service/firebase/storage/feedshare/add_search_feed.dart';
-import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:collection/collection.dart';
-import 'package:uuid/uuid.dart';
 import '../extensions/locale_keys.dart';
-import '../service/firebase/storage/feedshare/add_image_feeds.dart';
-import '../utils/image_cropper.dart';
 import '../widget/search_detail.dart';
 
 int feedAllControl = 0;
@@ -142,7 +133,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
           backgroundColor: ColorConstant.milkColor,
           leading: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding:const EdgeInsets.all(8.0),
             child: Text(
               LocaleKeys.main_explore.tr(),
             ),

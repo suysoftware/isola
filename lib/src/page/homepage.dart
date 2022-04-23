@@ -14,6 +14,7 @@ import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/feeds/popular_timeline.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
+import 'package:isola_app/src/page/token_gain_page.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
 import 'package:isola_app/src/service/firebase/storage/groups/group_finder.dart';
 import 'package:isola_app/src/utils/router.dart';
@@ -192,10 +193,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     padding: EdgeInsets.zero,
                     child: GestureDetector(
                         onTap: () async {
-                          /*       Navigator.push(
+                                 Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => const TokenGainPage()));*/
+                                  builder: (context) =>  TokenGainPage(userAll: widget.userAll,)));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -716,7 +717,7 @@ class HomeTextsRight extends StatelessWidget {
         Padding(
           padding: 100.h <= 1100
               ? (100.h >= 800
-                  ? EdgeInsets.fromLTRB(6.0, 2.0, 7.w, 0.0)
+                  ? EdgeInsets.fromLTRB(6.0, 8.0, 4.w, 0.0)
                   : EdgeInsets.fromLTRB(6.0, 0.0, 7.w, 0.0))
               : EdgeInsets.fromLTRB(3.w, 1.4.h, 10.w, 0.0),
           child: Text(
