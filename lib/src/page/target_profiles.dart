@@ -182,9 +182,9 @@ widget.isolaUserAll.isolaUserMeta.userFriends
                                   context, navigationBar);
                             }),
                         CupertinoButton(
-                            child:const Text('Report'), onPressed: () {}),
+                            child:Text(LocaleKeys.main_report.tr()), onPressed: () {}),
                         CupertinoButton(
-                            child:const Text('No, Go Back'),
+                            child: Text(LocaleKeys.main_nogoback.tr()),
                             onPressed: () {
                               Navigator.pop(context);
                             })

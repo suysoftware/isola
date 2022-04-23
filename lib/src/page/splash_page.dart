@@ -41,7 +41,7 @@ if(value.isolaUserMeta.userIsValid==true){
         }
 }
 else{
-  Navigator.push(context, CupertinoPageRoute(builder: (context)=>NonValidPage()));
+  Navigator.push(context, CupertinoPageRoute(builder: (context)=>const NonValidPage()));
 
 }
 

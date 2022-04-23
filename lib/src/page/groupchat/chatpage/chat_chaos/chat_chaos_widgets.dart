@@ -543,10 +543,10 @@ class ChaosChatGroupCard extends StatelessWidget {
               barrierDismissible: true,
               context: context,
               builder: (context) => CupertinoAlertDialog(
-                    content:  Text(LocaleKeys.main_youhavetowait.tr()),
+                    content: Text(LocaleKeys.main_youhavetowait.tr()),
                     actions: [
                       CupertinoButton(
-                          child:  Text(LocaleKeys.main_okay.tr()),
+                          child: Text(LocaleKeys.main_okay.tr()),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
@@ -600,7 +600,7 @@ class ChaosChatGroupCard extends StatelessWidget {
               leftPadding: 0,
             ),
             ChatTextsChaos(
-                targetName: 'CHAOS',
+                targetName: LocaleKeys.main_chaos.tr(),
                 context: context,
                 targetText: 'X',
                 rowLetterValue: 50,

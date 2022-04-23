@@ -1,0 +1,166 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+        "report" : " Отчет ",
+        "back": " Назад ",
+        "cancel": " Отменить ",
+        "media" : " СМИ ",
+        "timeline" : " Временная шкала ",
+        "biography" : " Биография ",
+        "share" : " Делиться ",
+        "refreshing": " Освежающий ",
+        "refcompleted": " Обновление Завершено ",
+        "loading" : " Погрузка ",
+        "nomoredata" : " Больше Никаких Данных ",
+        "explore" : " Исследовать ",
+        "comingsoon" : " скоро будет ",
+        "clickhere" : " кликните сюда ",
+        "deletefriend": " Удалить друга ",
+        "nogoback": " Нет, Возвращайся ",
+        "delete" : " Удалить ",
+        "post": " Почта ",
+        "name" : " Имя ",
+        "yourname" : " ваше имя ",
+        "surname" : " Фамилия ",
+        "yoursurname" : " Ваша Фамилия ",
+        "university":" Университет ",
+        "youruniversity" : " Ваш университет ",
+        "gender" : " Пол ",
+        "male" : " Мужчина ",
+        "female" : " Женский ",
+        "other" : " Другой ",
+        "agree" : " я согласен ",
+        "next" : " Следующий ",
+        "agreeterms":" Вы должны согласиться с нашими условиями ",
+        "termsandconditions":" Условия & Условия ",
+        "privacypolicy":" политика конфиденциальности ",
+        "and":" и ",
+        "givelocation":" Пожалуйста, Укажите Местоположение ",
+        "okay":" окей ",
+        "update":" Обновление ",
+        "fillall":" Вы должны заполнить все необходимые ",
+        "youdidntjoingroup":" Вы не присоединились к группе ",
+        "youhavetowait":" Ты должен подождать ",
+        "yes":" Да ",
+        "stopmatching":" Прекратить Сопоставление ",
+        "block":" Блок ",
+        "allgroup":" Вся Группа ",
+        "chaos":"Хаос",
+        "friends":"Друзья"
+        
+
+
+      },
+      "report": {
+        "reportingtextouter": " Почему вы сообщаете об этом сообщении, пожалуйста, объясните ",
+        "reportingtextinterior":" Почему вы пишете об этом посте?",
+        "reportingtextdetail":" Ваше сообщение анонимно, если кому-то угрожает непосредственная опасность, позвоните в местные службы экстренной помощи ",
+        "spam":" Это спам ",
+        "nudity":" Нагота или сексуальная активность ",
+        "hate":" Ненавистнические высказывания или символы ",
+        "suicide":" Самоубийство или членовредительство ",
+        "falseinfo":" Ложная информация "
+      },
+
+    "homepage": {
+      "circulartext": " Давай найдем себе друзей ",
+      "populartext":" Популярный в Timeline ",
+       "needtoken" : " Вам нужен токен ",
+       "tokenalert" : " Предупреждение о токене ",
+       "earntoken" : " Заработайте Токен ",
+       "doesntyet" : " Нет, пока нет ",
+       "nomorematch" : " Больше никаких совпадений ",
+       "full" : " Полный "
+  },
+  "chat": {
+    "participant": " Участник ",
+    "leavegroup":" Покинуть Группу ",
+    "reportgroup":" Группа отчетов ",
+    "document":" Документ ",
+    "photo":" Фотография ",
+    "video":" Видео ",
+    "allmemberaccept":" Все участники уже приняли приглашение ",
+    "joinchaos":" Присоединяйтесь к Хаосу ",
+    "youcantleavethegroup":" Вы не можете покинуть группу, когда вы ищете хаос ",
+    "moretime":" Больше Времени ",
+    "youwant20min":" Вы хотите +20 минут? Цена: 1 Токен "
+
+
+  },
+  "profile": {
+    "havenotimage": " У вас нет образа ",
+    "clubandact":" Клуб & Мероприятия ",
+    "hobbiesandinterest":" Хобби & Интерес ",
+    "profile":" Профиль ",
+    "settings":" Настройки "
+  },
+  "interest": {
+        
+    "hiking":" Пеший туризм ",
+    "reading":" Чтение ",
+    "art":" Искусство ",
+    "cooking":" Приготовление еды ",
+    "theater":" Театр ",
+    "traveling":" Путешествие ",
+    "swimming":" Плавание ",
+    "basketball":" Баскетбол ",
+    "football":" Футбол ",
+    "volleyball":" Волейбол ",
+    "tennis":" Теннис ",
+    "skiing":" Катание на лыжах ",
+    "cycling":" Езда на велосипеде ",
+    "baseball":" Бейсбол ",
+    "climbing":" Скалолазание ",
+    "blogging":" Ведение блога ",
+    "astrology":" Астрология ",
+    "movies":" Фильмы ",
+    "music":" Музыка ",
+    "gardening":" Садоводство ",
+    "calligraphy":" Каллиграфия ",
+    "yoga":" Йога ",
+    "language":" Язык ",
+    "camping":" Кемпинг ",
+    "dance":" Танец ",
+    "games":" Игры ",
+    "design":" Дизайн ",
+    "photograph":" Фотография ",
+    "chess":" Шахматы ",
+    "running":" Бегущий ",
+    "bowling":" Боулинг Боулинг ",
+    "skate":" Кататься на коньках ",
+    "martial":" Боевые ",
+    "fashion":" Мода ",
+    "pet":" Домашнее животное "
+  },
+  "settings": {
+    "notification":" Уведомления ",
+    "account":" Счет ",
+    "guidebook":" Путеводитель ",
+    "about":" О ",
+    "logout":" Выйти из системы ",
+    "settings":" Настройки ",
+    "help":" Помогите ",
+    "options":" Опции ",
+    "language":" Язык ",
+    "licences":" Лицензии ",
+    "rules":" Правила "
+    
+  },
+  "notifications":{
+
+    "newmatches" :" Новые Матчи ",
+    "groupmessages":" Групповые сообщения ",
+    "chaosmessages" :" Сообщения Хаоса ",
+    "likes" :" Нравится ",
+    "tokens":" Жетоны ",
+    "systemnotifications" :" Системные уведомления "
+
+  },
+
+  "loggingout": {
+    "buttontext": " Войдите В Систему С Помощью Google "
+}
+
+
+}

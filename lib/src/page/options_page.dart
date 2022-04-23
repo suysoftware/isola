@@ -28,11 +28,20 @@ class _OptionsPageState extends State<OptionsPage> {
                 backgroundColor: Colors.white,
                 itemExtent: 30,
                 selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(),
-                scrollController: FixedExtentScrollController(initialItem: 1),
+                scrollController: FixedExtentScrollController(initialItem: 0),
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
+                  const Text('Default'),
                   const Text('English'),
-                  const Text('Turkish'),
+                  const Text('Türkçe'),
+                  const Text('Español'),
+                  const Text('Русский'),
+                  const Text('中国人'),
+                  const Text('Nederlands'),
+                  const Text('Français'),
+                  const Text('український'),
+                  const Text('Italiano'),
+               
                 ],
                 onSelectedItemChanged: (value) {
                
@@ -41,16 +50,65 @@ class _OptionsPageState extends State<OptionsPage> {
                     switch (value) {
                       case 0:
                         setState(() {
-                          languageText = "English";
+                          languageText = "Default";
                           context.setLocale(AppConstant.EN_LOCALE);
                         });
                         break;
                       case 1:
                         setState(() {
-                          languageText = "Turkish";
+                          languageText = "English";
+                          context.setLocale(AppConstant.EN_LOCALE);
+                        });
+                        break;
+                      case 2:
+                        setState(() {
+                          languageText = "Türkçe";
                           context.setLocale(AppConstant.TR_LOCALE);
                         });
                         break;
+                      case 3:
+                        setState(() {
+                          languageText = "Español";
+                          context.setLocale(AppConstant.ES_LOCALE);
+                        });
+                        break;
+                      case 4:
+                        setState(() {
+                          languageText = "Русский";
+                          context.setLocale(AppConstant.RU_LOCALE);
+                        });
+                        break;
+                      case 5:
+                        setState(() {
+                          languageText = "中国人";
+                          context.setLocale(AppConstant.ZH_LOCALE);
+                        });
+                        break;
+                      case 6:
+                        setState(() {
+                          languageText = "Nederlands";
+                          context.setLocale(AppConstant.NL_LOCALE);
+                        });
+                        break;
+                      case 7:
+                        setState(() {
+                          languageText = "Français";
+                          context.setLocale(AppConstant.FR_LOCALE);
+                        });
+                        break;
+                      case 8:
+                        setState(() {
+                          languageText = "український";
+                          context.setLocale(AppConstant.UK_LOCALE);
+                        });
+                        break;
+                      case 9:
+                        setState(() {
+                          languageText = "Italiano";
+                          context.setLocale(AppConstant.IT_LOCALE);
+                        });
+                        break;
+                      
                       default:
                     }
                     _selectedValue = value;
@@ -75,9 +133,39 @@ class _OptionsPageState extends State<OptionsPage> {
 
           break;
         case 'tr_TR':
-          languageText = 'Turkish';
+          languageText = 'Türkçe';
 
           break;
+        case 'es_ES':
+          languageText = 'Español';
+
+          break;
+        case 'ru_RU':
+          languageText = 'Русский';
+
+          break;
+        case 'zh_ZH':
+          languageText = '中国人';
+
+          break;
+        case 'nl_NL':
+          languageText = 'Nederlands';
+
+          break;
+         case 'fr_FR':
+          languageText = 'Français';
+
+          break;
+        case 'uk_UK':
+          languageText = 'український';
+
+          break;
+        case 'it_IT':
+          languageText = 'Italiano';
+
+          break;
+       
+        
         default:
       }
     }

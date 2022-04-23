@@ -1,0 +1,166 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+        "report" : " Звіт ",
+        "back": " Назад ",
+        "cancel": " Відмінивши ",
+        "media" : " ЗМІ ",
+        "timeline" : " Часова шкала ",
+        "biography" : " Біографія ",
+        "share" : " Ділитися ",
+        "refreshing": " Освіжаючий ",
+        "refcompleted": " Оновлення Завершено ",
+        "loading" : " Вантаження ",
+        "nomoredata" : " Більше Ніяких Даних ",
+        "explore" : " Дослідити ",
+        "comingsoon" : " скоро буде ",
+        "clickhere" : " клікніть сюди ",
+        "deletefriend": " Видалити друга ",
+        "nogoback": " Ні, Повертайся ",
+        "delete" : " Видалити ",
+        "post": " Пошта ",
+        "name" : " Ім'я ",
+        "yourname" : " ваше ім'я ",
+        "surname" : " Прізвище ",
+        "yoursurname" : " Ваше Прізвище ",
+        "university":" Університет ",
+        "youruniversity" : " Ваш університет ",
+        "gender" : " Стать ",
+        "male" : " Чоловік ",
+        "female" : " Жіночий ",
+        "other" : " Інший ",
+        "agree" : " я згоден ",
+        "next" : " Наступний ",
+        "agreeterms":" Ви повинні погодитися з нашими умовами ",
+        "termsandconditions":" Правила & умови ",
+        "privacypolicy":" Політика конфіденційності ",
+        "and":" і",
+        "givelocation":" Будь Ласка, Вкажіть Місце Розташування ",
+        "okay":" окей ",
+        "update":" Оновлення ",
+        "fillall":" Ви повинні заповнити всі необхідні ",
+        "youdidntjoingroup":" Ви не приєдналися до групи ",
+        "youhavetowait":" Ти повинен почекати ",
+        "yes":" Так ",
+        "stopmatching":" Припинити Зіставлення ",
+        "block":" Блок ",
+        "allgroup":" Вся Група ",
+        "chaos":"Хаос",
+        "friends":"Друзі"
+        
+
+
+      },
+      "report": {
+        "reportingtextouter": " Чому ви повідомляєте про це повідомлення, будь ласка, поясніть ",
+        "reportingtextinterior":" Чому ви пишете про цей пост?",
+        "reportingtextdetail":" Ваше повідомлення анонімно, якщо комусь загрожує безпосередня небезпека, зателефонуйте в місцеві служби екстреної допомоги ",
+        "spam":" Це спам ",
+        "nudity":" Нагота або сексуальна активність ",
+        "hate":"Ненависницькі висловлювання або Символи",
+        "suicide":" Самогубство або членоушкодження ",
+        "falseinfo":" Неправдива інформація "
+      },
+
+    "homepage": {
+      "circulartext": " Давай знайдемо собі друзів ",
+      "populartext":" Популярний в Timeline ",
+       "needtoken" : " Вам потрібен токен ",
+       "tokenalert" : " Попередження про токен ",
+       "earntoken" : " Заробіть Токен ",
+       "doesntyet" : " Ні, поки немає ",
+       "nomorematch" : " Більше ніяких збігів ",
+       "full" : " Повен "
+  },
+  "chat": {
+    "participant": " Учасник ",
+    "leavegroup":" Покинути Групу ",
+    "reportgroup":" Група звітів ",
+    "document":" Документ ",
+    "photo":" Фотографія ",
+    "video":" Відео ",
+    "allmemberaccept":" Всі учасники вже прийняли запрошення ",
+    "joinchaos":" Приєднуйтесь до Хаосу ",
+    "youcantleavethegroup":" Ви не можете залишити групу, коли ви шукаєте хаос ",
+    "moretime":" Більше Часу ",
+    "youwant20min":" Ви хочете + 20 хвилин ? Ціна: 1 Токен "
+
+
+  },
+  "profile": {
+    "havenotimage": " У вас немає образу ",
+    "clubandact":" Клуб & заходи ",
+    "hobbiesandinterest":" Хобі & інтереси ",
+    "profile":" Профіль ",
+    "settings":" Настройка "
+  },
+  "interest": {
+        
+    "hiking":" Піший туризм ",
+    "reading":" Читання ",
+    "art":" Мистецтво ",
+    "cooking":" Приготування їжі ",
+    "theater":" Театр ",
+    "traveling":" Подорож ",
+    "swimming":" Плавання ",
+    "basketball":" Баскетбол ",
+    "football":" Футбол ",
+    "volleyball":" Волейбол ",
+    "tennis":" Теніс ",
+    "skiing":" Катання на лижах ",
+    "cycling":" Їзда на велосипеді ",
+    "baseball":" Бейсбол ",
+    "climbing":" Скелелазіння ",
+    "blogging":" Ведення блогу ",
+    "astrology":" Астрологія ",
+    "movies":" Фільм ",
+    "music":" Музика ",
+    "gardening":" Садівництво ",
+    "calligraphy":" Каліграфія ",
+    "yoga":" Йога ",
+    "language":" Мова ",
+    "camping":" Кемпінг ",
+    "dance":" Танець ",
+    "games":" Гра ",
+    "design":" Дизайн ",
+    "photograph":" Фотографія ",
+    "chess":" Шахи ",
+    "running":" Рухомий ",
+    "bowling":" Боулінг ",
+    "skate":" Кататися на ковзанах ",
+    "martial":" Бойовий ",
+    "fashion":" Мода ",
+    "pet":" свійські тварини "
+  },
+  "settings": {
+    "notification":" Повідомлення ",
+    "account":" Рахунок ",
+    "guidebook":" Путівник ",
+    "about":" про ",
+    "logout":" Вийти з системи ",
+    "settings":" Настройка ",
+    "help":" Допомогти ",
+    "options":" Опція ",
+    "language":" Мова ",
+    "licences":" Ліцензія ",
+    "rules":" Правило "
+    
+  },
+  "notifications":{
+
+    "newmatches" :" Нові Матчі ",
+    "groupmessages":" Групові повідомлення ",
+    "chaosmessages" :" Повідомлення Хаосу ",
+    "likes" :" Подобатися ",
+    "tokens":" Жетон ",
+    "systemnotifications" :" Системні повідомлення "
+
+  },
+
+  "loggingout": {
+    "buttontext": " Увійдіть За Допомогою Google"
+}
+
+
+}

@@ -31,7 +31,7 @@ class _LoggingOutState extends State<LoggingOut> {
                                       builder: (BuildContext context) =>
                                           const AnimatedLiquidCircularProgressIndicator());
     
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
 if (user != null) {
       try {
        getUserAllFromDataBase(user.uid).then((value) {
@@ -46,7 +46,7 @@ if (user != null) {
             }
           } else {
             Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => NonValidPage()));
+                CupertinoPageRoute(builder: (context) => const NonValidPage()));
           }
         });
       } catch (e) {

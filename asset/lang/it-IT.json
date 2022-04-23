@@ -1,0 +1,166 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+        "report" : " Relazione",
+        "back": " Indietro ",
+        "cancel": " Annullare ",
+        "media" : "Media",
+        "timeline" : "Timeline",
+        "biography" : " Biografia ",
+        "share" : " Condividere ",
+        "refreshing": " Rinfrescante ",
+        "refcompleted": " La ristrutturazione è stata completata ",
+        "loading" : " Caricamento ",
+        "nomoredata" : " Niente più dati ",
+        "explore" : " Esplorare ",
+        "comingsoon" : " In arrivo ",
+        "clickhere" : " Clicca qui ",
+        "deletefriend": " Elimina Amico ",
+        "nogoback": " No, torna indietro ",
+        "delete" : " Eliminare ",
+        "post": "Post",
+        "name" : " Nome ",
+        "yourname" : " Il tuo nome ",
+        "surname" : " Cognome ",
+        "yoursurname" : " Il tuo cognome ",
+        "university":" Universita ",
+        "youruniversity" : " La tua università",
+        "gender" : " Sesso ",
+        "male" : " Maschio ",
+        "female" : " Femmina ",
+        "other" : " Altri ",
+        "agree" : " Io sono d'accordo ",
+        "next" : " Prossimo ",
+        "agreeterms":" Devi accettare i nostri termini ",
+        "termsandconditions":" Termini & Condizioni ",
+        "privacypolicy":" privacy ",
+        "and":" e ",
+        "givelocation":" Si prega di indicare la posizione ",
+        "okay":"okay",
+        "update":" Aggiornare ",
+        "fillall":" Devi riempire tutto richiesto ",
+        "youdidntjoingroup":" Non ti sei unito al gruppo ",
+        "youhavetowait":" Devi aspettare ",
+        "yes":" Sì ",
+        "stopmatching":" Smetti di corrispondere ",
+        "block":" Blocco ",
+        "allgroup":" All Group ",
+        "chaos":"Caos",
+        "friends":"Amici"
+        
+
+
+      },
+      "report": {
+        "reportingtextouter": " Perché si segnala questo post, si prega di spiegare ",
+        "reportingtextinterior":" Perché stai segnalando questo post?",
+        "reportingtextdetail":" Il tuo rapporto è anonimo, se qualcuno è in pericolo immediato, chiama i servizi di emergenza locali ",
+        "spam":" E spam ",
+        "nudity":" Nudità o attività sessuale ",
+        "hate":" Incitamento all'odio o simboli ",
+        "suicide":" Suicidio o autolesionismo ",
+        "falseinfo":" False informazioni "
+      },
+
+    "homepage": {
+      "circulartext": " Troviamo degli amici ",
+      "populartext":" Popolare nella timeline ",
+       "needtoken" : " Hai bisogno di token ",
+       "tokenalert" : " Avviso token ",
+       "earntoken" : " Guadagna Token ",
+       "doesntyet" : " No Non ancora ",
+       "nomorematch" : " Niente più fiammiferi ",
+       "full" : " Pieno "
+  },
+  "chat": {
+    "participant": " Partecipante ",
+    "leavegroup":" Lascia il gruppo ",
+    "reportgroup":" Gruppo Report ",
+    "document":" Documento ",
+    "photo":" Foto ",
+    "video":"Video",
+    "allmemberaccept":" Tutti i membri hanno già accettato l'invito ",
+    "joinchaos":" Unisciti al caos ",
+    "youcantleavethegroup":" Non puoi lasciare il gruppo quando stai cercando il caos ",
+    "moretime":" Più tempo ",
+    "youwant20min":" Vuoi + 20 minuti? Prezzo: 1 gettone "
+
+
+  },
+  "profile": {
+    "havenotimage": " Non hai immagine ",
+    "clubandact":"Club & Attività ",
+    "hobbiesandinterest":" Hobby & Interessi ",
+    "profile":" Profilo ",
+    "settings":" Impostazioni "
+  },
+  "interest": {
+        
+    "hiking":" Escursione ",
+    "reading":" Lettura ",
+    "art":" Arte ",
+    "cooking":" Cucina ",
+    "theater":" Teatro ",
+    "traveling":" Viaggiare ",
+    "swimming":" Nuoto ",
+    "basketball":" Basket ",
+    "football":"Football",
+    "volleyball":" Pallavolo ",
+    "tennis":" Pong ",
+    "skiing":" Sciare ",
+    "cycling":" Bicicletta ",
+    "baseball":"Baseball",
+    "climbing":" Arrampicata ",
+    "blogging":" Blogging",
+    "astrology":" Astrologia ",
+    "movies":" Film ",
+    "music":" Musicale ",
+    "gardening":" Giardinaggio ",
+    "calligraphy":" Calligrafia ",
+    "yoga":"Yoga",
+    "language":" Lingua ",
+    "camping":" Campeggio ",
+    "dance":" Danza ",
+    "games":" Gioco ",
+    "design":"Design",
+    "photograph":" Fotografia ",
+    "chess":" Scacchi ",
+    "running":" Esecuzione ",
+    "bowling":"Bowling",
+    "skate":"Skate",
+    "martial":" Marziale ",
+    "fashion":" Moda ",
+    "pet":" Animale"
+  },
+  "settings": {
+    "notification":" Notifica ",
+    "account":" Conto ",
+    "guidebook":" Prontuario ",
+    "about":" Su ",
+    "logout":" Logout ",
+    "settings":" Impostazioni ",
+    "help":" Aiutare ",
+    "options":" Opzioni ",
+    "language":" Lingua ",
+    "licences":" Licenza ",
+    "rules":" Regola "
+    
+  },
+  "notifications":{
+
+    "newmatches" :" Nuove partite ",
+    "groupmessages":" Messaggi di gruppo",
+    "chaosmessages" :" Messaggi Caos ",
+    "likes" :" Come ",
+    "tokens":" Token",
+    "systemnotifications" :" Notifiche di sistema"
+
+  },
+
+  "loggingout": {
+    "buttontext": " Firma con Google "
+}
+
+
+}

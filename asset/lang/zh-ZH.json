@@ -1,0 +1,166 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+        "report" : "报告书",
+        "back": "返回",
+        "cancel": "取消",
+        "media" : "媒体报道",
+        "timeline" : "时间表",
+        "biography" : "传记",
+        "share" : "份额",
+        "refreshing": "提神醒脑",
+        "refcompleted": "刷新完成",
+        "loading" : "装载量",
+        "nomoredata" : "没有更多的数据",
+        "explore" : "探索",
+        "comingsoon" : "即将到来",
+        "clickhere" : "点击这里",
+        "deletefriend": "删除好友",
+        "nogoback": "不，回去吧",
+        "delete" : "删除",
+        "post": "职位",
+        "name" : "姓名",
+        "yourname" : "你的名字",
+        "surname" : "姓",
+        "yoursurname" : "你的姓",
+        "university":"大学",
+        "youruniversity" : "你的大学",
+        "gender" : "性别",
+        "male" : "男",
+        "female" : "女",
+        "other" : "其他",
+        "agree" : "同意。",
+        "next" : "下一个",
+        "agreeterms":"你必须同意我们的条件",
+        "termsandconditions":"条款 & 条件",
+        "privacypolicy":"私隐政策",
+        "and":"和",
+        "givelocation":"请给出位置",
+        "okay":"諾。",
+        "update":" 更新资料",
+        "fillall":"你必须填写所有必需的",
+        "youdidntjoingroup":"你没有加入小组",
+        "youhavetowait":"你必须等待",
+        "yes":"是的",
+        "stopmatching":"停止匹配",
+        "block":"座",
+        "allgroup":"所有组别",
+        "chaos":"混乱",
+        "friends":"朋友们"
+        
+
+
+      },
+      "report": {
+        "reportingtextouter": "为什么举报这篇文章，请说明",
+        "reportingtextinterior":"你为什么要报道这篇文章？",
+        "reportingtextdetail":"您的报告是匿名的，如果有人处于紧急危险中，请致电当地紧急服务部门",
+        "spam":"是垃圾邮件",
+        "nudity":"裸体或性活动",
+        "hate":"仇恨言论或符号",
+        "suicide":"自杀或自伤",
+        "falseinfo":"虚假资料"
+      },
+
+    "homepage": {
+      "circulartext": "我们去找朋友吧",
+      "populartext":"流行于时间线",
+       "needtoken" : "你需要令牌",
+       "tokenalert" : "令牌警报",
+       "earntoken" : "赚取代币",
+       "doesntyet" : "不还没有",
+       "nomorematch" : "不再匹配",
+       "full" : "全"
+  },
+  "chat": {
+    "participant": "参加者",
+    "leavegroup":"离开小组",
+    "reportgroup":"报告组",
+    "document":"文件",
+    "photo":"照片",
+    "video":"短片",
+    "allmemberaccept":"所有会员已接受邀请",
+    "joinchaos":"加入混乱",
+    "youcantleavethegroup":"当你搜索混乱时，你不能离开小组",
+    "moretime":"更多时间",
+    "youwant20min":"你想+20分钟？ 价格：1令牌"
+
+
+  },
+  "profile": {
+    "havenotimage": "你没有形象",
+    "clubandact":"俱乐部 & 活动",
+    "hobbiesandinterest":"爱好 & 利息",
+    "profile":"个人资料",
+    "settings":"设置"
+  },
+  "interest": {
+        
+    "hiking":"徒步旅行",
+    "reading":"阅读",
+    "art":"艺术",
+    "cooking":"烹饪",
+    "theater":"剧院",
+    "traveling":"旅游",
+    "swimming":"游泳",
+    "basketball":"篮球运动",
+    "football":"足球",
+    "volleyball":"排球比赛",
+    "tennis":"网球",
+    "skiing":"滑雪",
+    "cycling":"骑自行车",
+    "baseball":"棒球赛",
+    "climbing":"攀岩运动",
+    "blogging":"博客",
+    "astrology":"占星术",
+    "movies":"电影",
+    "music":"音乐",
+    "gardening":"园艺学",
+    "calligraphy":"书法",
+    "yoga":"瑜伽",
+    "language":"语言",
+    "camping":"露营",
+    "dance":"跳舞",
+    "games":"游戏",
+    "design":"设计",
+    "photograph":"摄影",
+    "chess":"国际象棋",
+    "running":"跑步",
+    "bowling":"保龄球运动",
+    "skate":"溜冰鞋",
+    "martial":"武术",
+    "fashion":"时尚，时尚",
+    "pet":"宠物"
+  },
+  "settings": {
+    "notification":"通知书",
+    "account":"帐户",
+    "guidebook":"旅游指南",
+    "about":"关于",
+    "logout":"注销登记",
+    "settings":"设置",
+    "help":"救命！",
+    "options":"选项",
+    "language":"语言",
+    "licences":"牌照",
+    "rules":"规则"
+    
+  },
+  "notifications":{
+
+    "newmatches" :" 新比赛",
+    "groupmessages":"群组讯息",
+    "chaosmessages" :" 混乱信息",
+    "likes" :" 喜欢",
+    "tokens":"令牌",
+    "systemnotifications" :" 系统通知"
+
+  },
+
+  "loggingout": {
+    "buttontext": "与谷歌签约"
+}
+
+
+}

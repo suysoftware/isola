@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, prefer_const_declarations, unused_element, avoid_print, prefer_typing_uninitialized_variables
+
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,10 +26,10 @@ class TokenGainPage extends StatefulWidget {
   State<TokenGainPage> createState() => _TokenGainPageState();
 }
 
+// ignore: duplicate_ignore
 class _TokenGainPageState extends State<TokenGainPage> {
   final InAppReview _inAppReview = InAppReview.instance;
 
-  // ignore: unused_field
   Availability _availability = Availability.loading;
   bool adIsReady = false;
   String _appStoreId = '';
@@ -38,8 +40,8 @@ class _TokenGainPageState extends State<TokenGainPage> {
   final BannerAd myBanner = BannerAd(
       size: AdSize.banner,
       adUnitId: "ca-app-pub-3940256099942544/2934735716",
-      listener: BannerAdListener(),
-      request: AdRequest());
+      listener: const BannerAdListener(),
+      request: const AdRequest());
 
   // RewardedInterstitialAd? _rewardedInterstitialAd;
   //int _numRewardedInterstitialLoadAttempts = 0;
@@ -47,7 +49,7 @@ class _TokenGainPageState extends State<TokenGainPage> {
   RewardedAd? _rewardedAd;
   int _numRewardedLoadAttempts = 0;
 
-  static final AdRequest request = AdRequest(
+  static final AdRequest request = const AdRequest(
     keywords: <String>['foo', 'bar'],
     contentUrl: 'http://foo.com/bar.html',
     nonPersonalizedAds: true,
@@ -66,7 +68,6 @@ class _TokenGainPageState extends State<TokenGainPage> {
         value['ads_active'],
         value['rate_active']));
 
-    print(adSetting);
     return adSetting;
   }
 
@@ -78,7 +79,7 @@ class _TokenGainPageState extends State<TokenGainPage> {
 
         // test
         adUnitId: adUnitId,
-        request: AdRequest(),
+        request: const AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
           onAdLoaded: (RewardedAd ad) {
             print('$ad loaded.');
@@ -317,17 +318,16 @@ class _TokenGainPageState extends State<TokenGainPage> {
               Row(
                 children: [
                   CupertinoButton(
-                      child: Text('dsds'),
+                      child: const Text('dsds'),
                       onPressed: () {
                         var ref = FirebaseFirestore.instance
                             .collection('create_user_test')
                             .doc();
 
                         ref.set({
-                          'user_mail':'sdsdgfg@tilburguiversity.edu',
-                          'active':false,
-                          'university_type':'null'
-
+                          'user_mail': 'sdsdgfg@tilburguiversity.edu',
+                          'active': false,
+                          'university_type': 'null'
                         });
                       })
                 ],
@@ -341,7 +341,7 @@ class _TokenGainPageState extends State<TokenGainPage> {
                           ? _earnTokenCard(adsSettings!.rewardedValue,
                               "Watch Video", _showRewardedAd)
                           : _earnTokenWaitingCard())
-                      : SizedBox(),
+                      : const SizedBox(),
                   SizedBox(
                     width: 1.w,
                   ),
@@ -349,7 +349,7 @@ class _TokenGainPageState extends State<TokenGainPage> {
                       ? (_availability == Availability.available
                           ? _earnTokenCard(5, "App Review", _requestReview)
                           : _earnTokenCard(5, "Rated", () {}))
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               ),
             ],
@@ -380,7 +380,7 @@ Widget _earnTokenCard(
           ]),
       child: Stack(children: [
         amountText == 'Rated'
-            ? SizedBox()
+            ? const SizedBox()
             : Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
@@ -391,7 +391,7 @@ Widget _earnTokenCard(
                 ),
               ),
         amountText == 'Rated'
-            ? SizedBox()
+            ? const SizedBox()
             : Align(
                 alignment: Alignment.topCenter,
                 child: Padding(

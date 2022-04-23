@@ -1,0 +1,166 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+        "report" : "rapport",
+        "back": "terug",
+        "cancel": "annuleren",
+        "media" : "medium",
+        "timeline" : "tijdlijn",
+        "biography" : "biografi",
+        "share" : "gedeeld",
+        "refreshing": "verfrissend",
+        "refcompleted": "opnieuw voltooid",
+        "loading" : "laden",
+        "nomoredata" : "geen gegevens meer",
+        "explore" : "verkennen",
+        "comingsoon" : "binnenkort beschikbaar",
+        "clickhere" : "Klik hier",
+        "deletefriend": "vriend verwijderen",
+        "nogoback": "geen Ga terug",
+        "delete" : "verwijderen",
+        "post": "Post",
+        "name" : "naam",
+        "yourname" : " uw naam",
+        "surname" : "achternaam",
+        "yoursurname" : "uw achternaam",
+        "university":"Universiteit",
+        "youruniversity" : "uw universiteit",
+        "gender" : "Gender",
+        "male" : "mannelijk",
+        "female" : "vrouwelijk",
+        "other" : " ander ",
+        "agree" : " akkoord ",
+        "next" : " volgend ",
+        "agreeterms":" Je moet akkoord gaan met onze voorwaarden s",
+        "termsandconditions":" Arbeidsomstandigheden & Voorwaarden ",
+        "privacypolicy":" Privacybeleid ",
+        "and":" en ",
+        "givelocation":" Geef De Locatie Op ",
+        "okay":" Oké ",
+        "update":"Update",
+        "fillall":"You have to fill all required",
+        "youdidntjoingroup":"You didnt join group",
+        "youhavetowait":" Je moet wachten. ",
+        "yes":" Yep",
+        "stopmatching":" Overeenkomst stoppen ",
+        "block":" Blok ",
+        "allgroup":" Alle groepen ",
+        "chaos":"Chaos",
+        "friends":"Vrienden"
+        
+
+
+      },
+      "report": {
+        "reportingtextouter": " Waarom u dit bericht meldt, gelieve uit te leggen ",
+        "reportingtextinterior":" Waarom meld je dit bericht?",
+        "reportingtextdetail":" Uw rapport is anoniem, als iemand in direct gevaar is, bel dan de lokale hulpdiensten. ",
+        "spam":" Het is spam. ",
+        "nudity":" Naaktheid of seksuele activiteit ",
+        "hate":" Haatzaaierij of symbolen ",
+        "suicide":" Zelfmoord of zelfbeschadiging ",
+        "falseinfo":" Onjuiste informatie "
+      },
+
+    "homepage": {
+      "circulartext": " Laten we wat vrienden zoeken. ",
+      "populartext":" Populair in tijdlijn ",
+       "needtoken" : " Je hebt token nodig ",
+       "tokenalert" : " Token Waarschuwing ",
+       "earntoken" : " Token Verdienen ",
+       "doesntyet" : " Nee nog niet ",
+       "nomorematch" : " Geen match meer ",
+       "full" : " Volledige "
+  },
+  "chat": {
+    "participant": " Deelnemer ",
+    "leavegroup":" Groep Verlaten ",
+    "reportgroup":" Groep Verslag ",
+    "document":" Document ",
+    "photo":" Foto ",
+    "video":"Video",
+    "allmemberaccept":" Alle leden hebben de uitnodiging al aanvaard ",
+    "joinchaos":" Deelnemen Aan Chaos ",
+    "youcantleavethegroup":" Je kunt de groep niet verlaten als je chaos zoekt ",
+    "moretime":" Meer Tijd ",
+    "youwant20min":" Wil je 20 minuten ? Prijs: 1 Token "
+
+
+  },
+  "profile": {
+    "havenotimage": " Zult afgebeeld hebben ",
+    "clubandact":" Club & Activiteiten ",
+    "hobbiesandinterest":" Hobby & Belangen",
+    "profile":" Gebruikersprofiel",
+    "settings":" Instelling"
+  },
+  "interest": {
+        
+    "hiking":" Wandel",
+    "reading":" Lezen",
+    "art":" Kunst",
+    "cooking":" Koken",
+    "theater":" Theater",
+    "traveling":" Reis",
+    "swimming":" Zwem",
+    "basketball":" Basketbal",
+    "football":" Voetbal",
+    "volleyball":"Volleyball",
+    "tennis":"Tennis",
+    "skiing":" Skiën",
+    "cycling":" Fiets",
+    "baseball":" Honkbal ",
+    "climbing":" Klimmen ",
+    "blogging":" Blog ",
+    "astrology":" Astrologie ",
+    "movies":" Film ",
+    "music":" Muziek ",
+    "gardening":" Tuinieren ",
+    "calligraphy":" Kalligrafie ",
+    "yoga":"Yoga",
+    "language":" Taal ",
+    "camping":" Camping ",
+    "dance":" Dans ",
+    "games":" Spel ",
+    "design":" Ontwerp ",
+    "photograph":" Fotografie ",
+    "chess":" Schaak ",
+    "running":" Draaien ",
+    "bowling":" Bowlingbaan ",
+    "skate":" Schaatsen ",
+    "martial":" Martial ",
+    "fashion":" Mode ",
+    "pet":" Huisdier "
+  },
+  "settings": {
+    "notification":" Melding ",
+    "account":" Account ",
+    "guidebook":" Gids ",
+    "about":" Over ",
+    "logout":" afmelden ",
+    "settings":" Instelling ",
+    "help":" Helpen ",
+    "options":" Optie ",
+    "language":" Taal ",
+    "licences":" Licentie ",
+    "rules":" Reglement "
+    
+  },
+  "notifications":{
+
+    "newmatches" :" Nieuwe Matches ",
+    "groupmessages":" Berichten Groeperen ",
+    "chaosmessages" :" Chaos Berichten ",
+    "likes" :" Graag ",
+    "tokens":" Token ",
+    "systemnotifications" :" Systeemmeldingen "
+
+  },
+
+  "loggingout": {
+    "buttontext": " Aanmelden Met Google "
+}
+
+
+}

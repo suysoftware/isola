@@ -49,6 +49,8 @@ abstract class LocaleKeys {
   static const main_stopmatching = 'main.stopmatching';
   static const main_block = 'main.block';
   static const main_allgroup = 'main.allgroup';
+  static const main_chaos = 'main.chaos';
+  static const main_friends = 'main.friends';
   static const main = 'main';
 
   static const report_reportingtextouter = 'report.reportingtextouter';
@@ -149,7 +151,6 @@ abstract class LocaleKeys {
       'notifications.systemnotifications';
   static const notifications = 'notifications';
 
-  
   static const loggingout_buttontext = 'loggingout.buttontext';
   static const loggingout = 'loggingout';
 }

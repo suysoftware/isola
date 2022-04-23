@@ -324,7 +324,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 2.w,
                       ),
                       Text(
-                        '${widget.userAll.isolaUserMeta.userFriends.length} Friends',
+                        '${widget.userAll.isolaUserMeta.userFriends.length} ${LocaleKeys.main_friends.tr()}',
                         style: StyleConstants.profileMiniNaviTextStyle,
                       )
                     ],

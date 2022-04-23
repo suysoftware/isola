@@ -27,6 +27,13 @@ class ColorConstant {
   static const Color chatNameTextColor4 = Color(0xFFFF3666);
   static const Color chatNameTextColor5 = Color(0xFF00E35B);
 
+  static const Color startingPageGradientMaterial1 = Color(0x80F1198E);
+  static const Color startingPageGradientMaterial2 = Color(0x59284AF9);
+  static const Color startingPageGradientMaterial3 = Color(0x4014D1FB);
+  static const Color startingPageGradientMaterial4 = Color(0xFFFFFFFF);
+
+  static Color startingButtonColor = const Color.fromARGB(126, 225, 178, 255);
+
   static const Color softPurple = Color(0xFFAF43FD);
   static Color softGrey = CupertinoColors.black.withOpacity(0.7);
   static const Color iGradientMaterial1 = Color(0xFFC549FF);
@@ -71,5 +78,20 @@ class ColorConstant {
         ColorConstant.iGradientMaterial3,
         ColorConstant.iGradientMaterial4,
         ColorConstant.iGradientMaterial5,
+      ]);
+  static Gradient startingPageGradient = const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      stops: [
+        0.07,
+        0.38,
+        0.67,
+        1.0
+      ],
+      colors: [
+        ColorConstant.startingPageGradientMaterial1,
+        ColorConstant.startingPageGradientMaterial2,
+        ColorConstant.startingPageGradientMaterial3,
+        ColorConstant.startingPageGradientMaterial4,
       ]);
 }
