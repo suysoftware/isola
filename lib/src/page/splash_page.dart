@@ -3,6 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/page/non_valid_page.dart';
 import 'package:isola_app/src/page/sign_up_page.dart';
 import 'package:isola_app/src/service/firebase/storage/add_user.dart';
@@ -28,27 +30,23 @@ class _SplashPageState extends State<SplashPage> {
       saveTokenToDatabase(token!);
 
       getUserAllFromDataBase(user.uid).then((value) {
+        if (value.isolaUserMeta.userIsValid == true) {
+          if (value.isolaUserDisplay.userInterest.first == "interest1") {
+            Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => SignUpPage(userAll: value)));
+          } else {
+            context.read<UserAllCubit>().userAllChanger(
+                  value,
+                );
 
-if(value.isolaUserMeta.userIsValid==true){
-
-    if (value.isolaUserDisplay.userInterest.first == "interest1") {
-          Navigator.push(
-              context,
-              CupertinoPageRoute(
-                  builder: (context) => SignUpPage(userAll: value)));
+            Navigator.pushReplacementNamed(context, navigationBar);
+          }
         } else {
-          Navigator.pushReplacementNamed(context, navigationBar);
+          Navigator.pushReplacement(context,
+              CupertinoPageRoute(builder: (context) => const NonValidPage()));
         }
-}
-else{
-  Navigator.push(context, CupertinoPageRoute(builder: (context)=>const NonValidPage()));
-
-}
-
-    
-
-
-
       });
     } else {
       Navigator.pushReplacementNamed(context, loggingOutRoute);

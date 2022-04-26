@@ -42,10 +42,10 @@ if (user != null) {
                   CupertinoPageRoute(
                       builder: (context) => SignUpPage(userAll: value)));
             } else {
-              Navigator.pushNamed(context, navigationBar);
+              Navigator.pushReplacementNamed(context, navigationBar);
             }
           } else {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 CupertinoPageRoute(builder: (context) => const NonValidPage()));
           }
         });
@@ -100,9 +100,9 @@ if (user != null) {
                 buttonGradient: ColorConstant.isolaMainGradient,
                 buttonText: LocaleKeys.loggingout_buttontext.tr(),
                 isGradient: true,
-                textStyle: StyleConstants.softMilkTextStyle,
+                textStyle: StyleConstants.loggingOutTextStyle,
                 buttonHeight: 6,
-                buttonWidth: 100.h > 1150 ? 32 : 52,
+                buttonWidth: 100.h > 1150 ? 50 : 62,
                 buttonPadding: 2.0,
                 borderWidth: 0.25,
                 borderColor: ColorConstant.softBlack),

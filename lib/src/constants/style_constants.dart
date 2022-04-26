@@ -9,6 +9,8 @@ class StyleConstants {
       fontFamily: "Roboto-Bold", color: ColorConstant.textColor, fontSize: 18);
   static const TextStyle softMilkTextStyle = TextStyle(
       fontFamily: "Roboto-Bold", color: ColorConstant.textColor, fontSize: 16);
+        static  TextStyle loggingOutTextStyle = TextStyle(
+      fontFamily: "Roboto-Bold", color: ColorConstant.textColor, fontSize: 10.sp);
   static const TextStyle softDarkTextStyle = TextStyle(
       fontFamily: "Roboto-Bold", color: ColorConstant.softBlack, fontSize: 14);
   static const TextStyle softDarkTabletTextStyle = TextStyle(

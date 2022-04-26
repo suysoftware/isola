@@ -9,6 +9,7 @@ import 'package:flutter_circular_text/circular_text.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/match_button_cubit.dart';
 import 'package:isola_app/src/blocs/search_status_cubit.dart';
+import 'package:isola_app/src/blocs/user_all_cubit.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
@@ -34,6 +35,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late bool isTablet;
+  late IsolaUserAll userAll;
   int popularItemAmount = 0;
   int notificationCount = 0;
 
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    userAll = widget.userAll;
     isTablet = 100.h >= 1100 ? true : false;
 
     animationController = AnimationController(
@@ -108,7 +110,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         CurvedAnimation(parent: animationController3, curve: Curves.easeInOut))
       ..addListener(() {
         setState(() {
-          widget.userAll.isolaUserMeta.userIsSearching = true;
+          userAll.isolaUserMeta.userIsSearching = true;
         });
       });
     rotateAnimationValue3 = Tween(begin: 0.0, end: pi * 2).animate(
@@ -117,14 +119,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         setState(() {});
       });
 
-    if (widget.userAll.isolaUserMeta.userIsSearching != false) {
+    if (userAll.isolaUserMeta.userIsSearching != false) {
+     
+      // if (context.read<UserAllCubit>().state.isolaUserMeta.userIsSearching !=
+      //      false) {
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
 
       animationController4.repeat(period: const Duration(milliseconds: 1800));
       context.read<SearchStatusCubit>().searching();
     } else {
       context.read<SearchStatusCubit>().pauseSearching();
-      switch (widget.userAll.isolaUserMeta.joinedGroupList.length) {
+      switch (userAll.isolaUserMeta.joinedGroupList.length) {
         case 1:
           context
               .read<MatchButtonCubit>()
@@ -164,17 +169,83 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     animationController2.dispose();
     animationController3.dispose();
 
-    if (mounted) {
-      animationController4.dispose();
-    }
+    // if (mounted) {
+    animationController4.dispose();
+    // }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.userAll.isolaUserMeta.userIsSearching) {
-      animationController4.repeat(period: const Duration(milliseconds: 1800));
+    userAll = context.read<UserAllCubit>().state;
+   
+    if (userAll.isolaUserMeta.userIsSearching) {
+      // if (context.read<UserAllCubit>().state.isolaUserMeta.userIsSearching) {
+   
+      if (animationController4.isAnimating == false) {
+        animationController4.repeat(period: const Duration(milliseconds: 1800));
+      }
       context.read<MatchButtonCubit>().imageButtonSearching(isTablet: isTablet);
+    } else if (context
+            .read<UserAllCubit>()
+            .state
+            .isolaUserMeta
+            .userIsSearching ==
+        false) {
+      context.read<SearchStatusCubit>().pauseSearching();
+
+      if (animationController.isAnimating ||
+          animationController2.isAnimating ||
+          animationController3.isAnimating ||
+          animationController4.isAnimating) {
+        animationController.stop();
+        animationController2.stop();
+        animationController3.stop();
+        animationController4.stop();
+        animationController.reset();
+        animationController2.reset();
+        animationController3.reset();
+        animationController4.reset();
+      }
+
+      // if (mounted) {
+
+      switch (context
+          .read<UserAllCubit>()
+          .state
+          .isolaUserMeta
+          .joinedGroupList
+          .length) {
+        case 1:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonSearcingCancel(isTablet: isTablet);
+
+          break;
+        case 2:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonSearcingCancel(isTablet: isTablet);
+
+          break;
+        case 3:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonUseToken(isTablet: isTablet);
+
+          break;
+        case 4:
+          context
+              .read<MatchButtonCubit>()
+              .imageButtonUseToken(isTablet: isTablet);
+
+          break;
+
+        case 5:
+          context.read<MatchButtonCubit>().imageButtonFull(isTablet: isTablet);
+
+          break;
+      }
     }
 
     return FutureBuilder(
@@ -193,10 +264,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     padding: EdgeInsets.zero,
                     child: GestureDetector(
                         onTap: () async {
-                                 Navigator.push(
+                          Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) =>  TokenGainPage(userAll: widget.userAll,)));
+                                  builder: (context) => TokenGainPage(
+                                        userAll: userAll,
+                                      )));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -204,7 +277,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                '${widget.userAll.isolaUserMeta.userToken}',
+                                '${userAll.isolaUserMeta.userToken}',
                                 style: StyleConstants.isolaTokenTextStyle,
                               ),
                             ),
@@ -272,12 +345,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             right: 5.w,
                             child: GestureDetector(
                               onTap: () {
-                                if (widget
-                                    .userAll.isolaUserMeta.userIsSearching) {
+                                if (context
+                                    .read<UserAllCubit>()
+                                    .state
+                                    .isolaUserMeta
+                                    .userIsSearching) {
+                                  print('searching');
                                 } else {
-                                  if (widget.userAll.isolaUserMeta
-                                          .joinedGroupList.length <
+                                  print('girdiilk');
+                                  if (userAll.isolaUserMeta.joinedGroupList
+                                          .length <
                                       3) {
+                                    context
+                                        .read<UserAllCubit>()
+                                        .searchingStatusChanger(true);
                                     animationController.forward();
                                     animationController2
                                         .forward()
@@ -286,14 +367,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           .forward()
                                           .whenComplete(() {
                                         joinToMatchingPool(
-                                                widget.userAll.isolaUserMeta
-                                                    .userUid,
-                                                widget.userAll.isolaUserDisplay
-                                                    .userSex,
-                                                widget.userAll.isolaUserDisplay
+                                                userAll.isolaUserMeta.userUid,
+                                                userAll
+                                                    .isolaUserDisplay.userSex,
+                                                userAll.isolaUserDisplay
                                                     .userIsNonBinary,
-                                                widget.userAll.isolaUserMeta
-                                                    .userIsValid)
+                                                userAll
+                                                    .isolaUserMeta.userIsValid)
                                             .whenComplete(() {
                                           context
                                               .read<MatchButtonCubit>()
@@ -306,11 +386,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         });
                                       });
                                     });
-                                  } else if (widget.userAll.isolaUserMeta
+                                  } else if (userAll.isolaUserMeta
                                           .joinedGroupList.length <
                                       5) {
-                                    if (widget.userAll.isolaUserMeta.userToken >
-                                        0) {
+                                    if (userAll.isolaUserMeta.userToken > 0) {
+                                                                          context
+                                        .read<UserAllCubit>()
+                                        .searchingStatusChanger(true);
+                                      print('caliscak');
                                       // YOU HAVE TOKEN AND YOU CAN USE
                                       animationController.forward();
                                       animationController2
@@ -320,15 +403,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                             .forward()
                                             .whenComplete(() {
                                           joinToMatchingPool(
-                                                  widget.userAll.isolaUserMeta
-                                                      .userUid,
-                                                  widget.userAll
+                                                  userAll.isolaUserMeta.userUid,
+                                                  userAll
                                                       .isolaUserDisplay.userSex,
-                                                  widget
-                                                      .userAll
-                                                      .isolaUserDisplay
+                                                  userAll.isolaUserDisplay
                                                       .userIsNonBinary,
-                                                  widget.userAll.isolaUserMeta
+                                                  userAll.isolaUserMeta
                                                       .userIsValid)
                                               .whenComplete(() {
                                             context
@@ -351,13 +431,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           context: context,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                                content: Text(
-                                                    LocaleKeys.homepage_needtoken.tr()),
-                                                title:
-                                                    Text(LocaleKeys.homepage_tokenalert.tr()),
+                                                content: Text(LocaleKeys
+                                                    .homepage_needtoken
+                                                    .tr()),
+                                                title: Text(LocaleKeys
+                                                    .homepage_tokenalert
+                                                    .tr()),
                                                 actions: [
                                                   CupertinoButton(
-                                                      child: Text(LocaleKeys.homepage_earntoken.tr(),
+                                                      child: Text(
+                                                          LocaleKeys
+                                                              .homepage_earntoken
+                                                              .tr(),
                                                           style: TextStyle(
                                                               fontSize: 11.sp)),
                                                       onPressed: () {
@@ -365,7 +450,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                       }),
                                                   CupertinoButton(
                                                       child: Text(
-                                                      LocaleKeys.homepage_doesntyet.tr(),
+                                                        LocaleKeys
+                                                            .homepage_doesntyet
+                                                            .tr(),
                                                         style: TextStyle(
                                                             fontSize: 11.sp),
                                                       ),
@@ -379,19 +466,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     //
 
                                     //
-                                  } else if (widget.userAll.isolaUserMeta
+                                  } else if (userAll.isolaUserMeta
                                           .joinedGroupList.length ==
                                       5) {
                                     showCupertinoDialog(
                                         context: context,
                                         builder: (context) =>
                                             CupertinoAlertDialog(
-                                              content:Text(
-                                                LocaleKeys.homepage_nomorematch.tr()),
-                                              title: Text(LocaleKeys.homepage_full.tr()),
+                                              content: Text(LocaleKeys
+                                                  .homepage_nomorematch
+                                                  .tr()),
+                                              title: Text(LocaleKeys
+                                                  .homepage_full
+                                                  .tr()),
                                               actions: [
                                                 CupertinoButton(
-                                                    child: Text(LocaleKeys.main_okay.tr(),
+                                                    child: Text(
+                                                        LocaleKeys.main_okay
+                                                            .tr(),
                                                         style: TextStyle(
                                                             fontSize: 11.sp)),
                                                     onPressed: () {
@@ -519,8 +611,6 @@ class HomePageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(100.h);
-    print(100.w);
     return GestureDetector(
       onTap: () {
         if (pLink == "nothing") {

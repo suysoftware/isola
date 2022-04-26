@@ -13,10 +13,22 @@ class TextChatContLeft extends StatelessWidget {
   TextChatContLeft(
       {Key? key, required this.targetMesaj, required this.messageTime})
       : super(key: key);
+  // ignore: non_constant_identifier_names
+  static final RegExp REGEX_EMOJI = RegExp(
+      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
+
+  late bool isJustEmoji;
 
   @override
   Widget build(BuildContext context) {
     DateFormat dFormat = DateFormat("HH:mm");
+
+        if (targetMesaj.length == 2 &&
+        REGEX_EMOJI.allMatches(targetMesaj).isNotEmpty) {
+      isJustEmoji = true;
+    } else {
+      isJustEmoji = false;
+    }
     double contHeight = 100.h <= 1100
         ? ((targetMesaj.length < 50 ? 1 : targetMesaj.length / 50) + 1.0)
         : ((targetMesaj.length / 30) + 0.6);
@@ -24,8 +36,10 @@ class TextChatContLeft extends StatelessWidget {
     double bottomRight = (contHeight * 2 + 6.5) * 3;
     double bottomLeft = (contHeight + 8) * 3;
     return Container(
-      width: 70.w,
-      height: 100.h <= 1100 ? (contHeight * 2 + 4).h : (contHeight * 2 + 4).h,
+            width: isJustEmoji == true ? 18.w : 70.w,
+      height: isJustEmoji == true
+          ? ((contHeight * 2 + 6).h)
+          : ((contHeight * 2 + 4).h),
       decoration: BoxDecoration(
           gradient: ColorConstant.isolaMainGradient,
           border: Border.all(color: ColorConstant.transparentColor),
@@ -55,9 +69,11 @@ class TextChatContLeft extends StatelessWidget {
                 child: RichText(
                   text: TextSpan(
                       text: targetMesaj,
-                      style: 100.h >= 1100
-                          ? StyleConstants.targetTabletChatMessageTextStyle
-                          : StyleConstants.targetChatMessageTextStyle),
+                   style: isJustEmoji == true
+                        ? TextStyle(fontSize: 30.sp)
+                        : (100.h >= 1100
+                            ? StyleConstants.targetTabletChatMessageTextStyle
+                            : StyleConstants.targetChatMessageTextStyle)),
                 ),
               ),
               Align(

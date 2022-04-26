@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:isola_app/src/blocs/group_merge_cubit.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/search_status_cubit.dart';
 import 'package:isola_app/src/blocs/user_all_cubit.dart';
@@ -38,6 +39,7 @@ class _NavigationBarState extends State<NavigationBar>
 
   late IsolaUserAll userAll;
   late var userLikeHistory;
+  String userUidForOnlinity = " ";
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -93,7 +95,7 @@ class _NavigationBarState extends State<NavigationBar>
       badge: true,
       sound: true,
     );
-
+    userUidForOnlinity = user.uid;
     getUserAllFromDataBase(user.uid)
         .then((value) => userAll = value)
         .whenComplete(() {
@@ -119,8 +121,8 @@ class _NavigationBarState extends State<NavigationBar>
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.inactive) {
-      //  print(
-      //    "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
+      print(
+          "uygulamalar arası geçişte\nyukarıdan saati çekince\ndiger yukarıdan çekilen sürgü ile");
 
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
@@ -130,6 +132,8 @@ class _NavigationBarState extends State<NavigationBar>
     }
 
     if (state == AppLifecycleState.paused) {
+      await userDisplayRef.doc(userUidForOnlinity).update({'uOnline': false});
+
       //  print(" altta atıldı");
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
@@ -139,7 +143,10 @@ class _NavigationBarState extends State<NavigationBar>
     }
 
     if (state == AppLifecycleState.resumed) {
+      print('resume');
       //"alta atıp geri gelince");
+      await userDisplayRef.doc(userUidForOnlinity).update({'uOnline': true});
+
       messaging.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
@@ -154,10 +161,8 @@ class _NavigationBarState extends State<NavigationBar>
         badge: true,
         sound: true,
       );
-
-      await DefaultCacheManager().removeFile("cachedImageFiles");
-      userDisplayRef.doc(user.uid).update({'uOnline': false});
       context.read<UserAllCubit>().state.isolaUserDisplay.userIsOnline = false;
+      await DefaultCacheManager().removeFile("cachedImageFiles");
     }
     super.didChangeAppLifecycleState(state);
   }
@@ -201,7 +206,8 @@ class _NavigationBarState extends State<NavigationBar>
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return const CupertinoActivityIndicator();
+                      //  return const CupertinoActivityIndicator();
+                      return TimelinePage(user: user, userAll: userAll);
 
                     default:
                       if (snapshot.hasError) {
@@ -209,9 +215,10 @@ class _NavigationBarState extends State<NavigationBar>
                       } else {
                         var userAllSnap = snapshot.data as IsolaUserAll;
 
-                        context
-                            .read<UserAllCubit>()
-                            .userAllChanger(userAllSnap);
+                        context.read<UserAllCubit>().userAllChanger(
+                              userAllSnap,
+                            );
+  
                         return TimelinePage(user: user, userAll: userAllSnap);
                       }
                   }
@@ -226,7 +233,8 @@ class _NavigationBarState extends State<NavigationBar>
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return const CupertinoActivityIndicator();
+                      //  return const CupertinoActivityIndicator();
+                      return SearchPage(user: user, userAll: userAll);
 
                     default:
                       if (snapshot.hasError) {
@@ -250,9 +258,25 @@ class _NavigationBarState extends State<NavigationBar>
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return const CupertinoActivityIndicator();
+                      // return const CupertinoActivityIndicator();
+                   
+                      return HomePage(
+                          userAll: context.read<UserAllCubit>().state);
 
-                    default:
+                    case ConnectionState.done:
+                      
+                      var userAllInfo = snapshot.data as IsolaUserAll;
+                      context.read<UserAllCubit>().userAllChanger(
+                            userAllInfo,
+                          );
+                           
+
+             
+                      return HomePage(
+                        userAll: userAllInfo,
+                      );
+
+                    /*  default:
                       if (snapshot.hasError) {
                         return const Text("Error");
                       } else {
@@ -265,7 +289,14 @@ class _NavigationBarState extends State<NavigationBar>
                         return HomePage(
                           userAll: userAllInfo,
                         );
-                      }
+                      }*/
+                    case ConnectionState.none:
+
+                      return const Text("Error");
+                    case ConnectionState.active:
+                   
+                      return HomePage(
+                          userAll: context.read<UserAllCubit>().state);
                   }
                 },
               );
@@ -277,9 +308,32 @@ class _NavigationBarState extends State<NavigationBar>
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return const Center(
-                            child: CupertinoActivityIndicator());
-                      case ConnectionState.done:
+                        if (context
+                                .read<GroupMergeCubit>()
+                                .state
+                                .userAll
+                                .isolaUserMeta
+                                .userUid ==
+                            'null') {
+                          return const Center(
+                              child: CupertinoActivityIndicator());
+                        } else {
+                          return ChatPage(
+                              user: user,
+                              groupMergeData:
+                                  context.read<GroupMergeCubit>().state,
+                              messaging: messaging);
+                        }
+                      //  return const Center( child: CupertinoActivityIndicator());
+
+                      /*    var groupsModelInit = GroupsModel(false, 2, true, true,
+                            true, true, 1, [], "0ainitgroup", false, "", false);
+
+                        var dataLst = <GroupsModel>[groupsModelInit,groupsModelInit,groupsModelInit];
+                        var initData =
+                            GroupMergeData(userAll,dataLst, []);*/
+
+                      /* case ConnectionState.done:
                         if ((snapshot.data as GroupMergeData)
                                     .userAll
                                     .isolaUserMeta
@@ -290,6 +344,7 @@ class _NavigationBarState extends State<NavigationBar>
                                     .isolaUserMeta
                                     .userIsSearching ==
                                 false) {
+                  
                           return Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -307,15 +362,63 @@ class _NavigationBarState extends State<NavigationBar>
                         } else {
                           var refChatPageItems =
                               snapshot.data as GroupMergeData;
+   context
+                              .read<GroupMergeCubit>()
+                              .groupMergeChanger(refChatPageItems);
                           return ChatPage(
                             user: user,
                             groupMergeDataComing: refChatPageItems,
                             messaging: messaging,
                           );
                         }
+*/
 
-                      default:
-                        if (snapshot.hasError || !snapshot.hasData) {
+                      case ConnectionState.none:
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset("asset/img/chat_warning_icon.png"),
+                              const Text(
+                                "You didnt join group",
+                                style:
+                                    TextStyle(color: ColorConstant.softBlack),
+                              ),
+                            ],
+                          ),
+                        );
+
+                      case ConnectionState.active:
+                        if (context
+                                .read<GroupMergeCubit>()
+                                .state
+                                .userAll
+                                .isolaUserMeta
+                                .userUid ==
+                            'null') {
+                          return const Center(
+                              child: CupertinoActivityIndicator());
+                        } else {
+                          return ChatPage(
+                              user: user,
+                              groupMergeData:
+                                  context.read<GroupMergeCubit>().state,
+                              messaging: messaging);
+                        }
+                      case ConnectionState.done:
+                        if (snapshot.hasError ||
+                            context
+                                        .read<GroupMergeCubit>()
+                                        .userMeta
+                                        .joinedGroupList
+                                        .first ==
+                                    'nothing' &&
+                                context
+                                        .read<GroupMergeCubit>()
+                                        .userMeta
+                                        .userIsSearching ==
+                                    false) {
                           return Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -331,11 +434,15 @@ class _NavigationBarState extends State<NavigationBar>
                             ),
                           );
                         } else {
+                 
                           var refChatPageItems =
                               snapshot.data as GroupMergeData;
+                          context
+                              .read<GroupMergeCubit>()
+                              .groupMergeChanger(refChatPageItems);
                           return ChatPage(
                             user: user,
-                            groupMergeDataComing: refChatPageItems,
+                            groupMergeData: refChatPageItems,
                             messaging: messaging,
                           );
                         }
@@ -350,7 +457,8 @@ class _NavigationBarState extends State<NavigationBar>
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return const CupertinoActivityIndicator();
+                      // return const CupertinoActivityIndicator();
+                      return ProfilePage(user: user, userAll: userAll);
 
                     default:
                       if (snapshot.hasError) {
@@ -376,6 +484,9 @@ class _NavigationBarState extends State<NavigationBar>
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return const CupertinoActivityIndicator();
+                // return HomePage(
+                //   userAll: userAll,
+                //   );
 
                 default:
                   if (snapshot.hasError) {
@@ -384,7 +495,9 @@ class _NavigationBarState extends State<NavigationBar>
                     var userAll = snapshot.data as IsolaUserAll;
 
                     context.read<UserAllCubit>().userAllChanger(userAll);
-
+ context
+                            .read<GroupMergeCubit>()
+                            .groupMergeUserAllChanger(userAll);
                     return HomePage(
                       userAll: userAll,
                     );

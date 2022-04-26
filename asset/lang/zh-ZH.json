@@ -93,7 +93,9 @@
     "clubandact":"俱乐部 & 活动",
     "hobbiesandinterest":"爱好 & 利息",
     "profile":"个人资料",
-    "settings":"设置"
+    "settings":"设置",
+    "timelineempty" : "您的时间线为空",
+    "usertimelineempty":"用户的时间线为空"
   },
   "interest": {
         
@@ -124,7 +126,7 @@
     "dance":"跳舞",
     "games":"游戏",
     "design":"设计",
-    "photograph":"摄影",
+    "photography":"摄影",
     "chess":"国际象棋",
     "running":"跑步",
     "bowling":"保龄球运动",
@@ -159,7 +161,7 @@
   },
 
   "loggingout": {
-    "buttontext": "与谷歌签约"
+    "buttontext": "使用教育电子邮件登录"
 }
 
 

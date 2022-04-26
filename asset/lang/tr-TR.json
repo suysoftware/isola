@@ -93,7 +93,10 @@
 "havenotimage": "Henüz resmin yok",
 "clubandact":"Kulüp & Aktiviteler",
 "hobbiesandinterest":"Hobiler & İlgiler",
-"profile":"Profil"
+"profile":"Profil",
+"settings":"Ayarlar",
+"timelineempty" : "İçerik yok",
+"usertimelineempty":"kullanıcının içeriği yok"
 },
 "interest": {
     
@@ -124,7 +127,7 @@
 "dance":"Dans",
 "games":"Oyun",
 "design":"Dizayn",
-"photograph":"Fotoğraf",
+"photography":"Fotoğraf",
 "chess":"Satranç",
 "running":"Koşu",
 "bowling":"Bowling",
@@ -160,7 +163,7 @@
 },
 
 "loggingout": {
-"buttontext": "Google ile katıl"
+"buttontext": "Bir eğitim e-postası ile oturum açın"
 }
 
 

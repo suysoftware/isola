@@ -53,6 +53,7 @@ class TextMessageBalloonRight extends StatelessWidget {
             Container(
               height: 100.h >= 1100 ? 21.sp : 30.sp,
               width: 100.h >= 1100 ? 21.sp : 30.sp,
+        
               decoration: BoxDecoration(
                   gradient: ColorConstant.isolaMainGradient,
                   border: Border.all(color: ColorConstant.transparentColor),

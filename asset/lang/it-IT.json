@@ -93,7 +93,9 @@
     "clubandact":"Club & Attività ",
     "hobbiesandinterest":" Hobby & Interessi ",
     "profile":" Profilo ",
-    "settings":" Impostazioni "
+    "settings":" Impostazioni ",
+    "timelineempty" : "La tua cronologia è vuota",
+    "usertimelineempty":"La sequenza temporale dell'utente è vuota"
   },
   "interest": {
         
@@ -124,7 +126,7 @@
     "dance":" Danza ",
     "games":" Gioco ",
     "design":"Design",
-    "photograph":" Fotografia ",
+    "photography":" Fotografia ",
     "chess":" Scacchi ",
     "running":" Esecuzione ",
     "bowling":"Bowling",
@@ -159,7 +161,7 @@
   },
 
   "loggingout": {
-    "buttontext": " Firma con Google "
+    "buttontext": "Accedi con un'e-mail di formazione"
 }
 
 

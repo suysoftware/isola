@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
   User? user = FirebaseAuth.instance.currentUser;
   signOut() async {
     await Authentication.signOut().whenComplete(() {
-      Navigator.pushNamed(context, loggingOutRoute);
+      Navigator.pushReplacementNamed(context, loggingOutRoute);
     });
   }
 
@@ -90,10 +90,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(CupertinoIcons.gear, color: ColorConstant.softBlack),
                 Text(LocaleKeys.settings_options.tr(), style: settingTextStyle),
                 () {
-                                                                   
-
               showCupertinoDialog(
-                  context: context, builder: (context) =>const OptionsPage());
+                  context: context, builder: (context) => const OptionsPage());
             }),
             SizedBox(
               height: 1.h,
@@ -120,8 +118,30 @@ class _SettingsPageState extends State<SettingsPage> {
                 Text(
                   LocaleKeys.settings_help.tr(),
                   style: settingTextStyle,
-                ),
-                () {}),
+                ), () {
+              var refTest = FirebaseFirestore.instance
+                  .collection('groups_chat')
+                  .doc('0ainitgroup')
+                  .collection('chat_data')
+                  .doc();
+              refTest.set({
+                      'member_avatar_url': 'https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586',
+      'member_message': "mmessage",
+      'member_message_time': DateTime.now().toUtc(),
+      'member_name': "Member 1",
+      'member_uid':"",
+      'member_message_isvoice': false,
+      'member_message_voice_url': "",
+      'member_message_isattachment': false,
+      'member_message_attachment_url': "",
+      'member_message_isimage': false,
+      'member_message_isvideo': false,
+      'member_message_isdocument': false,
+      'member_message_target_1_uid': "",
+      'member_message_target_2_uid': "",
+      'member_message_no': "messageno",
+              });
+            }),
             SizedBox(
               height: 1.h,
             ),
@@ -231,7 +251,7 @@ class AboutFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child:  Text(LocaleKeys.settings_licences.tr()),
+          child: Text(LocaleKeys.settings_licences.tr()),
           onPressed: () {
             showCupertinoDialog(
               context: context,
@@ -242,7 +262,7 @@ class AboutFeedSheet extends StatelessWidget {
           },
         ),
         CupertinoActionSheetAction(
-          child:  Text(LocaleKeys.settings_rules.tr()),
+          child: Text(LocaleKeys.settings_rules.tr()),
           onPressed: () {
             showCupertinoDialog(
               context: context,
@@ -313,7 +333,8 @@ class _LicencesPageState extends State<LicencesPage> {
     'InAppReview',
     'FlutterCacheManager',
     'CircularCountDownTimer',
-    'GoogleFonts'
+    'GoogleFonts',
+    'GoogleMobileAds'
   ];
 
   @override
@@ -510,7 +531,8 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                         userUid: user!.uid,
                       ),
                       NotificationChangeButton(
-                        switchName: LocaleKeys.notifications_systemnotifications.tr(),
+                        switchName:
+                            LocaleKeys.notifications_systemnotifications.tr(),
                         switchStatus: systemNotifications,
                         switchDbName: 'system_notifications',
                         userUid: user!.uid,

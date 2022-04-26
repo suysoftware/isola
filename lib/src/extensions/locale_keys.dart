@@ -90,6 +90,8 @@ abstract class LocaleKeys {
   static const profile_clubandact = 'profile.clubandact';
   static const profile_hobbiesandinterest = 'profile.hobbiesandinterest';
   static const profile_profile = 'profile.profile';
+  static const profile_timelineempty = 'profile.timelineempty';
+    static const profile_usertimelineempty = 'profile.usertimelineempty';
   static const profile = 'profile';
 
   static const interest_hiking = 'interest.hiking';

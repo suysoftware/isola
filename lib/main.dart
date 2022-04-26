@@ -14,6 +14,7 @@ import 'package:isola_app/src/blocs/chat_reference_cubit.dart';
 import 'package:isola_app/src/blocs/chat_voice_message_cubit.dart';
 import 'package:isola_app/src/blocs/current_chat_cubit.dart';
 import 'package:isola_app/src/blocs/group_is_chaos_cubit.dart';
+import 'package:isola_app/src/blocs/group_merge_cubit.dart';
 import 'package:isola_app/src/blocs/group_setting_cubit.dart';
 import 'package:isola_app/src/blocs/joined_list_cubit.dart';
 import 'package:isola_app/src/blocs/match_button_cubit.dart';
@@ -226,6 +227,9 @@ class MyApp extends StatelessWidget {
           }),
           BlocProvider(create: (context) {
             return CurrentChatCubit();
+          }),
+          BlocProvider(create: (context) {
+            return GroupMergeCubit();
           }),
         ],
         child: CupertinoApp(

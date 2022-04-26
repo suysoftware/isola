@@ -93,7 +93,9 @@
     "clubandact":"Club & Activities",
     "hobbiesandinterest":"Hobbies & Interest",
     "profile":"Profile",
-    "settings":"Settings"
+    "settings":"Settings",
+    "timelineempty" : "Your timeline is empty",
+    "usertimelineempty":"User's timeline is empty"
   },
   "interest": {
         
@@ -124,7 +126,7 @@
     "dance":"Dance",
     "games":"Games",
     "design":"Design",
-    "photograph":"Photography",
+    "photography":"Photography",
     "chess":"Chess",
     "running":"Running",
     "bowling":"Bowling",
@@ -159,8 +161,10 @@
   },
 
   "loggingout": {
-    "buttontext": "Sign With Google"
+    "buttontext": "Sign in With Education Email"
 }
 
 
 }
+
+

@@ -139,10 +139,10 @@ class _TimelinePageState extends State<TimelinePage> {
       backgroundColor: ColorConstant.themeGrey,
       navigationBar: CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
-          leading:  Align(
+          leading: Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding:const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(LocaleKeys.main_timeline.tr()),
               )),
           trailing: Padding(
@@ -175,12 +175,25 @@ class _TimelinePageState extends State<TimelinePage> {
                 controller: refreshController2,
                 onRefresh: _onRefresh2,
                 onLoading: _onLoading2,
-                child: ListView.builder(
-                    itemCount: itemCountValue >=
+                // ignore: prefer_is_empty
+                child: context
+                                  .read<TimelineItemListCubit>()
+                                  .state
+                                  .length<1?Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon( CupertinoIcons.pencil_slash,size: 70.sp,color: CupertinoColors.systemGrey,),
+                                     SizedBox(height: 2.h,),
+                                      Text(LocaleKeys.profile_timelineempty.tr(),style: TextStyle(fontFamily: 'Roboto',fontSize: 15.sp),)
+                                    ],
+                                  ):ListView.builder(
+                    itemCount: (itemCountValue >=
                             context.read<TimelineItemListCubit>().state.length
                         ? context.read<TimelineItemListCubit>().state.length
-                        : itemCountValue,
+                        : itemCountValue),
                     itemBuilder: (context, indeks) {
+                  
                       return Padding(
                         padding: EdgeInsets.fromLTRB(3.w, 5.0, 3.w, 5.0),
                         child: Column(
@@ -201,8 +214,10 @@ class _TimelinePageState extends State<TimelinePage> {
                               .read<TimelineItemListCubit>()
                               .state
                               .isNotEmpty ==
-                          false) {}
-
+                          false) {
+                        
+                      }
+                     
                       return Center(
                         child: CupertinoActivityIndicator(
                           radius: 15.sp,
@@ -216,7 +231,7 @@ class _TimelinePageState extends State<TimelinePage> {
                           .timelineAdder(snapshot.data as List<dynamic>);
 
                       context.read<TimelineItemListCubit>().timelineItemsSort();
-
+                
                       return SmartRefresher(
                         enablePullDown: true,
                         enablePullUp: true,
@@ -225,7 +240,22 @@ class _TimelinePageState extends State<TimelinePage> {
                         controller: refreshController,
                         onRefresh: _onRefresh,
                         onLoading: _onLoading,
-                        child: ListView.builder(
+                        // ignore: prefer_is_empty
+                        child:context
+                                  .read<TimelineItemListCubit>()
+                                  .state
+                                  .length<1?Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon( CupertinoIcons.pencil_slash,size: 70.sp,color: CupertinoColors.systemGrey,),
+                                     SizedBox(height: 2.h,),
+                                      Text('Your timeline is empty',style: TextStyle(fontFamily: 'Roboto',fontSize: 15.sp),)
+                                    ],
+                                  ):
+                        
+                        
+                        ListView.builder(
                             itemCount: itemCountValue >=
                                     context
                                         .read<TimelineItemListCubit>()
@@ -237,25 +267,44 @@ class _TimelinePageState extends State<TimelinePage> {
                                     .length
                                 : itemCountValue,
                             itemBuilder: (context, indeks) {
-                              return Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(3.w, 5.0, 3.w, 5.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    context
-                                        .read<TimelineItemListCubit>()
-                                        .state[indeks]
-                                  ],
-                                ),
-                              );
+                            
+                              // ignore: prefer_is_empty
+                              if (context
+                                      .read<TimelineItemListCubit>()
+                                      .state
+                                      .length ==
+                                  0) {
+                            
+                                return Center(
+                                  child: Icon(
+                                    CupertinoIcons.alarm_fill,
+                                    size: 80.sp,
+                                  ),
+                                );
+                              } else {
+                        
+                                return Padding(
+                                  padding:
+                                      EdgeInsets.fromLTRB(3.w, 5.0, 3.w, 5.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      context
+                                          .read<TimelineItemListCubit>()
+                                          .state[indeks]
+                                    ],
+                                  ),
+                                );
+                              }
                             }),
                       );
 
                     default:
                       if (snapshot.hasError) {
+                       
                         return const Center(child: Text("Error"));
                       } else {
+                   
                         context
                             .read<TimelineItemListCubit>()
                             .timelineAdder(snapshot.data as List<dynamic>);
@@ -284,6 +333,7 @@ class _TimelinePageState extends State<TimelinePage> {
                                       .length
                                   : itemCountValue,
                               itemBuilder: (context, indeks) {
+                               
                                 return Padding(
                                   padding:
                                       EdgeInsets.fromLTRB(3.w, 5.0, 3.w, 5.0),
@@ -331,8 +381,6 @@ class _AddPostContainerState extends State<AddPostContainer> {
   var t1 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    print(100.h);
-    print(100.w);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -461,7 +509,7 @@ class _AddPostContainerState extends State<AddPostContainer> {
                                           Radius.circular(6.0))),
                                   child: Center(
                                     child: Text(
-                                     LocaleKeys.main_post.tr(),
+                                      LocaleKeys.main_post.tr(),
                                       style: StyleConstants.postAddTextStyle,
                                     ),
                                   ),

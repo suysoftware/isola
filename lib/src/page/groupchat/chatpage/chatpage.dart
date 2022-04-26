@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:isola_app/src/extensions/locale_keys.dart';
@@ -17,15 +18,17 @@ import 'package:isola_app/src/page/groupchat/chatpage/chat_waiting/chat_waiting_
 import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../blocs/group_merge_cubit.dart';
+
 class ChatPage extends StatefulWidget {
   ChatPage(
       {Key? key,
       required this.user,
-      required this.groupMergeDataComing,
+      required this.groupMergeData,
       required this.messaging})
       : super(key: key);
   final User? user;
-  final GroupMergeData groupMergeDataComing;
+  final GroupMergeData groupMergeData;
   FirebaseMessaging messaging;
 
   @override
@@ -33,37 +36,11 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late int chatContValue;
   late bool needSearchingContainer;
-  late var groupMergeData;
 
   @override
   void initState() {
     super.initState();
-
-    groupMergeData = widget.groupMergeDataComing.groupsModel;
-
-    if (widget.groupMergeDataComing.userAll.isolaUserMeta.joinedGroupList[0] ==
-        "nothing") {
-      if (widget.groupMergeDataComing.userAll.isolaUserMeta.userIsSearching) {
-        needSearchingContainer = true;
-        chatContValue = 1;
-      } else {
-        needSearchingContainer = false;
-        chatContValue = 0;
-      }
-    } else {
-      if (widget.groupMergeDataComing.userAll.isolaUserMeta.userIsSearching) {
-        needSearchingContainer = true;
-        chatContValue = widget.groupMergeDataComing.userAll.isolaUserMeta
-                .joinedGroupList.length +
-            1;
-      } else {
-        needSearchingContainer = false;
-        chatContValue = widget
-            .groupMergeDataComing.userAll.isolaUserMeta.joinedGroupList.length;
-      }
-    }
   }
 
   @override
@@ -73,83 +50,129 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          backgroundColor: ColorConstant.milkColor,
-          automaticallyImplyLeading: false,
-        ),
-        child: chatContValue < 1 &&
-                widget.groupMergeDataComing.userAll.isolaUserMeta
-                        .userIsSearching ==
-                    false
-            ? (Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset("asset/img/chat_warning_icon.png"),
-                     Text(
-                     LocaleKeys.main_youdidntjoingroup.tr(),
-                      style:const TextStyle(color: ColorConstant.softBlack),
-                    ),
-                  ],
-                ),
-              ))
-            : Container(
-                color: ColorConstant.themeGrey,
-                child: ListView.builder(
-                    itemCount: chatContValue,
-                    itemBuilder: (context, indeks) {
-                      var groupsItem = <Widget>[];
-
-                      var itemWaiting = const ChatGroupContWaiting();
-                      // ignore: unused_local_variable
-
-                      for (var groupData
-                          in groupMergeData as List<GroupsModel>) {
-                        if (groupData.groupChaosIsActive) {
-                          final Stream<QuerySnapshot> _chaosStream =
-                              FirebaseFirestore.instance
-                                  .collection('chaos_groups_chat')
-                                  .doc(groupData.groupChaosNo)
-                                  .collection('chat_data')
-                                  .snapshots();
-
-                          var chaosCont = ChaosGroupCont(
-                            myUid: widget.groupMergeDataComing.userAll
-                                .isolaUserMeta.userUid,
-                            chatGroupNo: groupData.groupChaosNo,
-                            userAll: widget.groupMergeDataComing.userAll,
-                            groupMergeData: widget.groupMergeDataComing,
-                          );
-
-                          groupsItem.add(chaosCont);
+    return BlocBuilder<GroupMergeCubit, GroupMergeData>(
+        builder: (context, groupMerge) {
+      return CupertinoPageScaffold(
+          navigationBar: const CupertinoNavigationBar(
+            backgroundColor: ColorConstant.milkColor,
+            automaticallyImplyLeading: false,
+          ),
+          child: groupMerge.userAll.isolaUserMeta.joinedGroupList.first ==
+                      'nothing' &&
+                  groupMerge.userAll.isolaUserMeta.userIsSearching == false
+              ? (Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset("asset/img/chat_warning_icon.png"),
+                      Text(
+                        LocaleKeys.main_youdidntjoingroup.tr(),
+                        style: const TextStyle(color: ColorConstant.softBlack),
+                      ),
+                    ],
+                  ),
+                ))
+              : Container(
+                  color: ColorConstant.themeGrey,
+                  child: ListView.builder(
+                      itemCount: groupMerge
+                              .userAll.isolaUserMeta.userIsSearching
+                          ?
+                          //TRUE SEARCHING
+                          (groupMerge.userAll.isolaUserMeta.joinedGroupList
+                                      .first ==
+                                  'nothing'
+                              ? groupMerge
+                                  .userAll.isolaUserMeta.joinedGroupList.length
+                              : groupMerge.userAll.isolaUserMeta.joinedGroupList
+                                      .length +
+                                  1)
+                          :
+                          //FALSE SEARCHIONG
+                          (groupMerge.userAll.isolaUserMeta.joinedGroupList
+                                      .first ==
+                                  'nothing'
+                              ? 0
+                              : groupMerge.userAll.isolaUserMeta.joinedGroupList
+                                  .length),
+                      itemBuilder: (context, indeks) {
+                        if (groupMerge
+                                .userAll.isolaUserMeta.joinedGroupList[0] ==
+                            "nothing") {
+                          if (groupMerge
+                              .userAll.isolaUserMeta.userIsSearching) {
+                            needSearchingContainer = true;
+                          } else {
+                            needSearchingContainer = false;
+                          }
                         } else {
-                          var groupCont = ChatGroupCont(
-                            myUid: widget.groupMergeDataComing.userAll
-                                .isolaUserMeta.userUid,
-                            chatGroupNo: groupData.groupNo,
-                            userAll: widget.groupMergeDataComing.userAll,
-                            groupMergeData: widget.groupMergeDataComing,
-                          );
+                          if (groupMerge
+                              .userAll.isolaUserMeta.userIsSearching) {
+                            needSearchingContainer = true;
 
-                          groupsItem.add(groupCont);
+                            //  groupMergeData.userAll.isolaUserMeta.joinedGroupList.length + 1;
+                          } else {
+                            needSearchingContainer = false;
+
+                            //groupMergeData.userAll.isolaUserMeta.joinedGroupList.length;
+                          }
                         }
-                      }
 
-                      if (needSearchingContainer == true) {
-                        groupsItem.add(itemWaiting);
-                      }
+                        var groupsItem = <Widget>[];
 
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 1.h),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [groupsItem[indeks]],
-                        ),
-                      );
-                    }),
-              ));
+                        var itemWaiting = const ChatGroupContWaiting();
+                        // ignore: unused_local_variable
+
+                        for (var groupData
+                            in groupMerge.groupsModel as List<GroupsModel>) {
+                          if (groupData.groupChaosIsActive) {
+                            final Stream<QuerySnapshot> _chaosStream =
+                                FirebaseFirestore.instance
+                                    .collection('chaos_groups_chat')
+                                    .doc(groupData.groupChaosNo)
+                                    .collection('chat_data')
+                                    .snapshots();
+
+                            var chaosCont = ChaosGroupCont(
+                              myUid: groupMerge.userAll.isolaUserMeta.userUid,
+                              chatGroupNo: groupData.groupChaosNo,
+                              userAll: groupMerge.userAll,
+                              groupMergeData: groupMerge,
+                            );
+
+                            groupsItem.add(chaosCont);
+                          } else {
+                            var groupCont = ChatGroupCont(
+                              myUid: groupMerge.userAll.isolaUserMeta.userUid,
+                              chatGroupNo: groupData.groupNo,
+                              userAll: groupMerge.userAll,
+                              groupMergeData: groupMerge,
+                            );
+
+                            groupsItem.add(groupCont);
+                          }
+                        }
+                        if (groupMerge.userAll.isolaUserMeta.userIsSearching) {
+                          needSearchingContainer = true;
+                          groupsItem.add(itemWaiting);
+                        } else {
+                          needSearchingContainer = false;
+                        }
+                        /*if (needSearchingContainer == true) {
+                          groupsItem.add(itemWaiting);
+                        }*/
+
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 1.h),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [groupsItem[indeks]],
+                          ),
+                        );
+                      }),
+                ));
+    });
   }
 }
 

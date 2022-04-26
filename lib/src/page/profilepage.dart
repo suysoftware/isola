@@ -25,8 +25,10 @@ import 'package:isola_app/src/utils/router.dart';
 import 'package:isola_app/src/page/profile/profile_timeline_page.dart';
 import 'package:isola_app/src/widget/liquid_progress_indicator.dart';
 import 'package:provider/src/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
+import '../blocs/group_merge_cubit.dart';
 import '../extensions/locale_keys.dart';
 import '../model/user/user_display.dart';
 
@@ -51,7 +53,7 @@ TextStyle navigatorStyle = 100.h >= 700
 
 class _ProfilePageState extends State<ProfilePage> {
   int _profileSegmentedValue = 0;
-
+  late IsolaUserAll userAll;
   final Map<int, Widget> _profileTabs = <int, Widget>{
     0: Container(
       padding: EdgeInsets.zero,
@@ -85,24 +87,24 @@ class _ProfilePageState extends State<ProfilePage> {
       case 0:
         return ProfileTimelinePage(
           user: widget.user,
-          userAll: widget.userAll,
+          userAll: userAll,
         );
 
       case 1:
         return ProfileMediaPage(
           user: widget.user,
-          userAll: widget.userAll,
+          userAll: userAll,
         );
 
       case 2:
         return ProfileBiographPage(
           user: widget.user,
-          userAll: widget.userAll,
+          userAll: userAll,
         );
       default:
         return ProfileTimelinePage(
           user: widget.user,
-          userAll: widget.userAll,
+          userAll: userAll,
         );
     }
   }
@@ -118,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
     showCupertinoDialog(
         context: context,
         builder: (BuildContext context) => ChatImagePickerNoChat(
-              userAll: widget.userAll,
+              userAll: userAll,
               file: file,
               isChaos: false,
               isProfile: true,
@@ -128,20 +130,59 @@ class _ProfilePageState extends State<ProfilePage> {
             ));
   }
 
+  RefreshController refreshController2 =
+      RefreshController(initialRefresh: false);
+  void _onRefresh2() async {
+    // monitor network fetch
+    // print("onrefresh");
+    // await Future.delayed(const Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    await getUserAllFromDataBase(widget.userAll.isolaUserMeta.userUid)
+        .then((value) {
+      context.read<UserAllCubit>().userAllChanger(value);
+     context
+                            .read<GroupMergeCubit>()
+                            .groupMergeUserAllChanger(value);
+    });
+    setState(() {
+      //  print("111");
+      //  isRefresh = true;
+      //itemCountValue = 20;
+      userAll = context.read<UserAllCubit>().state;
+    });
+
+    refreshController2.refreshCompleted();
+  }
+
+  void _onLoading2() async {
+    // print("onloading");
+    // monitor network fetch
+    await Future.delayed(const Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+
+    if (mounted) {
+      setState(() {
+        //  itemCountValue = itemCountValue + 20;
+        //isRefresh = false;
+        //_onRefresh();
+      });
+      refreshController2.loadComplete();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    userAll = widget.userAll;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(100.h);
-    print(100.w);
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           backgroundColor: ColorConstant.milkColor,
           leading: Padding(
-            padding:const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Text(LocaleKeys.profile_profile.tr()),
           ),
           automaticallyImplyLeading: false,
@@ -157,208 +198,233 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         child: Container(
           color: ColorConstant.themeGrey,
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 2.h, 0.0, 0.0),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                gradient: ColorConstant.isolaMainGradient,
-                                border: Border.all(
-                                    color: ColorConstant.transparentColor),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(60.sp))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.5),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: ColorConstant.milkColor,
-                                      border: Border.all(
-                                          color:
-                                              ColorConstant.transparentColor),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(60.sp))),
-                                  child: ClipOval(
-                                      child: 100.h >= 700
-                                          ? (100.h <= 1100
-                                              ? CachedNetworkImage(
-                                                  imageUrl: widget
-                                                      .userAll
-                                                      .isolaUserDisplay
-                                                      .avatarUrl,
-                                                  width: 110.sp,
-                                                  height: 110.sp,
-                                                  fit: BoxFit.cover,
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const Icon(CupertinoIcons
-                                                          .xmark_square),
-                                                  cacheManager:
-                                                      CacheManager(Config(
-                                                    "cachedImageFiles",
-                                                    stalePeriod:
-                                                        const Duration(days: 3),
-                                                    //one week cache period
-                                                  )),
-                                                )
-                                              : CachedNetworkImage(
-                                                  imageUrl: widget
-                                                      .userAll
-                                                      .isolaUserDisplay
-                                                      .avatarUrl,
-                                                  width: 80.sp,
-                                                  height: 80.sp,
-                                                  fit: BoxFit.cover,
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const Icon(CupertinoIcons
-                                                          .xmark_square),
-                                                  cacheManager:
-                                                      CacheManager(Config(
-                                                    "cachedImageFiles",
-                                                    stalePeriod:
-                                                        const Duration(days: 3),
-                                                    //one week cache period
-                                                  )),
-                                                ))
-                                          : CachedNetworkImage(
-                                              imageUrl: widget.userAll
-                                                  .isolaUserDisplay.avatarUrl,
-                                              width: 75.sp,
-                                              height: 75.sp,
-                                              fit: BoxFit.cover,
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(CupertinoIcons
-                                                          .xmark_square),
-                                              cacheManager: CacheManager(Config(
-                                                "cachedImageFiles",
-                                                stalePeriod:
-                                                    const Duration(days: 3),
-                                                //one week cache period
-                                              )),
-                                            ))),
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: false,
+            footer: const ClassicFooter(),
+            header: const ClassicHeader(),
+            controller: refreshController2,
+            onRefresh: _onRefresh2,
+            onLoading: _onLoading2,
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 2.h, 0.0, 0.0),
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  gradient: ColorConstant.isolaMainGradient,
+                                  border: Border.all(
+                                      color: ColorConstant.transparentColor),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(60.sp))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.5),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: ColorConstant.milkColor,
+                                        border: Border.all(
+                                            color:
+                                                ColorConstant.transparentColor),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(60.sp))),
+                                    child: ClipOval(
+                                        child: 100.h >= 700
+                                            ? (100.h <= 1100
+                                                ? CachedNetworkImage(
+                                                    imageUrl: userAll
+                                                        .isolaUserDisplay
+                                                        .avatarUrl,
+                                                    width: 110.sp,
+                                                    height: 110.sp,
+                                                    fit: BoxFit.cover,
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(
+                                                            CupertinoIcons
+                                                                .xmark_square),
+                                                    cacheManager:
+                                                        CacheManager(Config(
+                                                      "cachedImageFiles",
+                                                      stalePeriod:
+                                                          const Duration(
+                                                              days: 3),
+                                                      //one week cache period
+                                                    )),
+                                                  )
+                                                : CachedNetworkImage(
+                                                    imageUrl: userAll
+                                                        .isolaUserDisplay
+                                                        .avatarUrl,
+                                                    width: 80.sp,
+                                                    height: 80.sp,
+                                                    fit: BoxFit.cover,
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(
+                                                            CupertinoIcons
+                                                                .xmark_square),
+                                                    cacheManager:
+                                                        CacheManager(Config(
+                                                      "cachedImageFiles",
+                                                      stalePeriod:
+                                                          const Duration(
+                                                              days: 3),
+                                                      //one week cache period
+                                                    )),
+                                                  ))
+                                            : CachedNetworkImage(
+                                                imageUrl: userAll
+                                                    .isolaUserDisplay.avatarUrl,
+                                                width: 75.sp,
+                                                height: 75.sp,
+                                                fit: BoxFit.cover,
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    const Icon(CupertinoIcons
+                                                        .xmark_square),
+                                                cacheManager:
+                                                    CacheManager(Config(
+                                                  "cachedImageFiles",
+                                                  stalePeriod:
+                                                      const Duration(days: 3),
+                                                  //one week cache period
+                                                )),
+                                              ))),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top: 100.h >= 700 ? (100.h >= 1100 ? 14.h : 14.h) : 9.5.h,
-                    right: 100.h >= 700 ? (100.h >= 1100 ? 35.w : 28.w) : 33.w,
-                    child: CupertinoButton(
-                      onPressed: () async => chooseImage2(),
-                   
-
-                      child: SizedBox(
-                        height: 100.h >= 700
-                            ? (100.h <= 1100 ? 22.sp : 5.h)
-                            : 21.sp,
-                        width: 100.h >= 700
-                            ? (100.h <= 1100 ? 22.sp : 6.w)
-                            : 19.sp,
-                        child: Image.asset(
-                          "asset/img/profile_edit_icon.png",
-                          fit: BoxFit.fill,
+                      ],
+                    ),
+                    Positioned(
+                      top: 100.h >= 700 ? (100.h >= 1100 ? 14.h : 14.h) : 9.5.h,
+                      right:
+                          100.h >= 700 ? (100.h >= 1100 ? 35.w : 28.w) : 33.w,
+                      child: CupertinoButton(
+                        onPressed: () async {
+                          chooseImage2();
+                        },
+                        child: SizedBox(
+                          height: 100.h >= 700
+                              ? (100.h <= 1100 ? 22.sp : 5.h)
+                              : 21.sp,
+                          width: 100.h >= 700
+                              ? (100.h <= 1100 ? 22.sp : 6.w)
+                              : 19.sp,
+                          child: Image.asset(
+                            "asset/img/profile_edit_icon.png",
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                   const Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-                    ),
-                    Text(
-                      widget.userAll.isolaUserDisplay.userName,
-                      style: 100.h >= 1100
-                          ? StyleConstants.profileNameTabletTextStyle
-                          : StyleConstants.profileNameTextStyle,
-                    ),
-                    context
-                                .read<UserAllCubit>()
-                                .state
-                                .isolaUserDisplay
-                                .userIsOnline ==
-                            true
-                        ? Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Image.asset("asset/img/profile_online.png"),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: Image.asset("asset/img/profile_offline.png"),
-                          ),
+                    )
                   ],
                 ),
-              ),
-              Text(
-                widget.userAll.isolaUserDisplay.userUniversity,
-                style: 100.h >= 1100
-                    ? StyleConstants.profileUniversityTabletTextStyle
-                    : StyleConstants.profileUniversityTextStyle,
-              ),
-              CupertinoButton(
-                  padding: EdgeInsets.fromLTRB(0.0, 1.h, 0.0, 0.0),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(
-                        CupertinoIcons.person_2_fill,
-                        color: ColorConstant.friendAmount,
-                      ),
-                      SizedBox(
-                        width: 2.w,
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
                       ),
                       Text(
-                        '${widget.userAll.isolaUserMeta.userFriends.length} ${LocaleKeys.main_friends.tr()}',
-                        style: StyleConstants.profileMiniNaviTextStyle,
-                      )
+                        userAll.isolaUserDisplay.userName,
+                        style: 100.h >= 1100
+                            ? StyleConstants.profileNameTabletTextStyle
+                            : StyleConstants.profileNameTextStyle,
+                      ),
+                      context
+                                  .read<UserAllCubit>()
+                                  .state
+                                  .isolaUserDisplay
+                                  .userIsOnline ==
+                              true
+                          ? Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child:
+                                  Image.asset("asset/img/profile_online.png"),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child:
+                                  Image.asset("asset/img/profile_offline.png"),
+                            ),
                     ],
                   ),
-                  onPressed: () {
-                    showCupertinoDialog(
-                        context: context,
-                        builder: (context) =>
-                            FriendListPage(userAll: widget.userAll));
-                  }),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h),
-                child: Container(
-                  width: 100.w,
-                  decoration: BoxDecoration(
-                      border: BorderDirectional(
-                          bottom: BorderSide(
-                              color: ColorConstant.softPurple.withOpacity(0.6),
-                              width: 1.5))),
-                  child: CupertinoSlidingSegmentedControl(
-                      backgroundColor: ColorConstant.themeGrey,
-                      thumbColor: ColorConstant.themeGrey,
-                      groupValue: _profileSegmentedValue,
-                      padding: const EdgeInsets.all(4.0),
-                      children: _profileTabs,
-                      onValueChanged: (dynamic i) {
-                        setState(() {
-                          _profileSegmentedValue = i;
-                        });
-                      }),
                 ),
-              ),
-              buildProfileWidget(),
-            ],
+                Text(
+                  userAll.isolaUserDisplay.userUniversity,
+                  style: 100.h >= 1100
+                      ? StyleConstants.profileUniversityTabletTextStyle
+                      : StyleConstants.profileUniversityTextStyle,
+                ),
+                CupertinoButton(
+                    padding: EdgeInsets.fromLTRB(0.0, 1.h, 0.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          CupertinoIcons.person_2_fill,
+                          color: ColorConstant.friendAmount,
+                        ),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        userAll.isolaUserMeta.userFriends.first == 'nothing'
+                            ? Text(
+                                '0 ${LocaleKeys.main_friends.tr()}',
+                                style: StyleConstants.profileMiniNaviTextStyle,
+                              )
+                            : Text(
+                                '${userAll.isolaUserMeta.userFriends.length} ${LocaleKeys.main_friends.tr()}',
+                                style: StyleConstants.profileMiniNaviTextStyle,
+                              )
+                      ],
+                    ),
+                    onPressed: () {
+                      if (widget.userAll.isolaUserMeta.userFriends.first ==
+                          'nothing') {
+                      } else {
+                        showCupertinoDialog(
+                            context: context,
+                            builder: (context) =>
+                                FriendListPage(userAll: userAll));
+                      }
+                    }),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.h),
+                  child: Container(
+                    width: 100.w,
+                    decoration: BoxDecoration(
+                        border: BorderDirectional(
+                            bottom: BorderSide(
+                                color:
+                                    ColorConstant.softPurple.withOpacity(0.6),
+                                width: 1.5))),
+                    child: CupertinoSlidingSegmentedControl(
+                        backgroundColor: ColorConstant.themeGrey,
+                        thumbColor: ColorConstant.themeGrey,
+                        groupValue: _profileSegmentedValue,
+                        padding: const EdgeInsets.all(4.0),
+                        children: _profileTabs,
+                        onValueChanged: (dynamic i) {
+                          setState(() {
+                            _profileSegmentedValue = i;
+                          });
+                        }),
+                  ),
+                ),
+                buildProfileWidget(),
+              ],
+            ),
           ),
         ));
   }
@@ -612,14 +678,17 @@ class _FriendListPageState extends State<FriendListPage> {
           itemCount: widget.userAll.isolaUserMeta.userFriends.length,
           itemBuilder: (BuildContext context, int index) {
             return FriendCard(
-                targetUid: widget.userAll.isolaUserMeta.userFriends[index],userAll: widget.userAll,);
+              targetUid: widget.userAll.isolaUserMeta.userFriends[index],
+              userAll: widget.userAll,
+            );
           },
         ));
   }
 }
 
 class FriendCard extends StatefulWidget {
-  const FriendCard({Key? key, required this.targetUid,required this.userAll}) : super(key: key);
+  const FriendCard({Key? key, required this.targetUid, required this.userAll})
+      : super(key: key);
 
   final String targetUid;
   final IsolaUserAll userAll;
@@ -691,27 +760,30 @@ class _FriendCardState extends State<FriendCard> {
                       SizedBox(
                         height: 1.h,
                       ),
-                    
                       Text(targetDisplay.userName,
-                          style:100.h>=1100?StyleConstants.friendListNameTabletTextStyle:StyleConstants.friendListNameTextStyle ),
+                          style: 100.h >= 1100
+                              ? StyleConstants.friendListNameTabletTextStyle
+                              : StyleConstants.friendListNameTextStyle),
                       Text(targetDisplay.userUniversity,
-                         style:100.h>=1100?StyleConstants.friendListUniversityTabletTextStyle:StyleConstants.friendListUniversityTextStyle  ),
+                          style: 100.h >= 1100
+                              ? StyleConstants
+                                  .friendListUniversityTabletTextStyle
+                              : StyleConstants.friendListUniversityTextStyle),
                     ],
                   ),
                 ],
               ),
               onPressed: () {
-    Navigator.push(
+                Navigator.push(
                     context,
                     CupertinoPageRoute(
                         builder: (context) => TargetProfilePage(
                               targetUid: widget.targetUid,
                               targetName: targetDisplay.userName,
-                              targetAvatarUrl:targetDisplay.avatarUrl,
+                              targetAvatarUrl: targetDisplay.avatarUrl,
                               userUid: widget.userAll.isolaUserMeta.userUid,
                               isolaUserAll: widget.userAll,
                             )));
-
               },
             ),
           ),

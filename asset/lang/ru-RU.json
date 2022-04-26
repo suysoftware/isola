@@ -93,7 +93,9 @@
     "clubandact":" Клуб & Мероприятия ",
     "hobbiesandinterest":" Хобби & Интерес ",
     "profile":" Профиль ",
-    "settings":" Настройки "
+    "settings":" Настройки ",
+    "timelineempty" : "Ваша временная шкала пуста",
+    "usertimelineempty":"Хронология пользователя пуста"
   },
   "interest": {
         
@@ -124,7 +126,7 @@
     "dance":" Танец ",
     "games":" Игры ",
     "design":" Дизайн ",
-    "photograph":" Фотография ",
+    "photography":" Фотография ",
     "chess":" Шахматы ",
     "running":" Бегущий ",
     "bowling":" Боулинг Боулинг ",
@@ -159,7 +161,7 @@
   },
 
   "loggingout": {
-    "buttontext": " Войдите В Систему С Помощью Google "
+    "buttontext": "Войти с адресом электронной почты для обучения"
 }
 
 

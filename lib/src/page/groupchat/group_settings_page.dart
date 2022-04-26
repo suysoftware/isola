@@ -22,7 +22,7 @@ import 'package:isola_app/src/widget/report_sheets.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../../extensions/locale_keys.dart';
-import '../../widget/liquid_progress_indicator.dart';
+
 
 class GroupSettingsPage extends StatefulWidget {
   const GroupSettingsPage({Key? key}) : super(key: key);
@@ -168,17 +168,7 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                   )),
                             ],
                           ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 1.w),
-                              child: CupertinoButton(
-                                child: 100.h >= 1100
-                                    ? Icon(
-                                        CupertinoIcons.person,
-                                        size: 16.sp,
-                                      )
-                                    : const Icon(CupertinoIcons.person),
-                                onPressed: () {},
-                              ))
+                     
                         ],
                       ),
                     ),
@@ -497,16 +487,21 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
                                 } else {
                                   leaveGroup(groupSettingModel)
                                       .whenComplete(() {
+
+
+                  
+
+
                                     Future.delayed(
                                         const Duration(milliseconds: 3000), () {
                                       Navigator.pushReplacementNamed(
                                           context, navigationBar);
                                     });
                                   });
-                                  showCupertinoDialog(
+                                /*  showCupertinoDialog(
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          const AnimatedLiquidCircularProgressIndicator());
+                                          const AnimatedLiquidCircularProgressIndicator());*/
                                 }
                               });
                             }),

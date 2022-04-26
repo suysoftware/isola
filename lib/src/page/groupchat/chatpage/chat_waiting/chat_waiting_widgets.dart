@@ -1,11 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../extensions/locale_keys.dart';
 
 class ChatGroupContWaiting extends StatelessWidget {
   const ChatGroupContWaiting({Key? key}) : super(key: key);
@@ -54,26 +52,7 @@ class ChatGroupContWaiting extends StatelessWidget {
                           "asset/img/chat_page_three_dot.png",
                           fit: BoxFit.contain,
                         )),
-                    onPressed: () => showCupertinoDialog(
-                        barrierDismissible: true,
-                        context: context,
-                        builder: (context) => CupertinoAlertDialog(
-                           
-                              actions: [
-                                CupertinoButton(
-                                    child: Text(
-                                   LocaleKeys.chat_reportgroup.tr(),
-                                      style:const TextStyle(
-                                          color: CupertinoColors.systemRed),
-                                    ),
-                                    onPressed: () {}),
-                                CupertinoButton(
-                                    child:  Text(LocaleKeys.main_back.tr()),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    })
-                              ],
-                            ))),
+                    onPressed: () {}),
               ],
             )),
       ),

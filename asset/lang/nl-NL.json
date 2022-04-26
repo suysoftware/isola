@@ -93,7 +93,9 @@
     "clubandact":" Club & Activiteiten ",
     "hobbiesandinterest":" Hobby & Belangen",
     "profile":" Gebruikersprofiel",
-    "settings":" Instelling"
+    "settings":" Instelling",
+    "timelineempty" : "Je tijdlijn is leeg",
+    "usertimelineempty":"De tijdlijn van de gebruiker is leeg"
   },
   "interest": {
         
@@ -124,7 +126,7 @@
     "dance":" Dans ",
     "games":" Spel ",
     "design":" Ontwerp ",
-    "photograph":" Fotografie ",
+    "photography":" Fotografie ",
     "chess":" Schaak ",
     "running":" Draaien ",
     "bowling":" Bowlingbaan ",
@@ -159,7 +161,7 @@
   },
 
   "loggingout": {
-    "buttontext": " Aanmelden Met Google "
+    "buttontext": "Log in met een educatieve e-mail"
 }
 
 

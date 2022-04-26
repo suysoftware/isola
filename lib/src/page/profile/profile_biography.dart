@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
@@ -16,6 +17,7 @@ import 'package:isola_app/src/widget/text_widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../blocs/user_all_cubit.dart';
 import '../../extensions/locale_keys.dart';
 
 class ProfileBiographPage extends StatefulWidget {
@@ -44,6 +46,81 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseDatabase _refConnect = FirebaseDatabase.instance;
 
+  var iconNameListForName = [
+    LocaleKeys.interest_hiking.tr(),
+    LocaleKeys.interest_reading.tr(),
+    LocaleKeys.interest_art.tr(),
+    LocaleKeys.interest_cooking.tr(),
+    LocaleKeys.interest_theater.tr(),
+    LocaleKeys.interest_traveling.tr(),
+    LocaleKeys.interest_swimming.tr(),
+    LocaleKeys.interest_basketball.tr(),
+    LocaleKeys.interest_football.tr(),
+    LocaleKeys.interest_volleyball.tr(),
+    LocaleKeys.interest_tennis.tr(),
+    LocaleKeys.interest_skiing.tr(),
+    LocaleKeys.interest_cycling.tr(),
+    LocaleKeys.interest_baseball.tr(),
+    LocaleKeys.interest_climbing.tr(),
+    LocaleKeys.interest_blogging.tr(),
+    LocaleKeys.interest_astrology.tr(),
+    LocaleKeys.interest_movies.tr(),
+    LocaleKeys.interest_music.tr(),
+    LocaleKeys.interest_gardening.tr(),
+    LocaleKeys.interest_calligraphy.tr(),
+    LocaleKeys.interest_yoga.tr(),
+    LocaleKeys.interest_language.tr(),
+    LocaleKeys.interest_camping.tr(),
+    LocaleKeys.interest_dance.tr(),
+    LocaleKeys.interest_games.tr(),
+    LocaleKeys.interest_design.tr(),
+    LocaleKeys.interest_photography.tr(),
+    LocaleKeys.interest_chess.tr(),
+    LocaleKeys.interest_running.tr(),
+    LocaleKeys.interest_bowling.tr(),
+    LocaleKeys.interest_skate.tr(),
+    LocaleKeys.interest_martial.tr(),
+    LocaleKeys.interest_fashion.tr(),
+    LocaleKeys.interest_pet.tr()
+  ];
+
+  var iconNameList = [
+    "hiking",
+    "reading",
+    "art",
+    "cooking",
+    "theater",
+    "travelling",
+    "swimming",
+    "basketball",
+    "football",
+    "volleyball",
+    "tennis",
+    "skiing",
+    "cycling",
+    "baseball",
+    "climbing",
+    "blogging",
+    "astrology",
+    "movies",
+    "music",
+    "gardening",
+    "calligraphy",
+    "yoga",
+    "language",
+    "camping",
+    "dance",
+    "games",
+    "design",
+    "photography",
+    "chess",
+    "running",
+    "bowling",
+    "skate",
+    "martial",
+    "fashion",
+    "pet"
+  ];
   late User user;
   late IsolaUserAll userAll;
   bool editingHobby = false;
@@ -52,8 +129,10 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
     await getUserAllFromDataBase(widget.userAll.isolaUserMeta.userUid)
         .then((value) {
       setState(() {
-        widget.userAll.isolaUserDisplay.userInterest =
-            value.isolaUserDisplay.userInterest;
+        userAll = value;
+                context
+                          .read<UserAllCubit>()
+                          .userAllChanger(value);
       });
     });
 
@@ -82,6 +161,17 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
         ? (100.h >= 1100 ? 25.sp : 30.sp)
         : (100.h >= 1100 ? 30.sp : 35.sp);
 
+    int interestLine1 =
+        iconNameList.indexOf(userAll.isolaUserDisplay.userInterest[0]);
+    int interestLine2 =
+        iconNameList.indexOf(userAll.isolaUserDisplay.userInterest[1]);
+    int interestLine3 =
+        iconNameList.indexOf(userAll.isolaUserDisplay.userInterest[2]);
+    int interestLine4 =
+        iconNameList.indexOf(userAll.isolaUserDisplay.userInterest[3]);
+    int interestLine5 =
+        iconNameList.indexOf(userAll.isolaUserDisplay.userInterest[4]);
+
     return Flexible(
       child: GestureDetector(
         onTap: () {
@@ -102,7 +192,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(5.w, 0.0, 0.0, 0.5.h),
-                    child: Text( LocaleKeys.main_biography.tr(), style: biographyStyle),
+                    child: Text(LocaleKeys.main_biography.tr(),
+                        style: biographyStyle),
                   ),
                 ],
               ),
@@ -111,7 +202,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                   barrierDismissible: true,
                   context: context,
                   builder: (BuildContext context) => Center(
-                    child: BioEditContainer(userAll: widget.userAll),
+                    child: BioEditContainer(userAll: userAll),
                   ),
                 ),
                 child: SizedBox(
@@ -138,7 +229,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(5.w, 1.h, 0.0, 0.5.h),
-                    child: Text("${LocaleKeys.profile_clubandact.tr()} (${LocaleKeys.main_comingsoon.tr()})",
+                    child: Text(
+                        "${LocaleKeys.profile_clubandact.tr()} (${LocaleKeys.main_comingsoon.tr()})",
                         style: biographyStyle),
                   ),
                 ],
@@ -151,7 +243,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(5.w, 2.h, 0.0, 1.5.h),
-                    child: Text(LocaleKeys.profile_hobbiesandinterest.tr(), style: biographyStyle),
+                    child: Text(LocaleKeys.profile_hobbiesandinterest.tr(),
+                        style: biographyStyle),
                   ),
                 ],
               ),
@@ -165,8 +258,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           padding: EdgeInsets.fromLTRB(1.w, 0.0, 0.0, 0.0),
                           child: CupertinoButton(
                               child: Icon(
-                                CupertinoIcons.add,
-                                size: 20.sp,
+                                CupertinoIcons.add_circled,
+                                size: 24.sp,
                               ),
                               onPressed: () {
                                 Navigator.pushAndRemoveUntil(
@@ -206,7 +299,8 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                             ),
                             editingHobby == false
                                 ? Text(
-                                    "${userAll.isolaUserDisplay.userInterest[0]}",
+                                    iconNameListForName[interestLine1],
+                                    //  "${userAll.isolaUserDisplay.userInterest[0]}",
                                     style: hobbiesStyle,
                                   )
                                 : const SizedBox(),
@@ -237,7 +331,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userAll.isolaUserDisplay.userInterest[1]}",
+                                  iconNameListForName[interestLine2],
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),
@@ -250,7 +344,6 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                       setState(() {
                         editingHobby = true;
                       });
-          
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(1.w, 0.0, 1.w, 0.0),
@@ -270,7 +363,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userAll.isolaUserDisplay.userInterest[2]}",
+                                  iconNameListForName[interestLine3],
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),
@@ -302,7 +395,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userAll.isolaUserDisplay.userInterest[3]}",
+                                  iconNameListForName[interestLine4],
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),
@@ -334,7 +427,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
                           ),
                           editingHobby == false
                               ? Text(
-                                  "${userAll.isolaUserDisplay.userInterest[4]}",
+                                  iconNameListForName[interestLine5],
                                   style: hobbiesStyle,
                                 )
                               : const SizedBox(),

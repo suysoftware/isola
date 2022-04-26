@@ -61,7 +61,7 @@ class _LocationAddPageState extends State<LocationAddPage> {
                                                 .whenComplete(() {
                                               letsGo = true;
 
-                                              Navigator.pushNamed(
+                                              Navigator.pushReplacementNamed(
                                                   context, navigationBar);
                                             });
                                           }),

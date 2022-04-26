@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_final_fields, prefer_typing_uninitialized_variables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/feeds/feed_meta.dart';
 import 'package:isola_app/src/model/user/user_all.dart';
 import 'package:isola_app/src/widget/timeline/timeline_post.dart';
@@ -88,7 +90,16 @@ class _ProfileTimelinePageState extends State<ProfileTimelinePage> {
                 controller: _refreshController,
                 onRefresh: _onRefresh,
                 onLoading: _onLoading,
-                child: ListView.builder(
+                child:data.size<1?Column(
+                                  
+                                  
+                                    children: [
+                                           SizedBox(height: 5.h,),
+                                      Icon( CupertinoIcons.pencil_slash,size: 60.sp,color: CupertinoColors.systemGrey,),
+                                     SizedBox(height: 2.h,),
+                                      Text(LocaleKeys.profile_timelineempty.tr(),style: TextStyle(fontFamily: 'Roboto',fontSize: 12.sp),)
+                                    ],
+                                  ): ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: data.size,
                     itemBuilder: (context, indeks) {

@@ -316,23 +316,6 @@ class _TokenGainPageState extends State<TokenGainPage> {
                   }),*/
 
               Row(
-                children: [
-                  CupertinoButton(
-                      child: const Text('dsds'),
-                      onPressed: () {
-                        var ref = FirebaseFirestore.instance
-                            .collection('create_user_test')
-                            .doc();
-
-                        ref.set({
-                          'user_mail': 'sdsdgfg@tilburguiversity.edu',
-                          'active': false,
-                          'university_type': 'null'
-                        });
-                      })
-                ],
-              ),
-              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

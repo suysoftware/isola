@@ -597,7 +597,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
 
                                 FocusScope.of(context)
                                     .requestFocus(FocusNode());
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     CupertinoPageRoute(
                                         builder: (context) => InterestAddPage(
@@ -628,7 +628,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                                 'uDbToken': token,
                               });
 
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   CupertinoPageRoute(
                                       builder: (context) => InterestAddPage(
