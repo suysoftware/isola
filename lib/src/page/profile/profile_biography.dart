@@ -242,7 +242,7 @@ class _ProfileBiographPageState extends State<ProfileBiographPage>
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(5.w, 2.h, 0.0, 1.5.h),
+                    padding: EdgeInsets.fromLTRB(5.w, 2.h, 0.0, 0.5.h),
                     child: Text(LocaleKeys.profile_hobbiesandinterest.tr(),
                         style: biographyStyle),
                   ),

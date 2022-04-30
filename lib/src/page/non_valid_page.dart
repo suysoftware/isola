@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:isola_app/src/page/email_confirmation_page.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
 
@@ -13,7 +15,6 @@ class NonValidPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return CupertinoPageScaffold(
         child: Container(
       decoration: BoxDecoration(gradient: ColorConstant.startingPageGradient),
@@ -23,7 +24,7 @@ class NonValidPage extends StatelessWidget {
         children: [
           //  Image.asset(name),
           SizedBox(
-            height: 100.h > 800 ? 13.h : 8.h,
+            height: 100.h > 800 ? 8.h : 5.h,
           ),
           Padding(
             padding: EdgeInsets.only(right: 100.h > 800 ? 20.w : 25.w),
@@ -34,7 +35,7 @@ class NonValidPage extends StatelessWidget {
                 )),
           ),
           Padding(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(10.w),
             child: RichText(
                 text: TextSpan(
                     text:
@@ -44,9 +45,61 @@ class NonValidPage extends StatelessWidget {
                         fontFamily: GoogleFonts.staatliches().fontFamily,
                         color: CupertinoColors.black))),
           ),
-          SizedBox(
-            height: 100.h > 800 ? 5.h : 2.h,
-          ),
+
+          CupertinoButton(
+              child: Container(
+                width: 65.w,
+                height: 5.h,
+                decoration: BoxDecoration(
+                    color: ColorConstant.startingButtonColor,
+                    border: Border.all(color: ColorConstant.transparentColor),
+                    borderRadius: BorderRadius.all(Radius.circular(10.sp))),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Text("Confirm Your Student Email",
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: GoogleFonts.staatliches().fontFamily,
+                            color: ColorConstant.milkColor)),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    const Icon(
+                      CupertinoIcons.right_chevron,
+                      color: ColorConstant.milkColor,
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () async {
+                var countryListInfo;
+                var countryTextList = <Text>[];
+                await FirebaseFirestore.instance
+                    .collection("partners")
+                    .doc("settings")
+                    .get()
+                    .then((value) => countryListInfo = value["countryList"])
+                    .whenComplete(() {
+                  for (var item in countryListInfo) {
+                    countryTextList.add(Text(item));
+                  }
+
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => EmailConfirmationPage(
+                                countryListInfo: countryListInfo,
+                                countryTextList: countryTextList,
+                              )));
+                });
+                //  await Authentication.signOut().whenComplete(() {
+                // Navigator.pushReplacementNamed(context, loggingOutRoute);
+                //  });
+              }),
+
           CupertinoButton(
               child: Container(
                 width: 65.w,

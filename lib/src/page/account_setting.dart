@@ -22,12 +22,14 @@ class _AccountSettingPageState extends State<AccountSettingPage>
   TextEditingController t1 = TextEditingController();
   TextEditingController t2 = TextEditingController();
   TextEditingController t3 = TextEditingController();
+  TextEditingController t4 = TextEditingController();
 
   late AnimationController animationController;
   late Animation<double> checkBoxOpacity;
   bool checkbox = false;
   String userName = "";
   String userUniversity = "";
+  String userEmail = "";
   checkBox() {
     if (animationController.isCompleted) {
       // animationController2.reverse();
@@ -67,10 +69,11 @@ class _AccountSettingPageState extends State<AccountSettingPage>
     userName = context.read<UserAllCubit>().state.isolaUserDisplay.userName;
     userUniversity =
         context.read<UserAllCubit>().state.isolaUserDisplay.userUniversity;
-
+    userEmail = context.read<UserAllCubit>().state.isolaUserMeta.userEmail;
     t1.text = userName.split(" ").first;
     t2.text = userName.split(" ").last;
     t3.text = userUniversity;
+    t4.text = userEmail;
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 100), vsync: this);
@@ -123,7 +126,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
                       child: Text(
-                       LocaleKeys.main_name.tr(),
+                        LocaleKeys.main_name.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -166,7 +169,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child:  Text(
+                      child: Text(
                         LocaleKeys.main_surname.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
@@ -208,8 +211,8 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child:  Text(
-                       LocaleKeys.main_university.tr(),
+                      child: Text(
+                        LocaleKeys.main_university.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -234,14 +237,46 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       placeholderStyle: TextStyle(
                           fontSize: 10.sp, fontWeight: FontWeight.w100),
                     )),
+                sizedBoxH,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Text(
+                        "Email",
+                        style: StyleConstants.signUpTitlesTextStyle,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                    width: 70.w,
+                    height: 4.h,
+                    child: CupertinoTextField(
+                      readOnly: true,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: universityFilled == true
+                                  ? const BorderSide(
+                                      width: 0.3,
+                                      color: ColorConstant.softBlack)
+                                  : const BorderSide(
+                                      width: 1.0,
+                                      color: ColorConstant.redAlert))),
+                      controller: t4,
+                      placeholder: LocaleKeys.main_youruniversity.tr(),
+                      placeholderStyle: TextStyle(
+                          fontSize: 10.sp, fontWeight: FontWeight.w100),
+                    )),
                 sizedBox3xH,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child:  Text(
-                       LocaleKeys.main_gender.tr(),
+                      child: Text(
+                        LocaleKeys.main_gender.tr(),
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),
                     ),
@@ -324,7 +359,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: CupertinoButton(
-                          child: Text( LocaleKeys.main_male.tr(),
+                          child: Text(LocaleKeys.main_male.tr(),
                               style: isMale == true
                                   ? StyleConstants
                                       .signUpGenderButtonActiveTextStyle
@@ -448,11 +483,12 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                                   barrierDismissible: true,
                                   context: context,
                                   builder: (context) => CupertinoAlertDialog(
-                                        content:  Text(
-                                           LocaleKeys.main_fillall.tr()),
+                                        content:
+                                            Text(LocaleKeys.main_fillall.tr()),
                                         actions: [
                                           CupertinoButton(
-                                              child:  Text(LocaleKeys.main_okay.tr()),
+                                              child: Text(
+                                                  LocaleKeys.main_okay.tr()),
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               })

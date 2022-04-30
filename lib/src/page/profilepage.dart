@@ -140,9 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
     await getUserAllFromDataBase(widget.userAll.isolaUserMeta.userUid)
         .then((value) {
       context.read<UserAllCubit>().userAllChanger(value);
-     context
-                            .read<GroupMergeCubit>()
-                            .groupMergeUserAllChanger(value);
+      context.read<GroupMergeCubit>().groupMergeUserAllChanger(value);
     });
     setState(() {
       //  print("111");
@@ -240,8 +238,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     imageUrl: userAll
                                                         .isolaUserDisplay
                                                         .avatarUrl,
-                                                    width: 110.sp,
-                                                    height: 110.sp,
+                                                    width: 100.h < 740
+                                                        ? 100.sp
+                                                        : 110.sp,
+                                                    height: 100.h < 740
+                                                        ? 100.sp
+                                                        : 110.sp,
                                                     fit: BoxFit.cover,
                                                     errorWidget: (context, url,
                                                             error) =>
