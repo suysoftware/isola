@@ -47,7 +47,15 @@
         "block":" Blok ",
         "allgroup":" Alle groepen ",
         "chaos":"Chaos",
-        "friends":"Vrienden"
+        "friends":"Vrienden",
+        "country": "Land",
+        "default":  "Standaard",
+        "sendmail": "E-mail verzenden",
+        "securitycode" : "Beveiligingscode",
+        "senttextfirst": "We hebben een e-mail gestuurd naar ",
+        "senttextsecond": ", controleer je inbox en voer de beveiligingscode in",
+        "confirm" : "bevestigen",
+        "confirmstudentmail":"Bevestig je studentenmail"
         
 
 
@@ -161,7 +169,7 @@
   },
 
   "loggingout": {
-    "buttontext": "Log in met een educatieve e-mail"
+    "buttontext": "Log in"
 }
 
 

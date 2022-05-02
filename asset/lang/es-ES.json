@@ -47,7 +47,15 @@
       "block":" Bloque",
       "allgroup":" Todo el Grupo",
       "chaos":"Caos",
-        "friends":"Amigos"
+      "friends":"Amigos",
+      "country": "País",
+      "default":  "Defecto",
+      "sendmail": "enviar correo",
+      "securitycode" : "Código de seguridad",
+      "senttextfirst": "Enviamos correo electrónico a ",
+      "senttextsecond": ", revisa tu bandeja de entrada e ingresa el código seguro",
+      "confirm" : "confirmar",
+      "confirmstudentmail":"Confirma tu correo electrónico de estudiante"
       
 
 
@@ -161,7 +169,7 @@
 },
 
 "loggingout": {
-  "buttontext": "Iniciar sesión con un correo electrónico educativo"
+  "buttontext": "Acceso"
 }
 
 

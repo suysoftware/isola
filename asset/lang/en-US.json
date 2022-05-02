@@ -47,7 +47,15 @@
         "block":"Block",
         "allgroup":"All Group",
         "chaos":"Chaos",
-        "friends":"Friends"
+        "friends":"Friends",
+        "country": "Country",
+        "default":  "Default",
+        "sendmail": "Send Email",
+        "securitycode" : "Security Code",
+        "senttextfirst": "We sent email to ",
+        "senttextsecond": ", check your inbox and enter the secure code",
+        "confirm" : "confirm",
+        "confirmstudentmail":"Confirm your student email"
         
 
 
@@ -161,7 +169,7 @@
   },
 
   "loggingout": {
-    "buttontext": "Sign in With Education Email"
+    "buttontext": "Sign in"
 }
 
 

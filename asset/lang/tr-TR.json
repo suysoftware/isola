@@ -47,7 +47,15 @@
     "block":"Blokla",
     "allgroup":"Gruplar",
     "chaos":"Kaos",
-        "friends":"Arkadaşlar"
+    "friends":"Arkadaşlar",
+    "country": "Ülke",
+    "default":  "Seç",
+    "sendmail": "Email Gönder",
+    "securitycode" : "Güvenlik Kodu",
+    "senttextfirst": "Maili ",
+    "senttextsecond": " hesabına gönderdik, lütfen posta kutunu incele ve güvenlik kodunu yaz ",
+    "confirm" : "Onayla",
+    "confirmstudentmail":"Öğrenci Mailini Onayla"
 
 
 
@@ -163,7 +171,7 @@
 },
 
 "loggingout": {
-"buttontext": "Bir eğitim e-postası ile oturum açın"
+"buttontext": "Oturum Aç"
 }
 
 

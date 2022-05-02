@@ -51,6 +51,14 @@ abstract class LocaleKeys {
   static const main_allgroup = 'main.allgroup';
   static const main_chaos = 'main.chaos';
   static const main_friends = 'main.friends';
+  static const main_country = 'main.country';
+  static const main_default = 'main.default';
+  static const main_sendmail = 'main.sendmail';
+  static const main_securitycode = 'main.securitycode';
+  static const main_senttextfirst = 'main.senttextfirst';
+  static const main_senttextsecond = 'main.senttextsecond';
+  static const main_confirm = 'main.confirm';
+  static const main_confirmstudentmail = 'main.confirmstudentmail';
   static const main = 'main';
 
   static const report_reportingtextouter = 'report.reportingtextouter';
@@ -91,7 +99,7 @@ abstract class LocaleKeys {
   static const profile_hobbiesandinterest = 'profile.hobbiesandinterest';
   static const profile_profile = 'profile.profile';
   static const profile_timelineempty = 'profile.timelineempty';
-    static const profile_usertimelineempty = 'profile.usertimelineempty';
+  static const profile_usertimelineempty = 'profile.usertimelineempty';
   static const profile = 'profile';
 
   static const interest_hiking = 'interest.hiking';

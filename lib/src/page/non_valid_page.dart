@@ -59,7 +59,7 @@ class NonValidPage extends StatelessWidget {
                     SizedBox(
                       width: 8.w,
                     ),
-                    Text("Confirm Your Student Email",
+                    Text(LocaleKeys.main_confirmstudentmail.tr(),
                         style: TextStyle(
                             fontSize: 14.sp,
                             fontFamily: GoogleFonts.staatliches().fontFamily,

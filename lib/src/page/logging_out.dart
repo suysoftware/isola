@@ -90,7 +90,7 @@ if (user != null) {
         Padding(
           padding: 100.h > 1150
               ? EdgeInsets.fromLTRB(0, 0, 4.w, 2.h)
-              : EdgeInsets.fromLTRB(0, 0, 1.w, 2.h),
+              : EdgeInsets.fromLTRB(0, 0, 0.w, 2.h),
           child: Align(
             alignment: Alignment.bottomRight,
             child: oblongTextIconButton(
@@ -102,7 +102,7 @@ if (user != null) {
                 isGradient: true,
                 textStyle: StyleConstants.loggingOutTextStyle,
                 buttonHeight: 6,
-                buttonWidth: 100.h > 1150 ? 50 : 62,
+                buttonWidth: 100.h > 1150 ? 50 : 50,
                 buttonPadding: 2.0,
                 borderWidth: 0.25,
                 borderColor: ColorConstant.softBlack),

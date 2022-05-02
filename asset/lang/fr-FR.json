@@ -47,7 +47,15 @@
         "block":" Bloc ",
         "allgroup":" Tous Les Groupes ",
         "chaos":"Chaos",
-        "friends":"Amis"
+        "friends":"Amis",
+        "country": "Pays",
+        "default":  "Défaut",
+        "sendmail": "Envoyer un mail",
+        "securitycode" : "Code de sécurité",
+        "senttextfirst": "Nous avons envoyé un e-mail à ",
+        "senttextsecond": ", vérifiez votre boîte de réception et entrez le code sécurisé",
+        "confirm" : "confirmer",
+        "confirmstudentmail":"Confirmez votre email étudiant"
         
 
 
@@ -161,7 +169,7 @@
   },
 
   "loggingout": {
-    "buttontext": "Connectez-vous avec un e-mail éducatif"
+    "buttontext": "Connexion"
 }
 
 

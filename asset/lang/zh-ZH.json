@@ -47,7 +47,15 @@
         "block":"座",
         "allgroup":"所有组别",
         "chaos":"混乱",
-        "friends":"朋友们"
+        "friends":"朋友们",
+        "country": "国家",
+        "default":  "默认",
+        "sendmail": "发送电子邮件",
+        "securitycode" : "安全码",
+        "senttextfirst": "我们发送电子邮件至 ",
+        "senttextsecond": ", 检查您的收件箱并输入安全代码",
+        "confirm" : "确认",
+        "confirmstudentmail":"确认您的学生电子邮件"
         
 
 
@@ -161,7 +169,7 @@
   },
 
   "loggingout": {
-    "buttontext": "使用教育电子邮件登录"
+    "buttontext": "登入"
 }
 
 

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:isola_app/src/extensions/locale_keys.dart';
 import 'package:isola_app/src/model/app_settings/partners_model.dart';
 import 'package:isola_app/src/utils/router.dart';
 import 'package:sizer/sizer.dart';
@@ -1152,10 +1154,7 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                        Row(
-                          children: [],
-                        ),
-                    /*    CupertinoButton(
+                        /*    CupertinoButton(
                             child: Text('sstest'),
                             onPressed: () async {
                               FirebaseAuth auth = FirebaseAuth.instance;
@@ -1185,8 +1184,6 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                                   builder: (BuildContext context) =>
                                       const AnimatedLiquidCircularProgressIndicator());*/
                             }),*/
-
-
 
                         /*  CupertinoButton(
                       child: Container(
@@ -1245,16 +1242,32 @@ outsideListTurkey
                           "universityAmount": outsideAmountTurkey
                         });
                       }),*/
+
                         buttonGetterEmailConfirm(
-                          Text("Country"),
+                          Text(
+                            LocaleKeys.main_country.tr(),
+                            style: TextStyle(
+                              color: ColorConstant.softBlack,
+                            ),
+                          ),
                           () => _showPicker(context, countryListInfo,
                               countryTextList, "country", initValueCountry),
-                          Text(countryText),
+                          Text(
+                            countryText,
+                            style: TextStyle(
+                              color: ColorConstant.softBlack,
+                            ),
+                          ),
                         ),
                         Visibility(
                           visible: universityTextList.isNotEmpty,
                           child: buttonGetterEmailConfirm(
-                              Text("University"),
+                              Text(
+                                LocaleKeys.main_university.tr(),
+                                style: TextStyle(
+                                  color: ColorConstant.softBlack,
+                                ),
+                              ),
                               () => _showPicker(
                                   context,
                                   universityList,
@@ -1264,6 +1277,7 @@ outsideListTurkey
                               Text(
                                 universityName,
                                 style: TextStyle(
+                                    color: ColorConstant.softBlack,
                                     fontSize:
                                         (8 + (50 / universityName.length)).sp),
                               )),
@@ -1298,6 +1312,7 @@ outsideListTurkey
                                 suffix: Text(
                                   "@" + partnerModel.mailType,
                                   style: TextStyle(
+                                      color: ColorConstant.softBlack,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400),
                                 ),
@@ -1305,7 +1320,12 @@ outsideListTurkey
                               )),
                         ),
                         CupertinoButton(
-                            child: Text("Gonder"),
+                            child: Text(
+                              LocaleKeys.main_sendmail.tr(),
+                              style: TextStyle(
+                                color: ColorConstant.softBlack,
+                              ),
+                            ),
                             onPressed: () {
                               if (t1.text.length > 1) {
                                 FirebaseAuth auth = FirebaseAuth.instance;
@@ -1346,8 +1366,16 @@ outsideListTurkey
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                          'we sent email to $studentEmail , check your inbox and enter the secure code'),
+                      Center(
+                        child: SizedBox(
+                          width: 80.w,
+                          child: Text(
+                              '${LocaleKeys.main_senttextfirst.tr()}$studentEmail${LocaleKeys.main_senttextsecond.tr()}'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
                       SizedBox(
                           width: 50.w,
                           height: 10.h,
@@ -1370,13 +1398,18 @@ outsideListTurkey
                                     width: 0.01,
                                     color: ColorConstant.softBlack)),
                             controller: t2,
-                            placeholder: 'Security Code',
+                            placeholder: LocaleKeys.main_securitycode.tr(),
                             placeholderStyle: TextStyle(
                               textBaseline: TextBaseline.alphabetic,
                             ),
                           )),
                       CupertinoButton(
-                          child: Text("Confirm"),
+                          child: Text(
+                            LocaleKeys.main_confirm.tr(),
+                            style: TextStyle(
+                              color: ColorConstant.softBlack,
+                            ),
+                          ),
                           onPressed: () {
                             if (t2.text.length > 1) {
                               FirebaseAuth auth = FirebaseAuth.instance;
@@ -1402,31 +1435,30 @@ outsideListTurkey
                                   "userUid": fullUserUid,
                                   "securityCode": secureCode,
                                   "studentEmail": studentEmail
-                                }).whenComplete(()async {
+                                }).whenComplete(() async {
+                                  FirebaseAuth auth = FirebaseAuth.instance;
+                                  String fullUserUid = auth.currentUser!.uid;
+                                  Stream metaStream = FirebaseFirestore.instance
+                                      .collection('users_meta')
+                                      .doc(fullUserUid)
+                                      .snapshots();
 
-
-               FirebaseAuth auth = FirebaseAuth.instance;
-                              String fullUserUid = auth.currentUser!.uid;
-                              Stream metaStream = FirebaseFirestore.instance
-                                  .collection('users_meta')
-                                  .doc(fullUserUid)
-                                  .snapshots();
-
-                              metaStream.listen((event) {
-                                print(event['uValid']);
-                                if (event['uValid'] == true) {
-                                  print('done done dıne');
-                                  Navigator.pushReplacementNamed(
-                                      context, splashPage);
-                                } else {
-                                  showCupertinoDialog(
-                                    barrierDismissible: false,
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          const CupertinoActivityIndicator(animating: true,));
-                                }
-                              });
-
+                                  metaStream.listen((event) {
+                                    print(event['uValid']);
+                                    if (event['uValid'] == true) {
+                                      print('done done dıne');
+                                      Navigator.pushReplacementNamed(
+                                          context, splashPage);
+                                    } else {
+                                      showCupertinoDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              const CupertinoActivityIndicator(
+                                                animating: true,
+                                              ));
+                                    }
+                                  });
                                 });
                               }
                             }

@@ -133,7 +133,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
           backgroundColor: ColorConstant.milkColor,
           leading: Padding(
-            padding:const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               LocaleKeys.main_explore.tr(),
             ),
@@ -273,10 +273,17 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                     doc['feed_token_list']))
                 .toList();
 
-            if (itemDatas.length < BasicGridWidget.feedValue.length &&
-                itemDatas.isNotEmpty) {
+            var itemDatasClean = <dynamic>[];
+            for (var item in itemDatas as List<IsolaImageFeedModel>) {
+              if (item.feedVisibility == true) {
+                itemDatasClean.add(item);
+              }
+            }
+
+            if (itemDatasClean.length < BasicGridWidget.feedValue.length &&
+                itemDatasClean.isNotEmpty) {
               int deleteNeed =
-                  BasicGridWidget.feedValue.length - itemDatas.length;
+                  BasicGridWidget.feedValue.length - itemDatasClean.length;
 
               for (var i = 0; i < deleteNeed; i++) {
                 BasicGridWidget.feedValue.removeLast();
@@ -289,9 +296,8 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
               }
             }
 
-
-            amountUpdater((itemDatas.length));
-            return itemDatas.isEmpty
+            amountUpdater((itemDatasClean.length));
+            return itemDatasClean.isEmpty
                 ? Center(
                     child: Column(
                     children: [
@@ -312,14 +318,14 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                           mainAxisCellCount: tile.mainAxisCount,
                           child: GestureDetector(
                             onTap: () {
-                              _openDetail(context, index, itemDatas,
+                              _openDetail(context, index, itemDatasClean,
                                   widget.userUid, widget.userMeta, index);
                             },
                             child: ImageTile(
                               index: index,
                               width: tile.crossAxisCount * 100,
                               height: tile.mainAxisCount * 100,
-                              imageUrl: itemDatas[index].feedImageUrl,
+                              imageUrl: itemDatasClean[index].feedImageUrl,
                             ),
                           ),
                         );
