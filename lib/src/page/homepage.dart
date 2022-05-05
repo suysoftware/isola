@@ -819,7 +819,7 @@ class HomeTextsRight extends StatelessWidget {
         ),
         Container(
           padding: 100.h >= 800
-              ? EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue + 0.7).h)
+              ? EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue ).h)
               : EdgeInsets.fromLTRB(8.0, 0.0, 5.w, (heightValue - 1).h),
           child: textWidgetGetter(context,
               targetMessage: targetText,

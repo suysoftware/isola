@@ -59,6 +59,10 @@ abstract class LocaleKeys {
   static const main_senttextsecond = 'main.senttextsecond';
   static const main_confirm = 'main.confirm';
   static const main_confirmstudentmail = 'main.confirmstudentmail';
+  static const main_confirmyouruniversity = 'main.confirmyouruniversity';
+  static const main_countryquestion = 'main.countryquestion';
+  static const main_universityquestion = 'main.universityquestion';
+  static const main_emailquestion = 'main.emailquestion';
   static const main = 'main';
 
   static const report_reportingtextouter = 'report.reportingtextouter';

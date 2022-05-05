@@ -219,7 +219,7 @@ class _TokenGainPageState extends State<TokenGainPage> {
           // This plugin cannot be tested on Android by installing your app
           // locally. See https://github.com/britannio/in_app_review#testing for
           // more information.
-          _availability = isAvailable && !Platform.isAndroid
+          _availability = isAvailable 
               ? Availability.available
               : Availability.unavailable;
         });
@@ -329,9 +329,9 @@ class _TokenGainPageState extends State<TokenGainPage> {
                     width: 1.w,
                   ),
                   rateActive == true
-                      ? (_availability == Availability.available
+                      ? (  _availability == Availability.available
                           ? _earnTokenCard(5, "App Review", _requestReview)
-                          : _earnTokenCard(5, "Rated", () {}))
+                          : _earnTokenCard(5, "Rated", () {})    )
                       : const SizedBox(),
                 ],
               ),

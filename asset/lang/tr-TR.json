@@ -55,7 +55,11 @@
     "senttextfirst": "Maili ",
     "senttextsecond": " hesabına gönderdik, lütfen posta kutunu incele ve güvenlik kodunu yaz ",
     "confirm" : "Onayla",
-    "confirmstudentmail":"Öğrenci Mailini Onayla"
+    "confirmstudentmail":"Öğrenci Mailini Onayla",
+    "confirmyouruniversity":"Üniversite \nhesabını onayla",
+    "countryquestion":"Okuduğun üniversite hangi ülkede?",
+    "universityquestion":"Üniversitenin ismi nedir?",
+    "emailquestion":"Öğrenci mailin nedir"
 
 
 

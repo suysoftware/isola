@@ -243,7 +243,7 @@ class _AccountSettingPageState extends State<AccountSettingPage>
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
-                      child: Text(
+                      child: const Text(
                         "Email",
                         style: StyleConstants.signUpTitlesTextStyle,
                       ),

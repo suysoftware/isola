@@ -53,9 +53,13 @@
         "sendmail": "Send Email",
         "securitycode" : "Security Code",
         "senttextfirst": "We sent email to ",
-        "senttextsecond": ", check your inbox and enter the secure code",
+        "senttextsecond": " check your inbox and enter the secure code",
         "confirm" : "confirm",
-        "confirmstudentmail":"Confirm your student email"
+        "confirmstudentmail":"Confirm your student email",
+        "confirmyouruniversity":"Confirm \nyour university",
+        "countryquestion":"What country is your university in?",
+        "universityquestion":"What is the name of the university?",
+        "emailquestion":"What is your university email?"
         
 
 

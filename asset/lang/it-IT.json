@@ -55,7 +55,11 @@
         "senttextfirst": "Abbiamo inviato e-mail a ",
         "senttextsecond": ", controlla la tua casella di posta e inserisci il codice di sicurezza",
         "confirm" : "Confermare",
-        "confirmstudentmail":"Conferma la tua email studente"
+        "confirmstudentmail":"Conferma la tua email studente",
+        "confirmyouruniversity":"Conferma \nla tua università",
+        "countryquestion":"In che paese è la tua università?",
+        "universityquestion":"Qual è il nome dell'università?",
+        "emailquestion":"Qual è la tua email universitaria?"
         
 
 

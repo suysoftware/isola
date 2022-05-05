@@ -55,7 +55,11 @@
         "senttextfirst": "Nous avons envoyé un e-mail à ",
         "senttextsecond": ", vérifiez votre boîte de réception et entrez le code sécurisé",
         "confirm" : "confirmer",
-        "confirmstudentmail":"Confirmez votre email étudiant"
+        "confirmstudentmail":"Confirmez votre email étudiant",
+        "confirmyouruniversity":"Confirmez \nvotre université",
+        "countryquestion":"Dans quel pays se trouve votre université?",
+        "universityquestion":"Quel est le nom de l'université?",
+        "emailquestion":"Quelle est votre adresse e-mail universitaire ?"
         
 
 

@@ -55,7 +55,11 @@
         "senttextfirst": "我们发送电子邮件至 ",
         "senttextsecond": ", 检查您的收件箱并输入安全代码",
         "confirm" : "确认",
-        "confirmstudentmail":"确认您的学生电子邮件"
+        "confirmstudentmail":"确认您的学生电子邮件",
+        "confirmyouruniversity":"确认你的大学",
+        "countryquestion":"你的大学在哪个国家",
+        "universityquestion":"大学叫什么名字？",
+        "emailquestion":"你的大学邮箱是什么？"
         
 
 

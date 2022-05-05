@@ -34,11 +34,9 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 width: 80.w,
                 child: const AutoSizeText.rich(
-
-
-                    TextSpan(text: GuideBookConstants.guideIsolaText)
-                    
-                    ,textAlign: TextAlign.center,),
+                  TextSpan(text: GuideBookConstants.guideIsolaText),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                 height: 10.h,
@@ -58,7 +56,9 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 width: 80.w,
                 child: const AutoSizeText.rich(
-                    TextSpan(text: GuideBookConstants.guideMatchText)  ,textAlign: TextAlign.center,),
+                  TextSpan(text: GuideBookConstants.guideMatchText),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                 height: 10.h,
@@ -78,7 +78,9 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 width: 80.w,
                 child: const AutoSizeText.rich(
-                    TextSpan(text: GuideBookConstants.guideTimelineText)  ,textAlign: TextAlign.center,),
+                  TextSpan(text: GuideBookConstants.guideTimelineText),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                 height: 10.h,
@@ -98,7 +100,9 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 width: 80.w,
                 child: const AutoSizeText.rich(
-                    TextSpan(text: GuideBookConstants.guideExploreText)  ,textAlign: TextAlign.center,),
+                  TextSpan(text: GuideBookConstants.guideExploreText),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                 height: 10.h,
@@ -118,7 +122,9 @@ class GuideBookPage extends StatelessWidget {
               SizedBox(
                 width: 80.w,
                 child: const AutoSizeText.rich(
-                    TextSpan(text: GuideBookConstants.guideChatText)  ,textAlign: TextAlign.center,),
+                  TextSpan(text: GuideBookConstants.guideChatText),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                 height: 10.h,

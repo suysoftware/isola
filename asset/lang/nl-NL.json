@@ -55,7 +55,11 @@
         "senttextfirst": "We hebben een e-mail gestuurd naar ",
         "senttextsecond": ", controleer je inbox en voer de beveiligingscode in",
         "confirm" : "bevestigen",
-        "confirmstudentmail":"Bevestig je studentenmail"
+        "confirmstudentmail":"Bevestig je studentenmail",
+        "confirmyouruniversity":"Bevestig \nje universiteit",
+        "countryquestion":"In welk land is uw universiteit?",
+        "universityquestion":"Wat is de naam van de universiteit?",
+        "emailquestion":"Wat is je universitaire e-mailadres?"
         
 
 

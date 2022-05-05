@@ -55,8 +55,11 @@
       "senttextfirst": "Enviamos correo electrónico a ",
       "senttextsecond": ", revisa tu bandeja de entrada e ingresa el código seguro",
       "confirm" : "confirmar",
-      "confirmstudentmail":"Confirma tu correo electrónico de estudiante"
-      
+      "confirmstudentmail":"Confirma tu correo electrónico de estudiante",
+      "confirmyouruniversity":"Confirma \ntu universidad",
+      "countryquestion":"En qué país está tu universidad?",
+      "universityquestion":"Cuál es el nombre de la universidad?",
+      "emailquestion":"Cuál es el correo electrónico de tu universidad?"
 
 
     },
