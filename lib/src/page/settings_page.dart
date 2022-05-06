@@ -4,8 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isola_app/src/constants/color_constants.dart';
 import 'package:isola_app/src/constants/style_constants.dart';
+import 'package:isola_app/src/model/app_settings/statistics_settings.dart';
 import 'package:isola_app/src/model/user/user_notification_settings.dart';
 import 'package:isola_app/src/page/account_setting.dart';
+import 'package:isola_app/src/page/control_panels/panel_login_page.dart';
 import 'package:isola_app/src/page/guide_book_page.dart';
 import 'package:isola_app/src/page/options_page.dart';
 import 'package:isola_app/src/page/terms_privacy/licences_dialog.dart';
@@ -69,6 +71,45 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 1.h,
             ),
+            user!.email == 'isolateams@gmail.com'
+                ? buttonGetter(
+                    const Icon(
+                      CupertinoIcons.percent,
+                      color: ColorConstant.softBlack,
+                    ),
+                    Text(
+                      'Statistics',
+                      style: settingTextStyle,
+                    ), () async {
+                    var statisticsData;
+                    var statisticsRef = FirebaseFirestore.instance
+                        .collection('app_settings')
+                        .doc('statistics_settings');
+
+                    await statisticsRef
+                        .get()
+                        .then((value) => statisticsData = StatisticsSettings(
+                            value['statisticsPassword'], value['isActive']))
+                        .whenComplete(() {
+                      if (statisticsData.isActive == true) {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return PanelLLoginPage(
+                              statisticsData: statisticsData,
+                            );
+                          },
+                        );
+                      }
+                    });
+                  })
+                : SizedBox(),
+            user!.email == 'isolateams@gmail.com'
+                ? SizedBox(
+                    height: 1.h,
+                  )
+                : SizedBox(),
+
             /*
             buttonGetter(
                 const Icon(CupertinoIcons.lock, color: ColorConstant.softBlack),
@@ -125,21 +166,22 @@ class _SettingsPageState extends State<SettingsPage> {
                   .collection('chat_data')
                   .doc();
               refTest.set({
-                      'member_avatar_url': 'https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586',
-      'member_message': "mmessage",
-      'member_message_time': DateTime.now().toUtc(),
-      'member_name': "Member 1",
-      'member_uid':"",
-      'member_message_isvoice': false,
-      'member_message_voice_url': "",
-      'member_message_isattachment': false,
-      'member_message_attachment_url': "",
-      'member_message_isimage': false,
-      'member_message_isvideo': false,
-      'member_message_isdocument': false,
-      'member_message_target_1_uid': "",
-      'member_message_target_2_uid': "",
-      'member_message_no': "messageno",
+                'member_avatar_url':
+                    'https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/default_files%2Fdefault_profile_photo.png?alt=media&token=fd38c835-ce62-4e3b-8dec-3914f2c94586',
+                'member_message': "mmessage",
+                'member_message_time': DateTime.now().toUtc(),
+                'member_name': "Member 1",
+                'member_uid': "",
+                'member_message_isvoice': false,
+                'member_message_voice_url': "",
+                'member_message_isattachment': false,
+                'member_message_attachment_url': "",
+                'member_message_isimage': false,
+                'member_message_isvideo': false,
+                'member_message_isdocument': false,
+                'member_message_target_1_uid': "",
+                'member_message_target_2_uid': "",
+                'member_message_no': "messageno",
               });
             }),
             SizedBox(
@@ -334,7 +376,8 @@ class _LicencesPageState extends State<LicencesPage> {
     'FlutterCacheManager',
     'CircularCountDownTimer',
     'GoogleFonts',
-    'GoogleMobileAds'
+    'GoogleMobileAds',
+    'Graphic'
   ];
 
   @override

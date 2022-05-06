@@ -1134,6 +1134,7 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
 
   @override
   Widget build(BuildContext context) {
+
     if (countryText != "default" && universityTextList.isEmpty) {
       for (var item in universityList) {
         universityTextList.add(Text(
@@ -1169,7 +1170,6 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
               width: 100.w,
               child: isConfirmationSent == false
                   ? Column(children: [
-                     
                       Row(
                         children: [
                           CupertinoButton(
@@ -1184,15 +1184,15 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 1.h,
+                        height: 100.h<740?0.1:0.5.h,
                       ),
                       Image.asset(
                         'asset/img/isola_purple_logo.png',
-                        width: 80.sp,
-                        height: 80.sp,
+                        width: 100.h<740?70.sp:80.sp,
+                        height: 100.h<740?70.sp:80.sp,
                       ),
                       SizedBox(
-                        height: 4.h,
+                        height:100.h<740?0 :4.h,
                       ),
                       Row(
                         children: [
@@ -1200,15 +1200,15 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                             width: 10.w,
                           ),
                           Text(LocaleKeys.main_confirmyouruniversity.tr(),
-                              style: GoogleFonts.staatliches(fontSize: 32.sp)),
+                              style: GoogleFonts.staatliches(fontSize: 100.h<740?25.sp: 32.sp)),
                         ],
                       ),
                       SizedBox(
                         height: 5.h,
                       ),
                       Row(
-                                 mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           buttonGetterEmailConfirm(
                             Text(
@@ -1236,8 +1236,8 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                       Visibility(
                         visible: universityTextList.isNotEmpty,
                         child: Row(
-                                                           mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             buttonGetterEmailConfirm(
                                 Text(
@@ -1245,7 +1245,8 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                                   style: TextStyle(
                                       color: ColorConstant.softBlack,
                                       fontSize:
-                                          (8 + (50 / universityName.length)).sp),
+                                          (8 + (50 / universityName.length))
+                                              .sp),
                                 ),
                                 () => _showPicker(
                                     context,
@@ -1256,7 +1257,8 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                                 Text(
                                   LocaleKeys.main_universityquestion.tr(),
                                   style: TextStyle(
-                                      color: ColorConstant.accountEditButtonColor,
+                                      color:
+                                          ColorConstant.accountEditButtonColor,
                                       fontFamily: 'Roboto',
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w700),
@@ -1371,7 +1373,6 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                                           String fullUserUid =
                                               auth.currentUser!.uid;
 
-                                      
                                           var confirmCreateRef = FirebaseFirestore
                                               .instance
                                               .collection("confirmations")
@@ -1405,20 +1406,19 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                     ])
                   : Column(
                       children: [
-                    
-                          Row(
-                        children: [
-                          CupertinoButton(
-                              child: Icon(
-                                CupertinoIcons.back,
-                                color: ColorConstant.softBlack,
-                                size: 30.sp,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                        ],
-                      ),
+                        Row(
+                          children: [
+                            CupertinoButton(
+                                child: Icon(
+                                  CupertinoIcons.back,
+                                  color: ColorConstant.softBlack,
+                                  size: 30.sp,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                        ),
                         SizedBox(
                           height: 1.5.h,
                         ),
@@ -1522,7 +1522,6 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                                             String fullUserUid =
                                                 auth.currentUser!.uid;
 
-                                           
                                             var confirmUserAnswerRef =
                                                 FirebaseFirestore.instance
                                                     .collection("confirmations")
@@ -1550,9 +1549,7 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                                                       .snapshots();
 
                                               metaStream.listen((event) {
-                                        
                                                 if (event['uValid'] == true) {
-                                                 
                                                   Navigator
                                                       .pushReplacementNamed(
                                                           context, splashPage);
@@ -1589,7 +1586,6 @@ Widget buttonGetterEmailConfirm(
   return Container(
     decoration: BoxDecoration(
         color: ColorConstant.milkColor,
-      
         border: Border.all(width: 0.01, color: ColorConstant.softBlack)),
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: 0.5.h),
