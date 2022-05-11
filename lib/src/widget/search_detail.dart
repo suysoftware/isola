@@ -56,6 +56,8 @@ class _SearchDetailState extends State<SearchDetail> {
   int loadingValue = 2;
   // var newItemList=<dynamic>[];
 
+   
+
   void _onLoading() async {
     List<GridTile> gTile = BasicGridWidget.feedValue;
     if (BasicGridWidget.feedValue.length >= feedAllControl) {
@@ -203,7 +205,7 @@ class _BasicGridWidgetState extends State<BasicGridWidget> {
                 size: 65.sp,
                 color: ColorConstant.softGrey,
               ),
-             Text(LocaleKeys.profile_havenotimage.tr())
+              Text(LocaleKeys.profile_havenotimage.tr())
             ],
           ))
         : StaggeredGrid.count(
@@ -279,7 +281,7 @@ class _PostTileState extends State<PostTile> {
                 child: FittedBox(
                   fit: BoxFit.cover,
 
-                 // child:Image.network(widget.imageUrl, fit: BoxFit.cover,),
+                  // child:Image.network(widget.imageUrl, fit: BoxFit.cover,),
                   child: CachedNetworkImage(
                     imageUrl: widget.imageUrl,
                     fit: BoxFit.cover,
@@ -375,7 +377,8 @@ class BoneOfPost extends StatelessWidget {
                           builder: (context) => CupertinoAlertDialog(
                                 actions: [
                                   CupertinoButton(
-                                      child:  Text('${LocaleKeys.main_delete.tr()} Post'),
+                                      child: Text(
+                                          '${LocaleKeys.main_delete.tr()} Post'),
                                       onPressed: () {
                                         imageFeedDelete(
                                             imageItemList[index].feedNo,
@@ -593,8 +596,8 @@ class BoneOfPost extends StatelessWidget {
                                     child: ClipOval(
                                         child: 100.h >= 700
                                             ? (100.h <= 1100
-                                                ? 
-                                                
+                                                ?
+
                                                 /* Image.network(
                                                   
                                                     imageItemList[index]
@@ -621,8 +624,6 @@ class BoneOfPost extends StatelessWidget {
 
 */
 
-
-
                                                 CachedNetworkImage(
                                                     imageUrl:
                                                         imageItemList[index]
@@ -631,27 +632,28 @@ class BoneOfPost extends StatelessWidget {
                                                         true,
                                                     width: 7.h,
                                                     height: 7.h,
-                                                    
                                                     fit: BoxFit.cover,
                                                     errorWidget: (context, url,
                                                             error) =>
                                                         const Icon(
                                                             CupertinoIcons
                                                                 .xmark_square),
-                                                    cacheManager:
-                                                        CacheManager(Config(
-                                                      "cachedImageFiles",
-                                                      stalePeriod:
-                                                          const Duration(
-                                                              days: 3),
-                                                      //one week cache period
-                                                    ),),
+                                                    cacheManager: CacheManager(
+                                                      Config(
+                                                        "cachedImageFiles",
+                                                        stalePeriod:
+                                                            const Duration(
+                                                                days: 3),
+                                                        //one week cache period
+                                                      ),
+                                                    ),
                                                   )
                                                 : CachedNetworkImage(
                                                     imageUrl:
                                                         imageItemList[index]
                                                             .userAvatarUrl,
-                                                            useOldImageOnUrlChange: true,
+                                                    useOldImageOnUrlChange:
+                                                        true,
                                                     width: 35.sp,
                                                     height: 35.sp,
                                                     fit: BoxFit.cover,
@@ -687,14 +689,7 @@ class BoneOfPost extends StatelessWidget {
                                                       const Duration(days: 3),
                                                   //one week cache period
                                                 )),
-                                              )
-                                              
-                                              
-                                              
-                                              
-                                              
-                                              )
-                                              ),
+                                              ))),
                               ),
                             ),
                           )),

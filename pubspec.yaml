@@ -77,7 +77,8 @@ dependencies:
   circular_countdown_timer: ^0.2.1
   google_fonts: ^2.3.1
   google_mobile_ads: ^1.2.0
-  graphic: ^0.10.3
+  fl_chart: ^0.50.1
+
 
 
   

@@ -18,6 +18,8 @@ import 'package:isola_app/src/page/profilepage.dart';
 import 'package:isola_app/src/page/searchpage.dart';
 import 'package:isola_app/src/page/timelinepage.dart';
 import 'package:isola_app/src/service/firebase/storage/getters/display_getter.dart';
+import 'package:isola_app/src/utils/router.dart';
+import 'package:isola_app/src/widget/search_detail.dart';
 import 'package:provider/src/provider.dart';
 import '../blocs/current_chat_cubit.dart';
 
@@ -40,6 +42,13 @@ class _NavigationBarState extends State<NavigationBar>
   late IsolaUserAll userAll;
   late var userLikeHistory;
   String userUidForOnlinity = " ";
+
+  bool page0Active = false;
+  bool page1Active = false;
+  bool page2Active = true;
+  bool page3Active = false;
+  bool page4Active = false;
+  int backValuePage = 2;
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -169,8 +178,82 @@ class _NavigationBarState extends State<NavigationBar>
 
   @override
   Widget build(BuildContext context) {
+    print('ss');
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
+        onTap: (crntValue) {
+          print(crntValue);
+          if (backValuePage == crntValue) {
+            print('hala aynı page');
+
+            switch (crntValue) {
+              case 0:
+                break;
+              case 1:
+                break;
+              case 2:
+                break;
+              case 3:
+                break;
+              case 4:
+                break;
+              default:
+            }
+          } else {
+            switch (crntValue) {
+              case 0:
+                backValuePage = crntValue;
+                page0Active = true;
+                page1Active = false;
+                page2Active = false;
+                page3Active = false;
+                page4Active = false;
+                break;
+              case 1:
+                backValuePage = crntValue;
+                page0Active = false;
+                page1Active = true;
+                page2Active = false;
+                page3Active = false;
+                page4Active = false;
+                break;
+              case 2:
+                backValuePage = crntValue;
+                page0Active = false;
+                page1Active = false;
+                page2Active = true;
+                page3Active = false;
+                page4Active = false;
+                break;
+              case 3:
+                backValuePage = crntValue;
+                page0Active = false;
+                page1Active = false;
+                page2Active = false;
+                page3Active = true;
+                page4Active = false;
+                break;
+              case 4:
+                backValuePage = crntValue;
+                page0Active = false;
+                page1Active = false;
+                page2Active = false;
+                page3Active = false;
+                page4Active = true;
+                break;
+              default:
+            }
+          }
+
+          print('Page0 $page0Active');
+          print('Page1 $page1Active');
+          print('Page2 $page2Active');
+          print('Page3 $page3Active');
+          print('Page4 $page4Active');
+          if (crntValue == widget.currentState) {
+            print('uy aha');
+          }
+        },
         backgroundColor: ColorConstant.milkColor,
         currentIndex: widget.currentState ?? 2,
         items: [
@@ -218,7 +301,7 @@ class _NavigationBarState extends State<NavigationBar>
                         context.read<UserAllCubit>().userAllChanger(
                               userAllSnap,
                             );
-  
+
                         return TimelinePage(user: user, userAll: userAllSnap);
                       }
                   }
@@ -259,19 +342,16 @@ class _NavigationBarState extends State<NavigationBar>
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       // return const CupertinoActivityIndicator();
-                   
+
                       return HomePage(
                           userAll: context.read<UserAllCubit>().state);
 
                     case ConnectionState.done:
-                      
                       var userAllInfo = snapshot.data as IsolaUserAll;
                       context.read<UserAllCubit>().userAllChanger(
                             userAllInfo,
                           );
-                           
 
-             
                       return HomePage(
                         userAll: userAllInfo,
                       );
@@ -291,10 +371,8 @@ class _NavigationBarState extends State<NavigationBar>
                         );
                       }*/
                     case ConnectionState.none:
-
                       return const Text("Error");
                     case ConnectionState.active:
-                   
                       return HomePage(
                           userAll: context.read<UserAllCubit>().state);
                   }
@@ -434,7 +512,6 @@ class _NavigationBarState extends State<NavigationBar>
                             ),
                           );
                         } else {
-                 
                           var refChatPageItems =
                               snapshot.data as GroupMergeData;
                           context
@@ -495,9 +572,9 @@ class _NavigationBarState extends State<NavigationBar>
                     var userAll = snapshot.data as IsolaUserAll;
 
                     context.read<UserAllCubit>().userAllChanger(userAll);
- context
-                            .read<GroupMergeCubit>()
-                            .groupMergeUserAllChanger(userAll);
+                    context
+                        .read<GroupMergeCubit>()
+                        .groupMergeUserAllChanger(userAll);
                     return HomePage(
                       userAll: userAll,
                     );

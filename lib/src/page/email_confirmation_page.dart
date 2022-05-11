@@ -23,7 +23,7 @@ class EmailConfirmationPage extends StatefulWidget {
   State<EmailConfirmationPage> createState() => _EmailConfirmationPageState();
 }
 
-class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
+class _EmailConfirmationPageState extends State<EmailConfirmationPage>with TickerProviderStateMixin {
   TextEditingController t1 = TextEditingController();
   TextEditingController t2 = TextEditingController();
   String countryText = "default";
@@ -1146,7 +1146,7 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
     return CupertinoPageScaffold(
         //navigationBar: CupertinoNavigationBar(automaticallyImplyLeading: true),
         child: Stack(
-      children: [
+            children: [
         Align(
           alignment: Alignment.topCenter,
           child: Container(
@@ -1169,243 +1169,8 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
               height: 90.h,
               width: 100.w,
               child: isConfirmationSent == false
-                  ? Column(children: [
-                      Row(
-                        children: [
-                          CupertinoButton(
-                              child: Icon(
-                                CupertinoIcons.back,
-                                color: ColorConstant.softBlack,
-                                size: 30.sp,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 100.h<740?0.1:0.5.h,
-                      ),
-                      Image.asset(
-                        'asset/img/isola_purple_logo.png',
-                        width: 100.h<740?70.sp:80.sp,
-                        height: 100.h<740?70.sp:80.sp,
-                      ),
-                      SizedBox(
-                        height:100.h<740?0 :4.h,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text(LocaleKeys.main_confirmyouruniversity.tr(),
-                              style: GoogleFonts.staatliches(fontSize: 100.h<740?25.sp: 32.sp)),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          buttonGetterEmailConfirm(
-                            Text(
-                              countryText.toUpperCase(),
-                              style: const TextStyle(
-                                color: ColorConstant.softBlack,
-                              ),
-                            ),
-                            () => _showPicker(context, countryListInfo,
-                                countryTextList, "country", initValueCountry),
-                            Text(
-                              LocaleKeys.main_countryquestion.tr(),
-                              style: TextStyle(
-                                  color: ColorConstant.accountEditButtonColor,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Visibility(
-                        visible: universityTextList.isNotEmpty,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            buttonGetterEmailConfirm(
-                                Text(
-                                  universityName,
-                                  style: TextStyle(
-                                      color: ColorConstant.softBlack,
-                                      fontSize:
-                                          (8 + (50 / universityName.length))
-                                              .sp),
-                                ),
-                                () => _showPicker(
-                                    context,
-                                    universityList,
-                                    universityTextList,
-                                    "university",
-                                    initValueUniversity),
-                                Text(
-                                  LocaleKeys.main_universityquestion.tr(),
-                                  style: TextStyle(
-                                      color:
-                                          ColorConstant.accountEditButtonColor,
-                                      fontFamily: 'Roboto',
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w700),
-                                )),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Visibility(
-                        visible: universityName != "default",
-                        child: SizedBox(
-                            width: 90.w,
-                            height: 10.h,
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      LocaleKeys.main_emailquestion.tr(),
-                                      style: TextStyle(
-                                          color: ColorConstant
-                                              .accountEditButtonColor,
-                                          fontFamily: 'Roboto',
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    SizedBox(
-                                      width: 20.w,
-                                    )
-                                  ],
-                                ),
-                                CupertinoTextField(
-                                  maxLength: 15,
-                                  onChanged: (t) {
-                                    setState(() {});
-                                  },
-                                  placeholder: 'Student Email',
-                                  placeholderStyle: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w100),
-                                  decoration: const BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            width: 0.3,
-                                            color: ColorConstant.softBlack)),
-                                    color: ColorConstant.milkColor,
-                                    boxShadow: [
-                                      /* BoxShadow(
-                                            blurRadius: 1.sp,
-                                            spreadRadius: 0.2.sp,
-                                            offset: const Offset(0.0, 0.0),
-                                            color: ColorConstant.softBlack
-                                                .withOpacity(0.2)) */
-                                    ],
-                                  ),
-                                  controller: t1,
-                                  suffix: Text(
-                                    "@" + partnerModel.mailType,
-                                    style: TextStyle(
-                                        color: ColorConstant.softBlack,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  suffixMode: OverlayVisibilityMode.always,
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Visibility(
-                        visible: t1.text.length < 2 ? false : true,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 10.w),
-                                width: 25.w,
-                                height: 4.2.h,
-                                decoration: BoxDecoration(
-                                    color: ColorConstant.accountEditButtonColor,
-                                    border: Border.all(width: 0.1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(7.sp)),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          spreadRadius: 0.1,
-                                          blurRadius: 1.0,
-                                          blurStyle: BlurStyle.outer)
-                                    ]),
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: CupertinoButton(
-                                    onPressed: () {
-                                      if (t1.text.length > 1) {
-                                        FirebaseAuth auth =
-                                            FirebaseAuth.instance;
-
-                                        if (auth.currentUser?.uid != null) {
-                                          studentEmail = t1.text +
-                                              "@" +
-                                              partnerModel.mailType;
-                                          String fullEmail = t1.text +
-                                              "@" +
-                                              partnerModel.mailType;
-
-                                          String fullUserUid =
-                                              auth.currentUser!.uid;
-
-                                          var confirmCreateRef = FirebaseFirestore
-                                              .instance
-                                              .collection("confirmations")
-                                              .doc("student_confirmations")
-                                              .collection(
-                                                  "confirmation_created_pool")
-                                              .doc(auth.currentUser!.uid);
-
-                                          confirmCreateRef.set({
-                                            "studentEmail": fullEmail,
-                                            "userUid": fullUserUid,
-                                            "userUniversity": universityName,
-                                            "sentDate": DateTime.now().toUtc(),
-                                          }).whenComplete(() {
-                                            setState(() {
-                                              isConfirmationSent = true;
-                                              universityName = universityName;
-                                            });
-                                          });
-                                        }
-                                      }
-                                    },
-                                    child: Text(LocaleKeys.main_sendmail.tr(),
-                                        style: StyleConstants
-                                            .signUpGenderButtonActiveTextStyle),
-                                  ),
-                                ),
-                              )
-                            ]),
-                      ),
-                    ])
-                  : Column(
-                      children: [
+                  ? SingleChildScrollView(
+                    child: Column(children: [
                         Row(
                           children: [
                             CupertinoButton(
@@ -1420,15 +1185,15 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                           ],
                         ),
                         SizedBox(
-                          height: 1.5.h,
+                          height: 100.h<740?0.1:0.5.h,
                         ),
                         Image.asset(
                           'asset/img/isola_purple_logo.png',
-                          width: 80.sp,
-                          height: 80.sp,
+                          width: 100.h<740?70.sp:80.sp,
+                          height: 100.h<740?70.sp:80.sp,
                         ),
                         SizedBox(
-                          height: 4.h,
+                          height:100.h<740?0 :4.h,
                         ),
                         Row(
                           children: [
@@ -1436,148 +1201,387 @@ class _EmailConfirmationPageState extends State<EmailConfirmationPage> {
                               width: 10.w,
                             ),
                             Text(LocaleKeys.main_confirmyouruniversity.tr(),
-                                style:
-                                    GoogleFonts.staatliches(fontSize: 32.sp)),
+                                style: GoogleFonts.staatliches(fontSize: 100.h<740?25.sp: 32.sp)),
                           ],
                         ),
                         SizedBox(
-                          height: 8.h,
+                          height: 5.h,
                         ),
-                        Center(
-                          child: SizedBox(
-                            width: 80.w,
-                            child: Text(
-                              '${LocaleKeys.main_senttextfirst.tr()}\n\n$studentEmail\n\n${LocaleKeys.main_senttextsecond.tr()}',
-                              style: TextStyle(
-                                  color: ColorConstant.accountEditButtonColor,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w700),
-                              textAlign: TextAlign.center,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            buttonGetterEmailConfirm(
+                              Text(
+                                countryText.toUpperCase(),
+                                style: const TextStyle(
+                                  color: ColorConstant.softBlack,
+                                ),
+                              ),
+                              () => _showPicker(context, countryListInfo,
+                                  countryTextList, "country", initValueCountry),
+                              Text(
+                                LocaleKeys.main_countryquestion.tr(),
+                                style: TextStyle(
+                                    color: ColorConstant.accountEditButtonColor,
+                                    fontFamily: 'Roboto',
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w700),
+                              ),
                             ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Visibility(
+                          visible: universityTextList.isNotEmpty,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              buttonGetterEmailConfirm(
+                                  Text(
+                                    universityName,
+                                    style: TextStyle(
+                                        color: ColorConstant.softBlack,
+                                        fontSize:
+                                            (8 + (50 / universityName.length))
+                                                .sp),
+                                  ),
+                                  () => _showPicker(
+                                      context,
+                                      universityList,
+                                      universityTextList,
+                                      "university",
+                                      initValueUniversity),
+                                  Text(
+                                    LocaleKeys.main_universityquestion.tr(),
+                                    style: TextStyle(
+                                        color:
+                                            ColorConstant.accountEditButtonColor,
+                                        fontFamily: 'Roboto',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700),
+                                  )),
+                            ],
                           ),
                         ),
                         SizedBox(
                           height: 3.h,
                         ),
-                        SizedBox(
-                            width: 50.w,
-                            height: 10.h,
-                            child: Center(
-                              child: CupertinoTextField(
-                                maxLength: 6,
-                                style: GoogleFonts.staatliches(
-                                    fontSize: 20.sp, letterSpacing: 4.0),
-                                onChanged: (t) {
-                                  setState(() {});
-                                },
-                                decoration: const BoxDecoration(
-                                  color: ColorConstant.milkColor,
-                                ),
-                                textAlign: TextAlign.center,
-                                controller: t2,
-                                placeholder: '_ _ _ _ _ _',
-                                placeholderStyle: const TextStyle(
-                                  textBaseline: TextBaseline.alphabetic,
-                                ),
-                              ),
-                            )),
                         Visibility(
-                          visible: t2.text.length < 5 ? false : true,
+                          visible: universityName != "default",
+                          child: SizedBox(
+                              width: 90.w,
+                              height: 10.h,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        LocaleKeys.main_emailquestion.tr(),
+                                        style: TextStyle(
+                                            color: ColorConstant
+                                                .accountEditButtonColor,
+                                            fontFamily: 'Roboto',
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(
+                                        width: 20.w,
+                                      )
+                                    ],
+                                  ),
+                                  CupertinoTextField(
+                                    maxLength: 15,
+                                    onChanged: (t) {
+                                      setState(() {});
+                                    },
+                                    placeholder: 'Student Email',
+                                    placeholderStyle: TextStyle(
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w100),
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              width: 0.3,
+                                              color: ColorConstant.softBlack)),
+                                      color: ColorConstant.milkColor,
+                                      boxShadow: [
+                                        /* BoxShadow(
+                                              blurRadius: 1.sp,
+                                              spreadRadius: 0.2.sp,
+                                              offset: const Offset(0.0, 0.0),
+                                              color: ColorConstant.softBlack
+                                                  .withOpacity(0.2)) */
+                                      ],
+                                    ),
+                                    controller: t1,
+                                    suffix: Text(
+                                      "@" + partnerModel.mailType,
+                                      style: TextStyle(
+                                          color: ColorConstant.softBlack,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    suffixMode: OverlayVisibilityMode.always,
+                                  ),
+                                ],
+                              )),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Visibility(
+                          visible: t1.text.length < 2 ? false : true,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 10.w),
-                                width: 25.w,
-                                height: 4.2.h,
-                                decoration: BoxDecoration(
-                                    color: ColorConstant.accountEditButtonColor,
-                                    border: Border.all(width: 0.1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(7.sp)),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          spreadRadius: 0.1,
-                                          blurRadius: 1.0,
-                                          blurStyle: BlurStyle.outer)
-                                    ]),
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: CupertinoButton(
-                                      child: Text(LocaleKeys.main_confirm.tr(),
-                                          style: StyleConstants
-                                              .signUpGenderButtonActiveTextStyle),
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 10.w),
+                                  width: 25.w,
+                                  height: 4.2.h,
+                                  decoration: BoxDecoration(
+                                      color: ColorConstant.accountEditButtonColor,
+                                      border: Border.all(width: 0.1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(7.sp)),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            spreadRadius: 0.1,
+                                            blurRadius: 1.0,
+                                            blurStyle: BlurStyle.outer)
+                                      ]),
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: CupertinoButton(
                                       onPressed: () {
-                                        if (t2.text.length > 1) {
+                                        if (t1.text.length > 1) {
                                           FirebaseAuth auth =
                                               FirebaseAuth.instance;
-
+                          
                                           if (auth.currentUser?.uid != null) {
-                                            String secureCode = t2.text;
-                                            String fullEmail = t2.text +
+                                            studentEmail = t1.text +
                                                 "@" +
                                                 partnerModel.mailType;
-
+                                            String fullEmail = t1.text +
+                                                "@" +
+                                                partnerModel.mailType;
+                          
                                             String fullUserUid =
                                                 auth.currentUser!.uid;
-
-                                            var confirmUserAnswerRef =
-                                                FirebaseFirestore.instance
-                                                    .collection("confirmations")
-                                                    .doc(
-                                                        "student_confirmations")
-                                                    .collection(
-                                                        "confirmation_user_answer_pool")
-                                                    .doc(auth.currentUser!.uid);
-
-                                            confirmUserAnswerRef.set({
-                                              "answerDate":
-                                                  DateTime.now().toUtc(),
+                          
+                                            var confirmCreateRef = FirebaseFirestore
+                                                .instance
+                                                .collection("confirmations")
+                                                .doc("student_confirmations")
+                                                .collection(
+                                                    "confirmation_created_pool")
+                                                .doc(auth.currentUser!.uid);
+                          
+                                            confirmCreateRef.set({
+                                              "studentEmail": fullEmail,
                                               "userUid": fullUserUid,
-                                              "securityCode": secureCode,
-                                              "studentEmail": studentEmail
-                                            }).whenComplete(() async {
-                                              FirebaseAuth auth =
-                                                  FirebaseAuth.instance;
-                                              String fullUserUid =
-                                                  auth.currentUser!.uid;
-                                              Stream metaStream =
-                                                  FirebaseFirestore.instance
-                                                      .collection('users_meta')
-                                                      .doc(fullUserUid)
-                                                      .snapshots();
-
-                                              metaStream.listen((event) {
-                                                if (event['uValid'] == true) {
-                                                  Navigator
-                                                      .pushReplacementNamed(
-                                                          context, splashPage);
-                                                } else {
-                                                  showCupertinoDialog(
-                                                      barrierDismissible: false,
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          const CupertinoActivityIndicator(
-                                                            animating: true,
-                                                          ));
-                                                }
+                                              "userUniversity": universityName,
+                                              "sentDate": DateTime.now().toUtc(),
+                                            }).whenComplete(() {
+                                              setState(() {
+                                                isConfirmationSent = true;
+                                                universityName = universityName;
                                               });
                                             });
                                           }
                                         }
-                                      }),
-                                ),
-                              ),
+                                      },
+                                      child: Text(LocaleKeys.main_sendmail.tr(),
+                                          style: StyleConstants
+                                              .signUpGenderButtonActiveTextStyle),
+                                    ),
+                                  ),
+                                )
+                              ]),
+                        ),
+                      ]),
+                  )
+                  : SingleChildScrollView(
+                    child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              CupertinoButton(
+                                  child: Icon(
+                                    CupertinoIcons.back,
+                                    color: ColorConstant.softBlack,
+                                    size: 30.sp,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
                             ],
                           ),
-                        ),
-                      ],
-                    )),
+                          SizedBox(
+                            height: 1.5.h,
+                          ),
+                          Image.asset(
+                            'asset/img/isola_purple_logo.png',
+                            width: 80.sp,
+                            height: 80.sp,
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(LocaleKeys.main_confirmyouruniversity.tr(),
+                                  style:
+                                      GoogleFonts.staatliches(fontSize: 32.sp)),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8.h,
+                          ),
+                          Center(
+                            child: SizedBox(
+                              width: 80.w,
+                              child: Text(
+                                '${LocaleKeys.main_senttextfirst.tr()}\n\n$studentEmail\n\n${LocaleKeys.main_senttextsecond.tr()}',
+                                style: TextStyle(
+                                    color: ColorConstant.accountEditButtonColor,
+                                    fontFamily: 'Roboto',
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w700),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          SizedBox(
+                              width: 50.w,
+                              height: 10.h,
+                              child: Center(
+                                child: CupertinoTextField(
+                                  maxLength: 6,
+                                  style: GoogleFonts.staatliches(
+                                      fontSize: 20.sp, letterSpacing: 4.0),
+                                  onChanged: (t) {
+                                    setState(() {});
+                                  },
+                                  decoration: const BoxDecoration(
+                                    color: ColorConstant.milkColor,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  controller: t2,
+                                  placeholder: '_ _ _ _ _ _',
+                                  placeholderStyle: const TextStyle(
+                                    textBaseline: TextBaseline.alphabetic,
+                                  ),
+                                ),
+                              )),
+                          Visibility(
+                            visible: t2.text.length < 5 ? false : true,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 10.w),
+                                  width: 25.w,
+                                  height: 4.2.h,
+                                  decoration: BoxDecoration(
+                                      color: ColorConstant.accountEditButtonColor,
+                                      border: Border.all(width: 0.1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(7.sp)),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            spreadRadius: 0.1,
+                                            blurRadius: 1.0,
+                                            blurStyle: BlurStyle.outer)
+                                      ]),
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: CupertinoButton(
+                                        child: Text(LocaleKeys.main_confirm.tr(),
+                                            style: StyleConstants
+                                                .signUpGenderButtonActiveTextStyle),
+                                        onPressed: () {
+                                          if (t2.text.length > 1) {
+                                            FirebaseAuth auth =
+                                                FirebaseAuth.instance;
+                          
+                                            if (auth.currentUser?.uid != null) {
+                                              String secureCode = t2.text;
+                                              String fullEmail = t2.text +
+                                                  "@" +
+                                                  partnerModel.mailType;
+                          
+                                              String fullUserUid =
+                                                  auth.currentUser!.uid;
+                          
+                                              var confirmUserAnswerRef =
+                                                  FirebaseFirestore.instance
+                                                      .collection("confirmations")
+                                                      .doc(
+                                                          "student_confirmations")
+                                                      .collection(
+                                                          "confirmation_user_answer_pool")
+                                                      .doc(auth.currentUser!.uid);
+                          
+                                              confirmUserAnswerRef.set({
+                                                "answerDate":
+                                                    DateTime.now().toUtc(),
+                                                "userUid": fullUserUid,
+                                                "securityCode": secureCode,
+                                                "studentEmail": studentEmail
+                                              }).whenComplete(() async {
+                                                FirebaseAuth auth =
+                                                    FirebaseAuth.instance;
+                                                String fullUserUid =
+                                                    auth.currentUser!.uid;
+                                                Stream metaStream =
+                                                    FirebaseFirestore.instance
+                                                        .collection('users_meta')
+                                                        .doc(fullUserUid)
+                                                        .snapshots();
+                          
+                                                metaStream.listen((event) {
+                                                  if (event['uValid'] == true) {
+                                                    Navigator
+                                                        .pushReplacementNamed(
+                                                            context, splashPage);
+                                                  } else {
+                                                    showCupertinoDialog(
+                                                        barrierDismissible: false,
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            const CupertinoActivityIndicator(
+                                                              animating: true,
+                                                            ));
+                                                  }
+                                                });
+                                              });
+                                            }
+                                          }
+                                        }),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                  )),
         ),
-      ],
-    ));
+            ],
+          ));
   }
 }
 

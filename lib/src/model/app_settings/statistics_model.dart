@@ -24,7 +24,7 @@ class StatisticsModel {
   late int report_103_value;
   late int report_104_value;
   late int report_105_value;
-  late Timestamp stats_date;
+  late int stats_date;
   late int text_total;
   late int token_total;
   late List<dynamic> university_top5;
@@ -66,7 +66,7 @@ class StatisticsModel {
           json["report_103_value"] as int,
           json["report_104_value"] as int,
           json["report_105_value"] as int,
-          json["stats_date"] as Timestamp,
+          json["stats_date"] as int,
           json["text_total"] as int,
           json["token_total"] as int,
           json["university_top5"] as List<dynamic>,
