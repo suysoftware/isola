@@ -1,0 +1,184 @@
+{
+  "main": {
+    "title": "Dil Desteği",
+    "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+    "report" : "Şikayet Et",
+    "back": "Geri",
+    "cancel": "İptal",
+    "media" : "Medya",
+    "timeline" : "Akış",
+    "biography" : "Biyografi",
+    "share" : "Paylaş",
+    "refreshing": "Yenileniyor",
+    "refcompleted": "Yenilendi",
+    "loading" : "Yükleniyor",
+    "nomoredata" : "İçerik Sonu",
+    "explore" : "Keşfet",
+    "comingsoon" : "Pek Yakında",
+    "clickhere" : "Buraya Tıkla",
+    "deletefriend": "Arkadaşlıktan Çıkar",
+    "nogoback": "Hayır, Geri Dön",
+    "delete" : "Sil",
+    "post": "Post",
+    "name" : "İsim",
+    "yourname" : "İsim giriniz",
+    "surname" : "Soyisim",
+    "yoursurname" :"Soyisim giriniz",
+    "university":"Üniversite",
+    "youruniversity" : "Üniversite giriniz",
+    "gender" : "Cinsiyet",
+    "male" : "Erkek",
+    "female" : "Kadın",
+    "other" : "Diğer",
+    "agree" : "Onaylıyorum",
+    "next" : "İleri",
+    "agreeterms":"Şartlarımızı kabul etmelisiniz",
+    "termsandconditions":"Şartlar & Koşullar",
+    "privacypolicy":"Gizlilik Sözleşmesi",
+    "and":"ve",
+    "givelocation":"Konumu Paylaş",
+    "okay":"Tamam",
+    "update":"Güncelle",
+    "fillall":"Tüm alanları eksiksiz doldurunuz",
+    "youdidntjoingroup":"Henüz bir gruba girmediniz",
+    "youhavetowait":"Lütfen bekleyiniz",
+    "yes":"Evet",
+    "stopmatching":"Eşleşmeyi Durdur",
+    "block":"Blokla",
+    "allgroup":"Gruplar",
+    "chaos":"Kaos",
+    "friends":"Arkadaşlar",
+    "country": "Ülke",
+    "default":  "Seç",
+    "sendmail": "Email Gönder",
+    "securitycode" : "Güvenlik Kodu",
+    "senttextfirst": "Maili ",
+    "senttextsecond": " hesabına gönderdik, lütfen posta kutunu incele ve güvenlik kodunu yaz ",
+    "confirm" : "Onayla",
+    "confirmstudentmail":"Öğrenci Mailini Onayla",
+    "confirmyouruniversity":"Üniversite \nhesabını onayla",
+    "countryquestion":"Okuduğun üniversite hangi ülkede?",
+    "universityquestion":"Üniversitenin ismi nedir?",
+    "emailquestion":"Öğrenci mailin nedir"
+
+
+
+
+  },
+  "report": {
+    "reportingtextouter": "Neden bu içeriği şikayet ediyorsun , lütfen açıklayın",
+    "reportingtextinterior":"Neden bu içeriği şikayet ediyorsun?",
+    "reportingtextdetail":"Şikayetiniz anonim olacaktır, Eğer tehlikedeyseniz yerel acil durum ekiplerine haber veriniz",
+    "spam":"Bu içerik Spam",
+    "nudity":"Çıplaklık",
+    "hate":"Nefret Söylemi",
+    "suicide":"Tehlikeli İçerik",
+    "falseinfo":"Yanlış Bilgi"
+  },
+
+"homepage": {
+  "circulartext": "Hadi arkadaş bul",
+  "populartext":"Popüler İçerikler",
+  "needtoken" : "Token Gerekli",
+  "tokenalert" : "Token Alarmı",
+  "earntoken" : "Token Kazan",
+  "doesntyet" : "Henüz Değil",
+  "nomorematch" : "Daha fazla eşleşemezsin",
+  "full" : "Dolu"
+},
+"chat": {
+"participant": "Grup Üyeleri",
+"leavegroup":"Gruptan Çık",
+"reportgroup":"Şikayet Et",
+"document":"Döküman",
+"photo":"Fotoğraf",
+"video":"Video",
+"allmemberaccept":"Tüm üyeler daveti kabul etti",
+"joinchaos":"Kaos'a Katıl",
+"youcantleavethegroup":"Kaos Eşleşmesinde Gruptan Ayrılamazsın",
+"moretime":"Ek Süre?",
+"youwant20min":"20 Dakika Uzatmak İster misiniz? Bedel: 1 Token"
+
+
+},
+"profile": {
+"havenotimage": "Henüz resmin yok",
+"clubandact":"Kulüp & Aktiviteler",
+"hobbiesandinterest":"Hobiler & İlgiler",
+"profile":"Profil",
+"settings":"Ayarlar",
+"timelineempty" : "İçerik yok",
+"usertimelineempty":"kullanıcının içeriği yok"
+},
+"interest": {
+    
+"hiking":"Hiking",
+"reading":"Okuma",
+"art":"Sanat",
+"cooking":"Yemek",
+"theater":"Tiyatro",
+"traveling":"Seyahat",
+"swimming":"Yüzme",
+"basketball":"Basketbol",
+"football":"Futbol",
+"volleyball":"Voleybol",
+"tennis":"Tenis",
+"skiing":"Kayak",
+"cycling":"Bisiklet",
+"baseball":"Beyzbol",
+"climbing":"Tırmanış",
+"blogging":"Blog",
+"astrology":"Astroloji",
+"movies":"Film",
+"music":"Müzik",
+"gardening":"Bahçe",
+"calligraphy":"Kaligrafi",
+"yoga":"Yoga",
+"language":"Dil",
+"camping":"Kamp",
+"dance":"Dans",
+"games":"Oyun",
+"design":"Dizayn",
+"photography":"Fotoğraf",
+"chess":"Satranç",
+"running":"Koşu",
+"bowling":"Bowling",
+"skate": "Kaykay",
+"martial":"Dövüş",
+"fashion":"Moda",
+"pet":"Pet"
+},
+"settings": {
+"notification":"Bildirimler",
+"account":"Hesap",
+"guidebook":"Kullanım",
+"about":"Bilgi",
+"logout":"Çıkış",
+"settings":"Ayarlar",
+"help":"Destek",
+"options":"Seçenekler",
+"language":"Dil",
+"licences":"Lisanslar",
+"rules":"Kurallar"
+
+},
+
+"notifications":{
+
+  "newmatches" :"Yeni Eşleşme",
+  "groupmessages":"Grup Mesajları",
+  "chaosmessages" :"Kaos Mesajları",
+  "likes" :"Beğeni",
+  "tokens":"Token",
+  "systemnotifications" :"Sistem Bildirimleri"
+
+},
+
+"loggingout": {
+"buttontext": "Oturum Aç"
+}
+
+
+
+
+}

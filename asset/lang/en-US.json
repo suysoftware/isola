@@ -1,0 +1,182 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+        "report" : "Report",
+        "back": "Back",
+        "cancel": "Cancel",
+        "media" : "Media",
+        "timeline" : "Timeline",
+        "biography" : "Biography",
+        "share" : "Share",
+        "refreshing": "Refreshing",
+        "refcompleted": "Refresh Completed",
+        "loading" : "Loading",
+        "nomoredata" : "No More Data",
+        "explore" : "Explore",
+        "comingsoon" : "Coming Soon",
+        "clickhere" : "Click Here",
+        "deletefriend": "Delete Friend",
+        "nogoback": "No, Go Back",
+        "delete" : "Delete",
+        "post": "Post",
+        "name" : "Name",
+        "yourname" : "Your Name",
+        "surname" : "Surname",
+        "yoursurname" : "Your Surname",
+        "university":"University",
+        "youruniversity" : "Your university",
+        "gender" : "Gender",
+        "male" : "Male",
+        "female" : "Female",
+        "other" : "Other",
+        "agree" : "I Agree",
+        "next" : "Next",
+        "agreeterms":"You have to agree our terms",
+        "termsandconditions":"Terms & Conditions",
+        "privacypolicy":"Privacy Policy",
+        "and":"and",
+        "givelocation":"Please Give Location",
+        "okay":"okay",
+        "update":"Update",
+        "fillall":"You have to fill all required",
+        "youdidntjoingroup":"You didnt join group",
+        "youhavetowait":"You Have to Wait",
+        "yes":"Yes",
+        "stopmatching":"Stop Matching",
+        "block":"Block",
+        "allgroup":"All Group",
+        "chaos":"Chaos",
+        "friends":"Friends",
+        "country": "Country",
+        "default":  "Default",
+        "sendmail": "Send Email",
+        "securitycode" : "Security Code",
+        "senttextfirst": "We sent email to ",
+        "senttextsecond": " check your inbox and enter the secure code",
+        "confirm" : "confirm",
+        "confirmstudentmail":"Confirm your student email",
+        "confirmyouruniversity":"Confirm \nyour university",
+        "countryquestion":"What country is your university in?",
+        "universityquestion":"What is the name of the university?",
+        "emailquestion":"What is your university email?"
+        
+
+
+      },
+      "report": {
+        "reportingtextouter": "Why you report this post , please explain",
+        "reportingtextinterior":"Why are you reporting this post?",
+        "reportingtextdetail":"Your report is anonymous,if someone is in immediate danger, call the local emergency services",
+        "spam":"It’s spam",
+        "nudity":"Nudity or sexual activity",
+        "hate":"Hate speech or symbols",
+        "suicide":"Suicide or self-injury",
+        "falseinfo":"False information"
+      },
+
+    "homepage": {
+      "circulartext": "Let's find some friends",
+      "populartext":"Popular in Timeline",
+       "needtoken" : "You need token",
+       "tokenalert" : "Token Alert",
+       "earntoken" : "Earn Token",
+       "doesntyet" : "No Doesn't yet",
+       "nomorematch" : "No more match",
+       "full" : "Full"
+  },
+  "chat": {
+    "participant": "Participant",
+    "leavegroup":"Leave Group",
+    "reportgroup":"Report Group",
+    "document":"Document",
+    "photo":"Photo",
+    "video":"Video",
+    "allmemberaccept":"All member already accepted the invite",
+    "joinchaos":"Join Chaos",
+    "youcantleavethegroup":"You can't leave the group when you are searching chaos ",
+    "moretime":"More Time",
+    "youwant20min":"You want +20 minutes? Price: 1 Token"
+
+
+  },
+  "profile": {
+    "havenotimage": "You have not image",
+    "clubandact":"Club & Activities",
+    "hobbiesandinterest":"Hobbies & Interest",
+    "profile":"Profile",
+    "settings":"Settings",
+    "timelineempty" : "Your timeline is empty",
+    "usertimelineempty":"User's timeline is empty"
+  },
+  "interest": {
+        
+    "hiking":"Hiking",
+    "reading":"Reading",
+    "art":"Art",
+    "cooking":"Cooking",
+    "theater":"Theater",
+    "traveling":"Traveling",
+    "swimming":"Swimming",
+    "basketball":"Basketball",
+    "football":"Football",
+    "volleyball":"Volleyball",
+    "tennis":"Tennis",
+    "skiing":"Skiing",
+    "cycling":"Cycling",
+    "baseball":"Baseball",
+    "climbing":"Climbing",
+    "blogging":"Blogging",
+    "astrology":"Astrology",
+    "movies":"Movies",
+    "music":"Music",
+    "gardening":"Gardening",
+    "calligraphy":"Calligraphy",
+    "yoga":"Yoga",
+    "language":"Language",
+    "camping":"Camping",
+    "dance":"Dance",
+    "games":"Games",
+    "design":"Design",
+    "photography":"Photography",
+    "chess":"Chess",
+    "running":"Running",
+    "bowling":"Bowling",
+    "skate":"Skate",
+    "martial":"Martial",
+    "fashion":"Fashion",
+    "pet":"Pet"
+  },
+  "settings": {
+    "notification":"Notifications",
+    "account":"Account",
+    "guidebook":"Guidebook",
+    "about":"About",
+    "logout":"Log out",
+    "settings":"Settings",
+    "help":"Help",
+    "options":"Options",
+    "language":"Language",
+    "licences":"Licences",
+    "rules":"Rules"
+    
+  },
+  "notifications":{
+
+    "newmatches" :"New Matches",
+    "groupmessages":"Group Messages",
+    "chaosmessages" :"Chaos Messages",
+    "likes" :"Likes",
+    "tokens":"Tokens",
+    "systemnotifications" :"System Notifications"
+
+  },
+
+  "loggingout": {
+    "buttontext": "Sign in"
+}
+
+
+}
+
+

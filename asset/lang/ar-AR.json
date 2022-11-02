@@ -1,0 +1,166 @@
+{
+    "main": {
+        "title": "Dil Desteği",
+        "bodytext": "Dil Desteği yazısı için MobilerDev'i ziyaret edin.",
+        "report" : " تقرير ",
+        "back": " رجوع ",
+        "cancel": " إلغاء ",
+        "media" : " وسائل الإعلام ",
+        "timeline" : " الجدول الزمني ",
+        "biography" : " السيرة الذاتية ",
+        "share" : " حصة ",
+        "refreshing": " منعش ",
+        "refcompleted": " اكتمل التحديث ",
+        "loading" : " تحميل ",
+        "nomoredata" : " لا مزيد من البيانات ",
+        "explore" : " استكشاف ",
+        "comingsoon" : " قريبا ",
+        "clickhere" : " انقر هنا ",
+        "deletefriend": " حذف صديق ",
+        "nogoback": " لا ، ارجع ",
+        "delete" : " حذف ",
+        "post": " الوظيفة ",
+        "name" : " الاسم ",
+        "yourname" : " اسمك ",
+        "surname" : " اللقب ",
+        "yoursurname" : " لقبك ",
+        "university":" الجامعة ",
+        "youruniversity" : " جامعتك ",
+        "gender" : " نوع الجنس ",
+        "male" : " ذكر ",
+        "female" : " أنثى ",
+        "other" : " أخرى ",
+        "agree" : " أنا موافق ",
+        "next" : " التالي ",
+        "agreeterms":" عليك أن توافق على شروطنا ",
+        "termsandconditions":" الشروط & الشروط ",
+        "privacypolicy":" سياسة الخصوصية ",
+        "and":" و ",
+        "givelocation":" يرجى إعطاء الموقع ",
+        "okay":" واخا ",
+        "update":" تحديث ",
+        "fillall":" لديك لملء جميع المطلوبة ",
+        "youdidntjoingroup":" لم تنضم إلى المجموعة ",
+        "youhavetowait":" عليك الانتظار ",
+        "yes":" نعم ",
+        "stopmatching":" توقف عن المطابقة ",
+        "block":" بلوك ",
+        "allgroup":" كل المجموعة ",
+        "chaos":"",
+        "friends":""
+        
+
+
+      },
+      "report": {
+        "reportingtextouter": " لماذا تبلغ عن هذا المنشور ، يرجى التوضيح ",
+        "reportingtextinterior":" لماذا تقوم بالإبلاغ عن هذا المنشور? ",
+        "reportingtextdetail":" تقريرك مجهول ، إذا كان شخص ما في خطر مباشر ، فاتصل بخدمات الطوارئ المحلية ",
+        "spam":" انها البريد المزعج ",
+        "nudity":" العري أو النشاط الجنسي ",
+        "hate":" خطاب الكراهية أو الرموز ",
+        "suicide":" الانتحار أو إيذاء النفس ",
+        "falseinfo":" معلومات خاطئة "
+      },
+
+    "homepage": {
+      "circulartext": " دعونا نجد بعض الأصدقاء ",
+      "populartext":" شعبية في الجدول الزمني ",
+       "needtoken" : " تحتاج رمز ",
+       "tokenalert" : " تنبيه رمزي ",
+       "earntoken" : " كسب رمز ",
+       "doesntyet" : " لا لا بعد ",
+       "nomorematch" : " لا مزيد من المباراة ",
+       "full" : " كامل "
+  },
+  "chat": {
+    "participant": " مشارك ",
+    "leavegroup":" ترك المجموعة ",
+    "reportgroup":" فريق التقرير ",
+    "document":" الوثيقة ",
+    "photo":" صور ",
+    "video":" فيديو ",
+    "allmemberaccept":" قبل جميع الأعضاء الدعوة بالفعل ",
+    "joinchaos":" انضم إلى الفوضى ",
+    "youcantleavethegroup":" لا يمكنك مغادرة المجموعة عندما تبحث عن الفوضى ",
+    "moretime":" المزيد من الوقت ",
+    "youwant20min":" تريد +20 دقائق? السعر: 1 رمز "
+
+
+  },
+  "profile": {
+    "havenotimage": " ليس لديك صورة ",
+    "clubandact":" النادي &  الأنشطة ",
+    "hobbiesandinterest":" الهوايات &  الفائدة ",
+    "profile":" الملف الشخصي ",
+    "settings":" الإعدادات "
+  },
+  "interest": {
+        
+    "hiking":" المشي لمسافات طويلة ",
+    "reading":" القراءة ",
+    "art":" الفن ",
+    "cooking":" الطبخ ",
+    "theater":" المسرح ",
+    "traveling":" السفر ",
+    "swimming":" السباحة ",
+    "basketball":" كرة السلة ",
+    "football":" كرة القدم ",
+    "volleyball":" الكرة الطائرة ",
+    "tennis":" التنس ",
+    "skiing":" التزلج ",
+    "cycling":" ركوب الدراجات ",
+    "baseball":" البيسبول ",
+    "climbing":" التسلق ",
+    "blogging":" التدوين ",
+    "astrology":" علم التنجيم ",
+    "movies":" أفلام ",
+    "music":" الموسيقى ",
+    "gardening":" البستنة ",
+    "calligraphy":" الخط العربي ",
+    "yoga":" اليوغا ",
+    "language":" اللغة ",
+    "camping":" التخييم ",
+    "dance":" الرقص ",
+    "games":" الألعاب ",
+    "design":" التصميم ",
+    "photograph":" التصوير الفوتوغرافي ",
+    "chess":" الشطرنج ",
+    "running":" تشغيل ",
+    "bowling":" البولينج ",
+    "skate":" تزلج ",
+    "martial":" الدفاع عن النفس ",
+    "fashion":" أزياء ",
+    "pet":" حيوان اليف "
+  },
+  "settings": {
+    "notification":" الإخطارات ",
+    "account":" الحساب ",
+    "guidebook":" الدليل الإرشادي ",
+    "about":" حول ",
+    "logout":" تسجيل الخروج ",
+    "settings":" الإعدادات ",
+    "help":" مساعدة ",
+    "options":" خيارات ",
+    "language":" اللغة ",
+    "licences":" التراخيص ",
+    "rules":" القواعد "
+    
+  },
+  "notifications":{
+
+    "newmatches" :" مباريات جديدة ",
+    "groupmessages":" رسائل المجموعة ",
+    "chaosmessages" :" رسائل الفوضى ",
+    "likes" :" الإعجابات ",
+    "tokens":" الرموز ",
+    "systemnotifications" :" إخطارات النظام "
+
+  },
+
+  "loggingout": {
+    "buttontext": " التوقيع مع جوجل "
+}
+
+
+}
