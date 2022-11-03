@@ -20,8 +20,12 @@ Isola is a social platform only for students with the goal of giving the best st
 ![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Ftanitim4.png?alt=media&token=70c408a7-c424-4bd8-a667-c7177e4cd00c)
 
 
+
 ## Kullanılan Teknolojiler
 
 Flutter, Node.js, Cloud Functions, Cloud Firestore
+
+## Uygulama Şeması
+link:https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Fwhitetema5kx5k.png?alt=media&token=e3801c0b-7d13-4364-936f-ece145074715
 
   
