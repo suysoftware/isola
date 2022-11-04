@@ -8,10 +8,15 @@ Isola is a social platform only for students with the goal of giving the best st
     
 ## Ekran Görüntüleri
 
-![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Ftanitim1.png?alt=media&token=eb0c5fb9-b0e8-4923-be47-166f4dee39e8)
-![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Ftanitim2.png?alt=media&token=90d2468a-62a8-454d-8eac-f398429e2c8b)
-![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Ftanitim3.png?alt=media&token=5d8ed8f4-ea09-496a-a8bc-e7a7f701b859)
-![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Ftanitim4.png?alt=media&token=70c408a7-c424-4bd8-a667-c7177e4cd00c)
+![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Fisola6.png?alt=media&token=fa9dcd1a-ac7a-459f-afa1-7fc0d68d68fc)
+![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Fisola1.png?alt=media&token=391b831d-8783-4629-923e-0eac096c13c3)
+![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Fisola2.png?alt=media&token=c6e0ff79-f071-4e10-b605-0e18879c2e8d)
+![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Fisola3.png?alt=media&token=9260622c-d5b3-4703-94ae-f1226cd690c8)
+![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Fisola4.png?alt=media&token=156c5073-1c7a-49d1-901f-f95a64c4b957)
+![Uygulama Ekran Görüntüsü](https://firebasestorage.googleapis.com/v0/b/isola-b2dd8.appspot.com/o/GitHub%2Fisola5.png?alt=media&token=34cbf45b-1a8f-433e-ac64-e279942018b6)
+
+
+
 
 
 
